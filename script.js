@@ -1,7 +1,7 @@
 (function() {
     'use strict';
 
-    // ===== DATA =====
+    // ===== CATÉGORIES =====
     var categories = [
         { icon: 'fa-laptop', name: 'Électronique', count: 1240 },
         { icon: 'fa-tshirt', name: 'Mode', count: 980 },
@@ -14,25 +14,21 @@
         { icon: 'fa-car', name: 'Automobile', count: 520 },
         { icon: 'fa-cogs', name: 'Équipements', count: 380 },
         { icon: 'fa-solar-panel', name: 'Énergie', count: 210 },
-        { icon: 'fa-pencil-alt', name: 'Fournitures', count: 470 }
+        { icon: 'fa-pencil-alt', name: 'Fournitures', count: 470 },
+        { icon: 'fa-gem', name: 'Bijoux', count: 150 },
+        { icon: 'fa-child', name: 'Jouets', count: 280 },
+        { icon: 'fa-book', name: 'Librairie', count: 190 },
+        { icon: 'fa-futbol', name: 'Sport', count: 340 },
+        { icon: 'fa-music', name: 'Instruments', count: 110 },
+        { icon: 'fa-camera', name: 'Photo', count: 160 },
+        { icon: 'fa-tools', name: 'Outillage', count: 320 },
+        { icon: 'fa-paw', name: 'Animalerie', count: 95 }
     ];
 
+    // ===== PRODUITS AVEC VRAIES IMAGES =====
     var products = [{
         id: 1,
-        name: 'Écouteurs Bluetooth Pro',
-        price: 5,
-        unit: 'Pi',
-        minOrder: 100,
-        stock: 5000,
-        supplier: 'TechImport SARL',
-        country: 'Chine',
-        verified: true,
-        rating: 4.8,
-        icon: 'fa-headphones',
-        category: 'Électronique'
-    }, {
-        id: 2,
-        name: 'Smartphone X200',
+        name: 'Smartphone Galaxy S24',
         price: 120,
         unit: 'Pi',
         minOrder: 10,
@@ -41,10 +37,45 @@
         country: 'Allemagne',
         verified: true,
         rating: 4.9,
-        icon: 'fa-mobile-alt',
-        category: 'Électronique'
+        category: 'Électronique',
+        images: [
+            'https://images.unsplash.com/photo-1610945415295-d9bbf067e59c?w=600&h=400&fit=crop',
+            'https://images.unsplash.com/photo-1598327105666-5b89351aff97?w=600&h=400&fit=crop'
+        ]
+    }, {
+        id: 2,
+        name: 'Ordinateur Portable Pro',
+        price: 450,
+        unit: 'Pi',
+        minOrder: 5,
+        stock: 320,
+        supplier: 'TechImport SARL',
+        country: 'Chine',
+        verified: true,
+        rating: 4.8,
+        category: 'Électronique',
+        images: [
+            'https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=600&h=400&fit=crop',
+            'https://images.unsplash.com/photo-1531297484001-80022131f5a1?w=600&h=400&fit=crop'
+        ]
     }, {
         id: 3,
+        name: 'Voiture Électrique Model 3',
+        price: 35000,
+        unit: 'Pi',
+        minOrder: 1,
+        stock: 45,
+        supplier: 'AutoGreen SA',
+        country: 'USA',
+        verified: true,
+        rating: 4.7,
+        category: 'Automobile',
+        images: [
+            'https://images.unsplash.com/photo-1560958089-b8a1929cea89?w=600&h=400&fit=crop',
+            'https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?w=600&h=400&fit=crop'
+        ]
+    }, {
+        id: 4,
         name: 'T-shirt en coton bio',
         price: 2.5,
         unit: 'Pi',
@@ -54,10 +85,13 @@
         country: 'France',
         verified: true,
         rating: 4.7,
-        icon: 'fa-tshirt',
-        category: 'Mode'
+        category: 'Mode',
+        images: [
+            'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=600&h=400&fit=crop',
+            'https://images.unsplash.com/photo-1503341504253-dff4815485f1?w=600&h=400&fit=crop'
+        ]
     }, {
-        id: 4,
+        id: 5,
         name: 'Chaussures de sport',
         price: 12,
         unit: 'Pi',
@@ -67,10 +101,13 @@
         country: 'USA',
         verified: false,
         rating: 4.2,
-        icon: 'fa-shoe-prints',
-        category: 'Chaussures'
+        category: 'Chaussures',
+        images: [
+            'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=600&h=400&fit=crop',
+            'https://images.unsplash.com/photo-1605348532760-1633b2c78b2e?w=600&h=400&fit=crop'
+        ]
     }, {
-        id: 5,
+        id: 6,
         name: 'Montre connectée',
         price: 35,
         unit: 'Pi',
@@ -80,11 +117,14 @@
         country: 'Chine',
         verified: true,
         rating: 4.6,
-        icon: 'fa-clock',
-        category: 'Électronique'
+        category: 'Électronique',
+        images: [
+            'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=600&h=400&fit=crop',
+            'https://images.unsplash.com/photo-1508685096489-7aacd43bd3b1?w=600&h=400&fit=crop'
+        ]
     }, {
-        id: 6,
-        name: 'Lampes solaires 10W',
+        id: 7,
+        name: 'Lampe solaire 10W',
         price: 4.5,
         unit: 'Pi',
         minOrder: 100,
@@ -93,10 +133,13 @@
         country: 'Allemagne',
         verified: true,
         rating: 4.5,
-        icon: 'fa-lightbulb',
-        category: 'Énergie'
+        category: 'Énergie',
+        images: [
+            'https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?w=600&h=400&fit=crop',
+            'https://images.unsplash.com/photo-1531995811006-35cb42e1a022?w=600&h=400&fit=crop'
+        ]
     }, {
-        id: 7,
+        id: 8,
         name: 'Meubles de salon (set)',
         price: 180,
         unit: 'Pi',
@@ -106,10 +149,13 @@
         country: 'France',
         verified: false,
         rating: 4.0,
-        icon: 'fa-couch',
-        category: 'Maison'
+        category: 'Maison',
+        images: [
+            'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=600&h=400&fit=crop',
+            'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=600&h=400&fit=crop'
+        ]
     }, {
-        id: 8,
+        id: 9,
         name: 'Café Arabica 1kg',
         price: 3.2,
         unit: 'Pi',
@@ -119,24 +165,98 @@
         country: 'Colombie',
         verified: true,
         rating: 4.9,
-        icon: 'fa-mug-hot',
-        category: 'Alimentation'
+        category: 'Alimentation',
+        images: [
+            'https://images.unsplash.com/photo-1559056199-641a0ac8b55e?w=600&h=400&fit=crop',
+            'https://images.unsplash.com/photo-1447933601403-0c6688de566e?w=600&h=400&fit=crop'
+        ]
+    }, {
+        id: 10,
+        name: 'Crème Anti-Âge 50ml',
+        price: 8,
+        unit: 'Pi',
+        minOrder: 100,
+        stock: 2000,
+        supplier: 'BeautyLab SAS',
+        country: 'France',
+        verified: true,
+        rating: 4.3,
+        category: 'Beauté',
+        images: [
+            'https://images.unsplash.com/photo-1556228578-0d85b1a4d571?w=600&h=400&fit=crop',
+            'https://images.unsplash.com/photo-1556228454-3a6d7d1c5c7f?w=600&h=400&fit=crop'
+        ]
+    }, {
+        id: 11,
+        name: 'Tracteur Agricole 4x4',
+        price: 45000,
+        unit: 'Pi',
+        minOrder: 1,
+        stock: 12,
+        supplier: 'AgriMachines Ltd',
+        country: 'USA',
+        verified: true,
+        rating: 4.4,
+        category: 'Agriculture',
+        images: [
+            'https://images.unsplash.com/photo-1531816458010-4f4c24de72e1?w=600&h=400&fit=crop',
+            'https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=600&h=400&fit=crop'
+        ]
+    }, {
+        id: 12,
+        name: 'Équipement de Chantier (set)',
+        price: 220,
+        unit: 'Pi',
+        minOrder: 10,
+        stock: 340,
+        supplier: 'BuildPro SARL',
+        country: 'France',
+        verified: false,
+        rating: 3.9,
+        category: 'Construction',
+        images: [
+            'https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?w=600&h=400&fit=crop',
+            'https://images.unsplash.com/photo-1541888946425-d81bb19240f5?w=600&h=400&fit=crop'
+        ]
     }];
 
     var suppliers = [
-        { name: 'TechImport SARL', country: 'Chine', verified: true, products: 340, years: 8, rating: 4.8,
-            responseRate: 96, categories: 'Électronique, Énergie' },
-        { name: 'MobileTech GmbH', country: 'Allemagne', verified: true, products: 210, years: 12, rating: 4.9,
-            responseRate: 98, categories: 'Électronique, Automobile' },
-        { name: 'EcoWear SARL', country: 'France', verified: true, products: 180, years: 5, rating: 4.7,
-            responseRate: 92, categories: 'Mode, Maison' },
-        { name: 'GreenEnergy Ltd', country: 'Allemagne', verified: true, products: 90, years: 7, rating: 4.5,
-            responseRate: 88, categories: 'Énergie, Équipements' },
-        { name: 'SportFoot Inc', country: 'USA', verified: false, products: 65, years: 3, rating: 4.2,
-            responseRate: 75, categories: 'Chaussures, Mode' }
+        { name: 'TechImport SARL', country: 'Chine', verified: true, products: 340, years: 8, rating: 4.8, responseRate: 96, categories: 'Électronique, Énergie' },
+        { name: 'MobileTech GmbH', country: 'Allemagne', verified: true, products: 210, years: 12, rating: 4.9, responseRate: 98, categories: 'Électronique, Automobile' },
+        { name: 'EcoWear SARL', country: 'France', verified: true, products: 180, years: 5, rating: 4.7, responseRate: 92, categories: 'Mode, Maison' },
+        { name: 'GreenEnergy Ltd', country: 'Allemagne', verified: true, products: 90, years: 7, rating: 4.5, responseRate: 88, categories: 'Énergie, Équipements' },
+        { name: 'SportFoot Inc', country: 'USA', verified: false, products: 65, years: 3, rating: 4.2, responseRate: 75, categories: 'Chaussures, Mode' }
     ];
 
     var cartItems = [];
+    var allCountries = [
+        'Afghanistan', 'Afrique du Sud', 'Albanie', 'Algérie', 'Allemagne', 'Andorre', 'Angola', 'Antigua-et-Barbuda',
+        'Arabie saoudite', 'Argentine', 'Arménie', 'Australie', 'Autriche', 'Azerbaïdjan', 'Bahamas', 'Bahreïn',
+        'Bangladesh', 'Barbade', 'Belgique', 'Belize', 'Bénin', 'Bhoutan', 'Biélorussie', 'Birmanie', 'Bolivie',
+        'Bosnie-Herzégovine', 'Botswana', 'Brésil', 'Brunei', 'Bulgarie', 'Burkina Faso', 'Burundi', 'Cambodge',
+        'Cameroun', 'Canada', 'Cap-Vert', 'Centrafrique', 'Chili', 'Chine', 'Chypre', 'Colombie', 'Comores',
+        'Congo', 'Corée du Nord', 'Corée du Sud', 'Costa Rica', 'Côte d\'Ivoire', 'Croatie', 'Cuba', 'Danemark',
+        'Djibouti', 'Dominique', 'Égypte', 'Émirats arabes unis', 'Équateur', 'Érythrée', 'Espagne', 'Estonie',
+        'Eswatini', 'États-Unis', 'Éthiopie', 'Fidji', 'Finlande', 'France', 'Gabon', 'Gambie', 'Géorgie', 'Ghana',
+        'Grèce', 'Grenade', 'Guatemala', 'Guinée', 'Guinée-Bissau', 'Guinée équatoriale', 'Guyana', 'Haïti',
+        'Honduras', 'Hongrie', 'Inde', 'Indonésie', 'Irak', 'Iran', 'Irlande', 'Islande', 'Israël', 'Italie',
+        'Jamaïque', 'Japon', 'Jordanie', 'Kazakhstan', 'Kenya', 'Kirghizistan', 'Kiribati', 'Koweït', 'Laos',
+        'Lesotho', 'Lettonie', 'Liban', 'Libéria', 'Libye', 'Liechtenstein', 'Lituanie', 'Luxembourg', 'Macédoine du Nord',
+        'Madagascar', 'Malaisie', 'Malawi', 'Maldives', 'Mali', 'Malte', 'Maroc', 'Marshall', 'Maurice', 'Mauritanie',
+        'Mexique', 'Micronésie', 'Moldavie', 'Monaco', 'Mongolie', 'Monténégro', 'Mozambique', 'Namibie', 'Nauru',
+        'Népal', 'Nicaragua', 'Niger', 'Nigeria', 'Norvège', 'Nouvelle-Zélande', 'Oman', 'Ouganda', 'Ouzbékistan',
+        'Pakistan', 'Palaos', 'Palestine', 'Panama', 'Papouasie-Nouvelle-Guinée', 'Paraguay', 'Pays-Bas', 'Pérou',
+        'Philippines', 'Pologne', 'Portugal', 'Qatar', 'République centrafricaine', 'République démocratique du Congo',
+        'République dominicaine', 'République tchèque', 'Roumanie', 'Royaume-Uni', 'Russie', 'Rwanda', 'Saint-Christophe-et-Niévès',
+        'Sainte-Lucie', 'Saint-Marin', 'Saint-Vincent-et-les-Grenadines', 'Salomon', 'Salvador', 'Samoa', 'São Tomé-et-Principe',
+        'Sénégal', 'Serbie', 'Seychelles', 'Sierra Leone', 'Singapour', 'Slovaquie', 'Slovénie', 'Somalie', 'Soudan',
+        'Soudan du Sud', 'Sri Lanka', 'Suède', 'Suisse', 'Suriname', 'Syrie', 'Tadjikistan', 'Tanzanie', 'Tchad',
+        'Thaïlande', 'Timor oriental', 'Togo', 'Tonga', 'Trinité-et-Tobago', 'Tunisie', 'Turkménistan', 'Turquie',
+        'Tuvalu', 'Ukraine', 'Uruguay', 'Vanuatu', 'Vatican', 'Venezuela', 'Viêt Nam', 'Yémen', 'Zambie', 'Zimbabwe'
+    ];
+
+    var selectedCountry = '';
+    var selectedCategory = '';
 
     // ===== UTILITIES =====
     function formatNumber(n) {
@@ -146,6 +266,7 @@
     function showToast(message, type) {
         type = type || 'info';
         var container = document.getElementById('toastContainer');
+        if (!container) return;
         var toast = document.createElement('div');
         toast.className = 'toast ' + type;
         var iconMap = { success: 'fa-check-circle', error: 'fa-exclamation-circle', info: 'fa-info-circle' };
@@ -155,15 +276,123 @@
         setTimeout(function() {
             toast.style.opacity = '0';
             toast.style.transform = 'translateX(20px)';
-            setTimeout(function() { toast.remove(); }, 400);
+            setTimeout(function() { if (toast.parentNode) toast.remove(); }, 400);
         }, 3500);
+    }
+
+    // ===== LOADER =====
+    function simulateLoader() {
+        var bar = document.getElementById('loaderBar');
+        var text = document.getElementById('loaderText');
+        var progress = 0;
+        var interval = setInterval(function() {
+            progress += Math.floor(Math.random() * 8) + 2;
+            if (progress >= 100) {
+                progress = 100;
+                clearInterval(interval);
+                text.textContent = 'Prêt !';
+                setTimeout(function() {
+                    var loader = document.getElementById('globalLoader');
+                    if (loader) loader.style.display = 'none';
+                }, 500);
+            }
+            if (bar) bar.style.width = progress + '%';
+            if (text) text.textContent = 'Chargement ' + progress + '%';
+        }, 120);
+        setTimeout(function() {
+            var loader = document.getElementById('globalLoader');
+            if (loader && loader.style.display !== 'none') {
+                loader.style.display = 'none';
+            }
+        }, 6000);
+    }
+
+    // ===== SLIDER =====
+    function initSlider() {
+        var slides = [
+            {
+                image: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=1200&h=600&fit=crop',
+                title: 'First Purchase',
+                subtitle: 'Enjoy a Special Offer!',
+                cta: 'Découvrir',
+                link: '#'
+            },
+            {
+                image: 'https://images.unsplash.com/photo-1498049794561-7780e7231661?w=1200&h=600&fit=crop',
+                title: 'Électronique de pointe',
+                subtitle: 'Des ordinateurs et smartphones au meilleur prix',
+                cta: 'Voir les offres',
+                link: '#'
+            },
+            {
+                image: 'https://images.unsplash.com/photo-1583121274602-3e2820c69888?w=1200&h=600&fit=crop',
+                title: 'Automobile et équipements',
+                subtitle: 'Des véhicules et accessoires pour professionnels',
+                cta: 'Explorer',
+                link: '#'
+            }
+        ];
+
+        var track = document.getElementById('sliderTrack');
+        var dotsContainer = document.getElementById('sliderDots');
+        if (!track || !dotsContainer) return;
+
+        var currentIndex = 0;
+        var totalSlides = slides.length;
+
+        track.innerHTML = slides.map(function(s, i) {
+            return '<div class="slider-slide" style="background-image: url(' + s.image + ');">' +
+                '<div class="slide-overlay"></div>' +
+                '<div class="slide-content">' +
+                '<h2>' + s.title + '</h2>' +
+                '<p>' + s.subtitle + '</p>' +
+                '<a href="' + s.link + '" class="btn">' + s.cta + ' <i class="fas fa-arrow-right"></i></a>' +
+                '</div></div>';
+        }).join('');
+
+        dotsContainer.innerHTML = slides.map(function(_, i) {
+            return '<button class="dot' + (i === 0 ? ' active' : '') + '" data-index="' + i + '"></button>';
+        }).join('');
+
+        function goToSlide(index) {
+            if (index < 0) index = totalSlides - 1;
+            if (index >= totalSlides) index = 0;
+            currentIndex = index;
+            track.style.transform = 'translateX(-' + (currentIndex * 100) + '%)';
+            var dots = dotsContainer.querySelectorAll('.dot');
+            dots.forEach(function(dot, i) {
+                dot.classList.toggle('active', i === currentIndex);
+            });
+        }
+
+        var prevBtn = document.getElementById('sliderPrev');
+        var nextBtn = document.getElementById('sliderNext');
+        if (prevBtn) prevBtn.addEventListener('click', function() { goToSlide(currentIndex - 1); });
+        if (nextBtn) nextBtn.addEventListener('click', function() { goToSlide(currentIndex + 1); });
+
+        dotsContainer.addEventListener('click', function(e) {
+            var dot = e.target.closest('.dot');
+            if (dot) {
+                goToSlide(parseInt(dot.getAttribute('data-index')));
+            }
+        });
+
+        var autoPlayInterval = setInterval(function() { goToSlide(currentIndex + 1); }, 5000);
+        var sliderContainer = document.querySelector('.slider-container');
+        if (sliderContainer) {
+            sliderContainer.addEventListener('mouseenter', function() { clearInterval(autoPlayInterval); });
+            sliderContainer.addEventListener('mouseleave', function() {
+                autoPlayInterval = setInterval(function() { goToSlide(currentIndex + 1); }, 5000);
+            });
+        }
     }
 
     // ===== RENDER CATEGORIES =====
     function renderCategories() {
-        var grid = document.getElementById('categoryGrid');
-        grid.innerHTML = categories.map(function(c) {
-            return '<div class="category-item">' +
+        var row = document.getElementById('categoryRow');
+        if (!row) return;
+        row.innerHTML = categories.map(function(c) {
+            return '<div class="category-item" onclick="selectCategory(\'' + c.name + '\')">' +
                 '<i class="fas ' + c.icon + ' icon"></i>' +
                 '<div class="name">' + c.name + '</div>' +
                 '<div class="count">' + formatNumber(c.count) + '</div>' +
@@ -171,18 +400,27 @@
         }).join('');
     }
 
+    function selectCategory(cat) {
+        selectedCategory = cat;
+        applyFilters();
+        showToast('Catégorie : ' + cat, 'info');
+    }
+
     // ===== RENDER PRODUCTS =====
     function renderProducts(list) {
         list = list || products;
         var grid = document.getElementById('productGrid');
+        if (!grid) return;
         grid.innerHTML = list.map(function(p) {
-            var verifiedBadge = p.verified ?
-                '<span class="verified-badge"><i class="fas fa-check-circle"></i> Vérifié</span>' :
-                '';
-            return '<div class="card-product" onclick="window.showProductDetail(' + p.id + ')">' +
+            var verifiedBadge = p.verified ? '<span class="verified-badge"><i class="fas fa-check-circle"></i> Vérifié</span>' : '';
+            var firstImage = p.images && p.images.length > 0 ? p.images[0] : 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400&h=300&fit=crop';
+            var imageCount = p.images ? p.images.length : 0;
+            var countBadge = imageCount > 1 ? '<span class="image-count-badge">+' + (imageCount - 1) + '</span>' : '';
+            return '<div class="card-product" onclick="showProductDetail(' + p.id + ')">' +
                 '<div class="image">' +
-                '<i class="fas ' + p.icon + '"></i>' +
+                '<img src="' + firstImage + '" alt="' + p.name + '" loading="lazy" />' +
                 verifiedBadge +
+                countBadge +
                 '</div>' +
                 '<div class="body">' +
                 '<div class="title">' + p.name + '</div>' +
@@ -190,29 +428,24 @@
                 '<div class="meta">' +
                 '<span><i class="fas fa-box"></i> Min: ' + p.minOrder + '</span>' +
                 '<span><i class="fas fa-warehouse"></i> ' + formatNumber(p.stock) + '</span>' +
-                '<span><i class="fas fa-star" style="color:var(--secondary);"></i> ' + p.rating +
-                '</span>' +
+                '<span><i class="fas fa-star" style="color:var(--secondary);"></i> ' + p.rating + '</span>' +
                 '</div>' +
-                '<div style="font-size:13px;color:var(--text-muted);">' + p.supplier + ' · ' + p.country +
-                '</div>' +
+                '<div style="font-size:12px;color:var(--text-muted);">' + p.supplier + ' · ' + p.country + '</div>' +
                 '<div class="actions">' +
-                '<button class="btn btn-primary btn-sm" onclick="event.stopPropagation();window.addToCart(' +
-                p.id + ')"><i class="fas fa-cart-plus"></i></button>' +
-                '<button class="btn btn-outline btn-sm" onclick="event.stopPropagation();window.showProductDetail(' +
-                p.id + ')">Voir</button>' +
-                '</div>' +
-                '</div>' +
-                '</div>';
+                '<button class="btn btn-primary btn-sm" onclick="event.stopPropagation();addToCart(' + p.id + ')"><i class="fas fa-cart-plus"></i></button>' +
+                '<button class="btn btn-outline btn-sm" onclick="event.stopPropagation();showProductDetail(' + p.id + ')">Voir</button>' +
+                '</div></div></div>';
         }).join('');
+        var countEl = document.getElementById('productCount');
+        if (countEl) countEl.textContent = list.length + ' produits';
     }
 
     // ===== RENDER SUPPLIERS =====
     function renderSuppliers() {
         var grid = document.getElementById('supplierGrid');
+        if (!grid) return;
         grid.innerHTML = suppliers.map(function(s) {
-            var verifiedBadge = s.verified ?
-                '<span class="badge badge-verified"><i class="fas fa-check-circle"></i> Vérifié</span>' :
-                '';
+            var verifiedBadge = s.verified ? '<span class="badge badge-verified"><i class="fas fa-check-circle"></i> Vérifié</span>' : '';
             return '<div class="card-supplier">' +
                 '<div class="avatar"><i class="fas fa-building"></i></div>' +
                 '<div class="info">' +
@@ -220,72 +453,175 @@
                 '<div class="detail">' +
                 '<span><i class="fas fa-map-marker-alt"></i> ' + s.country + '</span>' +
                 '<span><i class="fas fa-box"></i> ' + s.products + ' produits</span>' +
-                '<span><i class="fas fa-star" style="color:var(--secondary);"></i> ' + s.rating +
-                '</span>' +
+                '<span><i class="fas fa-star" style="color:var(--secondary);"></i> ' + s.rating + '</span>' +
                 '<span><i class="fas fa-clock"></i> ' + s.responseRate + '%</span>' +
-                '</div>' +
-                '</div>' +
-                '</div>';
+                '</div></div></div>';
         }).join('');
+    }
+
+    // ===== FILTRES =====
+    function setupFilters() {
+        var countrySelect = document.getElementById('filterCountry');
+        if (countrySelect) {
+            countrySelect.innerHTML = '<option value="">🌍 Tous les pays</option>';
+            allCountries.forEach(function(c) {
+                countrySelect.innerHTML += '<option value="' + c + '">' + c + '</option>';
+            });
+            countrySelect.addEventListener('change', function() {
+                selectedCountry = this.value;
+                applyFilters();
+            });
+        }
+    }
+
+    function applyFilters() {
+        var filtered = products.slice();
+        if (selectedCountry) {
+            filtered = filtered.filter(function(p) { return p.country === selectedCountry; });
+        }
+        if (selectedCategory) {
+            filtered = filtered.filter(function(p) { return p.category === selectedCategory; });
+        }
+        renderProducts(filtered);
+    }
+
+    // ===== SEARCH =====
+    document.getElementById('searchToggle').addEventListener('click', function() {
+        document.getElementById('searchDropdown').classList.toggle('open');
+    });
+    document.getElementById('searchBtn').addEventListener('click', doSearch);
+    document.getElementById('searchInput').addEventListener('keydown', function(e) {
+        if (e.key === 'Enter') doSearch();
+    });
+
+    function doSearch() {
+        var q = document.getElementById('searchInput').value.trim().toLowerCase();
+        if (!q) { showToast('Veuillez saisir un terme de recherche', 'error'); return; }
+        var filtered = products.filter(function(p) {
+            return p.name.toLowerCase().includes(q) || p.category.toLowerCase().includes(q) || p.supplier.toLowerCase().includes(q);
+        });
+        if (filtered.length === 0) showToast('Aucun résultat trouvé', 'error');
+        else {
+            renderProducts(filtered);
+            showToast(filtered.length + ' résultat(s) trouvé(s)', 'success');
+        }
+        document.getElementById('searchDropdown').classList.remove('open');
     }
 
     // ===== PRODUCT DETAIL =====
     window.showProductDetail = function(id) {
         var p = products.find(function(x) { return x.id === id; });
         if (!p) return;
-        document.getElementById('productsSection').style.display = 'none';
-        document.getElementById('suppliersSection').style.display = 'none';
-        document.getElementById('categoriesSection').style.display = 'none';
+        document.querySelectorAll('.section').forEach(function(s) { s.style.display = 'none'; });
         document.getElementById('productDetail').style.display = 'block';
-
         var content = document.getElementById('productDetailContent');
+        if (!content) return;
+
+        var images = p.images && p.images.length > 0 ? p.images : ['https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=600&h=400&fit=crop'];
+        var thumbnailsHtml = images.map(function(img, i) {
+            return '<div class="thumb' + (i === 0 ? ' active' : '') + '" onclick="changeMainImage(this, \'' + img + '\')"><img src="' + img + '" alt="Image ' + (i+1) + '" /></div>';
+        }).join('');
+
         content.innerHTML =
             '<div class="product-detail-grid">' +
-            '<div class="gallery"><i class="fas ' + p.icon + '"></i></div>' +
+            '<div class="gallery">' +
+            '<div class="main-image"><img id="mainProductImage" src="' + images[0] + '" alt="' + p.name + '" /></div>' +
+            '<div class="thumbnails">' + thumbnailsHtml + '</div>' +
+            '</div>' +
             '<div class="info">' +
             '<h1>' + p.name + '</h1>' +
             '<div class="badges">' +
-            '<span class="badge badge-verified"><i class="fas fa-check-circle"></i> ' + (p.verified ?
-                'Vérifié' : 'Non vérifié') + '</span>' +
-            '<span class="badge"><i class="fas fa-star" style="color:var(--secondary);"></i> ' + p.rating +
-            '</span>' +
-            '<span class="badge"><i class="fas fa-box"></i> ' + formatNumber(p.stock) +
-            ' en stock</span>' +
+            '<span class="badge badge-verified"><i class="fas fa-check-circle"></i> ' + (p.verified ? 'Vérifié' : 'Non vérifié') + '</span>' +
+            '<span class="badge"><i class="fas fa-star" style="color:var(--secondary);"></i> ' + p.rating + '</span>' +
+            '<span class="badge"><i class="fas fa-box"></i> ' + formatNumber(p.stock) + ' en stock</span>' +
             '</div>' +
-            '<div class="supplier-info"><i class="fas fa-building"></i> ' + p.supplier + ' · ' + p.country +
-            '</div>' +
+            '<div class="supplier-info"><i class="fas fa-building"></i> ' + p.supplier + ' · ' + p.country + '</div>' +
             '<div class="price-box">' +
-            '<div><span style="font-size:13px;color:var(--text-muted);">Prix de gros</span><br><span style="font-size:28px;font-weight:700;color:var(--primary);">' +
-            p.price + ' ' + p.unit + '</span> <span style="font-size:16px;font-weight:400;color:var(--text-muted);">/ unité</span></div>' +
-            '<div><span style="font-size:13px;color:var(--text-muted);">Quantité min.</span><br><span style="font-size:20px;font-weight:600;">' +
-            p.minOrder + ' unités</span></div>' +
+            '<div><span style="font-size:13px;color:var(--text-muted);">Prix de gros</span><br><span style="font-size:28px;font-weight:700;color:var(--primary);">' + p.price + ' ' + p.unit + '</span> <span style="font-size:16px;font-weight:400;color:var(--text-muted);">/ unité</span></div>' +
+            '<div><span style="font-size:13px;color:var(--text-muted);">Quantité min.</span><br><span style="font-size:20px;font-weight:600;">' + p.minOrder + ' unités</span></div>' +
             '</div>' +
             '<div><strong>Tarification par volume</strong></div>' +
             '<div class="volume-pricing">' +
-            '<div class="tier"><div class="qty">' + p.minOrder + '–' + (p.minOrder * 5 - 1) +
-            '</div><div class="price">' + p.price + ' Pi</div></div>' +
-            '<div class="tier"><div class="qty">' + (p.minOrder * 5) + '–' + (p.minOrder * 10 - 1) +
-            '</div><div class="price">' + (p.price * 0.9).toFixed(1) + ' Pi</div></div>' +
-            '<div class="tier"><div class="qty">' + (p.minOrder * 10) + '+</div><div class="price">' +
-            (p.price * 0.8).toFixed(1) + ' Pi</div></div>' +
+            '<div class="tier"><div class="qty">' + p.minOrder + '–' + (p.minOrder * 5 - 1) + '</div><div class="price">' + p.price + ' Pi</div></div>' +
+            '<div class="tier"><div class="qty">' + (p.minOrder * 5) + '–' + (p.minOrder * 10 - 1) + '</div><div class="price">' + (p.price * 0.9).toFixed(1) + ' Pi</div></div>' +
+            '<div class="tier"><div class="qty">' + (p.minOrder * 10) + '+</div><div class="price">' + (p.price * 0.8).toFixed(1) + ' Pi</div></div>' +
             '</div>' +
             '<p style="color:var(--text-muted);font-size:14px;line-height:1.6;">Produit de haute qualité, idéal pour le commerce de gros. Livraison internationale disponible.</p>' +
             '<div class="actions">' +
-            '<button class="btn btn-primary" onclick="window.addToCart(' + p.id +
-            ')"><i class="fas fa-cart-plus"></i> Ajouter au panier</button>' +
+            '<button class="btn btn-primary" onclick="addToCart(' + p.id + ')"><i class="fas fa-cart-plus"></i> Ajouter au panier</button>' +
             '<button class="btn btn-outline"><i class="fas fa-comment"></i> Contacter</button>' +
             '</div>' +
-            '<div style="margin-top:16px;padding:12px 16px;background:#f0f7ff;border-radius:var(--radius-sm);font-size:13px;color:var(--text-muted);"><i class="fas fa-truck"></i> Livraison estimée : 5-10 jours · Suivi inclus</div>' +
-            '</div>' +
-            '</div>';
+            '<div style="margin-top:16px;padding:12px 16px;background:#f0f7ff;border-radius:var(--radius-sm);font-size:13px;color:var(--text-muted);"><i class="fas fa-truck"></i> Livraison estimée : 5-10 jours</div>' +
+            '</div></div>';
         window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
+
+    window.changeMainImage = function(el, src) {
+        document.getElementById('mainProductImage').src = src;
+        document.querySelectorAll('.thumbnails .thumb').forEach(function(t) { t.classList.remove('active'); });
+        el.classList.add('active');
     };
 
     window.closeProductDetail = function() {
         document.getElementById('productDetail').style.display = 'none';
-        document.getElementById('productsSection').style.display = 'block';
-        document.getElementById('suppliersSection').style.display = 'block';
-        document.getElementById('categoriesSection').style.display = 'block';
+        ['productsSection', 'suppliersSection', 'categoriesSection'].forEach(function(id) {
+            var el = document.getElementById(id);
+            if (el) el.style.display = 'block';
+        });
+        document.getElementById('publishSection').style.display = 'none';
+    };
+
+    // ===== PUBLISH =====
+    window.openPublish = function() {
+        document.querySelectorAll('.section').forEach(function(s) { s.style.display = 'none'; });
+        document.getElementById('publishSection').style.display = 'block';
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
+    window.closePublish = function() {
+        document.getElementById('publishSection').style.display = 'none';
+        ['productsSection', 'suppliersSection', 'categoriesSection'].forEach(function(id) {
+            var el = document.getElementById(id);
+            if (el) el.style.display = 'block';
+        });
+    };
+
+    // ===== PUBLISH IMAGE UPLOAD =====
+    var uploadedImages = [];
+
+    document.getElementById('pImages').addEventListener('change', function(e) {
+        var files = e.target.files;
+        var preview = document.getElementById('uploadPreview');
+        var maxImages = 6;
+
+        if (uploadedImages.length + files.length > maxImages) {
+            showToast('Maximum 6 images autorisées', 'error');
+            this.value = '';
+            return;
+        }
+
+        for (var i = 0; i < files.length; i++) {
+            var file = files[i];
+            if (!file.type.startsWith('image/')) continue;
+            var reader = new FileReader();
+            reader.onload = function(ev) {
+                uploadedImages.push(ev.target.result);
+                renderUploadPreview();
+            };
+            reader.readAsDataURL(file);
+        }
+        this.value = '';
+    });
+
+    function renderUploadPreview() {
+        var preview = document.getElementById('uploadPreview');
+        preview.innerHTML = uploadedImages.map(function(img, index) {
+            return '<div class="preview-thumb"><img src="' + img + '" alt="Aperçu" /><button class="remove-btn" onclick="removeImage(' + index + ')"><i class="fas fa-times"></i></button></div>';
+        }).join('');
+    }
+
+    window.removeImage = function(index) {
+        uploadedImages.splice(index, 1);
+        renderUploadPreview();
     };
 
     // ===== CART =====
@@ -293,95 +629,123 @@
         var p = products.find(function(x) { return x.id === id; });
         if (!p) return;
         var existing = cartItems.find(function(item) { return item.id === id; });
-        if (existing) {
-            existing.qty += p.minOrder;
-        } else {
-            cartItems.push({ id: p.id, name: p.name, qty: p.minOrder, price: p.price });
-        }
+        if (existing) existing.qty += p.minOrder;
+        else cartItems.push({ id: p.id, name: p.name, qty: p.minOrder, price: p.price, image: p.images ? p.images[0] : '' });
         updateCartBadge();
         showToast(p.name + ' ajouté au panier', 'success');
+        if (isCartOpen) renderCartItems();
     };
+
+    function removeFromCart(id) {
+        cartItems = cartItems.filter(function(item) { return item.id !== id; });
+        updateCartBadge();
+        renderCartItems();
+        showToast('Produit retiré du panier', 'info');
+    }
+
+    function updateQty(id, delta) {
+        var item = cartItems.find(function(i) { return i.id === id; });
+        if (!item) return;
+        item.qty += delta;
+        if (item.qty <= 0) { removeFromCart(id); return; }
+        renderCartItems();
+        updateCartBadge();
+    }
+
+    function renderCartItems() {
+        var body = document.getElementById('cartBody');
+        var footer = document.getElementById('cartFooter');
+        var totalEl = document.getElementById('cartTotalPrice');
+        if (!body) return;
+
+        if (cartItems.length === 0) {
+            body.innerHTML = '<div class="cart-empty"><i class="fas fa-shopping-bag"></i><p>Votre panier est vide</p></div>';
+            footer.style.display = 'none';
+            return;
+        }
+
+        body.innerHTML = cartItems.map(function(item) {
+            var imgSrc = item.image || 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=100&h=100&fit=crop';
+            return '<div class="cart-item">' +
+                '<div class="item-image"><img src="' + imgSrc + '" alt="' + item.name + '" /></div>' +
+                '<div class="item-info">' +
+                '<div class="name">' + item.name + '</div>' +
+                '<div class="price">' + (item.price * item.qty) + ' π</div>' +
+                '<div class="item-qty">' +
+                '<button onclick="updateQty(' + item.id + ',-1)">-</button>' +
+                '<span>' + item.qty + '</span>' +
+                '<button onclick="updateQty(' + item.id + ',1)">+</button>' +
+                '</div>' +
+                '</div>' +
+                '<button class="btn btn-sm btn-danger" onclick="removeFromCart(' + item.id + ')"><i class="fas fa-trash"></i></button>' +
+                '</div>';
+        }).join('');
+
+        footer.style.display = 'block';
+        var total = cartItems.reduce(function(s, i) { return s + (i.price * i.qty); }, 0);
+        totalEl.textContent = total + ' π';
+    }
 
     function updateCartBadge() {
         var total = cartItems.reduce(function(s, i) { return s + i.qty; }, 0);
         document.querySelectorAll('.badge-count').forEach(function(el) {
             var parent = el.closest('.icon-btn, .nav-item');
-            if (parent && (parent.querySelector('.fa-shopping-cart') || parent.querySelector(
-                    '.fa-cart-plus'))) {
+            if (parent && (parent.querySelector('.fa-shopping-bag') || parent.querySelector('.fa-shopping-cart'))) {
                 el.textContent = total;
                 el.style.display = total > 0 ? 'flex' : 'none';
             }
         });
     }
 
+    var isCartOpen = false;
+    function toggleCart() {
+        isCartOpen = !isCartOpen;
+        var overlay = document.getElementById('cartOverlay');
+        if (isCartOpen) { overlay.classList.add('open'); renderCartItems(); }
+        else overlay.classList.remove('open');
+    }
+
+    document.getElementById('cartToggle').addEventListener('click', toggleCart);
+    document.getElementById('cartClose').addEventListener('click', toggleCart);
+    document.getElementById('cartOverlay').addEventListener('click', function(e) {
+        if (e.target === this) toggleCart();
+    });
+    document.getElementById('checkoutBtn').addEventListener('click', function() {
+        if (cartItems.length === 0) { showToast('Panier vide', 'error'); return; }
+        var total = cartItems.reduce(function(s, i) { return s + (i.price * i.qty); }, 0);
+        showToast('Commande validée ! Total : ' + total + ' π', 'success');
+        cartItems = [];
+        updateCartBadge();
+        renderCartItems();
+        toggleCart();
+    });
+
     // ===== STATS ANIMATION =====
     function animateStats() {
-        document.querySelectorAll('.stat-item .number').forEach(function(el) {
+        document.querySelectorAll('.stats-grid .stat-item .number').forEach(function(el) {
             var target = parseInt(el.getAttribute('data-count'));
             var current = 0;
             var step = Math.ceil(target / 60);
             var interval = setInterval(function() {
                 current += step;
-                if (current >= target) { current = target;
-                    clearInterval(interval); }
+                if (current >= target) { current = target; clearInterval(interval); }
                 el.textContent = formatNumber(current);
             }, 25);
         });
     }
 
-    // ===== FILTERS =====
-    function applyFilters() {
-        var category = document.getElementById('filterCategory').value;
-        var country = document.getElementById('filterCountry').value;
-        var sort = document.getElementById('filterSort').value;
-        var verified = document.getElementById('filterVerified').checked;
-
-        var filtered = products.slice();
-        if (category) filtered = filtered.filter(function(p) { return p.category === category; });
-        if (country) filtered = filtered.filter(function(p) { return p.country === country; });
-        if (verified) filtered = filtered.filter(function(p) { return p.verified; });
-        if (sort === 'price-asc') filtered.sort(function(a, b) { return a.price - b.price; });
-        else if (sort === 'price-desc') filtered.sort(function(a, b) { return b.price - a.price; });
-        else if (sort === 'rating') filtered.sort(function(a, b) { return b.rating - a.rating; });
-        renderProducts(filtered);
-    }
-
-    document.querySelectorAll('.filter-bar select, .filter-bar input').forEach(function(el) {
-        el.addEventListener('change', applyFilters);
-    });
-
-    // ===== SEARCH =====
-    document.getElementById('searchInput').addEventListener('keydown', function(e) {
-        if (e.key === 'Enter') {
-            var q = this.value.trim().toLowerCase();
-            if (q) {
-                var filtered = products.filter(function(p) {
-                    return p.name.toLowerCase().includes(q) ||
-                        p.supplier.toLowerCase().includes(q) ||
-                        p.category.toLowerCase().includes(q);
-                });
-                renderProducts(filtered);
-                if (!filtered.length) showToast('Aucun produit trouvé', 'error');
-                else showToast(filtered.length + ' résultat(s)', 'success');
-            } else {
-                renderProducts(products);
-            }
-        }
-    });
-
     // ===== BOTTOM NAV =====
     document.querySelectorAll('.bottom-nav .nav-item').forEach(function(btn) {
         btn.addEventListener('click', function() {
-            document.querySelectorAll('.bottom-nav .nav-item').forEach(function(b) { b.classList.remove(
-                    'active'); });
+            document.querySelectorAll('.bottom-nav .nav-item').forEach(function(b) { b.classList.remove('active'); });
             this.classList.add('active');
             var page = this.getAttribute('data-page');
             var sections = {
-                home: ['productsSection', 'suppliersSection', 'categoriesSection'],
+                home: ['categoriesSection', 'productsSection', 'suppliersSection'],
                 market: ['productsSection'],
-                categories: ['categoriesSection'],
+                publish: ['publishSection'],
                 suppliers: ['suppliersSection'],
-                profile: ['dashboardBuyer', 'dashboardSupplier']
+                profile: ['profileSection']
             };
             document.querySelectorAll('.section').forEach(function(s) { s.style.display = 'none'; });
             var ids = sections[page] || ['productsSection'];
@@ -389,34 +753,163 @@
                 var el = document.getElementById(id);
                 if (el) el.style.display = 'block';
             });
-            if (page === 'profile') {
-                var buyer = document.getElementById('dashboardBuyer');
-                var supplier = document.getElementById('dashboardSupplier');
-                if (buyer.style.display === 'none') {
-                    buyer.style.display = 'block';
-                    supplier.style.display = 'none';
-                } else {
-                    buyer.style.display = 'none';
-                    supplier.style.display = 'block';
-                }
-            }
+            if (page === 'profile') activateProfileTab('profil');
             if (page === 'home') {
                 document.getElementById('productDetail').style.display = 'none';
+                document.getElementById('publishSection').style.display = 'none';
             }
+            var loader = document.getElementById('globalLoader');
+            if (loader) loader.style.display = 'flex';
+            setTimeout(function() { if (loader) loader.style.display = 'none'; }, 400);
         });
     });
 
-    // ===== TOP NAV PROFILE =====
-    document.querySelector('.profile-avatar').addEventListener('click', function() {
+    // ===== PROFIL =====
+    var profileContent = document.getElementById('profileContent');
+
+    function activateProfileTab(tabId) {
+        document.querySelectorAll('.profile-nav-item').forEach(function(item) {
+            item.classList.remove('active');
+        });
+        var activeBtn = document.querySelector('.profile-nav-item[data-tab="' + tabId + '"]');
+        if (activeBtn) activeBtn.classList.add('active');
+
+        var content = '';
+        switch (tabId) {
+            case 'profil':
+                content = '<h2>Mon profil</h2><p>Nom : Jean Dupont<br>Email : jean.dupont@email.com<br>Téléphone : +33 6 12 34 56 78<br>Pays : France<br>Rôle : Acheteur professionnel</p>';
+                break;
+            case 'parametres':
+                content = '<h2>Paramètres</h2><p>Gérez vos préférences</p><div class="card"><p><strong>Notifications :</strong> Activées</p><p><strong>Langue :</strong> Français</p><p><strong>Thème :</strong> Clair</p></div>';
+                break;
+            case 'langues':
+                content = '<h2>Langues</h2><div class="card"><select style="padding:10px;border-radius:var(--radius-sm);border:1px solid #dce0e6;width:100%;max-width:300px;"><option>Français</option><option>English</option><option>Español</option></select></div>';
+                break;
+            case 'connexion':
+                content = '<h2>Connexion</h2><div class="card"><button class="btn btn-primary" onclick="showToast(\'Connexion...\',\'info\')"><i class="fas fa-sign-in-alt"></i> Se connecter</button></div>';
+                break;
+            case 'livre-blanc':
+                content = '<h2>Livre blanc</h2><div class="card"><ul><li><i class="fas fa-file-pdf" style="color:var(--secondary);"></i> Guide commerce de gros 2026</li><li><i class="fas fa-file-pdf" style="color:var(--secondary);"></i> Stratégies d\'approvisionnement</li></ul></div>';
+                break;
+            case 'mes-produits':
+                content = '<h2>Mes produits</h2><div class="card"><div class="product-row"><span><i class="fas fa-headphones"></i> Écouteurs Bluetooth</span><span class="text-muted">Stock: 5000</span><button class="btn btn-sm btn-outline">Modifier</button></div></div>';
+                break;
+            case 'historique':
+                content = '<h2>Historique</h2><div class="card"><ul><li><strong>24/11/2024</strong> - Commande #GB-001 - 120 Pi</li><li><strong>20/11/2024</strong> - Commande #GB-002 - 1200 Pi</li></ul></div>';
+                break;
+            case 'achats-ventes':
+                content = '<h2>Achats & Ventes</h2><div class="card"><div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;"><div style="background:var(--gray-light);padding:16px;text-align:center;"><span style="font-size:24px;font-weight:700;color:var(--primary);">12</span><br><span class="text-muted">Achats</span></div><div style="background:var(--gray-light);padding:16px;text-align:center;"><span style="font-size:24px;font-weight:700;color:var(--primary);">8</span><br><span class="text-muted">Ventes</span></div></div></div>';
+                break;
+            case 'faq':
+                content = '<h2>FAQ</h2><div class="card"><p><strong>Comment acheter en gros ?</strong><br>Trouvez un produit, ajoutez au panier et commandez.</p><p><strong>Les produits sont-ils vérifiés ?</strong><br>Oui, nous vérifions les fournisseurs.</p></div>';
+                break;
+            default:
+                content = '<h2>Bienvenue</h2><p>Sélectionnez une option.</p>';
+        }
+        if (profileContent) profileContent.innerHTML = content;
+    }
+
+    document.querySelectorAll('.profile-nav-item').forEach(function(item) {
+        item.addEventListener('click', function() {
+            var tab = this.getAttribute('data-tab');
+            activateProfileTab(tab);
+        });
+    });
+
+    // ===== FLOATING BUTTONS =====
+    document.getElementById('btnPublishFloating').addEventListener('click', function() { window.openPublish(); });
+    document.getElementById('profileToggle').addEventListener('click', function() {
         document.querySelector('.bottom-nav .nav-item[data-page="profile"]').click();
     });
 
+    // ===== FOOTER LIENS =====
+    document.getElementById('footerPublish').addEventListener('click', function(e) {
+        e.preventDefault();
+        window.openPublish();
+    });
+    document.getElementById('footerFaq').addEventListener('click', function(e) {
+        e.preventDefault();
+        document.querySelector('.bottom-nav .nav-item[data-page="profile"]').click();
+        setTimeout(function() { activateProfileTab('faq'); }, 100);
+    });
+
+    // ===== PUBLISH FORM =====
+    document.getElementById('publishForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        var name = document.getElementById('pName').value.trim();
+        var category = document.getElementById('pCategory').value;
+        var description = document.getElementById('pDescription').value.trim();
+        var price = parseFloat(document.getElementById('pPrice').value);
+        var unit = document.getElementById('pUnit').value;
+        var minOrder = parseInt(document.getElementById('pMinOrder').value);
+        var stock = parseInt(document.getElementById('pStock').value);
+        var supplier = document.getElementById('pSupplier').value.trim();
+        var country = document.getElementById('pCountry').value;
+        var rating = parseFloat(document.getElementById('pRating').value) || 4.5;
+        var verified = document.getElementById('pVerified').checked;
+
+        if (!name || !category || !description || isNaN(price) || isNaN(minOrder) || isNaN(stock) || !supplier || !country) {
+            showToast('Veuillez remplir tous les champs obligatoires.', 'error');
+            return;
+        }
+
+        var images = uploadedImages.length > 0 ? uploadedImages : ['https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400&h=300&fit=crop'];
+
+        var newProduct = {
+            id: products.length + 1,
+            name: name,
+            price: price,
+            unit: unit,
+            minOrder: minOrder,
+            stock: stock,
+            supplier: supplier,
+            country: country,
+            verified: verified,
+            rating: rating,
+            category: category,
+            images: images
+        };
+        products.push(newProduct);
+        renderProducts();
+        applyFilters();
+        showToast('Produit publié avec succès !', 'success');
+        uploadedImages = [];
+        document.getElementById('uploadPreview').innerHTML = '';
+        this.reset();
+        window.closePublish();
+        var cat = categories.find(function(c) { return c.name === category; });
+        if (cat) cat.count++;
+        renderCategories();
+    });
+
+    // ===== POPULATE FORM SELECTS =====
+    function populateFormSelects() {
+        var pCategory = document.getElementById('pCategory');
+        if (pCategory) {
+            pCategory.innerHTML = '<option value="">Catégorie *</option>';
+            categories.forEach(function(c) {
+                pCategory.innerHTML += '<option value="' + c.name + '">' + c.name + '</option>';
+            });
+        }
+        var pCountry = document.getElementById('pCountry');
+        if (pCountry) {
+            pCountry.innerHTML = '<option value="">Pays *</option>';
+            allCountries.forEach(function(c) {
+                pCountry.innerHTML += '<option value="' + c + '">' + c + '</option>';
+            });
+        }
+    }
+
     // ===== INIT =====
+    simulateLoader();
     renderCategories();
     renderProducts();
     renderSuppliers();
+    setupFilters();
+    populateFormSelects();
     updateCartBadge();
-    setTimeout(animateStats, 400);
-    setTimeout(function() { showToast('Bienvenue sur Global Bulk', 'success'); }, 700);
+    initSlider();
+    setTimeout(animateStats, 600);
+    setTimeout(function() { showToast('Bienvenue sur Global Bulk', 'success'); }, 1000);
 
 })();
