@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5" />
-    <title>Global Bulk - Global Wholesale Exchange</title>
+    <title>Global Bulk - Place de marché B2B</title>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='80'>🌐</text></svg>" />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
@@ -11,116 +11,85 @@
 </head>
 <body>
 
-    <!-- ===== NAVBAR ===== -->
-    <nav class="navbar">
-        <div class="navbar-inner container">
+    <!-- ===== LOADER ===== -->
+    <div id="globalLoader" class="global-loader">
+        <div class="loader-track"><div class="loader-bar" id="loaderBar" style="width:0%;"></div></div>
+        <span id="loaderText" class="loader-text">Chargement...</span>
+    </div>
+
+    <!-- ===== HEADER ===== -->
+    <header class="header">
+        <div class="header-inner container">
             <a href="#" class="logo">
-                <span class="logo-icon"><i class="fas fa-globe-americas"></i></span>
-                <span class="logo-text">
-                    GLOBAL<span>BULK</span>
-                    <span class="logo-tagline">Global Wholesale Exchange</span>
-                </span>
+                <span class="logo-icon">GB</span>
+                <span class="logo-text">GLOBAL<span>BULK</span></span>
             </a>
-            <ul class="nav-links">
-                <li><a href="#" class="active">Accueil</a></li>
-                <li><a href="#">Marché</a></li>
-                <li><a href="#">Catégories</a></li>
-                <li><a href="#">Fournisseurs</a></li>
-                <li><a href="#">Commandes</a></li>
-            </ul>
-            <div class="nav-actions">
-                <button class="icon-btn" aria-label="Recherche"><i class="fas fa-search"></i></button>
-                <button class="icon-btn" aria-label="Messages">
-                    <i class="fas fa-envelope"></i>
-                    <span class="badge-count">3</span>
-                </button>
-                <button class="icon-btn" aria-label="Panier">
-                    <i class="fas fa-shopping-cart"></i>
-                    <span class="badge-count">2</span>
-                </button>
-                <div class="profile-avatar">JD</div>
+            <div class="header-actions">
+                <button class="icon-btn search-toggle" id="searchToggle"><i class="fas fa-search"></i></button>
+                <button class="icon-btn"><i class="fas fa-envelope"></i><span class="badge-count">3</span></button>
+                <button class="icon-btn cart-toggle" id="cartToggle"><i class="fas fa-shopping-bag"></i><span class="badge-count" id="cartBadge">0</span></button>
+                <button class="icon-btn profile-btn" id="profileToggle"><i class="fas fa-user"></i></button>
             </div>
         </div>
-    </nav>
+        <div class="search-dropdown" id="searchDropdown">
+            <div class="container">
+                <div class="search-bar">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Rechercher un produit..." id="searchInput" />
+                    <button type="button" id="searchBtn">Rechercher</button>
+                </div>
+            </div>
+        </div>
+    </header>
 
-    <!-- ===== BOTTOM NAV (mobile) ===== -->
+    <!-- ===== BOTTOM NAV ===== -->
     <nav class="bottom-nav">
         <button class="nav-item active" data-page="home"><i class="fas fa-home"></i><span>Accueil</span></button>
         <button class="nav-item" data-page="market"><i class="fas fa-store"></i><span>Marché</span></button>
-        <button class="nav-item" data-page="categories"><i class="fas fa-th-large"></i><span>Catégories</span></button>
+        <button class="nav-item" data-page="publish"><i class="fas fa-plus-circle"></i><span>Publier</span></button>
         <button class="nav-item" data-page="suppliers"><i class="fas fa-truck"></i><span>Fournisseurs</span></button>
         <button class="nav-item" data-page="profile"><i class="fas fa-user"></i><span>Profil</span></button>
     </nav>
 
-    <!-- ===== HERO ===== -->
-    <section class="hero">
-        <div class="container">
-            <div class="hero-content">
-                <h1>Le marché mondial du <span>commerce de gros</span></h1>
-                <p>Trouvez des fournisseurs, achetez en grande quantité et développez votre activité à l'international.</p>
-                <div class="hero-actions">
-                    <a href="#" class="btn btn-primary btn-lg">Explorer le marché <i class="fas fa-arrow-right"></i></a>
-                    <a href="#" class="btn btn-outline-light btn-lg">Devenir fournisseur</a>
-                </div>
-                <!-- Search -->
-                <div class="search-bar">
-                    <i class="fas fa-search"></i>
-                    <input type="text" placeholder="Rechercher un produit, un fournisseur..." id="searchInput" />
-                    <button type="button">Rechercher</button>
-                </div>
-                <!-- Stats -->
-                <div class="stats">
-                    <div class="stat-item"><span class="number" data-count="12480">0</span><span class="label">Fournisseurs</span></div>
-                    <div class="stat-item"><span class="number" data-count="45600">0</span><span class="label">Produits</span></div>
-                    <div class="stat-item"><span class="number" data-count="89">0</span><span class="label">Pays</span></div>
-                    <div class="stat-item"><span class="number" data-count="28750">0</span><span class="label">Commandes</span></div>
-                </div>
-            </div>
+    <!-- ===== FLOATING PUBLISH BUTTON ===== -->
+    <button class="btn-publish-floating" id="btnPublishFloating"><i class="fas fa-plus"></i> Publier</button>
+
+    <!-- ===== SLIDER ===== -->
+    <section class="slider-section">
+        <div class="slider-container">
+            <div class="slider-track" id="sliderTrack"></div>
+            <button class="slider-arrow prev" id="sliderPrev"><i class="fas fa-chevron-left"></i></button>
+            <button class="slider-arrow next" id="sliderNext"><i class="fas fa-chevron-right"></i></button>
+            <div class="slider-dots" id="sliderDots"></div>
         </div>
     </section>
+
+    <!-- ===== FILTRE PAYS (juste en dessous du slider) ===== -->
+    <div class="country-filter-section container">
+        <select id="filterCountry" class="country-select">
+            <option value="">🌍 Tous les pays</option>
+        </select>
+    </div>
 
     <!-- ===== MAIN CONTENT ===== -->
     <main class="container">
 
-        <!-- ===== CATEGORIES ===== -->
+        <!-- ===== CATÉGORIES ===== -->
         <section class="section" id="categoriesSection">
             <div class="section-header">
                 <h2>Catégories</h2>
                 <a href="#">Voir tout <i class="fas fa-arrow-right"></i></a>
             </div>
-            <div class="category-grid" id="categoryGrid"></div>
+            <div class="category-scroll">
+                <div class="category-row" id="categoryRow"></div>
+            </div>
         </section>
 
-        <!-- ===== PRODUCTS ===== -->
-        <section class="section" id="productsSection">
-            <div class="section-header">
+        <!-- ===== MARKETPLACE ===== -->
+        <section class="section marketplace" id="productsSection">
+            <div class="marketplace-header">
                 <h2>Offres en gros</h2>
-                <a href="#">Voir tout <i class="fas fa-arrow-right"></i></a>
-            </div>
-
-            <!-- Filters -->
-            <div class="filter-bar">
-                <select id="filterCategory">
-                    <option value="">Toutes catégories</option>
-                    <option>Électronique</option>
-                    <option>Mode</option>
-                    <option>Maison</option>
-                    <option>Alimentation</option>
-                </select>
-                <select id="filterCountry">
-                    <option value="">Tous pays</option>
-                    <option>Chine</option>
-                    <option>France</option>
-                    <option>USA</option>
-                    <option>Allemagne</option>
-                </select>
-                <select id="filterSort">
-                    <option value="relevance">Pertinence</option>
-                    <option value="price-asc">Prix croissant</option>
-                    <option value="price-desc">Prix décroissant</option>
-                    <option value="rating">Meilleure note</option>
-                </select>
-                <label class="filter-check"><input type="checkbox" id="filterVerified" /> Vérifiés</label>
+                <span class="product-count" id="productCount">12 produits</span>
             </div>
 
             <div class="product-grid" id="productGrid"></div>
@@ -135,75 +104,194 @@
             <div class="supplier-grid" id="supplierGrid"></div>
         </section>
 
+        <!-- ===== STATS ===== -->
+        <section class="section stats-section">
+            <div class="stats-grid">
+                <div class="stat-item"><span class="number" data-count="12480">0</span><span class="label">Fournisseurs</span></div>
+                <div class="stat-item"><span class="number" data-count="45600">0</span><span class="label">Produits</span></div>
+                <div class="stat-item"><span class="number" data-count="89">0</span><span class="label">Pays</span></div>
+                <div class="stat-item"><span class="number" data-count="28750">0</span><span class="label">Commandes</span></div>
+            </div>
+        </section>
+
         <!-- ===== PRODUCT DETAIL ===== -->
         <section class="section" id="productDetail" style="display:none;">
             <button class="btn-back" onclick="closeProductDetail()"><i class="fas fa-arrow-left"></i> Retour</button>
             <div class="card product-detail-card" id="productDetailContent"></div>
         </section>
 
-        <!-- ===== DASHBOARD BUYER ===== -->
-        <section class="section" id="dashboardBuyer" style="display:none;">
-            <h2>Tableau de bord</h2>
-            <div class="dashboard-stats">
-                <div class="dash-stat"><span class="value">12</span><span class="label">Commandes</span></div>
-                <div class="dash-stat"><span class="value">3</span><span class="label">En cours</span></div>
-                <div class="dash-stat"><span class="value">8</span><span class="label">Favoris</span></div>
-                <div class="dash-stat"><span class="value">5</span><span class="label">Messages</span></div>
-            </div>
-            <div class="card order-card">
-                <div class="order-header">
-                    <div><strong>Commande #GB-2024-001</strong> <span class="badge badge-primary">En préparation</span></div>
-                    <span class="order-date">24 nov. 2024</span>
+        <!-- ===== PUBLISH ===== -->
+        <section class="section" id="publishSection" style="display:none;">
+            <button class="btn-back" onclick="closePublish()"><i class="fas fa-arrow-left"></i> Retour</button>
+            <div class="publish-card-social">
+                <div class="publish-header">
+                    <div class="publish-avatar">GB</div>
+                    <div class="publish-user">
+                        <span class="publish-name">Global Bulk</span>
+                        <span class="publish-handle">@globalbulk</span>
+                    </div>
                 </div>
-                <div class="order-product">
-                    <span class="order-icon"><i class="fas fa-headphones"></i></span>
-                    <div><strong>Écouteurs Bluetooth Pro</strong><br><span class="text-muted">TechImport SARL · 200 unités</span></div>
-                    <span class="order-total">120 Pi</span>
-                </div>
-                <div class="order-status">
-                    <span class="step done">Commandée</span>
-                    <span class="step done">Payée</span>
-                    <span class="step active">En préparation</span>
-                    <span class="step">Expédiée</span>
-                    <span class="step">Livrée</span>
-                </div>
+                <form id="publishForm" class="publish-form-social" enctype="multipart/form-data">
+                    <textarea id="pDescription" rows="5" placeholder="Décrivez votre produit en détail..." required></textarea>
+
+                    <div class="publish-images-upload">
+                        <label class="upload-label"><i class="fas fa-cloud-upload-alt"></i> Ajouter des photos (max 6)</label>
+                        <input type="file" id="pImages" accept="image/*" multiple />
+                        <div class="upload-preview" id="uploadPreview"></div>
+                        <span class="hint">Téléchargez jusqu'à 6 photos réelles de votre produit</span>
+                    </div>
+
+                    <div class="publish-fields">
+                        <div class="publish-row">
+                            <input type="text" id="pName" placeholder="Nom du produit *" required />
+                        </div>
+                        <div class="publish-row">
+                            <select id="pCategory" required><option value="">Catégorie *</option></select>
+                            <select id="pCountry" required><option value="">Pays *</option></select>
+                        </div>
+                        <div class="publish-row">
+                            <input type="number" id="pPrice" step="0.01" placeholder="Prix *" required />
+                            <select id="pUnit" required>
+                                <option value="Pi">Pièce</option>
+                                <option value="Kg">Kg</option>
+                                <option value="L">Litre</option>
+                                <option value="M">Mètre</option>
+                                <option value="Set">Set</option>
+                            </select>
+                        </div>
+                        <div class="publish-row">
+                            <input type="number" id="pMinOrder" placeholder="Qté min. *" required />
+                            <input type="number" id="pStock" placeholder="Stock *" required />
+                        </div>
+                        <div class="publish-row">
+                            <input type="text" id="pSupplier" placeholder="Fournisseur *" required />
+                            <input type="number" id="pRating" step="0.1" min="0" max="5" placeholder="Note" value="4.5" />
+                        </div>
+                        <div class="publish-row verify-row">
+                            <label class="publish-check">
+                                <input type="checkbox" id="pVerified" checked /> Produit vérifié
+                            </label>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block publish-submit">
+                        <i class="fas fa-rocket"></i> Publier
+                    </button>
+                </form>
             </div>
         </section>
 
-        <!-- ===== DASHBOARD SUPPLIER ===== -->
-        <section class="section" id="dashboardSupplier" style="display:none;">
-            <h2>Tableau de bord fournisseur</h2>
-            <div class="dashboard-stats">
-                <div class="dash-stat"><span class="value">24</span><span class="label">Produits</span></div>
-                <div class="dash-stat"><span class="value">8</span><span class="label">Commandes</span></div>
-                <div class="dash-stat"><span class="value">4 560</span><span class="label">Ventes (Pi)</span></div>
-                <div class="dash-stat"><span class="value">4.8</span><span class="label">Note</span></div>
-            </div>
-            <div class="supplier-actions">
-                <a href="#" class="btn btn-primary"><i class="fas fa-plus"></i> Ajouter un produit</a>
-                <a href="#" class="btn btn-outline"><i class="fas fa-boxes"></i> Gérer le stock</a>
-                <a href="#" class="btn btn-outline"><i class="fas fa-comments"></i> Messages (3)</a>
-            </div>
-            <div class="card">
-                <h4>Produits récents</h4>
-                <div class="product-list">
-                    <div class="product-row">
-                        <span><i class="fas fa-headphones"></i> Écouteurs Bluetooth</span>
-                        <span class="text-muted">Stock: 5000 · 5 Pi/unité</span>
-                        <div><button class="btn btn-sm btn-outline">Modifier</button> <button class="btn btn-sm btn-danger">Supprimer</button></div>
+        <!-- ===== PROFIL ===== -->
+        <section class="section" id="profileSection" style="display:none;">
+            <div class="profile-container">
+                <div class="profile-sidebar">
+                    <div class="profile-user">
+                        <div class="profile-avatar-large">JD</div>
+                        <div class="profile-name">Jean Dupont</div>
+                        <div class="profile-role">Acheteur professionnel</div>
                     </div>
-                    <div class="product-row">
-                        <span><i class="fas fa-shoe-prints"></i> Chaussures de sport</span>
-                        <span class="text-muted">Stock: 320 · 12 Pi/unité</span>
-                        <div><button class="btn btn-sm btn-outline">Modifier</button> <button class="btn btn-sm btn-danger">Supprimer</button></div>
-                    </div>
+                    <nav class="profile-nav">
+                        <button class="profile-nav-item active" data-tab="profil"><i class="fas fa-user"></i> Mon profil</button>
+                        <button class="profile-nav-item" data-tab="parametres"><i class="fas fa-sliders-h"></i> Paramètres</button>
+                        <button class="profile-nav-item" data-tab="langues"><i class="fas fa-globe"></i> Langues</button>
+                        <button class="profile-nav-item" data-tab="connexion"><i class="fas fa-sign-in-alt"></i> Connexion</button>
+                        <button class="profile-nav-item" data-tab="livre-blanc"><i class="fas fa-file-pdf"></i> Livre blanc</button>
+                        <button class="profile-nav-item" data-tab="mes-produits"><i class="fas fa-boxes"></i> Mes produits</button>
+                        <button class="profile-nav-item" data-tab="historique"><i class="fas fa-history"></i> Historique</button>
+                        <button class="profile-nav-item" data-tab="achats-ventes"><i class="fas fa-chart-line"></i> Achats & Ventes</button>
+                        <button class="profile-nav-item" data-tab="faq"><i class="fas fa-question-circle"></i> FAQ</button>
+                    </nav>
+                </div>
+                <div class="profile-content" id="profileContent">
+                    <h2>Bienvenue sur votre profil</h2>
+                    <p>Sélectionnez une option dans le menu de gauche.</p>
                 </div>
             </div>
         </section>
 
     </main>
 
-    <!-- ===== TOAST CONTAINER ===== -->
+    <!-- ===== CART ===== -->
+    <div class="cart-overlay" id="cartOverlay">
+        <div class="cart-panel">
+            <div class="cart-header">
+                <h3>Votre panier</h3>
+                <button class="cart-close" id="cartClose"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="cart-body" id="cartBody">
+                <div class="cart-empty"><i class="fas fa-shopping-bag"></i><p>Votre panier est vide</p></div>
+            </div>
+            <div class="cart-footer" id="cartFooter" style="display:none;">
+                <div class="cart-total"><span>Total</span><span id="cartTotalPrice">0 π</span></div>
+                <button class="btn btn-primary btn-block" id="checkoutBtn">Checkout <i class="fas fa-arrow-right"></i></button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== FOOTER ===== -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <div class="logo"><span class="logo-icon">GB</span><span class="logo-text">GLOBAL<span>BULK</span></span></div>
+                    <p class="footer-desc">La plateforme B2B de référence pour le commerce de gros international.</p>
+                    <div class="footer-social">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+                <div class="footer-col">
+                    <h4>Liens rapides</h4>
+                    <ul>
+                        <li><a href="#">Accueil</a></li>
+                        <li><a href="#">Marché</a></li>
+                        <li><a href="#">Fournisseurs</a></li>
+                        <li><a href="#" id="footerPublish">Publier</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>À propos</h4>
+                    <ul>
+                        <li><a href="#">Qui sommes-nous ?</a></li>
+                        <li><a href="#">Carrières</a></li>
+                        <li><a href="#">CGU</a></li>
+                        <li><a href="#">Confidentialité</a></li>
+                        <li><a href="#" id="footerFaq">FAQ</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Contact</h4>
+                    <ul class="footer-contact">
+                        <li><i class="fas fa-map-marker-alt"></i> 12 rue du Commerce, 75001 Paris</li>
+                        <li><i class="fas fa-phone"></i> +33 1 23 45 67 89</li>
+                        <li><i class="fas fa-envelope"></i> contact@globalbulk.com</li>
+                    </ul>
+                    <div class="footer-newsletter">
+                        <p>Newsletter</p>
+                        <div class="newsletter-input">
+                            <input type="email" placeholder="Votre email" />
+                            <button><i class="fas fa-arrow-right"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <span>&copy; 2026 Global Bulk</span>
+                <span class="footer-lang">
+                    <i class="fas fa-globe"></i>
+                    <select id="footerLangSelect">
+                        <option value="fr">Français</option>
+                        <option value="en">English</option>
+                        <option value="es">Español</option>
+                        <option value="ar">العربية</option>
+                        <option value="zh">中文</option>
+                    </select>
+                </span>
+            </div>
+        </div>
+    </footer>
+
     <div class="toast-container" id="toastContainer"></div>
 
     <script src="script.js"></script>
