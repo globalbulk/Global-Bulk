@@ -11,7 +11,7 @@
 </head>
 <body>
 
-    <!-- ===== LOADER ===== -->
+    <!-- LOADER -->
     <div id="globalLoader" class="global-loader-fullscreen">
         <div class="loader-content">
             <div class="loader-track"><div class="loader-bar" id="loaderBar" style="width:0%;"></div></div>
@@ -19,7 +19,7 @@
         </div>
     </div>
 
-    <!-- ===== CONTENU ===== -->
+    <!-- CONTENU -->
     <div id="appContent" style="display:none;">
 
         <!-- HEADER -->
@@ -58,205 +58,194 @@
         <!-- FLOATING PUBLISH BUTTON -->
         <button class="btn-publish-floating" id="btnPublishFloating"><i class="fas fa-plus"></i> Publier</button>
 
-        <!-- SLIDER -->
-        <section class="slider-section">
-            <div class="slider-container">
-                <div class="slider-track" id="sliderTrack"></div>
-                <button class="slider-arrow prev" id="sliderPrev"><i class="fas fa-chevron-left"></i></button>
-                <button class="slider-arrow next" id="sliderNext"><i class="fas fa-chevron-right"></i></button>
-                <div class="slider-dots" id="sliderDots"></div>
+        <!-- PAGE D'ACCUEIL -->
+        <div id="mainContent">
+
+            <!-- SLIDER -->
+            <section class="slider-section">
+                <div class="slider-container">
+                    <div class="slider-track" id="sliderTrack"></div>
+                    <button class="slider-arrow prev" id="sliderPrev"><i class="fas fa-chevron-left"></i></button>
+                    <button class="slider-arrow next" id="sliderNext"><i class="fas fa-chevron-right"></i></button>
+                    <div class="slider-dots" id="sliderDots"></div>
+                </div>
+            </section>
+
+            <!-- FILTRES -->
+            <div class="filter-bar container">
+                <div class="filter-country">
+                    <label><i class="fas fa-globe"></i> Pays</label>
+                    <select id="filterCountry" class="country-select">
+                        <option value="">Tous</option>
+                    </select>
+                </div>
+                <div class="filter-categories-scroll">
+                    <div class="filter-categories" id="categoryFilterList"></div>
+                </div>
+            </div>
+
+            <!-- MAIN CONTENT -->
+            <main class="container">
+                <section class="section marketplace" id="productsSection">
+                    <div class="marketplace-header">
+                        <h2>Offres en gros</h2>
+                        <span class="product-count" id="productCount">12 produits</span>
+                    </div>
+                    <div class="product-grid" id="productGrid"></div>
+                </section>
+
+                <section class="section" id="suppliersSection">
+                    <div class="section-header">
+                        <h2>Fournisseurs vérifiés</h2>
+                        <a href="#">Voir tout <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                    <div class="supplier-grid" id="supplierGrid"></div>
+                </section>
+
+                <section class="section stats-section">
+                    <div class="stats-grid">
+                        <div class="stat-item"><span class="number" data-count="12480">0</span><span class="label">Fournisseurs</span></div>
+                        <div class="stat-item"><span class="number" data-count="45600">0</span><span class="label">Produits</span></div>
+                        <div class="stat-item"><span class="number" data-count="89">0</span><span class="label">Pays</span></div>
+                        <div class="stat-item"><span class="number" data-count="28750">0</span><span class="label">Commandes</span></div>
+                    </div>
+                </section>
+            </main>
+        </div>
+
+        <!-- PAGES SECONDAIRES -->
+        <section class="section page-secondary" id="productDetail" style="display:none;">
+            <div class="page-header">
+                <button class="btn-back" onclick="closeProductDetail()"><i class="fas fa-arrow-left"></i> Retour</button>
+                <h2 class="page-title" id="productDetailTitle">Détail produit</h2>
+            </div>
+            <div class="card product-detail-card" id="productDetailContent"></div>
+        </section>
+
+        <section class="section page-secondary" id="publishSection" style="display:none;">
+            <div class="page-header">
+                <button class="btn-back" onclick="closePublish()"><i class="fas fa-arrow-left"></i> Retour</button>
+                <h2 class="page-title">Publier un produit</h2>
+            </div>
+            <div class="publish-card-social">
+                <div class="publish-header">
+                    <div class="publish-avatar">GB</div>
+                    <div class="publish-user">
+                        <span class="publish-name">Global Bulk</span>
+                        <span class="publish-handle">@globalbulk</span>
+                    </div>
+                </div>
+                <form id="publishForm" class="publish-form-social" enctype="multipart/form-data">
+                    <textarea id="pDescription" rows="5" placeholder="Décrivez votre produit en détail..." required></textarea>
+                    <div class="publish-images-upload">
+                        <label class="upload-label"><i class="fas fa-cloud-upload-alt"></i> Ajouter des photos (max 6)</label>
+                        <input type="file" id="pImages" accept="image/*" multiple />
+                        <div class="upload-preview" id="uploadPreview"></div>
+                        <span class="hint">Téléchargez jusqu'à 6 photos réelles de votre produit</span>
+                    </div>
+                    <div class="publish-fields">
+                        <div class="publish-row">
+                            <input type="text" id="pName" placeholder="Nom du produit *" required />
+                        </div>
+                        <div class="publish-row">
+                            <select id="pCategory" required><option value="">Catégorie *</option></select>
+                            <select id="pCountry" required><option value="">Pays *</option></select>
+                        </div>
+                        <div class="publish-row">
+                            <input type="number" id="pPrice" step="0.01" placeholder="Prix *" required />
+                            <select id="pUnit" required>
+                                <option value="Pi">Pièce</option>
+                                <option value="Kg">Kg</option>
+                                <option value="L">Litre</option>
+                                <option value="M">Mètre</option>
+                                <option value="Set">Set</option>
+                            </select>
+                        </div>
+                        <div class="publish-row">
+                            <input type="number" id="pMinOrder" placeholder="Qté min. *" required />
+                            <input type="number" id="pStock" placeholder="Stock *" required />
+                        </div>
+                        <div class="publish-row">
+                            <input type="text" id="pSupplier" placeholder="Fournisseur *" required />
+                            <input type="number" id="pRating" step="0.1" min="0" max="5" placeholder="Note" value="4.5" />
+                        </div>
+                        <div class="publish-row verify-row">
+                            <label class="publish-check">
+                                <input type="checkbox" id="pVerified" checked /> Produit vérifié
+                            </label>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block publish-submit">
+                        <i class="fas fa-rocket"></i> Publier
+                    </button>
+                </form>
             </div>
         </section>
 
-        <!-- ===== FILTRE PAYS ET CATÉGORIES ===== -->
-        <div class="filter-bar container">
-            <div class="filter-country">
-                <label><i class="fas fa-globe"></i> Pays</label>
-                <select id="filterCountry" class="country-select">
-                    <option value="">Tous</option>
-                </select>
+        <!-- PROFIL -->
+        <section class="section page-secondary" id="profileSection" style="display:none;">
+            <div class="page-header">
+                <button class="btn-back" onclick="closeProfile()"><i class="fas fa-arrow-left"></i> Retour</button>
+                <h2 class="page-title">Mon profil</h2>
             </div>
-            <div class="filter-categories-scroll">
-                <div class="filter-categories" id="categoryFilterList">
-                    <!-- Généré par JS -->
+            <div class="profile-betix-container">
+                <div class="profile-betix-header">
+                    <div class="profile-avatar-large">JD</div>
+                    <div class="profile-name">Jean Dupont</div>
+                    <div class="profile-role">Acheteur professionnel</div>
+                </div>
+                <nav class="profile-betix-nav">
+                    <button class="profile-betix-item active" data-tab="profil">
+                        <i class="fas fa-user-circle"></i>
+                        <span>Mon profil</span>
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                    <button class="profile-betix-item" data-tab="parametres">
+                        <i class="fas fa-sliders-h"></i>
+                        <span>Paramètres</span>
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                    <button class="profile-betix-item" data-tab="langues">
+                        <i class="fas fa-globe"></i>
+                        <span>Langues</span>
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                    <button class="profile-betix-item" data-tab="connexion">
+                        <i class="fas fa-sign-in-alt"></i>
+                        <span>Connexion</span>
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                    <button class="profile-betix-item" data-tab="livre-blanc">
+                        <i class="fas fa-file-pdf"></i>
+                        <span>Livre blanc</span>
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                    <button class="profile-betix-item" data-tab="mes-produits">
+                        <i class="fas fa-boxes"></i>
+                        <span>Mes produits</span>
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                    <button class="profile-betix-item" data-tab="historique">
+                        <i class="fas fa-history"></i>
+                        <span>Historique</span>
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                    <button class="profile-betix-item" data-tab="achats-ventes">
+                        <i class="fas fa-chart-line"></i>
+                        <span>Achats & Ventes</span>
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                    <button class="profile-betix-item" data-tab="faq">
+                        <i class="fas fa-question-circle"></i>
+                        <span>FAQ</span>
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                </nav>
+                <div class="profile-betix-content" id="profileContent">
+                    <!-- Contenu généré par JavaScript -->
                 </div>
             </div>
-        </div>
-
-        <!-- MAIN CONTENT -->
-        <main class="container">
-
-            <!-- ===== MARKETPLACE ===== -->
-            <section class="section marketplace" id="productsSection">
-                <div class="marketplace-header">
-                    <h2>Offres en gros</h2>
-                    <span class="product-count" id="productCount">12 produits</span>
-                </div>
-                <div class="product-grid" id="productGrid"></div>
-            </section>
-
-            <!-- ===== SUPPLIERS ===== -->
-            <section class="section" id="suppliersSection">
-                <div class="section-header">
-                    <h2>Fournisseurs vérifiés</h2>
-                    <a href="#">Voir tout <i class="fas fa-arrow-right"></i></a>
-                </div>
-                <div class="supplier-grid" id="supplierGrid"></div>
-            </section>
-
-            <!-- ===== STATS ===== -->
-            <section class="section stats-section">
-                <div class="stats-grid">
-                    <div class="stat-item"><span class="number" data-count="12480">0</span><span class="label">Fournisseurs</span></div>
-                    <div class="stat-item"><span class="number" data-count="45600">0</span><span class="label">Produits</span></div>
-                    <div class="stat-item"><span class="number" data-count="89">0</span><span class="label">Pays</span></div>
-                    <div class="stat-item"><span class="number" data-count="28750">0</span><span class="label">Commandes</span></div>
-                </div>
-            </section>
-
-            <!-- ===== DÉTAIL PRODUIT (page secondaire) ===== -->
-            <section class="section page-secondary" id="productDetail" style="display:none;">
-                <div class="page-header">
-                    <button class="btn-back" onclick="closeProductDetail()"><i class="fas fa-arrow-left"></i> Retour</button>
-                    <h2 class="page-title" id="productDetailTitle">Détail produit</h2>
-                </div>
-                <div class="card product-detail-card" id="productDetailContent"></div>
-            </section>
-
-            <!-- ===== PUBLIER (page secondaire) ===== -->
-            <section class="section page-secondary" id="publishSection" style="display:none;">
-                <div class="page-header">
-                    <button class="btn-back" onclick="closePublish()"><i class="fas fa-arrow-left"></i> Retour</button>
-                    <h2 class="page-title">Publier un produit</h2>
-                </div>
-                <div class="publish-card-social">
-                    <div class="publish-header">
-                        <div class="publish-avatar">GB</div>
-                        <div class="publish-user">
-                            <span class="publish-name">Global Bulk</span>
-                            <span class="publish-handle">@globalbulk</span>
-                        </div>
-                    </div>
-                    <form id="publishForm" class="publish-form-social" enctype="multipart/form-data">
-                        <textarea id="pDescription" rows="5" placeholder="Décrivez votre produit en détail..." required></textarea>
-
-                        <div class="publish-images-upload">
-                            <label class="upload-label"><i class="fas fa-cloud-upload-alt"></i> Ajouter des photos (max 6)</label>
-                            <input type="file" id="pImages" accept="image/*" multiple />
-                            <div class="upload-preview" id="uploadPreview"></div>
-                            <span class="hint">Téléchargez jusqu'à 6 photos réelles de votre produit</span>
-                        </div>
-
-                        <div class="publish-fields">
-                            <div class="publish-row">
-                                <input type="text" id="pName" placeholder="Nom du produit *" required />
-                            </div>
-                            <div class="publish-row">
-                                <select id="pCategory" required><option value="">Catégorie *</option></select>
-                                <select id="pCountry" required><option value="">Pays *</option></select>
-                            </div>
-                            <div class="publish-row">
-                                <input type="number" id="pPrice" step="0.01" placeholder="Prix *" required />
-                                <select id="pUnit" required>
-                                    <option value="Pi">Pièce</option>
-                                    <option value="Kg">Kg</option>
-                                    <option value="L">Litre</option>
-                                    <option value="M">Mètre</option>
-                                    <option value="Set">Set</option>
-                                </select>
-                            </div>
-                            <div class="publish-row">
-                                <input type="number" id="pMinOrder" placeholder="Qté min. *" required />
-                                <input type="number" id="pStock" placeholder="Stock *" required />
-                            </div>
-                            <div class="publish-row">
-                                <input type="text" id="pSupplier" placeholder="Fournisseur *" required />
-                                <input type="number" id="pRating" step="0.1" min="0" max="5" placeholder="Note" value="4.5" />
-                            </div>
-                            <div class="publish-row verify-row">
-                                <label class="publish-check">
-                                    <input type="checkbox" id="pVerified" checked /> Produit vérifié
-                                </label>
-                            </div>
-                        </div>
-                        <button type="submit" class="btn btn-primary btn-block publish-submit">
-                            <i class="fas fa-rocket"></i> Publier
-                        </button>
-                    </form>
-                </div>
-            </section>
-
-            <!-- ===== PROFIL (page secondaire - style Betix) ===== -->
-            <section class="section page-secondary" id="profileSection" style="display:none;">
-                <div class="page-header">
-                    <button class="btn-back" onclick="closeProfile()"><i class="fas fa-arrow-left"></i> Retour</button>
-                    <h2 class="page-title">Mon profil</h2>
-                </div>
-                <div class="profile-betix-container">
-                    <div class="profile-betix-header">
-                        <div class="profile-avatar-large">JD</div>
-                        <div class="profile-name">Jean Dupont</div>
-                        <div class="profile-role">Acheteur professionnel</div>
-                    </div>
-                    <nav class="profile-betix-nav">
-                        <button class="profile-betix-item active" data-tab="profil">
-                            <i class="fas fa-user-circle"></i>
-                            <span>Mon profil</span>
-                            <i class="fas fa-chevron-right"></i>
-                        </button>
-                        <button class="profile-betix-item" data-tab="parametres">
-                            <i class="fas fa-sliders-h"></i>
-                            <span>Paramètres</span>
-                            <i class="fas fa-chevron-right"></i>
-                        </button>
-                        <button class="profile-betix-item" data-tab="langues">
-                            <i class="fas fa-globe"></i>
-                            <span>Langues</span>
-                            <i class="fas fa-chevron-right"></i>
-                        </button>
-                        <button class="profile-betix-item" data-tab="connexion">
-                            <i class="fas fa-sign-in-alt"></i>
-                            <span>Connexion</span>
-                            <i class="fas fa-chevron-right"></i>
-                        </button>
-                        <button class="profile-betix-item" data-tab="livre-blanc">
-                            <i class="fas fa-file-pdf"></i>
-                            <span>Livre blanc</span>
-                            <i class="fas fa-chevron-right"></i>
-                        </button>
-                        <button class="profile-betix-item" data-tab="mes-produits">
-                            <i class="fas fa-boxes"></i>
-                            <span>Mes produits</span>
-                            <i class="fas fa-chevron-right"></i>
-                        </button>
-                        <button class="profile-betix-item" data-tab="historique">
-                            <i class="fas fa-history"></i>
-                            <span>Historique</span>
-                            <i class="fas fa-chevron-right"></i>
-                        </button>
-                        <button class="profile-betix-item" data-tab="achats-ventes">
-                            <i class="fas fa-chart-line"></i>
-                            <span>Achats & Ventes</span>
-                            <i class="fas fa-chevron-right"></i>
-                        </button>
-                        <button class="profile-betix-item" data-tab="faq">
-                            <i class="fas fa-question-circle"></i>
-                            <span>FAQ</span>
-                            <i class="fas fa-chevron-right"></i>
-                        </button>
-                    </nav>
-                    <div class="profile-betix-content" id="profileContent">
-                        <h2>👤 Mon profil</h2>
-                        <p><i class="fas fa-user-circle"></i> Jean Dupont</p>
-                        <p><i class="fas fa-envelope"></i> jean.dupont@email.com</p>
-                        <p><i class="fas fa-phone"></i> +33 6 12 34 56 78</p>
-                        <p><i class="fas fa-flag"></i> France</p>
-                        <p><i class="fas fa-briefcase"></i> Acheteur professionnel</p>
-                    </div>
-                </div>
-            </section>
-
-        </main>
+        </section>
 
         <!-- CART -->
         <div class="cart-overlay" id="cartOverlay">
@@ -341,7 +330,7 @@
 
         <div class="toast-container" id="toastContainer"></div>
 
-    </div> <!-- fin #appContent -->
+    </div>
 
     <script src="script.js"></script>
 </body>
