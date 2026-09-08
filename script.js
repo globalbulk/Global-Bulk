@@ -529,10 +529,22 @@
         document.getElementById('searchDropdown').classList.remove('open');
     }
 
+    // ===== GESTION DES PAGES SECONDAIRES =====
+    function showMainContent() {
+        document.getElementById('mainContent').style.display = 'block';
+        document.getElementById('productDetail').style.display = 'none';
+        document.getElementById('publishSection').style.display = 'none';
+        document.getElementById('profileSection').style.display = 'none';
+    }
+
+    function hideMainContent() {
+        document.getElementById('mainContent').style.display = 'none';
+    }
+
     window.showProductDetail = function(id) {
         var p = products.find(function(x) { return x.id === id; });
         if (!p) return;
-        document.querySelectorAll('.section:not(.page-secondary)').forEach(function(s) { s.style.display = 'none'; });
+        hideMainContent();
         var detailSection = document.getElementById('productDetail');
         detailSection.style.display = 'block';
         document.getElementById('productDetailTitle').textContent = p.name;
@@ -585,32 +597,26 @@
     };
 
     window.closeProductDetail = function() {
-        document.getElementById('productDetail').style.display = 'none';
-        document.querySelectorAll('.section:not(.page-secondary)').forEach(function(s) { s.style.display = 'block'; });
-        document.getElementById('publishSection').style.display = 'none';
-        document.getElementById('profileSection').style.display = 'none';
+        showMainContent();
         document.querySelectorAll('.bottom-nav .nav-item').forEach(function(b) { b.classList.remove('active'); });
         document.querySelector('.bottom-nav .nav-item[data-page="home"]').classList.add('active');
     };
 
     window.openPublish = function() {
-        document.querySelectorAll('.section:not(.page-secondary)').forEach(function(s) { s.style.display = 'none'; });
+        hideMainContent();
         document.getElementById('publishSection').style.display = 'block';
         document.getElementById('productDetail').style.display = 'none';
         document.getElementById('profileSection').style.display = 'none';
         window.scrollTo({ top: 0, behavior: 'smooth' });
     };
     window.closePublish = function() {
-        document.getElementById('publishSection').style.display = 'none';
-        document.querySelectorAll('.section:not(.page-secondary)').forEach(function(s) { s.style.display = 'block'; });
-        document.getElementById('productDetail').style.display = 'none';
-        document.getElementById('profileSection').style.display = 'none';
+        showMainContent();
         document.querySelectorAll('.bottom-nav .nav-item').forEach(function(b) { b.classList.remove('active'); });
         document.querySelector('.bottom-nav .nav-item[data-page="home"]').classList.add('active');
     };
 
     window.openProfile = function() {
-        document.querySelectorAll('.section:not(.page-secondary)').forEach(function(s) { s.style.display = 'none'; });
+        hideMainContent();
         document.getElementById('profileSection').style.display = 'block';
         document.getElementById('productDetail').style.display = 'none';
         document.getElementById('publishSection').style.display = 'none';
@@ -621,14 +627,12 @@
         window.scrollTo({ top: 0, behavior: 'smooth' });
     };
     window.closeProfile = function() {
-        document.getElementById('profileSection').style.display = 'none';
-        document.querySelectorAll('.section:not(.page-secondary)').forEach(function(s) { s.style.display = 'block'; });
-        document.getElementById('productDetail').style.display = 'none';
-        document.getElementById('publishSection').style.display = 'none';
+        showMainContent();
         document.querySelectorAll('.bottom-nav .nav-item').forEach(function(b) { b.classList.remove('active'); });
         document.querySelector('.bottom-nav .nav-item[data-page="home"]').classList.add('active');
     };
 
+    // ===== PROFIL - CONTENU AMÉLIORÉ =====
     function activateProfileBetixTab(tabId) {
         document.querySelectorAll('.profile-betix-item').forEach(function(item) {
             item.classList.remove('active');
@@ -640,87 +644,121 @@
         var content = document.getElementById('profileContent');
         if (!content) return;
 
-        var html = '';
-        function line(icon, text) {
-            return '<p><i class="fas ' + icon + '"></i> ' + text + '</p>';
+        function infoLine(icon, label, value) {
+            return '<div class="profile-info-item">' +
+                '<i class="fas ' + icon + '"></i>' +
+                '<span class="label">' + label + '</span>' +
+                '<span class="value">' + value + '</span>' +
+                '</div>';
         }
+
+        var html = '';
 
         switch (tabId) {
             case 'profil':
-                html = '<h2>👤 Mon profil</h2>' +
-                    line('fa-user-circle', 'Jean Dupont') +
-                    line('fa-envelope', 'jean.dupont@email.com') +
-                    line('fa-phone', '+33 6 12 34 56 78') +
-                    line('fa-flag', 'France') +
-                    line('fa-briefcase', 'Acheteur professionnel');
+                html = '<div class="profile-page-title"><i class="fas fa-user-circle"></i> Mon profil</div>' +
+                    infoLine('fa-user', 'Nom', 'Jean Dupont') +
+                    infoLine('fa-envelope', 'Email', 'jean.dupont@email.com') +
+                    infoLine('fa-phone', 'Téléphone', '+33 6 12 34 56 78') +
+                    infoLine('fa-flag', 'Pays', 'France') +
+                    infoLine('fa-briefcase', 'Rôle', 'Acheteur professionnel') +
+                    '<div class="profile-action-btn"><button class="btn btn-outline btn-sm" onclick="showToast(\'Modification du profil\',\'info\')"><i class="fas fa-edit"></i> Modifier</button></div>';
                 break;
+
             case 'parametres':
-                html = '<h2>⚙️ Paramètres</h2>' +
-                    line('fa-bell', 'Notifications : Activées') +
-                    line('fa-language', 'Langue : Français') +
-                    line('fa-palette', 'Thème : Clair') +
-                    line('fa-lock', 'Authentification à deux facteurs : Désactivée');
+                html = '<div class="profile-page-title"><i class="fas fa-sliders-h"></i> Paramètres</div>' +
+                    infoLine('fa-bell', 'Notifications', 'Activées') +
+                    infoLine('fa-language', 'Langue', 'Français') +
+                    infoLine('fa-palette', 'Thème', 'Clair') +
+                    infoLine('fa-lock', 'Authentification 2 facteurs', 'Désactivée') +
+                    '<div class="profile-action-btn"><button class="btn btn-primary btn-sm" onclick="showToast(\'Paramètres enregistrés\',\'success\')"><i class="fas fa-save"></i> Enregistrer</button></div>';
                 break;
+
             case 'langues':
-                html = '<h2>🌐 Langues</h2>' +
-                    '<p><i class="fas fa-check-circle" style="color:#4caf50;"></i> Français (actif)</p>' +
-                    '<p><i class="fas fa-circle" style="color:#ccc;"></i> English</p>' +
-                    '<p><i class="fas fa-circle" style="color:#ccc;"></i> Español</p>' +
-                    '<p><i class="fas fa-circle" style="color:#ccc;"></i> العربية</p>';
+                html = '<div class="profile-page-title"><i class="fas fa-globe"></i> Langues</div>' +
+                    '<ul class="profile-list">' +
+                    '<li><i class="fas fa-check-circle" style="color:#4caf50;"></i> Français <span class="badge-status active">Actif</span></li>' +
+                    '<li><i class="fas fa-circle" style="color:#ccc;"></i> English <span class="badge-status inactive">Inactif</span></li>' +
+                    '<li><i class="fas fa-circle" style="color:#ccc;"></i> Español <span class="badge-status inactive">Inactif</span></li>' +
+                    '<li><i class="fas fa-circle" style="color:#ccc;"></i> العربية <span class="badge-status inactive">Inactif</span></li>' +
+                    '</ul>' +
+                    '<div class="profile-action-btn"><button class="btn btn-outline btn-sm" onclick="showToast(\'Gestion des langues\',\'info\')"><i class="fas fa-plus"></i> Ajouter une langue</button></div>';
                 break;
+
             case 'connexion':
-                html = '<h2>🔐 Connexion</h2>' +
-                    '<p><button class="btn btn-primary" onclick="showToast(\'Connexion...\',\'info\')">Se connecter <i class="fas fa-sign-in-alt"></i></button></p>' +
-                    '<p><a href="#" style="color: var(--primary); font-weight:600;">Créer un compte <i class="fas fa-user-plus"></i></a></p>';
+                html = '<div class="profile-page-title"><i class="fas fa-sign-in-alt"></i> Connexion</div>' +
+                    '<div style="margin-bottom:12px;"><strong>Compte actuel</strong><br><span style="color:var(--text-muted);">jean.dupont@email.com</span></div>' +
+                    '<div class="profile-action-btn" style="display:flex; gap:10px; flex-wrap:wrap;">' +
+                    '<button class="btn btn-primary" onclick="showToast(\'Connexion en cours...\',\'info\')"><i class="fas fa-sign-in-alt"></i> Se connecter</button>' +
+                    '<button class="btn btn-outline" onclick="showToast(\'Déconnexion\',\'info\')"><i class="fas fa-sign-out-alt"></i> Déconnexion</button>' +
+                    '</div>' +
+                    '<div style="margin-top:16px;"><a href="#" style="color:var(--primary);font-weight:600;" onclick="showToast(\'Création de compte\',\'info\')"><i class="fas fa-user-plus"></i> Créer un compte</a></div>';
                 break;
+
             case 'livre-blanc':
-                html = '<h2>📄 Livre blanc</h2>' +
-                    '<p><i class="fas fa-file-pdf" style="color:var(--secondary);"></i> Guide commerce de gros 2026</p>' +
-                    '<p><i class="fas fa-file-pdf" style="color:var(--secondary);"></i> Stratégies d\'approvisionnement</p>' +
-                    '<p><i class="fas fa-file-pdf" style="color:var(--secondary);"></i> Analyse des marchés émergents</p>';
+                html = '<div class="profile-page-title"><i class="fas fa-file-pdf" style="color:var(--secondary);"></i> Livre blanc</div>' +
+                    '<ul class="profile-list">' +
+                    '<li><i class="fas fa-file-pdf" style="color:var(--secondary);"></i> Guide commerce de gros 2026 <span class="badge-status active">Disponible</span></li>' +
+                    '<li><i class="fas fa-file-pdf" style="color:var(--secondary);"></i> Stratégies d\'approvisionnement <span class="badge-status active">Disponible</span></li>' +
+                    '<li><i class="fas fa-file-pdf" style="color:var(--secondary);"></i> Analyse des marchés émergents <span class="badge-status inactive">À venir</span></li>' +
+                    '</ul>' +
+                    '<div class="profile-action-btn"><button class="btn btn-primary btn-sm" onclick="showToast(\'Téléchargement en cours...\',\'info\')"><i class="fas fa-download"></i> Télécharger tous les PDF</button></div>';
                 break;
+
             case 'mes-produits':
-                html = '<h2>📦 Mes produits</h2>' +
-                    '<div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid #f0f2f5;">' +
-                    '<span><i class="fas fa-headphones"></i> Écouteurs Bluetooth</span>' +
+                html = '<div class="profile-page-title"><i class="fas fa-boxes"></i> Mes produits</div>' +
+                    '<div style="display:flex;flex-direction:column;gap:8px;">' +
+                    '<div style="display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid #f0f2f5;">' +
+                    '<span><i class="fas fa-headphones" style="color:var(--primary);"></i> Écouteurs Bluetooth</span>' +
                     '<span class="text-muted">Stock: 5000</span>' +
-                    '<button class="btn btn-sm btn-outline">Modifier</button>' +
+                    '<button class="btn btn-sm btn-outline" onclick="showToast(\'Modifier le produit\',\'info\')">Modifier</button>' +
                     '</div>' +
-                    '<div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;">' +
-                    '<span><i class="fas fa-watch"></i> Montre connectée</span>' +
+                    '<div style="display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid #f0f2f5;">' +
+                    '<span><i class="fas fa-watch" style="color:var(--primary);"></i> Montre connectée</span>' +
                     '<span class="text-muted">Stock: 120</span>' +
-                    '<button class="btn btn-sm btn-outline">Modifier</button>' +
-                    '</div>';
+                    '<button class="btn btn-sm btn-outline" onclick="showToast(\'Modifier le produit\',\'info\')">Modifier</button>' +
+                    '</div>' +
+                    '</div>' +
+                    '<div class="profile-action-btn"><button class="btn btn-primary btn-sm" onclick="window.openPublish()"><i class="fas fa-plus"></i> Ajouter un produit</button></div>';
                 break;
+
             case 'historique':
-                html = '<h2>🕒 Historique</h2>' +
-                    '<p><i class="fas fa-receipt"></i> 24/11/2024 - Commande #GB-001 - 120 Pi</p>' +
-                    '<p><i class="fas fa-receipt"></i> 20/11/2024 - Commande #GB-002 - 1200 Pi</p>' +
-                    '<p><i class="fas fa-receipt"></i> 15/11/2024 - Commande #GB-003 - 850 Pi</p>';
+                html = '<div class="profile-page-title"><i class="fas fa-history"></i> Historique</div>' +
+                    '<ul class="profile-list">' +
+                    '<li><i class="fas fa-receipt" style="color:var(--secondary);"></i> 24/11/2024 - Commande #GB-001 - 120 Pi <span class="badge-status active">Livré</span></li>' +
+                    '<li><i class="fas fa-receipt" style="color:var(--secondary);"></i> 20/11/2024 - Commande #GB-002 - 1200 Pi <span class="badge-status active">En cours</span></li>' +
+                    '<li><i class="fas fa-receipt" style="color:var(--secondary);"></i> 15/11/2024 - Commande #GB-003 - 850 Pi <span class="badge-status inactive">Annulée</span></li>' +
+                    '</ul>' +
+                    '<div class="profile-action-btn"><button class="btn btn-outline btn-sm" onclick="showToast(\'Voir tout l\'historique\',\'info\')"><i class="fas fa-eye"></i> Voir tout</button></div>';
                 break;
+
             case 'achats-ventes':
-                html = '<h2>📊 Achats & Ventes</h2>' +
-                    '<div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">' +
-                    '<div style="background:var(--gray-light);padding:16px;text-align:center;border-radius:var(--radius-sm);">' +
-                    '<span style="font-size:24px;font-weight:700;color:var(--primary);"><i class="fas fa-shopping-cart"></i> 12</span><br><span class="text-muted">Achats</span>' +
+                html = '<div class="profile-page-title"><i class="fas fa-chart-line"></i> Achats & Ventes</div>' +
+                    '<div class="profile-grid-2">' +
+                    '<div class="stat-card"><span class="number">12</span><span class="label">Achats</span></div>' +
+                    '<div class="stat-card"><span class="number">8</span><span class="label">Ventes</span></div>' +
                     '</div>' +
-                    '<div style="background:var(--gray-light);padding:16px;text-align:center;border-radius:var(--radius-sm);">' +
-                    '<span style="font-size:24px;font-weight:700;color:var(--primary);"><i class="fas fa-chart-line"></i> 8</span><br><span class="text-muted">Ventes</span>' +
-                    '</div>' +
+                    '<div style="margin-top:12px;padding:12px;background:var(--gray-light);border-radius:var(--radius-sm);">' +
+                    '<p style="font-weight:600;color:var(--primary);"><i class="fas fa-arrow-up" style="color:#4caf50;"></i> Chiffre d\'affaires total : 45 230 π</p>' +
                     '</div>';
                 break;
+
             case 'faq':
-                html = '<h2>❓ FAQ</h2>' +
-                    '<div style="margin-bottom:16px;"><strong>Comment acheter en gros ?</strong><br><span class="text-muted">Trouvez un produit, ajoutez-le au panier et passez commande.</span></div>' +
-                    '<div style="margin-bottom:16px;"><strong>Les produits sont-ils vérifiés ?</strong><br><span class="text-muted">Oui, nous vérifions rigoureusement chaque fournisseur.</span></div>' +
-                    '<div><strong>Quels sont les délais de livraison ?</strong><br><span class="text-muted">Généralement 5 à 10 jours ouvrés selon la destination.</span></div>';
+                html = '<div class="profile-page-title"><i class="fas fa-question-circle"></i> FAQ</div>' +
+                    '<div class="faq-item"><div class="question">❓ Comment acheter en gros ?</div><div class="answer">Trouvez un produit, ajoutez-le au panier et passez commande. Vous recevrez une confirmation par email.</div></div>' +
+                    '<div class="faq-item"><div class="question">❓ Les produits sont-ils vérifiés ?</div><div class="answer">Oui, nous vérifions rigoureusement chaque fournisseur avant de l\'intégrer à notre plateforme.</div></div>' +
+                    '<div class="faq-item"><div class="question">❓ Quels sont les délais de livraison ?</div><div class="answer">Généralement 5 à 10 jours ouvrés selon la destination et le mode d\'expédition choisi.</div></div>' +
+                    '<div class="faq-item"><div class="question">❓ Comment contacter un fournisseur ?</div><div class="answer">Utilisez le bouton "Contacter" sur la page du produit ou envoyez un message via votre espace messagerie.</div></div>';
                 break;
+
             default:
-                html = '<h2>🏠 Bienvenue</h2><p>Sélectionnez une option.</p>';
+                html = '<div class="profile-page-title"><i class="fas fa-home"></i> Bienvenue</div><p>Sélectionnez une option dans le menu.</p>';
         }
+
         content.innerHTML = html;
     }
 
+    // ===== PUBLISH IMAGE UPLOAD =====
     var uploadedImages = [];
 
     document.getElementById('pImages').addEventListener('change', function(e) {
@@ -759,6 +797,7 @@
         renderUploadPreview();
     };
 
+    // ===== CART =====
     window.addToCart = function(id) {
         var p = products.find(function(x) { return x.id === id; });
         if (!p) return;
@@ -854,6 +893,7 @@
         toggleCart();
     });
 
+    // ===== STATS =====
     function animateStats() {
         document.querySelectorAll('.stats-grid .stat-item .number').forEach(function(el) {
             var target = parseInt(el.getAttribute('data-count'));
@@ -867,6 +907,7 @@
         });
     }
 
+    // ===== BOTTOM NAV =====
     document.querySelectorAll('.bottom-nav .nav-item').forEach(function(btn) {
         btn.addEventListener('click', function() {
             var page = this.getAttribute('data-page');
@@ -878,16 +919,12 @@
                 window.openPublish();
                 return;
             }
-            document.getElementById('productDetail').style.display = 'none';
-            document.getElementById('publishSection').style.display = 'none';
-            document.getElementById('profileSection').style.display = 'none';
-            document.querySelectorAll('.section:not(.page-secondary)').forEach(function(s) { s.style.display = 'block'; });
-
+            showMainContent();
             document.querySelectorAll('.bottom-nav .nav-item').forEach(function(b) { b.classList.remove('active'); });
             this.classList.add('active');
 
             var sections = {
-                home: ['categoriesSection', 'productsSection', 'suppliersSection'],
+                home: ['productsSection', 'suppliersSection'],
                 market: ['productsSection'],
                 suppliers: ['suppliersSection']
             };
@@ -898,13 +935,14 @@
                 if (el) el.style.display = 'block';
             });
             if (page === 'home') {
-                document.getElementById('productDetail').style.display = 'none';
-                document.getElementById('publishSection').style.display = 'none';
-                document.getElementById('profileSection').style.display = 'none';
+                document.getElementById('productsSection').style.display = 'block';
+                document.getElementById('suppliersSection').style.display = 'block';
             }
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         });
     });
 
+    // ===== PROFIL - ÉCOUTEURS =====
     document.querySelectorAll('.profile-betix-item').forEach(function(item) {
         item.addEventListener('click', function() {
             var tab = this.getAttribute('data-tab');
@@ -912,6 +950,7 @@
         });
     });
 
+    // ===== FLOATING BUTTON & FOOTER =====
     document.getElementById('btnPublishFloating').addEventListener('click', function() { window.openPublish(); });
 
     document.getElementById('footerPublish').addEventListener('click', function(e) {
@@ -926,6 +965,7 @@
         }, 100);
     });
 
+    // ===== PUBLISH FORM =====
     document.getElementById('publishForm').addEventListener('submit', function(e) {
         e.preventDefault();
         var name = document.getElementById('pName').value.trim();
@@ -974,6 +1014,7 @@
         renderCategoryFilters();
     });
 
+    // ===== POPULATE FORM SELECTS =====
     function populateFormSelects() {
         var pCategory = document.getElementById('pCategory');
         if (pCategory) {
@@ -991,6 +1032,7 @@
         }
     }
 
+    // ===== INIT =====
     simulateLoader(function() {
         renderCategoryFilters();
         renderProducts();
