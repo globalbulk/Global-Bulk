@@ -1,7 +1,6 @@
 (function() {
     'use strict';
 
-    // ===== CATÉGORIES =====
     var categories = [
         { icon: 'fa-laptop', name: 'Électronique', count: 1240 },
         { icon: 'fa-tshirt', name: 'Mode', count: 980 },
@@ -25,7 +24,6 @@
         { icon: 'fa-paw', name: 'Animalerie', count: 95 }
     ];
 
-    // ===== PRODUITS =====
     var products = [{
         id: 1,
         name: 'Smartphone Galaxy S24',
@@ -256,9 +254,8 @@
     ];
 
     var selectedCountry = '';
-    var selectedCategory = '';
+    var selectedCategory = 'all';
 
-    // ===== UTILITIES =====
     function formatNumber(n) {
         return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
     }
@@ -280,7 +277,6 @@
         }, 3500);
     }
 
-    // ===== LOADER =====
     function simulateLoader(callback) {
         var bar = document.getElementById('loaderBar');
         var text = document.getElementById('loaderText');
@@ -302,7 +298,6 @@
             if (bar) bar.style.width = progress + '%';
             if (text) text.textContent = 'Chargement ' + progress + '%';
         }, 120);
-        // Sécurité
         setTimeout(function() {
             var loader = document.getElementById('globalLoader');
             if (loader && !loader.classList.contains('hidden')) {
@@ -314,7 +309,6 @@
         }, 5000);
     }
 
-    // ===== SLIDER =====
     function initSlider() {
         var slides = [
             {
@@ -394,26 +388,49 @@
         }
     }
 
-    // ===== RENDER CATEGORIES =====
-    function renderCategories() {
-        var row = document.getElementById('categoryRow');
-        if (!row) return;
-        row.innerHTML = categories.map(function(c) {
-            return '<div class="category-item" onclick="selectCategory(\'' + c.name + '\')">' +
-                '<i class="fas ' + c.icon + ' icon"></i>' +
-                '<div class="name">' + c.name + '</div>' +
-                '<div class="count">' + formatNumber(c.count) + '</div>' +
-                '</div>';
-        }).join('');
+    function renderCategoryFilters() {
+        var container = document.getElementById('categoryFilterList');
+        if (!container) return;
+        container.innerHTML = '';
+
+        var allNames = ['Tous'].concat(categories.map(function(c) { return c.name; }));
+
+        allNames.forEach(function(catName, index) {
+            var btn = document.createElement('button');
+            btn.className = 'filter-cat' + (index === 0 ? ' active' : '');
+            btn.setAttribute('data-cat', catName === 'Tous' ? 'all' : catName);
+            btn.textContent = catName;
+            btn.addEventListener('click', function() {
+                selectCategoryFilter(btn.getAttribute('data-cat'));
+            });
+            container.appendChild(btn);
+        });
+
+        document.querySelectorAll('.filter-cat').forEach(function(btn) {
+            if (btn.getAttribute('data-cat') === selectedCategory) {
+                btn.classList.add('active');
+            } else {
+                btn.classList.remove('active');
+            }
+        });
     }
 
-    function selectCategory(cat) {
-        selectedCategory = cat;
+    function selectCategoryFilter(catName) {
+        selectedCategory = catName;
+        document.querySelectorAll('.filter-cat').forEach(function(btn) {
+            btn.classList.remove('active');
+            if (btn.getAttribute('data-cat') === catName) {
+                btn.classList.add('active');
+            }
+        });
         applyFilters();
-        showToast('Catégorie : ' + cat, 'info');
+        if (catName === 'all') {
+            showToast('Toutes les catégories', 'info');
+        } else {
+            showToast('Catégorie : ' + catName, 'info');
+        }
     }
 
-    // ===== RENDER PRODUCTS =====
     function renderProducts(list) {
         list = list || products;
         var grid = document.getElementById('productGrid');
@@ -447,7 +464,6 @@
         if (countEl) countEl.textContent = list.length + ' produits';
     }
 
-    // ===== RENDER SUPPLIERS =====
     function renderSuppliers() {
         var grid = document.getElementById('supplierGrid');
         if (!grid) return;
@@ -466,11 +482,10 @@
         }).join('');
     }
 
-    // ===== FILTRES =====
     function setupFilters() {
         var countrySelect = document.getElementById('filterCountry');
         if (countrySelect) {
-            countrySelect.innerHTML = '<option value="">🌍 Tous les pays</option>';
+            countrySelect.innerHTML = '<option value="">Tous</option>';
             allCountries.forEach(function(c) {
                 countrySelect.innerHTML += '<option value="' + c + '">' + c + '</option>';
             });
@@ -486,13 +501,12 @@
         if (selectedCountry) {
             filtered = filtered.filter(function(p) { return p.country === selectedCountry; });
         }
-        if (selectedCategory) {
+        if (selectedCategory && selectedCategory !== 'all') {
             filtered = filtered.filter(function(p) { return p.category === selectedCategory; });
         }
         renderProducts(filtered);
     }
 
-    // ===== SEARCH =====
     document.getElementById('searchToggle').addEventListener('click', function() {
         document.getElementById('searchDropdown').classList.toggle('open');
     });
@@ -515,12 +529,13 @@
         document.getElementById('searchDropdown').classList.remove('open');
     }
 
-    // ===== PRODUCT DETAIL =====
     window.showProductDetail = function(id) {
         var p = products.find(function(x) { return x.id === id; });
         if (!p) return;
-        document.querySelectorAll('.section').forEach(function(s) { s.style.display = 'none'; });
-        document.getElementById('productDetail').style.display = 'block';
+        document.querySelectorAll('.section:not(.page-secondary)').forEach(function(s) { s.style.display = 'none'; });
+        var detailSection = document.getElementById('productDetail');
+        detailSection.style.display = 'block';
+        document.getElementById('productDetailTitle').textContent = p.name;
         var content = document.getElementById('productDetailContent');
         if (!content) return;
 
@@ -571,28 +586,141 @@
 
     window.closeProductDetail = function() {
         document.getElementById('productDetail').style.display = 'none';
-        ['productsSection', 'suppliersSection', 'categoriesSection'].forEach(function(id) {
-            var el = document.getElementById(id);
-            if (el) el.style.display = 'block';
-        });
+        document.querySelectorAll('.section:not(.page-secondary)').forEach(function(s) { s.style.display = 'block'; });
         document.getElementById('publishSection').style.display = 'none';
+        document.getElementById('profileSection').style.display = 'none';
+        document.querySelectorAll('.bottom-nav .nav-item').forEach(function(b) { b.classList.remove('active'); });
+        document.querySelector('.bottom-nav .nav-item[data-page="home"]').classList.add('active');
     };
 
-    // ===== PUBLISH =====
     window.openPublish = function() {
-        document.querySelectorAll('.section').forEach(function(s) { s.style.display = 'none'; });
+        document.querySelectorAll('.section:not(.page-secondary)').forEach(function(s) { s.style.display = 'none'; });
         document.getElementById('publishSection').style.display = 'block';
+        document.getElementById('productDetail').style.display = 'none';
+        document.getElementById('profileSection').style.display = 'none';
         window.scrollTo({ top: 0, behavior: 'smooth' });
     };
     window.closePublish = function() {
         document.getElementById('publishSection').style.display = 'none';
-        ['productsSection', 'suppliersSection', 'categoriesSection'].forEach(function(id) {
-            var el = document.getElementById(id);
-            if (el) el.style.display = 'block';
-        });
+        document.querySelectorAll('.section:not(.page-secondary)').forEach(function(s) { s.style.display = 'block'; });
+        document.getElementById('productDetail').style.display = 'none';
+        document.getElementById('profileSection').style.display = 'none';
+        document.querySelectorAll('.bottom-nav .nav-item').forEach(function(b) { b.classList.remove('active'); });
+        document.querySelector('.bottom-nav .nav-item[data-page="home"]').classList.add('active');
     };
 
-    // ===== PUBLISH IMAGE UPLOAD =====
+    window.openProfile = function() {
+        document.querySelectorAll('.section:not(.page-secondary)').forEach(function(s) { s.style.display = 'none'; });
+        document.getElementById('profileSection').style.display = 'block';
+        document.getElementById('productDetail').style.display = 'none';
+        document.getElementById('publishSection').style.display = 'none';
+        var firstTab = document.querySelector('.profile-betix-item');
+        if (firstTab) {
+            activateProfileBetixTab(firstTab.getAttribute('data-tab'));
+        }
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
+    window.closeProfile = function() {
+        document.getElementById('profileSection').style.display = 'none';
+        document.querySelectorAll('.section:not(.page-secondary)').forEach(function(s) { s.style.display = 'block'; });
+        document.getElementById('productDetail').style.display = 'none';
+        document.getElementById('publishSection').style.display = 'none';
+        document.querySelectorAll('.bottom-nav .nav-item').forEach(function(b) { b.classList.remove('active'); });
+        document.querySelector('.bottom-nav .nav-item[data-page="home"]').classList.add('active');
+    };
+
+    function activateProfileBetixTab(tabId) {
+        document.querySelectorAll('.profile-betix-item').forEach(function(item) {
+            item.classList.remove('active');
+            if (item.getAttribute('data-tab') === tabId) {
+                item.classList.add('active');
+            }
+        });
+
+        var content = document.getElementById('profileContent');
+        if (!content) return;
+
+        var html = '';
+        function line(icon, text) {
+            return '<p><i class="fas ' + icon + '"></i> ' + text + '</p>';
+        }
+
+        switch (tabId) {
+            case 'profil':
+                html = '<h2>👤 Mon profil</h2>' +
+                    line('fa-user-circle', 'Jean Dupont') +
+                    line('fa-envelope', 'jean.dupont@email.com') +
+                    line('fa-phone', '+33 6 12 34 56 78') +
+                    line('fa-flag', 'France') +
+                    line('fa-briefcase', 'Acheteur professionnel');
+                break;
+            case 'parametres':
+                html = '<h2>⚙️ Paramètres</h2>' +
+                    line('fa-bell', 'Notifications : Activées') +
+                    line('fa-language', 'Langue : Français') +
+                    line('fa-palette', 'Thème : Clair') +
+                    line('fa-lock', 'Authentification à deux facteurs : Désactivée');
+                break;
+            case 'langues':
+                html = '<h2>🌐 Langues</h2>' +
+                    '<p><i class="fas fa-check-circle" style="color:#4caf50;"></i> Français (actif)</p>' +
+                    '<p><i class="fas fa-circle" style="color:#ccc;"></i> English</p>' +
+                    '<p><i class="fas fa-circle" style="color:#ccc;"></i> Español</p>' +
+                    '<p><i class="fas fa-circle" style="color:#ccc;"></i> العربية</p>';
+                break;
+            case 'connexion':
+                html = '<h2>🔐 Connexion</h2>' +
+                    '<p><button class="btn btn-primary" onclick="showToast(\'Connexion...\',\'info\')">Se connecter <i class="fas fa-sign-in-alt"></i></button></p>' +
+                    '<p><a href="#" style="color: var(--primary); font-weight:600;">Créer un compte <i class="fas fa-user-plus"></i></a></p>';
+                break;
+            case 'livre-blanc':
+                html = '<h2>📄 Livre blanc</h2>' +
+                    '<p><i class="fas fa-file-pdf" style="color:var(--secondary);"></i> Guide commerce de gros 2026</p>' +
+                    '<p><i class="fas fa-file-pdf" style="color:var(--secondary);"></i> Stratégies d\'approvisionnement</p>' +
+                    '<p><i class="fas fa-file-pdf" style="color:var(--secondary);"></i> Analyse des marchés émergents</p>';
+                break;
+            case 'mes-produits':
+                html = '<h2>📦 Mes produits</h2>' +
+                    '<div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid #f0f2f5;">' +
+                    '<span><i class="fas fa-headphones"></i> Écouteurs Bluetooth</span>' +
+                    '<span class="text-muted">Stock: 5000</span>' +
+                    '<button class="btn btn-sm btn-outline">Modifier</button>' +
+                    '</div>' +
+                    '<div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;">' +
+                    '<span><i class="fas fa-watch"></i> Montre connectée</span>' +
+                    '<span class="text-muted">Stock: 120</span>' +
+                    '<button class="btn btn-sm btn-outline">Modifier</button>' +
+                    '</div>';
+                break;
+            case 'historique':
+                html = '<h2>🕒 Historique</h2>' +
+                    '<p><i class="fas fa-receipt"></i> 24/11/2024 - Commande #GB-001 - 120 Pi</p>' +
+                    '<p><i class="fas fa-receipt"></i> 20/11/2024 - Commande #GB-002 - 1200 Pi</p>' +
+                    '<p><i class="fas fa-receipt"></i> 15/11/2024 - Commande #GB-003 - 850 Pi</p>';
+                break;
+            case 'achats-ventes':
+                html = '<h2>📊 Achats & Ventes</h2>' +
+                    '<div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">' +
+                    '<div style="background:var(--gray-light);padding:16px;text-align:center;border-radius:var(--radius-sm);">' +
+                    '<span style="font-size:24px;font-weight:700;color:var(--primary);"><i class="fas fa-shopping-cart"></i> 12</span><br><span class="text-muted">Achats</span>' +
+                    '</div>' +
+                    '<div style="background:var(--gray-light);padding:16px;text-align:center;border-radius:var(--radius-sm);">' +
+                    '<span style="font-size:24px;font-weight:700;color:var(--primary);"><i class="fas fa-chart-line"></i> 8</span><br><span class="text-muted">Ventes</span>' +
+                    '</div>' +
+                    '</div>';
+                break;
+            case 'faq':
+                html = '<h2>❓ FAQ</h2>' +
+                    '<div style="margin-bottom:16px;"><strong>Comment acheter en gros ?</strong><br><span class="text-muted">Trouvez un produit, ajoutez-le au panier et passez commande.</span></div>' +
+                    '<div style="margin-bottom:16px;"><strong>Les produits sont-ils vérifiés ?</strong><br><span class="text-muted">Oui, nous vérifions rigoureusement chaque fournisseur.</span></div>' +
+                    '<div><strong>Quels sont les délais de livraison ?</strong><br><span class="text-muted">Généralement 5 à 10 jours ouvrés selon la destination.</span></div>';
+                break;
+            default:
+                html = '<h2>🏠 Bienvenue</h2><p>Sélectionnez une option.</p>';
+        }
+        content.innerHTML = html;
+    }
+
     var uploadedImages = [];
 
     document.getElementById('pImages').addEventListener('change', function(e) {
@@ -631,7 +759,6 @@
         renderUploadPreview();
     };
 
-    // ===== CART =====
     window.addToCart = function(id) {
         var p = products.find(function(x) { return x.id === id; });
         if (!p) return;
@@ -727,7 +854,6 @@
         toggleCart();
     });
 
-    // ===== STATS ANIMATION =====
     function animateStats() {
         document.querySelectorAll('.stats-grid .stat-item .number').forEach(function(el) {
             var target = parseInt(el.getAttribute('data-count'));
@@ -741,185 +867,65 @@
         });
     }
 
-    // ===== BOTTOM NAV =====
     document.querySelectorAll('.bottom-nav .nav-item').forEach(function(btn) {
         btn.addEventListener('click', function() {
+            var page = this.getAttribute('data-page');
+            if (page === 'profile') {
+                window.openProfile();
+                return;
+            }
+            if (page === 'publish') {
+                window.openPublish();
+                return;
+            }
+            document.getElementById('productDetail').style.display = 'none';
+            document.getElementById('publishSection').style.display = 'none';
+            document.getElementById('profileSection').style.display = 'none';
+            document.querySelectorAll('.section:not(.page-secondary)').forEach(function(s) { s.style.display = 'block'; });
+
             document.querySelectorAll('.bottom-nav .nav-item').forEach(function(b) { b.classList.remove('active'); });
             this.classList.add('active');
-            var page = this.getAttribute('data-page');
+
             var sections = {
                 home: ['categoriesSection', 'productsSection', 'suppliersSection'],
                 market: ['productsSection'],
-                publish: ['publishSection'],
-                suppliers: ['suppliersSection'],
-                profile: ['profileSection']
+                suppliers: ['suppliersSection']
             };
-            document.querySelectorAll('.section').forEach(function(s) { s.style.display = 'none'; });
+            document.querySelectorAll('.section:not(.page-secondary)').forEach(function(s) { s.style.display = 'none'; });
             var ids = sections[page] || ['productsSection'];
             ids.forEach(function(id) {
                 var el = document.getElementById(id);
                 if (el) el.style.display = 'block';
             });
-            if (page === 'profile') activateProfileTab('profil');
             if (page === 'home') {
                 document.getElementById('productDetail').style.display = 'none';
                 document.getElementById('publishSection').style.display = 'none';
+                document.getElementById('profileSection').style.display = 'none';
             }
         });
     });
 
-    // ===== PROFIL =====
-    var profileContent = document.getElementById('profileContent');
-
-    function activateProfileTab(tabId) {
-        document.querySelectorAll('.profile-nav-item').forEach(function(item) {
-            item.classList.remove('active');
-        });
-        var activeBtn = document.querySelector('.profile-nav-item[data-tab="' + tabId + '"]');
-        if (activeBtn) activeBtn.classList.add('active');
-
-        var content = '';
-        function line(icon, text) {
-            return '<p style="display: flex; justify-content: flex-end; align-items: center; gap: 8px; direction: ltr; margin-bottom: 8px;">' +
-                '<span style="float: right; direction: rtl;">' + text + '</span>' +
-                '<i class="fas ' + icon + '" style="float: left; direction: ltr;"></i>' +
-                '</p>';
-        }
-
-        switch (tabId) {
-            case 'profil':
-                content = '<h2>👤 Mon profil</h2>' +
-                    line('fa-user-circle', 'Jean Dupont') +
-                    line('fa-envelope', 'jean.dupont@email.com') +
-                    line('fa-phone', '+33 6 12 34 56 78') +
-                    line('fa-flag', 'France') +
-                    line('fa-briefcase', 'Acheteur professionnel');
-                break;
-            case 'parametres':
-                content = '<h2>⚙️ Paramètres</h2>' +
-                    line('fa-bell', 'Notifications : Activées') +
-                    line('fa-language', 'Langue : Français') +
-                    line('fa-palette', 'Thème : Clair') +
-                    line('fa-lock', 'Authentification à deux facteurs : Désactivée');
-                break;
-            case 'langues':
-                content = '<h2>🌐 Langues</h2>' +
-                    line('fa-check-circle', 'Français (actif)') +
-                    line('fa-circle', 'English') +
-                    line('fa-circle', 'Español') +
-                    line('fa-circle', 'العربية');
-                break;
-            case 'connexion':
-                content = '<h2>🔐 Connexion</h2>' +
-                    '<p style="display: flex; justify-content: flex-end; gap: 10px; align-items: center;">' +
-                    '<button class="btn btn-primary" onclick="showToast(\'Connexion...\',\'info\')">Se connecter <i class="fas fa-sign-in-alt"></i></button>' +
-                    '</p>' +
-                    '<p style="display: flex; justify-content: flex-end; gap: 10px; align-items: center;">' +
-                    '<a href="#" style="color: var(--primary);">Créer un compte <i class="fas fa-user-plus"></i></a>' +
-                    '</p>';
-                break;
-            case 'livre-blanc':
-                content = '<h2>📄 Livre blanc</h2>' +
-                    '<ul style="list-style: none; padding: 0; text-align: right;">' +
-                    '<li style="display: flex; justify-content: flex-end; align-items: center; gap: 8px; margin-bottom: 8px; direction: ltr;">' +
-                    '<span>Guide commerce de gros 2026</span><i class="fas fa-file-pdf" style="color:var(--secondary);"></i>' +
-                    '</li>' +
-                    '<li style="display: flex; justify-content: flex-end; align-items: center; gap: 8px; margin-bottom: 8px; direction: ltr;">' +
-                    '<span>Stratégies d\'approvisionnement</span><i class="fas fa-file-pdf" style="color:var(--secondary);"></i>' +
-                    '</li>' +
-                    '<li style="display: flex; justify-content: flex-end; align-items: center; gap: 8px; margin-bottom: 8px; direction: ltr;">' +
-                    '<span>Analyse des marchés émergents</span><i class="fas fa-file-pdf" style="color:var(--secondary);"></i>' +
-                    '</li>' +
-                    '</ul>';
-                break;
-            case 'mes-produits':
-                content = '<h2>📦 Mes produits</h2>' +
-                    '<div style="display: flex; flex-direction: column; align-items: flex-end; gap: 8px;">' +
-                    '<div style="display: flex; align-items: center; gap: 12px; direction: ltr;">' +
-                    '<button class="btn btn-sm btn-outline">Modifier</button>' +
-                    '<span class="text-muted">Stock: 5000</span>' +
-                    '<span><i class="fas fa-headphones"></i> Écouteurs Bluetooth</span>' +
-                    '</div>' +
-                    '<div style="display: flex; align-items: center; gap: 12px; direction: ltr;">' +
-                    '<button class="btn btn-sm btn-outline">Modifier</button>' +
-                    '<span class="text-muted">Stock: 120</span>' +
-                    '<span><i class="fas fa-watch"></i> Montre connectée</span>' +
-                    '</div>' +
-                    '</div>';
-                break;
-            case 'historique':
-                content = '<h2>🕒 Historique</h2>' +
-                    '<ul style="list-style: none; padding: 0; text-align: right;">' +
-                    '<li style="display: flex; justify-content: flex-end; align-items: center; gap: 8px; margin-bottom: 6px; direction: ltr;">' +
-                    '<span>24/11/2024 - Commande #GB-001 - 120 Pi</span><i class="fas fa-receipt"></i>' +
-                    '</li>' +
-                    '<li style="display: flex; justify-content: flex-end; align-items: center; gap: 8px; margin-bottom: 6px; direction: ltr;">' +
-                    '<span>20/11/2024 - Commande #GB-002 - 1200 Pi</span><i class="fas fa-receipt"></i>' +
-                    '</li>' +
-                    '<li style="display: flex; justify-content: flex-end; align-items: center; gap: 8px; margin-bottom: 6px; direction: ltr;">' +
-                    '<span>15/11/2024 - Commande #GB-003 - 850 Pi</span><i class="fas fa-receipt"></i>' +
-                    '</li>' +
-                    '</ul>';
-                break;
-            case 'achats-ventes':
-                content = '<h2>📊 Achats & Ventes</h2>' +
-                    '<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; direction: ltr;">' +
-                    '<div style="background: var(--gray-light); padding: 16px; text-align: center; direction: ltr;">' +
-                    '<span style="font-size: 24px; font-weight: 700; color: var(--primary);"><i class="fas fa-shopping-cart"></i> 12</span><br><span class="text-muted">Achats</span>' +
-                    '</div>' +
-                    '<div style="background: var(--gray-light); padding: 16px; text-align: center; direction: ltr;">' +
-                    '<span style="font-size: 24px; font-weight: 700; color: var(--primary);"><i class="fas fa-chart-line"></i> 8</span><br><span class="text-muted">Ventes</span>' +
-                    '</div>' +
-                    '</div>';
-                break;
-            case 'faq':
-                content = '<h2>❓ FAQ</h2>' +
-                    '<div style="text-align: right;">' +
-                    '<p style="display: flex; justify-content: flex-end; gap: 6px; align-items: center; direction: ltr; margin-bottom: 4px;">' +
-                    '<strong>Comment acheter en gros ?</strong> <i class="fas fa-question-circle" style="color: var(--secondary);"></i>' +
-                    '</p>' +
-                    '<p style="font-size: 14px; color: var(--text-muted); margin-right: 20px; text-align: right;">Trouvez un produit, ajoutez-le au panier et passez commande.</p>' +
-                    '<p style="display: flex; justify-content: flex-end; gap: 6px; align-items: center; direction: ltr; margin-bottom: 4px;">' +
-                    '<strong>Les produits sont-ils vérifiés ?</strong> <i class="fas fa-question-circle" style="color: var(--secondary);"></i>' +
-                    '</p>' +
-                    '<p style="font-size: 14px; color: var(--text-muted); margin-right: 20px; text-align: right;">Oui, nous vérifions rigoureusement chaque fournisseur.</p>' +
-                    '<p style="display: flex; justify-content: flex-end; gap: 6px; align-items: center; direction: ltr; margin-bottom: 4px;">' +
-                    '<strong>Quels sont les délais de livraison ?</strong> <i class="fas fa-question-circle" style="color: var(--secondary);"></i>' +
-                    '</p>' +
-                    '<p style="font-size: 14px; color: var(--text-muted); margin-right: 20px; text-align: right;">Généralement 5 à 10 jours ouvrés selon la destination.</p>' +
-                    '</div>';
-                break;
-            default:
-                content = '<h2>🏠 Bienvenue</h2><p>Sélectionnez une option dans le menu de gauche.</p>';
-        }
-        if (profileContent) profileContent.innerHTML = content;
-    }
-
-    document.querySelectorAll('.profile-nav-item').forEach(function(item) {
+    document.querySelectorAll('.profile-betix-item').forEach(function(item) {
         item.addEventListener('click', function() {
             var tab = this.getAttribute('data-tab');
-            activateProfileTab(tab);
+            activateProfileBetixTab(tab);
         });
     });
 
-    // ===== FLOATING BUTTONS =====
     document.getElementById('btnPublishFloating').addEventListener('click', function() { window.openPublish(); });
-    document.getElementById('profileToggle').addEventListener('click', function() {
-        document.querySelector('.bottom-nav .nav-item[data-page="profile"]').click();
-    });
 
-    // ===== FOOTER LIENS =====
     document.getElementById('footerPublish').addEventListener('click', function(e) {
         e.preventDefault();
         window.openPublish();
     });
     document.getElementById('footerFaq').addEventListener('click', function(e) {
         e.preventDefault();
-        document.querySelector('.bottom-nav .nav-item[data-page="profile"]').click();
-        setTimeout(function() { activateProfileTab('faq'); }, 100);
+        window.openProfile();
+        setTimeout(function() {
+            activateProfileBetixTab('faq');
+        }, 100);
     });
 
-    // ===== PUBLISH FORM =====
     document.getElementById('publishForm').addEventListener('submit', function(e) {
         e.preventDefault();
         var name = document.getElementById('pName').value.trim();
@@ -965,10 +971,9 @@
         window.closePublish();
         var cat = categories.find(function(c) { return c.name === category; });
         if (cat) cat.count++;
-        renderCategories();
+        renderCategoryFilters();
     });
 
-    // ===== POPULATE FORM SELECTS =====
     function populateFormSelects() {
         var pCategory = document.getElementById('pCategory');
         if (pCategory) {
@@ -986,9 +991,8 @@
         }
     }
 
-    // ===== INIT =====
     simulateLoader(function() {
-        renderCategories();
+        renderCategoryFilters();
         renderProducts();
         renderSuppliers();
         setupFilters();
