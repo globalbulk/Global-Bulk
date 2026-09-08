@@ -25,7 +25,7 @@
         { icon: 'fa-paw', name: 'Animalerie', count: 95 }
     ];
 
-    // ===== PRODUITS AVEC VRAIES IMAGES =====
+    // ===== PRODUITS =====
     var products = [{
         id: 1,
         name: 'Smartphone Galaxy S24',
@@ -281,7 +281,7 @@
     }
 
     // ===== LOADER =====
-    function simulateLoader() {
+    function simulateLoader(callback) {
         var bar = document.getElementById('loaderBar');
         var text = document.getElementById('loaderText');
         var progress = 0;
@@ -293,18 +293,25 @@
                 text.textContent = 'Prêt !';
                 setTimeout(function() {
                     var loader = document.getElementById('globalLoader');
-                    if (loader) loader.style.display = 'none';
-                }, 500);
+                    if (loader) loader.classList.add('hidden');
+                    var app = document.getElementById('appContent');
+                    if (app) app.style.display = 'block';
+                    if (typeof callback === 'function') callback();
+                }, 400);
             }
             if (bar) bar.style.width = progress + '%';
             if (text) text.textContent = 'Chargement ' + progress + '%';
         }, 120);
+        // Sécurité
         setTimeout(function() {
             var loader = document.getElementById('globalLoader');
-            if (loader && loader.style.display !== 'none') {
-                loader.style.display = 'none';
+            if (loader && !loader.classList.contains('hidden')) {
+                loader.classList.add('hidden');
+                var app = document.getElementById('appContent');
+                if (app) app.style.display = 'block';
+                if (typeof callback === 'function') callback();
             }
-        }, 6000);
+        }, 5000);
     }
 
     // ===== SLIDER =====
@@ -758,9 +765,6 @@
                 document.getElementById('productDetail').style.display = 'none';
                 document.getElementById('publishSection').style.display = 'none';
             }
-            var loader = document.getElementById('globalLoader');
-            if (loader) loader.style.display = 'flex';
-            setTimeout(function() { if (loader) loader.style.display = 'none'; }, 400);
         });
     });
 
@@ -775,36 +779,118 @@
         if (activeBtn) activeBtn.classList.add('active');
 
         var content = '';
+        function line(icon, text) {
+            return '<p style="display: flex; justify-content: flex-end; align-items: center; gap: 8px; direction: ltr; margin-bottom: 8px;">' +
+                '<span style="float: right; direction: rtl;">' + text + '</span>' +
+                '<i class="fas ' + icon + '" style="float: left; direction: ltr;"></i>' +
+                '</p>';
+        }
+
         switch (tabId) {
             case 'profil':
-                content = '<h2>Mon profil</h2><p>Nom : Jean Dupont<br>Email : jean.dupont@email.com<br>Téléphone : +33 6 12 34 56 78<br>Pays : France<br>Rôle : Acheteur professionnel</p>';
+                content = '<h2>👤 Mon profil</h2>' +
+                    line('fa-user-circle', 'Jean Dupont') +
+                    line('fa-envelope', 'jean.dupont@email.com') +
+                    line('fa-phone', '+33 6 12 34 56 78') +
+                    line('fa-flag', 'France') +
+                    line('fa-briefcase', 'Acheteur professionnel');
                 break;
             case 'parametres':
-                content = '<h2>Paramètres</h2><p>Gérez vos préférences</p><div class="card"><p><strong>Notifications :</strong> Activées</p><p><strong>Langue :</strong> Français</p><p><strong>Thème :</strong> Clair</p></div>';
+                content = '<h2>⚙️ Paramètres</h2>' +
+                    line('fa-bell', 'Notifications : Activées') +
+                    line('fa-language', 'Langue : Français') +
+                    line('fa-palette', 'Thème : Clair') +
+                    line('fa-lock', 'Authentification à deux facteurs : Désactivée');
                 break;
             case 'langues':
-                content = '<h2>Langues</h2><div class="card"><select style="padding:10px;border-radius:var(--radius-sm);border:1px solid #dce0e6;width:100%;max-width:300px;"><option>Français</option><option>English</option><option>Español</option></select></div>';
+                content = '<h2>🌐 Langues</h2>' +
+                    line('fa-check-circle', 'Français (actif)') +
+                    line('fa-circle', 'English') +
+                    line('fa-circle', 'Español') +
+                    line('fa-circle', 'العربية');
                 break;
             case 'connexion':
-                content = '<h2>Connexion</h2><div class="card"><button class="btn btn-primary" onclick="showToast(\'Connexion...\',\'info\')"><i class="fas fa-sign-in-alt"></i> Se connecter</button></div>';
+                content = '<h2>🔐 Connexion</h2>' +
+                    '<p style="display: flex; justify-content: flex-end; gap: 10px; align-items: center;">' +
+                    '<button class="btn btn-primary" onclick="showToast(\'Connexion...\',\'info\')">Se connecter <i class="fas fa-sign-in-alt"></i></button>' +
+                    '</p>' +
+                    '<p style="display: flex; justify-content: flex-end; gap: 10px; align-items: center;">' +
+                    '<a href="#" style="color: var(--primary);">Créer un compte <i class="fas fa-user-plus"></i></a>' +
+                    '</p>';
                 break;
             case 'livre-blanc':
-                content = '<h2>Livre blanc</h2><div class="card"><ul><li><i class="fas fa-file-pdf" style="color:var(--secondary);"></i> Guide commerce de gros 2026</li><li><i class="fas fa-file-pdf" style="color:var(--secondary);"></i> Stratégies d\'approvisionnement</li></ul></div>';
+                content = '<h2>📄 Livre blanc</h2>' +
+                    '<ul style="list-style: none; padding: 0; text-align: right;">' +
+                    '<li style="display: flex; justify-content: flex-end; align-items: center; gap: 8px; margin-bottom: 8px; direction: ltr;">' +
+                    '<span>Guide commerce de gros 2026</span><i class="fas fa-file-pdf" style="color:var(--secondary);"></i>' +
+                    '</li>' +
+                    '<li style="display: flex; justify-content: flex-end; align-items: center; gap: 8px; margin-bottom: 8px; direction: ltr;">' +
+                    '<span>Stratégies d\'approvisionnement</span><i class="fas fa-file-pdf" style="color:var(--secondary);"></i>' +
+                    '</li>' +
+                    '<li style="display: flex; justify-content: flex-end; align-items: center; gap: 8px; margin-bottom: 8px; direction: ltr;">' +
+                    '<span>Analyse des marchés émergents</span><i class="fas fa-file-pdf" style="color:var(--secondary);"></i>' +
+                    '</li>' +
+                    '</ul>';
                 break;
             case 'mes-produits':
-                content = '<h2>Mes produits</h2><div class="card"><div class="product-row"><span><i class="fas fa-headphones"></i> Écouteurs Bluetooth</span><span class="text-muted">Stock: 5000</span><button class="btn btn-sm btn-outline">Modifier</button></div></div>';
+                content = '<h2>📦 Mes produits</h2>' +
+                    '<div style="display: flex; flex-direction: column; align-items: flex-end; gap: 8px;">' +
+                    '<div style="display: flex; align-items: center; gap: 12px; direction: ltr;">' +
+                    '<button class="btn btn-sm btn-outline">Modifier</button>' +
+                    '<span class="text-muted">Stock: 5000</span>' +
+                    '<span><i class="fas fa-headphones"></i> Écouteurs Bluetooth</span>' +
+                    '</div>' +
+                    '<div style="display: flex; align-items: center; gap: 12px; direction: ltr;">' +
+                    '<button class="btn btn-sm btn-outline">Modifier</button>' +
+                    '<span class="text-muted">Stock: 120</span>' +
+                    '<span><i class="fas fa-watch"></i> Montre connectée</span>' +
+                    '</div>' +
+                    '</div>';
                 break;
             case 'historique':
-                content = '<h2>Historique</h2><div class="card"><ul><li><strong>24/11/2024</strong> - Commande #GB-001 - 120 Pi</li><li><strong>20/11/2024</strong> - Commande #GB-002 - 1200 Pi</li></ul></div>';
+                content = '<h2>🕒 Historique</h2>' +
+                    '<ul style="list-style: none; padding: 0; text-align: right;">' +
+                    '<li style="display: flex; justify-content: flex-end; align-items: center; gap: 8px; margin-bottom: 6px; direction: ltr;">' +
+                    '<span>24/11/2024 - Commande #GB-001 - 120 Pi</span><i class="fas fa-receipt"></i>' +
+                    '</li>' +
+                    '<li style="display: flex; justify-content: flex-end; align-items: center; gap: 8px; margin-bottom: 6px; direction: ltr;">' +
+                    '<span>20/11/2024 - Commande #GB-002 - 1200 Pi</span><i class="fas fa-receipt"></i>' +
+                    '</li>' +
+                    '<li style="display: flex; justify-content: flex-end; align-items: center; gap: 8px; margin-bottom: 6px; direction: ltr;">' +
+                    '<span>15/11/2024 - Commande #GB-003 - 850 Pi</span><i class="fas fa-receipt"></i>' +
+                    '</li>' +
+                    '</ul>';
                 break;
             case 'achats-ventes':
-                content = '<h2>Achats & Ventes</h2><div class="card"><div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;"><div style="background:var(--gray-light);padding:16px;text-align:center;"><span style="font-size:24px;font-weight:700;color:var(--primary);">12</span><br><span class="text-muted">Achats</span></div><div style="background:var(--gray-light);padding:16px;text-align:center;"><span style="font-size:24px;font-weight:700;color:var(--primary);">8</span><br><span class="text-muted">Ventes</span></div></div></div>';
+                content = '<h2>📊 Achats & Ventes</h2>' +
+                    '<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; direction: ltr;">' +
+                    '<div style="background: var(--gray-light); padding: 16px; text-align: center; direction: ltr;">' +
+                    '<span style="font-size: 24px; font-weight: 700; color: var(--primary);"><i class="fas fa-shopping-cart"></i> 12</span><br><span class="text-muted">Achats</span>' +
+                    '</div>' +
+                    '<div style="background: var(--gray-light); padding: 16px; text-align: center; direction: ltr;">' +
+                    '<span style="font-size: 24px; font-weight: 700; color: var(--primary);"><i class="fas fa-chart-line"></i> 8</span><br><span class="text-muted">Ventes</span>' +
+                    '</div>' +
+                    '</div>';
                 break;
             case 'faq':
-                content = '<h2>FAQ</h2><div class="card"><p><strong>Comment acheter en gros ?</strong><br>Trouvez un produit, ajoutez au panier et commandez.</p><p><strong>Les produits sont-ils vérifiés ?</strong><br>Oui, nous vérifions les fournisseurs.</p></div>';
+                content = '<h2>❓ FAQ</h2>' +
+                    '<div style="text-align: right;">' +
+                    '<p style="display: flex; justify-content: flex-end; gap: 6px; align-items: center; direction: ltr; margin-bottom: 4px;">' +
+                    '<strong>Comment acheter en gros ?</strong> <i class="fas fa-question-circle" style="color: var(--secondary);"></i>' +
+                    '</p>' +
+                    '<p style="font-size: 14px; color: var(--text-muted); margin-right: 20px; text-align: right;">Trouvez un produit, ajoutez-le au panier et passez commande.</p>' +
+                    '<p style="display: flex; justify-content: flex-end; gap: 6px; align-items: center; direction: ltr; margin-bottom: 4px;">' +
+                    '<strong>Les produits sont-ils vérifiés ?</strong> <i class="fas fa-question-circle" style="color: var(--secondary);"></i>' +
+                    '</p>' +
+                    '<p style="font-size: 14px; color: var(--text-muted); margin-right: 20px; text-align: right;">Oui, nous vérifions rigoureusement chaque fournisseur.</p>' +
+                    '<p style="display: flex; justify-content: flex-end; gap: 6px; align-items: center; direction: ltr; margin-bottom: 4px;">' +
+                    '<strong>Quels sont les délais de livraison ?</strong> <i class="fas fa-question-circle" style="color: var(--secondary);"></i>' +
+                    '</p>' +
+                    '<p style="font-size: 14px; color: var(--text-muted); margin-right: 20px; text-align: right;">Généralement 5 à 10 jours ouvrés selon la destination.</p>' +
+                    '</div>';
                 break;
             default:
-                content = '<h2>Bienvenue</h2><p>Sélectionnez une option.</p>';
+                content = '<h2>🏠 Bienvenue</h2><p>Sélectionnez une option dans le menu de gauche.</p>';
         }
         if (profileContent) profileContent.innerHTML = content;
     }
@@ -901,15 +987,16 @@
     }
 
     // ===== INIT =====
-    simulateLoader();
-    renderCategories();
-    renderProducts();
-    renderSuppliers();
-    setupFilters();
-    populateFormSelects();
-    updateCartBadge();
-    initSlider();
-    setTimeout(animateStats, 600);
-    setTimeout(function() { showToast('Bienvenue sur Global Bulk', 'success'); }, 1000);
+    simulateLoader(function() {
+        renderCategories();
+        renderProducts();
+        renderSuppliers();
+        setupFilters();
+        populateFormSelects();
+        updateCartBadge();
+        initSlider();
+        setTimeout(animateStats, 300);
+        setTimeout(function() { showToast('Bienvenue sur Global Bulk', 'success'); }, 500);
+    });
 
 })();
