@@ -11,7 +11,7 @@
 </head>
 <body>
 
-    <!-- ===== LOADER PLEIN ÉCRAN ===== -->
+    <!-- ===== LOADER ===== -->
     <div id="globalLoader" class="global-loader-fullscreen">
         <div class="loader-content">
             <div class="loader-track"><div class="loader-bar" id="loaderBar" style="width:0%;"></div></div>
@@ -19,13 +19,13 @@
         </div>
     </div>
 
-    <!-- ===== CONTENU DE L'APPLICATION ===== -->
+    <!-- ===== CONTENU ===== -->
     <div id="appContent" style="display:none;">
 
-        <!-- ===== HEADER ===== -->
+        <!-- HEADER -->
         <header class="header">
             <div class="header-inner container">
-                <a href="#" class="logo">
+                <a href="index.html" class="logo">
                     <span class="logo-icon">GB</span>
                     <span class="logo-text">GLOBAL<span>BULK</span></span>
                 </a>
@@ -33,7 +33,6 @@
                     <button class="icon-btn search-toggle" id="searchToggle"><i class="fas fa-search"></i></button>
                     <button class="icon-btn"><i class="fas fa-envelope"></i><span class="badge-count">3</span></button>
                     <button class="icon-btn cart-toggle" id="cartToggle"><i class="fas fa-shopping-bag"></i><span class="badge-count" id="cartBadge">0</span></button>
-                    <button class="icon-btn profile-btn" id="profileToggle"><i class="fas fa-user"></i></button>
                 </div>
             </div>
             <div class="search-dropdown" id="searchDropdown">
@@ -47,7 +46,7 @@
             </div>
         </header>
 
-        <!-- ===== BOTTOM NAV ===== -->
+        <!-- BOTTOM NAV -->
         <nav class="bottom-nav">
             <button class="nav-item active" data-page="home"><i class="fas fa-home"></i><span>Accueil</span></button>
             <button class="nav-item" data-page="market"><i class="fas fa-store"></i><span>Marché</span></button>
@@ -56,10 +55,10 @@
             <button class="nav-item" data-page="profile"><i class="fas fa-user"></i><span>Profil</span></button>
         </nav>
 
-        <!-- ===== FLOATING PUBLISH BUTTON ===== -->
+        <!-- FLOATING PUBLISH BUTTON -->
         <button class="btn-publish-floating" id="btnPublishFloating"><i class="fas fa-plus"></i> Publier</button>
 
-        <!-- ===== SLIDER ===== -->
+        <!-- SLIDER -->
         <section class="slider-section">
             <div class="slider-container">
                 <div class="slider-track" id="sliderTrack"></div>
@@ -69,26 +68,23 @@
             </div>
         </section>
 
-        <!-- ===== FILTRE PAYS ===== -->
-        <div class="country-filter-section container">
-            <select id="filterCountry" class="country-select">
-                <option value="">🌍 Tous les pays</option>
-            </select>
+        <!-- ===== FILTRE PAYS ET CATÉGORIES ===== -->
+        <div class="filter-bar container">
+            <div class="filter-country">
+                <label><i class="fas fa-globe"></i> Pays</label>
+                <select id="filterCountry" class="country-select">
+                    <option value="">Tous</option>
+                </select>
+            </div>
+            <div class="filter-categories-scroll">
+                <div class="filter-categories" id="categoryFilterList">
+                    <!-- Généré par JS -->
+                </div>
+            </div>
         </div>
 
-        <!-- ===== MAIN CONTENT ===== -->
+        <!-- MAIN CONTENT -->
         <main class="container">
-
-            <!-- ===== CATÉGORIES ===== -->
-            <section class="section" id="categoriesSection">
-                <div class="section-header">
-                    <h2>Catégories</h2>
-                    <a href="#">Voir tout <i class="fas fa-arrow-right"></i></a>
-                </div>
-                <div class="category-scroll">
-                    <div class="category-row" id="categoryRow"></div>
-                </div>
-            </section>
 
             <!-- ===== MARKETPLACE ===== -->
             <section class="section marketplace" id="productsSection">
@@ -118,15 +114,21 @@
                 </div>
             </section>
 
-            <!-- ===== PRODUCT DETAIL ===== -->
-            <section class="section" id="productDetail" style="display:none;">
-                <button class="btn-back" onclick="closeProductDetail()"><i class="fas fa-arrow-left"></i> Retour</button>
+            <!-- ===== DÉTAIL PRODUIT (page secondaire) ===== -->
+            <section class="section page-secondary" id="productDetail" style="display:none;">
+                <div class="page-header">
+                    <button class="btn-back" onclick="closeProductDetail()"><i class="fas fa-arrow-left"></i> Retour</button>
+                    <h2 class="page-title" id="productDetailTitle">Détail produit</h2>
+                </div>
                 <div class="card product-detail-card" id="productDetailContent"></div>
             </section>
 
-            <!-- ===== PUBLISH ===== -->
-            <section class="section" id="publishSection" style="display:none;">
-                <button class="btn-back" onclick="closePublish()"><i class="fas fa-arrow-left"></i> Retour</button>
+            <!-- ===== PUBLIER (page secondaire) ===== -->
+            <section class="section page-secondary" id="publishSection" style="display:none;">
+                <div class="page-header">
+                    <button class="btn-back" onclick="closePublish()"><i class="fas fa-arrow-left"></i> Retour</button>
+                    <h2 class="page-title">Publier un produit</h2>
+                </div>
                 <div class="publish-card-social">
                     <div class="publish-header">
                         <div class="publish-avatar">GB</div>
@@ -184,37 +186,79 @@
                 </div>
             </section>
 
-            <!-- ===== PROFIL ===== -->
-            <section class="section" id="profileSection" style="display:none;">
-                <div class="profile-container">
-                    <div class="profile-sidebar">
-                        <div class="profile-user">
-                            <div class="profile-avatar-large">JD</div>
-                            <div class="profile-name">Jean Dupont</div>
-                            <div class="profile-role">Acheteur professionnel</div>
-                        </div>
-                        <nav class="profile-nav">
-                            <button class="profile-nav-item active" data-tab="profil"><i class="fas fa-user"></i> Mon profil</button>
-                            <button class="profile-nav-item" data-tab="parametres"><i class="fas fa-sliders-h"></i> Paramètres</button>
-                            <button class="profile-nav-item" data-tab="langues"><i class="fas fa-globe"></i> Langues</button>
-                            <button class="profile-nav-item" data-tab="connexion"><i class="fas fa-sign-in-alt"></i> Connexion</button>
-                            <button class="profile-nav-item" data-tab="livre-blanc"><i class="fas fa-file-pdf"></i> Livre blanc</button>
-                            <button class="profile-nav-item" data-tab="mes-produits"><i class="fas fa-boxes"></i> Mes produits</button>
-                            <button class="profile-nav-item" data-tab="historique"><i class="fas fa-history"></i> Historique</button>
-                            <button class="profile-nav-item" data-tab="achats-ventes"><i class="fas fa-chart-line"></i> Achats & Ventes</button>
-                            <button class="profile-nav-item" data-tab="faq"><i class="fas fa-question-circle"></i> FAQ</button>
-                        </nav>
+            <!-- ===== PROFIL (page secondaire - style Betix) ===== -->
+            <section class="section page-secondary" id="profileSection" style="display:none;">
+                <div class="page-header">
+                    <button class="btn-back" onclick="closeProfile()"><i class="fas fa-arrow-left"></i> Retour</button>
+                    <h2 class="page-title">Mon profil</h2>
+                </div>
+                <div class="profile-betix-container">
+                    <div class="profile-betix-header">
+                        <div class="profile-avatar-large">JD</div>
+                        <div class="profile-name">Jean Dupont</div>
+                        <div class="profile-role">Acheteur professionnel</div>
                     </div>
-                    <div class="profile-content" id="profileContent">
-                        <h2>Bienvenue sur votre profil</h2>
-                        <p>Sélectionnez une option dans le menu de gauche.</p>
+                    <nav class="profile-betix-nav">
+                        <button class="profile-betix-item active" data-tab="profil">
+                            <i class="fas fa-user-circle"></i>
+                            <span>Mon profil</span>
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+                        <button class="profile-betix-item" data-tab="parametres">
+                            <i class="fas fa-sliders-h"></i>
+                            <span>Paramètres</span>
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+                        <button class="profile-betix-item" data-tab="langues">
+                            <i class="fas fa-globe"></i>
+                            <span>Langues</span>
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+                        <button class="profile-betix-item" data-tab="connexion">
+                            <i class="fas fa-sign-in-alt"></i>
+                            <span>Connexion</span>
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+                        <button class="profile-betix-item" data-tab="livre-blanc">
+                            <i class="fas fa-file-pdf"></i>
+                            <span>Livre blanc</span>
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+                        <button class="profile-betix-item" data-tab="mes-produits">
+                            <i class="fas fa-boxes"></i>
+                            <span>Mes produits</span>
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+                        <button class="profile-betix-item" data-tab="historique">
+                            <i class="fas fa-history"></i>
+                            <span>Historique</span>
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+                        <button class="profile-betix-item" data-tab="achats-ventes">
+                            <i class="fas fa-chart-line"></i>
+                            <span>Achats & Ventes</span>
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+                        <button class="profile-betix-item" data-tab="faq">
+                            <i class="fas fa-question-circle"></i>
+                            <span>FAQ</span>
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+                    </nav>
+                    <div class="profile-betix-content" id="profileContent">
+                        <h2>👤 Mon profil</h2>
+                        <p><i class="fas fa-user-circle"></i> Jean Dupont</p>
+                        <p><i class="fas fa-envelope"></i> jean.dupont@email.com</p>
+                        <p><i class="fas fa-phone"></i> +33 6 12 34 56 78</p>
+                        <p><i class="fas fa-flag"></i> France</p>
+                        <p><i class="fas fa-briefcase"></i> Acheteur professionnel</p>
                     </div>
                 </div>
             </section>
 
         </main>
 
-        <!-- ===== CART ===== -->
+        <!-- CART -->
         <div class="cart-overlay" id="cartOverlay">
             <div class="cart-panel">
                 <div class="cart-header">
@@ -231,7 +275,7 @@
             </div>
         </div>
 
-        <!-- ===== FOOTER ===== -->
+        <!-- FOOTER -->
         <footer class="footer">
             <div class="container">
                 <div class="footer-grid">
@@ -248,19 +292,18 @@
                     <div class="footer-col">
                         <h4>Liens rapides</h4>
                         <ul>
-                            <li><a href="#">Accueil</a></li>
-                            <li><a href="#">Marché</a></li>
-                            <li><a href="#">Fournisseurs</a></li>
+                            <li><a href="index.html">Accueil</a></li>
+                            <li><a href="index.html#market">Marché</a></li>
+                            <li><a href="index.html#suppliers">Fournisseurs</a></li>
                             <li><a href="#" id="footerPublish">Publier</a></li>
                         </ul>
                     </div>
                     <div class="footer-col">
                         <h4>À propos</h4>
                         <ul>
-                            <li><a href="#">Qui sommes-nous ?</a></li>
-                            <li><a href="#">Carrières</a></li>
-                            <li><a href="#">CGU</a></li>
-                            <li><a href="#">Confidentialité</a></li>
+                            <li><a href="whitepaper.html">Livre blanc</a></li>
+                            <li><a href="terms.html">CGU</a></li>
+                            <li><a href="privacy.html">Confidentialité</a></li>
                             <li><a href="#" id="footerFaq">FAQ</a></li>
                         </ul>
                     </div>
