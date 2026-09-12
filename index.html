@@ -8,7 +8,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
     <link rel="stylesheet" href="style.css" />
-    <!-- SDK Pi Network officiel -->
+    <!-- SDK Pi Network -->
     <script src="https://socialchain.app/sdk.js"></script>
 </head>
 <body>
@@ -18,6 +18,22 @@
         <div class="loader-content">
             <div class="loader-track"><div class="loader-bar" id="loaderBar" style="width:0%;"></div></div>
             <span id="loaderText" class="loader-text">Chargement...</span>
+        </div>
+    </div>
+
+    <!-- MODALE D'AUTHENTIFICATION REQUISE -->
+    <div id="authRequiredModal" class="auth-modal">
+        <div class="auth-modal-content">
+            <div class="auth-modal-icon">
+                <i class="fab fa-pi"></i>
+            </div>
+            <h2>Connexion Pi requise</h2>
+            <p id="authModalMessage">Vous devez vous connecter avec Pi Network pour continuer.</p>
+            <button class="auth-modal-btn" id="authModalConnectBtn">
+                <i class="fab fa-pi"></i>
+                <span>Se connecter avec Pi</span>
+            </button>
+            <button class="auth-modal-cancel" id="authModalCancelBtn">Annuler</button>
         </div>
     </div>
 
@@ -130,10 +146,10 @@
             </div>
             <div class="publish-card-social">
                 <div class="publish-header">
-                    <div class="publish-avatar">GB</div>
+                    <div class="publish-avatar" id="publishAvatar">GB</div>
                     <div class="publish-user">
-                        <span class="publish-name">Global Bulk</span>
-                        <span class="publish-handle">@globalbulk</span>
+                        <span class="publish-name" id="publishName">Global Bulk</span>
+                        <span class="publish-handle" id="publishHandle">@globalbulk</span>
                     </div>
                 </div>
                 <form id="publishForm" class="publish-form-social">
@@ -183,17 +199,14 @@
             </div>
 
             <div class="profile-wrapper">
-                <!-- ===== CARTE COMPTE PI ===== -->
+                <!-- Carte compte Pi -->
                 <div class="pi-account-card" id="piAccountCard">
                     <div class="pi-avatar" id="piAvatar">
                         <i class="fab fa-pi"></i>
                     </div>
-                    <div class="pi-account-info">
-                        <h2 class="pi-account-username" id="piAccountUsername">Non connecté</h2>
-                        <p class="pi-account-subtitle" id="piAccountSubtitle">Connectez-vous avec Pi Network</p>
-                    </div>
+                    <h2 class="pi-account-username" id="piAccountUsername">Non connecté</h2>
+                    <p class="pi-account-subtitle" id="piAccountSubtitle">Connectez-vous avec Pi Network</p>
 
-                    <!-- Bouton dynamique (Connexion / Déconnexion) -->
                     <button class="pi-action-btn" id="piActionBtn">
                         <i class="fab fa-pi"></i>
                         <span id="piActionText">Connecter avec Pi Network</span>
@@ -202,7 +215,7 @@
                     <div class="pi-account-hint" id="piAccountHint"></div>
                 </div>
 
-                <!-- ===== MENU ===== -->
+                <!-- Menu -->
                 <div class="profile-menu">
                     <button class="menu-item" data-tab="monprofil">
                         <div class="menu-icon"><i class="fas fa-user"></i></div>
@@ -283,12 +296,6 @@
                     <div class="footer-col">
                         <div class="logo"><span class="logo-icon">GB</span><span class="logo-text">GLOBAL<span>BULK</span></span></div>
                         <p class="footer-desc">La plateforme B2B de référence pour le commerce de gros international.</p>
-                        <div class="footer-social">
-                            <a href="#"><i class="fab fa-facebook-f"></i></a>
-                            <a href="#"><i class="fab fa-twitter"></i></a>
-                            <a href="#"><i class="fab fa-linkedin-in"></i></a>
-                            <a href="#"><i class="fab fa-instagram"></i></a>
-                        </div>
                     </div>
                     <div class="footer-col">
                         <h4>Liens rapides</h4>
