@@ -8,6 +8,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
     <link rel="stylesheet" href="style.css" />
+    <!-- ===== PI NETWORK SDK ===== -->
+    <script src="https://socialchain.app/sdk.js"></script>
 </head>
 <body>
 
@@ -30,6 +32,11 @@
                     <span class="logo-text">GLOBAL<span>BULK</span></span>
                 </a>
                 <div class="header-actions">
+                    <!-- Badge utilisateur Pi (visible si connecté) -->
+                    <button class="pi-user-badge" id="piUserBadge" style="display:none;" onclick="window.openProfile()" title="Mon compte Pi">
+                        <i class="fas fa-user-astronaut"></i>
+                        <span id="piUsername">Guest</span>
+                    </button>
                     <button class="icon-btn search-toggle" id="searchToggle"><i class="fas fa-search"></i></button>
                     <button class="icon-btn"><i class="fas fa-envelope"></i><span class="badge-count">3</span></button>
                     <button class="icon-btn cart-toggle" id="cartToggle"><i class="fas fa-shopping-bag"></i><span class="badge-count" id="cartBadge">0</span></button>
@@ -60,8 +67,6 @@
 
         <!-- PAGE D'ACCUEIL -->
         <div id="mainContent">
-
-            <!-- SLIDER -->
             <section class="slider-section">
                 <div class="slider-container">
                     <div class="slider-track" id="sliderTrack"></div>
@@ -71,7 +76,6 @@
                 </div>
             </section>
 
-            <!-- FILTRES -->
             <div class="filter-bar container">
                 <div class="filter-country">
                     <label><i class="fas fa-globe"></i> Pays</label>
@@ -84,7 +88,6 @@
                 </div>
             </div>
 
-            <!-- MAIN CONTENT -->
             <main class="container">
                 <section class="section marketplace" id="productsSection">
                     <div class="marketplace-header">
@@ -190,11 +193,16 @@
             </div>
             <div class="profile-betix-container">
                 <div class="profile-betix-header">
-                    <div class="profile-avatar-large">JD</div>
-                    <div class="profile-name">Jean Dupont</div>
-                    <div class="profile-role">Acheteur professionnel</div>
+                    <div class="profile-avatar-large" id="profileAvatarLarge">?</div>
+                    <div class="profile-name" id="profileNameDisplay">Non connecté</div>
+                    <div class="profile-role" id="profileRoleDisplay">Connectez-vous avec Pi</div>
                 </div>
                 <nav class="profile-betix-nav">
+                    <button class="profile-betix-item" data-tab="connexion">
+                        <i class="fas fa-sign-in-alt"></i>
+                        <span>Connexion Pi</span>
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
                     <button class="profile-betix-item active" data-tab="profil">
                         <i class="fas fa-user-circle"></i>
                         <span>Mon profil</span>
@@ -208,11 +216,6 @@
                     <button class="profile-betix-item" data-tab="langues">
                         <i class="fas fa-globe"></i>
                         <span>Langues</span>
-                        <i class="fas fa-chevron-right"></i>
-                    </button>
-                    <button class="profile-betix-item" data-tab="connexion">
-                        <i class="fas fa-sign-in-alt"></i>
-                        <span>Connexion</span>
                         <i class="fas fa-chevron-right"></i>
                     </button>
                     <button class="profile-betix-item" data-tab="livre-blanc">
@@ -241,9 +244,7 @@
                         <i class="fas fa-chevron-right"></i>
                     </button>
                 </nav>
-                <div class="profile-betix-content" id="profileContent">
-                    <!-- Contenu généré par JavaScript -->
-                </div>
+                <div class="profile-betix-content" id="profileContent"></div>
             </div>
         </section>
 
@@ -259,7 +260,9 @@
                 </div>
                 <div class="cart-footer" id="cartFooter" style="display:none;">
                     <div class="cart-total"><span>Total</span><span id="cartTotalPrice">0 π</span></div>
-                    <button class="btn btn-primary btn-block" id="checkoutBtn">Checkout <i class="fas fa-arrow-right"></i></button>
+                    <button class="btn btn-primary btn-block" id="checkoutBtn">
+                        <i class="fab fa-pi"></i> Payer avec Pi
+                    </button>
                 </div>
             </div>
         </div>
