@@ -8,7 +8,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
     <link rel="stylesheet" href="style.css" />
-    <!-- ===== PI NETWORK SDK ===== -->
+    <!-- SDK Pi Network -->
     <script src="https://socialchain.app/sdk.js"></script>
 </head>
 <body>
@@ -32,14 +32,13 @@
                     <span class="logo-text">GLOBAL<span>BULK</span></span>
                 </a>
                 <div class="header-actions">
-                    <!-- Badge utilisateur Pi (visible si connecté) -->
-                    <button class="pi-user-badge" id="piUserBadge" style="display:none;" onclick="window.openProfile()" title="Mon compte Pi">
-                        <i class="fas fa-user-astronaut"></i>
+                    <button class="pi-user-badge" id="piUserBadge" style="display:none;" onclick="window.openProfile()">
+                        <i class="fab fa-pi"></i>
                         <span id="piUsername">Guest</span>
                     </button>
-                    <button class="icon-btn search-toggle" id="searchToggle"><i class="fas fa-search"></i></button>
+                    <button class="icon-btn" id="searchToggle"><i class="fas fa-search"></i></button>
                     <button class="icon-btn"><i class="fas fa-envelope"></i><span class="badge-count">3</span></button>
-                    <button class="icon-btn cart-toggle" id="cartToggle"><i class="fas fa-shopping-bag"></i><span class="badge-count" id="cartBadge">0</span></button>
+                    <button class="icon-btn" id="cartToggle"><i class="fas fa-shopping-bag"></i><span class="badge-count" id="cartBadge">0</span></button>
                 </div>
             </div>
             <div class="search-dropdown" id="searchDropdown">
@@ -62,10 +61,10 @@
             <button class="nav-item" data-page="profile"><i class="fas fa-user"></i><span>Profil</span></button>
         </nav>
 
-        <!-- FLOATING PUBLISH BUTTON -->
+        <!-- FLOATING PUBLISH -->
         <button class="btn-publish-floating" id="btnPublishFloating"><i class="fas fa-plus"></i> Publier</button>
 
-        <!-- PAGE D'ACCUEIL -->
+        <!-- ACCUEIL -->
         <div id="mainContent">
             <section class="slider-section">
                 <div class="slider-container">
@@ -79,9 +78,7 @@
             <div class="filter-bar container">
                 <div class="filter-country">
                     <label><i class="fas fa-globe"></i> Pays</label>
-                    <select id="filterCountry" class="country-select">
-                        <option value="">Tous</option>
-                    </select>
+                    <select id="filterCountry"><option value="">Tous</option></select>
                 </div>
                 <div class="filter-categories-scroll">
                     <div class="filter-categories" id="categoryFilterList"></div>
@@ -116,7 +113,7 @@
             </main>
         </div>
 
-        <!-- PAGES SECONDAIRES -->
+        <!-- DÉTAIL PRODUIT -->
         <section class="section page-secondary" id="productDetail" style="display:none;">
             <div class="page-header">
                 <button class="btn-back" onclick="closeProductDetail()"><i class="fas fa-arrow-left"></i> Retour</button>
@@ -125,6 +122,7 @@
             <div class="card product-detail-card" id="productDetailContent"></div>
         </section>
 
+        <!-- PUBLIER -->
         <section class="section page-secondary" id="publishSection" style="display:none;">
             <div class="page-header">
                 <button class="btn-back" onclick="closePublish()"><i class="fas fa-arrow-left"></i> Retour</button>
@@ -138,18 +136,15 @@
                         <span class="publish-handle">@globalbulk</span>
                     </div>
                 </div>
-                <form id="publishForm" class="publish-form-social" enctype="multipart/form-data">
+                <form id="publishForm" class="publish-form-social">
                     <textarea id="pDescription" rows="5" placeholder="Décrivez votre produit en détail..." required></textarea>
                     <div class="publish-images-upload">
                         <label class="upload-label"><i class="fas fa-cloud-upload-alt"></i> Ajouter des photos (max 6)</label>
                         <input type="file" id="pImages" accept="image/*" multiple />
                         <div class="upload-preview" id="uploadPreview"></div>
-                        <span class="hint">Téléchargez jusqu'à 6 photos réelles de votre produit</span>
                     </div>
                     <div class="publish-fields">
-                        <div class="publish-row">
-                            <input type="text" id="pName" placeholder="Nom du produit *" required />
-                        </div>
+                        <div class="publish-row"><input type="text" id="pName" placeholder="Nom du produit *" required /></div>
                         <div class="publish-row">
                             <select id="pCategory" required><option value="">Catégorie *</option></select>
                             <select id="pCountry" required><option value="">Pays *</option></select>
@@ -172,11 +167,6 @@
                             <input type="text" id="pSupplier" placeholder="Fournisseur *" required />
                             <input type="number" id="pRating" step="0.1" min="0" max="5" placeholder="Note" value="4.5" />
                         </div>
-                        <div class="publish-row verify-row">
-                            <label class="publish-check">
-                                <input type="checkbox" id="pVerified" checked /> Produit vérifié
-                            </label>
-                        </div>
                     </div>
                     <button type="submit" class="btn btn-primary btn-block publish-submit">
                         <i class="fas fa-rocket"></i> Publier
@@ -191,64 +181,89 @@
                 <button class="btn-back" onclick="closeProfile()"><i class="fas fa-arrow-left"></i> Retour</button>
                 <h2 class="page-title">Mon profil</h2>
             </div>
-            <div class="profile-betix-container">
-                <div class="profile-betix-header">
-                    <div class="profile-avatar-large" id="profileAvatarLarge">?</div>
-                    <div class="profile-name" id="profileNameDisplay">Non connecté</div>
-                    <div class="profile-role" id="profileRoleDisplay">Connectez-vous avec Pi</div>
+
+            <div class="profile-wrapper">
+                <!-- En-tête utilisateur -->
+                <div class="profile-card-header" id="profileHeader">
+                    <div class="profile-avatar" id="profileAvatar">?</div>
+                    <h2 class="profile-username" id="profileUsername">Non connecté</h2>
+                    <p class="profile-subtitle" id="profileSubtitle">Connectez-vous avec Pi Network</p>
                 </div>
-                <nav class="profile-betix-nav">
-                    <button class="profile-betix-item" data-tab="connexion">
-                        <i class="fas fa-sign-in-alt"></i>
-                        <span>Connexion Pi</span>
-                        <i class="fas fa-chevron-right"></i>
+
+                <!-- Carte connexion Pi -->
+                <div class="profile-card" id="piConnectCard">
+                    <div class="pi-icon-circle">
+                        <i class="fab fa-pi"></i>
+                    </div>
+                    <p class="pi-message" id="piMessage">
+                        Connectez-vous pour accéder à toutes les fonctionnalités et effectuer des paiements.
+                    </p>
+                    <button class="btn-pi-connect" id="btnPiConnect">
+                        <i class="fab fa-pi"></i>
+                        <span id="btnPiConnectText">Connecter avec Pi Network</span>
                     </button>
-                    <button class="profile-betix-item active" data-tab="profil">
-                        <i class="fas fa-user-circle"></i>
-                        <span>Mon profil</span>
-                        <i class="fas fa-chevron-right"></i>
+                    <p class="pi-hint" id="piHint">
+                        <i class="fas fa-info-circle"></i>
+                        Ouvrez cette application dans <strong>Pi Browser</strong> pour vous connecter.
+                    </p>
+                </div>
+
+                <!-- Menu profil -->
+                <div class="profile-menu">
+                    <button class="profile-menu-item" data-tab="monprofil">
+                        <div class="menu-icon"><i class="fas fa-user-circle"></i></div>
+                        <span class="menu-label">Mon profil</span>
+                        <i class="fas fa-chevron-right menu-arrow"></i>
                     </button>
-                    <button class="profile-betix-item" data-tab="parametres">
-                        <i class="fas fa-sliders-h"></i>
-                        <span>Paramètres</span>
-                        <i class="fas fa-chevron-right"></i>
+                    <button class="profile-menu-item" data-tab="parametres">
+                        <div class="menu-icon"><i class="fas fa-sliders-h"></i></div>
+                        <span class="menu-label">Paramètres</span>
+                        <i class="fas fa-chevron-right menu-arrow"></i>
                     </button>
-                    <button class="profile-betix-item" data-tab="langues">
-                        <i class="fas fa-globe"></i>
-                        <span>Langues</span>
-                        <i class="fas fa-chevron-right"></i>
+                    <button class="profile-menu-item" data-tab="langues">
+                        <div class="menu-icon"><i class="fas fa-globe"></i></div>
+                        <span class="menu-label">Langues</span>
+                        <i class="fas fa-chevron-right menu-arrow"></i>
                     </button>
-                    <button class="profile-betix-item" data-tab="livre-blanc">
-                        <i class="fas fa-file-pdf"></i>
-                        <span>Livre blanc</span>
-                        <i class="fas fa-chevron-right"></i>
+                    <button class="profile-menu-item" data-tab="livre-blanc">
+                        <div class="menu-icon"><i class="fas fa-file-pdf"></i></div>
+                        <span class="menu-label">Livre blanc</span>
+                        <i class="fas fa-chevron-right menu-arrow"></i>
                     </button>
-                    <button class="profile-betix-item" data-tab="mes-produits">
-                        <i class="fas fa-boxes"></i>
-                        <span>Mes produits</span>
-                        <i class="fas fa-chevron-right"></i>
+                    <button class="profile-menu-item" data-tab="mes-produits">
+                        <div class="menu-icon"><i class="fas fa-boxes"></i></div>
+                        <span class="menu-label">Mes produits</span>
+                        <i class="fas fa-chevron-right menu-arrow"></i>
                     </button>
-                    <button class="profile-betix-item" data-tab="historique">
-                        <i class="fas fa-history"></i>
-                        <span>Historique</span>
-                        <i class="fas fa-chevron-right"></i>
+                    <button class="profile-menu-item" data-tab="historique">
+                        <div class="menu-icon"><i class="fas fa-history"></i></div>
+                        <span class="menu-label">Historique</span>
+                        <i class="fas fa-chevron-right menu-arrow"></i>
                     </button>
-                    <button class="profile-betix-item" data-tab="achats-ventes">
-                        <i class="fas fa-chart-line"></i>
-                        <span>Achats & Ventes</span>
-                        <i class="fas fa-chevron-right"></i>
+                    <button class="profile-menu-item" data-tab="achats-ventes">
+                        <div class="menu-icon"><i class="fas fa-chart-line"></i></div>
+                        <span class="menu-label">Achats & Ventes</span>
+                        <i class="fas fa-chevron-right menu-arrow"></i>
                     </button>
-                    <button class="profile-betix-item" data-tab="faq">
-                        <i class="fas fa-question-circle"></i>
-                        <span>FAQ</span>
-                        <i class="fas fa-chevron-right"></i>
+                    <button class="profile-menu-item" data-tab="faq">
+                        <div class="menu-icon"><i class="fas fa-question-circle"></i></div>
+                        <span class="menu-label">FAQ</span>
+                        <i class="fas fa-chevron-right menu-arrow"></i>
                     </button>
-                </nav>
-                <div class="profile-betix-content" id="profileContent"></div>
+                </div>
+            </div>
+
+            <!-- Sous-page du profil (contenu dynamique) -->
+            <div class="profile-subpage" id="profileSubpage" style="display:none;">
+                <div class="page-header">
+                    <button class="btn-back" onclick="closeProfileSubpage()"><i class="fas fa-arrow-left"></i> Retour</button>
+                    <h2 class="page-title" id="profileSubpageTitle">Détail</h2>
+                </div>
+                <div class="profile-subpage-content" id="profileSubpageContent"></div>
             </div>
         </section>
 
-        <!-- CART -->
+        <!-- PANIER -->
         <div class="cart-overlay" id="cartOverlay">
             <div class="cart-panel">
                 <div class="cart-header">
@@ -260,7 +275,7 @@
                 </div>
                 <div class="cart-footer" id="cartFooter" style="display:none;">
                     <div class="cart-total"><span>Total</span><span id="cartTotalPrice">0 π</span></div>
-                    <button class="btn btn-primary btn-block" id="checkoutBtn">
+                    <button class="btn-pi-pay" id="checkoutBtn">
                         <i class="fab fa-pi"></i> Payer avec Pi
                     </button>
                 </div>
@@ -285,9 +300,8 @@
                         <h4>Liens rapides</h4>
                         <ul>
                             <li><a href="index.html">Accueil</a></li>
-                            <li><a href="index.html#market">Marché</a></li>
-                            <li><a href="index.html#suppliers">Fournisseurs</a></li>
                             <li><a href="#" id="footerPublish">Publier</a></li>
+                            <li><a href="#" id="footerFaq">FAQ</a></li>
                         </ul>
                     </div>
                     <div class="footer-col">
@@ -296,37 +310,18 @@
                             <li><a href="whitepaper.html">Livre blanc</a></li>
                             <li><a href="terms.html">CGU</a></li>
                             <li><a href="privacy.html">Confidentialité</a></li>
-                            <li><a href="#" id="footerFaq">FAQ</a></li>
                         </ul>
                     </div>
                     <div class="footer-col">
                         <h4>Contact</h4>
                         <ul class="footer-contact">
                             <li><i class="fas fa-map-marker-alt"></i> 12 rue du Commerce, 75001 Paris</li>
-                            <li><i class="fas fa-phone"></i> +33 1 23 45 67 89</li>
                             <li><i class="fas fa-envelope"></i> contact@globalbulk.com</li>
                         </ul>
-                        <div class="footer-newsletter">
-                            <p>Newsletter</p>
-                            <div class="newsletter-input">
-                                <input type="email" placeholder="Votre email" />
-                                <button><i class="fas fa-arrow-right"></i></button>
-                            </div>
-                        </div>
                     </div>
                 </div>
                 <div class="footer-bottom">
                     <span>&copy; 2026 Global Bulk</span>
-                    <span class="footer-lang">
-                        <i class="fas fa-globe"></i>
-                        <select id="footerLangSelect">
-                            <option value="fr">Français</option>
-                            <option value="en">English</option>
-                            <option value="es">Español</option>
-                            <option value="ar">العربية</option>
-                            <option value="zh">中文</option>
-                        </select>
-                    </span>
                 </div>
             </div>
         </footer>
