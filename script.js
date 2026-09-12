@@ -25,55 +25,20 @@
         { icon: 'fa-paw', name: 'Animalerie', count: 95 }
     ];
 
-    var products = [{
-        id: 1, name: 'Smartphone Galaxy S24', price: 120, unit: 'Pi', minOrder: 10, stock: 850,
-        supplier: 'MobileTech GmbH', country: 'Allemagne', verified: true, rating: 4.9, category: 'Électronique',
-        images: ['https://images.unsplash.com/photo-1610945415295-d9bbf067e59c?w=600&h=400&fit=crop']
-    }, {
-        id: 2, name: 'Ordinateur Portable Pro', price: 450, unit: 'Pi', minOrder: 5, stock: 320,
-        supplier: 'TechImport SARL', country: 'Chine', verified: true, rating: 4.8, category: 'Électronique',
-        images: ['https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=600&h=400&fit=crop']
-    }, {
-        id: 3, name: 'Voiture Électrique Model 3', price: 35000, unit: 'Pi', minOrder: 1, stock: 45,
-        supplier: 'AutoGreen SA', country: 'USA', verified: true, rating: 4.7, category: 'Automobile',
-        images: ['https://images.unsplash.com/photo-1560958089-b8a1929cea89?w=600&h=400&fit=crop']
-    }, {
-        id: 4, name: 'T-shirt en coton bio', price: 2.5, unit: 'Pi', minOrder: 200, stock: 12000,
-        supplier: 'EcoWear SARL', country: 'France', verified: true, rating: 4.7, category: 'Mode',
-        images: ['https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=600&h=400&fit=crop']
-    }, {
-        id: 5, name: 'Chaussures de sport', price: 12, unit: 'Pi', minOrder: 50, stock: 320,
-        supplier: 'SportFoot Inc', country: 'USA', verified: false, rating: 4.2, category: 'Chaussures',
-        images: ['https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=600&h=400&fit=crop']
-    }, {
-        id: 6, name: 'Montre connectée', price: 35, unit: 'Pi', minOrder: 20, stock: 1500,
-        supplier: 'TechImport SARL', country: 'Chine', verified: true, rating: 4.6, category: 'Électronique',
-        images: ['https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=600&h=400&fit=crop']
-    }, {
-        id: 7, name: 'Lampe solaire 10W', price: 4.5, unit: 'Pi', minOrder: 100, stock: 3000,
-        supplier: 'GreenEnergy Ltd', country: 'Allemagne', verified: true, rating: 4.5, category: 'Énergie',
-        images: ['https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?w=600&h=400&fit=crop']
-    }, {
-        id: 8, name: 'Meubles de salon (set)', price: 180, unit: 'Pi', minOrder: 5, stock: 120,
-        supplier: 'HomeFurnish SARL', country: 'France', verified: false, rating: 4.0, category: 'Maison',
-        images: ['https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=600&h=400&fit=crop']
-    }, {
-        id: 9, name: 'Café Arabica 1kg', price: 3.2, unit: 'Pi', minOrder: 500, stock: 8000,
-        supplier: 'AgriExport Co', country: 'Colombie', verified: true, rating: 4.9, category: 'Alimentation',
-        images: ['https://images.unsplash.com/photo-1559056199-641a0ac8b55e?w=600&h=400&fit=crop']
-    }, {
-        id: 10, name: 'Crème Anti-Âge 50ml', price: 8, unit: 'Pi', minOrder: 100, stock: 2000,
-        supplier: 'BeautyLab SAS', country: 'France', verified: true, rating: 4.3, category: 'Beauté',
-        images: ['https://images.unsplash.com/photo-1556228578-0d85b1a4d571?w=600&h=400&fit=crop']
-    }, {
-        id: 11, name: 'Tracteur Agricole 4x4', price: 45000, unit: 'Pi', minOrder: 1, stock: 12,
-        supplier: 'AgriMachines Ltd', country: 'USA', verified: true, rating: 4.4, category: 'Agriculture',
-        images: ['https://images.unsplash.com/photo-1531816458010-4f4c24de72e1?w=600&h=400&fit=crop']
-    }, {
-        id: 12, name: 'Équipement de Chantier (set)', price: 220, unit: 'Pi', minOrder: 10, stock: 340,
-        supplier: 'BuildPro SARL', country: 'France', verified: false, rating: 3.9, category: 'Construction',
-        images: ['https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?w=600&h=400&fit=crop']
-    }];
+    var products = [
+        { id: 1, name: 'Smartphone Galaxy S24', price: 120, unit: 'Pi', minOrder: 10, stock: 850, supplier: 'MobileTech GmbH', country: 'Allemagne', verified: true, rating: 4.9, category: 'Électronique', images: ['https://images.unsplash.com/photo-1610945415295-d9bbf067e59c?w=600&h=400&fit=crop'] },
+        { id: 2, name: 'Ordinateur Portable Pro', price: 450, unit: 'Pi', minOrder: 5, stock: 320, supplier: 'TechImport SARL', country: 'Chine', verified: true, rating: 4.8, category: 'Électronique', images: ['https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=600&h=400&fit=crop'] },
+        { id: 3, name: 'Voiture Électrique Model 3', price: 35000, unit: 'Pi', minOrder: 1, stock: 45, supplier: 'AutoGreen SA', country: 'USA', verified: true, rating: 4.7, category: 'Automobile', images: ['https://images.unsplash.com/photo-1560958089-b8a1929cea89?w=600&h=400&fit=crop'] },
+        { id: 4, name: 'T-shirt en coton bio', price: 2.5, unit: 'Pi', minOrder: 200, stock: 12000, supplier: 'EcoWear SARL', country: 'France', verified: true, rating: 4.7, category: 'Mode', images: ['https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=600&h=400&fit=crop'] },
+        { id: 5, name: 'Chaussures de sport', price: 12, unit: 'Pi', minOrder: 50, stock: 320, supplier: 'SportFoot Inc', country: 'USA', verified: false, rating: 4.2, category: 'Chaussures', images: ['https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=600&h=400&fit=crop'] },
+        { id: 6, name: 'Montre connectée', price: 35, unit: 'Pi', minOrder: 20, stock: 1500, supplier: 'TechImport SARL', country: 'Chine', verified: true, rating: 4.6, category: 'Électronique', images: ['https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=600&h=400&fit=crop'] },
+        { id: 7, name: 'Lampe solaire 10W', price: 4.5, unit: 'Pi', minOrder: 100, stock: 3000, supplier: 'GreenEnergy Ltd', country: 'Allemagne', verified: true, rating: 4.5, category: 'Énergie', images: ['https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?w=600&h=400&fit=crop'] },
+        { id: 8, name: 'Meubles de salon (set)', price: 180, unit: 'Pi', minOrder: 5, stock: 120, supplier: 'HomeFurnish SARL', country: 'France', verified: false, rating: 4.0, category: 'Maison', images: ['https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=600&h=400&fit=crop'] },
+        { id: 9, name: 'Café Arabica 1kg', price: 3.2, unit: 'Pi', minOrder: 500, stock: 8000, supplier: 'AgriExport Co', country: 'Colombie', verified: true, rating: 4.9, category: 'Alimentation', images: ['https://images.unsplash.com/photo-1559056199-641a0ac8b55e?w=600&h=400&fit=crop'] },
+        { id: 10, name: 'Crème Anti-Âge 50ml', price: 8, unit: 'Pi', minOrder: 100, stock: 2000, supplier: 'BeautyLab SAS', country: 'France', verified: true, rating: 4.3, category: 'Beauté', images: ['https://images.unsplash.com/photo-1556228578-0d85b1a4d571?w=600&h=400&fit=crop'] },
+        { id: 11, name: 'Tracteur Agricole 4x4', price: 45000, unit: 'Pi', minOrder: 1, stock: 12, supplier: 'AgriMachines Ltd', country: 'USA', verified: true, rating: 4.4, category: 'Agriculture', images: ['https://images.unsplash.com/photo-1531816458010-4f4c24de72e1?w=600&h=400&fit=crop'] },
+        { id: 12, name: 'Équipement de Chantier (set)', price: 220, unit: 'Pi', minOrder: 10, stock: 340, supplier: 'BuildPro SARL', country: 'France', verified: false, rating: 3.9, category: 'Construction', images: ['https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?w=600&h=400&fit=crop'] }
+    ];
 
     var suppliers = [
         { name: 'TechImport SARL', country: 'Chine', verified: true, products: 340, rating: 4.8, responseRate: 96 },
@@ -116,61 +81,54 @@
         }, 4000);
     }
 
-    // ============ ATTENTE DU SDK PI ============
-    function waitForPiSdk(maxAttempts) {
-        maxAttempts = maxAttempts || 50;
+    // ============ DÉTECTION & INIT PI ============
+    function waitForPiSdk(maxMs) {
+        maxMs = maxMs || 5000;
         return new Promise(function(resolve, reject) {
-            var attempts = 0;
+            var start = Date.now();
             function check() {
                 if (typeof Pi !== 'undefined' && Pi.init && Pi.authenticate) {
-                    console.log('[Pi] ✅ SDK détecté après ' + attempts + ' tentatives');
+                    console.log('[Pi] ✅ SDK détecté après ' + (Date.now() - start) + 'ms');
                     resolve(true);
-                } else if (attempts >= maxAttempts) {
-                    console.warn('[Pi] ⏱️ Timeout : SDK non chargé après ' + maxAttempts + ' tentatives');
-                    reject(new Error('Pi SDK timeout'));
+                } else if (Date.now() - start > maxMs) {
+                    console.warn('[Pi] ⏱️ Timeout SDK après ' + maxMs + 'ms');
+                    reject(new Error('SDK timeout'));
                 } else {
-                    attempts++;
-                    setTimeout(check, 100);
+                    setTimeout(check, 150);
                 }
             }
             check();
         });
     }
 
-    // ============ DÉTECTION PI BROWSER ============
     function detectPiBrowser() {
         var uaIsPi = /PiBrowser/i.test(navigator.userAgent);
         var hasPi = typeof Pi !== 'undefined';
         inPiBrowser = uaIsPi || hasPi;
-        console.log('[Pi] UA Pi Browser:', uaIsPi, '| SDK présent:', hasPi, '| => inPiBrowser:', inPiBrowser);
+        console.log('[Pi] UA PiBrowser:', uaIsPi, '| SDK:', hasPi, '| =>', inPiBrowser);
         return inPiBrowser;
     }
 
-    // ============ INIT SDK PI ============
     function initPiSdk() {
-        if (!inPiBrowser) {
-            console.warn('[Pi] Pas dans Pi Browser');
-            return false;
-        }
+        if (!inPiBrowser) return false;
         try {
             Pi.init({ version: "2.0", sandbox: false });
             piReady = true;
-            console.log('[Pi] ✅ SDK initialisé avec succès');
+            console.log('[Pi] ✅ SDK initialisé');
             return true;
         } catch (e) {
-            console.error('[Pi] Erreur init :', e);
+            console.error('[Pi] ❌ Erreur init :', e);
             return false;
         }
     }
 
     // ============ AUTHENTIFICATION PI ============
     function onIncompletePaymentFound(payment) {
-        console.log('[Pi] Paiement incomplet détecté :', payment);
+        console.log('[Pi] Paiement incomplet :', payment);
     }
 
     function connectPi() {
-        console.log('[Pi] 🚀 Tentative de connexion...');
-        console.log('[Pi] État : inPiBrowser=' + inPiBrowser + ' piReady=' + piReady);
+        console.log('[Pi] 🚀 Connexion demandée');
 
         if (!inPiBrowser) {
             showToast('Ouvrez cette app dans Pi Browser', 'error');
@@ -178,68 +136,41 @@
         }
 
         if (!piReady && !initPiSdk()) {
-            showToast('Erreur init SDK Pi', 'error');
+            showToast('Erreur initialisation Pi SDK', 'error');
             return;
         }
 
-        if (typeof Pi === 'undefined' || !Pi.authenticate) {
-            showToast('SDK Pi introuvable', 'error');
-            return;
-        }
-
-        // Bouton en chargement
         var btn = document.getElementById('piActionBtn');
-        var originalText = document.getElementById('piActionText').textContent;
-        if (btn) {
-            btn.disabled = true;
-            document.getElementById('piActionText').textContent = 'Connexion...';
-        }
+        var actionText = document.getElementById('piActionText');
+        if (btn) btn.disabled = true;
+        if (actionText) actionText.textContent = 'Connexion...';
 
-        showToast('Connexion à Pi Network...', 'info');
+        showToast('Ouverture de Pi Network...', 'info');
 
-        // Authentification avec scopes
         Pi.authenticate(['username', 'payments'], onIncompletePaymentFound)
             .then(function(auth) {
-                console.log('[Pi] ✅ AUTH RÉUSSIE :', auth);
-                console.log('[Pi] Username :', auth.user.username);
-                console.log('[Pi] UID :', auth.user.uid);
-
+                console.log('[Pi] ✅ SUCCÈS :', auth.user);
                 piUser = {
                     uid: auth.user.uid,
                     username: auth.user.username
                 };
-
-                try {
-                    localStorage.setItem('pi_user', JSON.stringify(piUser));
-                } catch (e) { console.warn('localStorage erreur', e); }
-
+                try { localStorage.setItem('pi_user', JSON.stringify(piUser)); } catch (e) {}
                 updatePiUI();
-                showToast('Bienvenue ' + auth.user.username + ' !', 'success');
-
-                // Fermer la modale si ouverte
                 closeAuthModal();
-
-                // Rafraîchir le badge header
-                var badge = document.getElementById('piUserBadge');
-                if (badge) {
-                    badge.style.display = 'inline-flex';
-                    document.getElementById('piUsername').textContent = auth.user.username;
-                }
+                showToast('Bienvenue ' + auth.user.username + ' !', 'success');
             })
             .catch(function(err) {
                 console.error('[Pi] ❌ Erreur auth :', err);
                 var msg = (err && err.message) ? err.message : 'Connexion échouée';
-                if (/denied|cancel|user_cancelled/i.test(msg)) {
+                if (/denied|cancel/i.test(msg)) {
                     showToast('Connexion annulée', 'info');
                 } else {
                     showToast('Erreur : ' + msg, 'error');
                 }
             })
             .finally(function() {
-                if (btn) {
-                    btn.disabled = false;
-                    document.getElementById('piActionText').textContent = piUser ? 'Déconnexion' : 'Connecter avec Pi Network';
-                }
+                if (btn) btn.disabled = false;
+                updatePiUI();
             });
     }
 
@@ -250,7 +181,6 @@
         showToast('Déconnecté de Pi', 'info');
     }
 
-    // ============ MISE À JOUR UI PI ============
     function updatePiUI() {
         var badge = document.getElementById('piUserBadge');
         var usernameEl = document.getElementById('piUsername');
@@ -266,44 +196,26 @@
         var publishHandle = document.getElementById('publishHandle');
 
         if (piUser) {
-            // ---- CONNECTÉ ----
             if (badge) badge.style.display = 'inline-flex';
             if (usernameEl) usernameEl.textContent = piUser.username;
-
             if (accountCard) accountCard.classList.add('connected');
             if (avatar) avatar.textContent = piUser.username.substring(0, 2).toUpperCase();
             if (accountUsername) accountUsername.textContent = piUser.username;
             if (accountSubtitle) accountSubtitle.textContent = 'Membre Pi Network';
-
-            if (actionBtn) {
-                actionBtn.classList.add('disconnect');
-                actionBtn.disabled = false;
-            }
+            if (actionBtn) { actionBtn.classList.add('disconnect'); actionBtn.disabled = false; }
             if (actionText) actionText.textContent = 'Déconnexion';
-
-            if (hint) hint.innerHTML =
-                '<i class="fas fa-shield-alt" style="color:var(--success);"></i> ' +
-                'Connecté en tant que <strong>' + piUser.username + '</strong>';
-
-            // Publier en tant que user
+            if (hint) hint.innerHTML = '<i class="fas fa-shield-alt" style="color:var(--success);"></i> Connecté en tant que <strong>' + piUser.username + '</strong>';
             if (publishAvatar) publishAvatar.textContent = piUser.username.substring(0, 2).toUpperCase();
             if (publishName) publishName.textContent = piUser.username;
             if (publishHandle) publishHandle.textContent = '@' + piUser.username.toLowerCase();
-
         } else {
-            // ---- NON CONNECTÉ ----
             if (badge) badge.style.display = 'none';
             if (accountCard) accountCard.classList.remove('connected');
             if (avatar) avatar.innerHTML = '<i class="fab fa-pi"></i>';
             if (accountUsername) accountUsername.textContent = 'Non connecté';
             if (accountSubtitle) accountSubtitle.textContent = 'Connectez-vous avec Pi Network';
-
-            if (actionBtn) {
-                actionBtn.classList.remove('disconnect');
-                actionBtn.disabled = !inPiBrowser;
-            }
+            if (actionBtn) { actionBtn.classList.remove('disconnect'); actionBtn.disabled = !inPiBrowser; }
             if (actionText) actionText.textContent = 'Connecter avec Pi Network';
-
             if (hint) {
                 if (inPiBrowser) {
                     hint.innerHTML = '<i class="fas fa-check-circle" style="color:var(--success);"></i> Pi Browser détecté. Cliquez pour vous connecter.';
@@ -311,7 +223,6 @@
                     hint.innerHTML = '<i class="fas fa-exclamation-triangle" style="color:#e6b000;"></i> Ouvrez cette app dans <strong>Pi Browser</strong> pour vous connecter.';
                 }
             }
-
             if (publishAvatar) publishAvatar.textContent = 'GB';
             if (publishName) publishName.textContent = 'Global Bulk';
             if (publishHandle) publishHandle.textContent = '@globalbulk';
@@ -328,41 +239,53 @@
         } catch (e) {}
     }
 
-    // ============ MODALE AUTH REQUISE ============
+    // ============ MODALES ============
     function openAuthModal(message) {
         var modal = document.getElementById('authRequiredModal');
         var msgEl = document.getElementById('authModalMessage');
         if (msgEl && message) msgEl.textContent = message;
         if (modal) modal.classList.add('open');
     }
-
     function closeAuthModal() {
         var modal = document.getElementById('authRequiredModal');
         if (modal) modal.classList.remove('open');
     }
+    function openPaymentModal() {
+        var modal = document.getElementById('paymentModal');
+        var summary = document.getElementById('paymentSummary');
+        var amount = document.getElementById('paymentAmount');
+        if (!summary) return;
 
-    // ============ GUARD : AUTHENTIFICATION REQUISE ============
+        // Résumé
+        summary.innerHTML = cartItems.map(function(item) {
+            return '<div class="payment-summary-item">' +
+                '<span class="name">' + item.name + '</span>' +
+                '<span class="qty">×' + item.qty + '</span>' +
+                '<span class="price">' + (item.price * item.qty).toFixed(2) + ' π</span>' +
+                '</div>';
+        }).join('');
+
+        var total = cartItems.reduce(function(s, i) { return s + (i.price * i.qty); }, 0);
+        amount.textContent = total.toFixed(2) + ' π';
+
+        modal.classList.add('open');
+    }
+    function closePaymentModal() {
+        var modal = document.getElementById('paymentModal');
+        if (modal) modal.classList.remove('open');
+    }
+
+    // ============ GUARD AUTH ============
     function requireAuth(actionName) {
-        if (piUser) return true; // OK
-
-        console.log('[Auth] Action refusée : ' + actionName + ' (non connecté)');
-
-        // Message personnalisé
+        if (piUser) return true;
+        console.log('[Auth] Refusé : ' + actionName);
         var messages = {
             'panier': 'Connectez-vous avec Pi Network pour ajouter des produits au panier.',
             'commande': 'Connectez-vous avec Pi Network pour passer commande.',
             'publier': 'Connectez-vous avec Pi Network pour publier un produit.',
-            'contacter': 'Connectez-vous avec Pi Network pour contacter un fournisseur.',
-            'profil': 'Connectez-vous avec Pi Network pour accéder à votre profil.'
+            'contacter': 'Connectez-vous avec Pi Network pour contacter un fournisseur.'
         };
-        var msg = messages[actionName] || 'Connectez-vous avec Pi Network pour continuer.';
-
-        openAuthModal(msg);
-
-        // Essayer de se connecter automatiquement si possible
-        if (inPiBrowser && piReady) {
-            console.log('[Auth] Tentative auto-connexion...');
-        }
+        openAuthModal(messages[actionName] || 'Connectez-vous avec Pi Network pour continuer.');
         return false;
     }
 
@@ -374,24 +297,36 @@
                 reject(new Error('SDK Pi introuvable'));
                 return;
             }
-
             Pi.createPayment({
                 amount: amount,
                 memo: memo,
                 metadata: metadata
             }, {
                 onReadyForServerApproval: function(paymentId) {
-                    console.log('[Pi] Prêt pour approbation :', paymentId);
-                    // Production : envoyer au backend
+                    console.log('[Pi] 📤 Prêt pour approbation serveur :', paymentId);
+                    // ⚠️ EN PRODUCTION : Appelez votre backend pour approuver ce paiement
+                    // fetch('/api/pi/approve', {
+                    //     method: 'POST',
+                    //     headers: { 'Content-Type': 'application/json' },
+                    //     body: JSON.stringify({ paymentId: paymentId })
+                    // });
                 },
                 onReadyForServerCompletion: function(paymentId, txid) {
-                    console.log('[Pi] Complété :', paymentId, txid);
+                    console.log('[Pi] ✅ Paiement complété :', paymentId, txid);
+                    // ⚠️ EN PRODUCTION : Appelez votre backend pour compléter ce paiement
+                    // fetch('/api/pi/complete', {
+                    //     method: 'POST',
+                    //     headers: { 'Content-Type': 'application/json' },
+                    //     body: JSON.stringify({ paymentId: paymentId, txid: txid })
+                    // });
                     resolve({ paymentId: paymentId, txid: txid });
                 },
                 onCancel: function(paymentId) {
+                    console.log('[Pi] ❌ Paiement annulé');
                     reject(new Error('Paiement annulé'));
                 },
                 onError: function(error) {
+                    console.error('[Pi] ❌ Erreur paiement :', error);
                     reject(error);
                 }
             });
@@ -558,7 +493,7 @@
 
     function doSearch() {
         var q = document.getElementById('searchInput').value.trim().toLowerCase();
-        if (!q) { showToast('Entrez un terme de recherche', 'error'); return; }
+        if (!q) { showToast('Entrez un terme', 'error'); return; }
         var filtered = products.filter(function(p) {
             return p.name.toLowerCase().includes(q) || p.category.toLowerCase().includes(q) || p.supplier.toLowerCase().includes(q);
         });
@@ -604,7 +539,6 @@
             '</div>' +
             '<div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:16px;">' +
             '<button class="btn btn-primary" onclick="addToCart(' + p.id + ')"><i class="fas fa-cart-plus"></i> Ajouter au panier</button>' +
-            '<button class="btn btn-outline" onclick="contactSupplier()"><i class="fas fa-comment"></i> Contacter</button>' +
             '</div></div></div>';
         window.scrollTo({ top: 0, behavior: 'smooth' });
     };
@@ -616,7 +550,6 @@
     };
 
     window.openPublish = function() {
-        // 🔒 GUARD
         if (!requireAuth('publier')) return;
         hideMainContent();
         document.getElementById('publishSection').style.display = 'block';
@@ -631,8 +564,6 @@
     window.openProfile = function() {
         hideMainContent();
         document.getElementById('profileSection').style.display = 'block';
-        document.getElementById('profileSubpage').style.display = 'none';
-        document.querySelector('.profile-wrapper').style.display = 'block';
         updatePiUI();
         window.scrollTo({ top: 0, behavior: 'smooth' });
     };
@@ -642,62 +573,81 @@
         document.querySelector('.bottom-nav .nav-item[data-page="home"]').classList.add('active');
     };
 
-    // ============ SOUS-PAGE PROFIL ============
-    function openProfileSubpage(tabId, title) {
-        document.querySelector('.profile-wrapper').style.display = 'none';
-        document.getElementById('profileSubpage').style.display = 'block';
-        document.getElementById('profileSubpageTitle').textContent = title;
-        document.getElementById('profileSubpageContent').innerHTML = renderProfileSubpageContent(tabId);
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+    // ============ TIROIR LATÉRAL ============
+    function openSideDrawer(tabId, title) {
+        var drawer = document.getElementById('sideDrawer');
+        var overlay = document.getElementById('sideDrawerOverlay');
+        var titleEl = document.getElementById('sideDrawerTitle');
+        var content = document.getElementById('sideDrawerContent');
+
+        if (titleEl) titleEl.textContent = title;
+        if (content) content.innerHTML = renderSideDrawerContent(tabId);
+
+        if (drawer) drawer.classList.add('open');
+        if (overlay) overlay.classList.add('open');
+        document.body.style.overflow = 'hidden';
     }
 
-    window.closeProfileSubpage = function() {
-        document.getElementById('profileSubpage').style.display = 'none';
-        document.querySelector('.profile-wrapper').style.display = 'block';
-    };
+    function closeSideDrawer() {
+        var drawer = document.getElementById('sideDrawer');
+        var overlay = document.getElementById('sideDrawerOverlay');
+        if (drawer) drawer.classList.remove('open');
+        if (overlay) overlay.classList.remove('open');
+        document.body.style.overflow = '';
+    }
 
-    function renderProfileSubpageContent(tabId) {
+    function renderSideDrawerContent(tabId) {
         function infoItem(icon, label, value) {
-            return '<div class="info-item"><i class="fas ' + icon + '"></i>' +
+            return '<div class="info-item">' +
+                '<i class="fas ' + icon + '"></i>' +
                 '<span class="label">' + label + '</span>' +
-                '<span class="value">' + value + '</span></div>';
+                '<span class="value">' + value + '</span>' +
+                '</div>';
         }
 
         switch(tabId) {
             case 'monprofil':
-                if (!piUser) return '<div style="text-align:center;padding:30px 10px;"><i class="fas fa-user-slash" style="font-size:48px;color:var(--text-muted);opacity:0.4;"></i><p style="margin-top:12px;color:var(--text-muted);">Connectez-vous pour voir votre profil.</p></div>';
-                return '<h3>👤 Mon profil</h3>' +
+                if (!piUser) return '<div class="empty-state"><i class="fas fa-user-slash"></i><p>Connectez-vous avec Pi pour voir votre profil.</p></div>';
+                return '<h3><i class="fas fa-user-circle"></i> Mon profil</h3>' +
                     infoItem('fa-user', 'Pseudo', piUser.username) +
                     infoItem('fa-fingerprint', 'UID', piUser.uid.substring(0, 20) + '...') +
                     infoItem('fa-shield-alt', 'Statut', 'Membre Pi Network') +
                     infoItem('fa-globe', 'Réseau', 'Pi Network Mainnet');
+
             case 'parametres':
-                return '<h3>⚙️ Paramètres</h3>' +
+                return '<h3><i class="fas fa-sliders-h"></i> Paramètres</h3>' +
                     infoItem('fa-bell', 'Notifications', 'Activées') +
                     infoItem('fa-language', 'Langue', 'Français') +
                     infoItem('fa-palette', 'Thème', 'Clair');
+
             case 'langues':
-                return '<h3>🌐 Langues</h3>' +
+                return '<h3><i class="fas fa-globe"></i> Langues</h3>' +
                     '<div class="info-item"><i class="fas fa-check-circle" style="color:#4caf50;"></i><span class="label">Français</span><span class="value">Actif</span></div>' +
                     '<div class="info-item"><i class="fas fa-circle" style="color:#ccc;"></i><span class="label">English</span><span class="value">Inactif</span></div>' +
                     '<div class="info-item"><i class="fas fa-circle" style="color:#ccc;"></i><span class="label">Español</span><span class="value">Inactif</span></div>';
+
             case 'livre-blanc':
-                return '<h3>📄 Livre blanc</h3>' +
-                    '<div class="info-item"><i class="fas fa-file-pdf" style="color:var(--secondary);"></i><span>Guide commerce de gros 2026</span></div>' +
-                    '<div class="info-item"><i class="fas fa-file-pdf" style="color:var(--secondary);"></i><span>Stratégies d\'approvisionnement</span></div>';
+                return '<h3><i class="fas fa-file-pdf"></i> Livre blanc</h3>' +
+                    infoItem('fa-file-pdf', 'Guide 2026', 'Disponible') +
+                    infoItem('fa-file-pdf', 'Stratégies', 'Disponible') +
+                    infoItem('fa-file-pdf', 'Marchés émergents', 'Bientôt');
+
             case 'mes-produits':
-                if (!piUser) return '<div style="text-align:center;padding:30px 10px;"><p style="color:var(--text-muted);">Connectez-vous pour voir vos produits.</p></div>';
-                return '<h3>📦 Mes produits</h3>' +
-                    '<div class="info-item"><i class="fas fa-headphones"></i><span class="label">Écouteurs BT</span><span class="value">5000 en stock</span></div>' +
-                    '<div class="info-item"><i class="fas fa-watch"></i><span class="label">Montre connectée</span><span class="value">120 en stock</span></div>';
+                if (!piUser) return '<div class="empty-state"><i class="fas fa-box-open"></i><p>Connectez-vous pour voir vos produits.</p></div>';
+                return '<h3><i class="fas fa-boxes"></i> Mes produits</h3>' +
+                    infoItem('fa-headphones', 'Écouteurs BT', '5000 en stock') +
+                    infoItem('fa-watch', 'Montre connectée', '120 en stock');
+
             case 'historique':
-                if (!piUser) return '<div style="text-align:center;padding:30px 10px;"><p style="color:var(--text-muted);">Connectez-vous pour voir votre historique.</p></div>';
-                return '<h3>🕒 Historique</h3>' +
-                    '<div class="info-item"><i class="fas fa-receipt"></i><span class="label">24/11/2024</span><span class="value">120 π</span></div>' +
-                    '<div class="info-item"><i class="fas fa-receipt"></i><span class="label">20/11/2024</span><span class="value">1200 π</span></div>';
+                if (!piUser) return '<div class="empty-state"><i class="fas fa-history"></i><p>Connectez-vous pour voir votre historique.</p></div>';
+                return '<h3><i class="fas fa-history"></i> Historique</h3>' +
+                    infoItem('fa-receipt', '24/11/2024', '120 π') +
+                    infoItem('fa-receipt', '20/11/2024', '1200 π') +
+                    infoItem('fa-receipt', '15/11/2024', '850 π');
+
             case 'achats-ventes':
-                if (!piUser) return '<div style="text-align:center;padding:30px 10px;"><p style="color:var(--text-muted);">Connectez-vous pour voir vos statistiques.</p></div>';
-                return '<h3>📊 Achats & Ventes</h3>' +
+                if (!piUser) return '<div class="empty-state"><i class="fas fa-chart-line"></i><p>Connectez-vous pour voir vos statistiques.</p></div>';
+                return '<h3><i class="fas fa-chart-line"></i> Achats & Ventes</h3>' +
                     '<div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:16px;">' +
                     '<div style="background:var(--gray-light);padding:20px;text-align:center;border-radius:12px;">' +
                     '<div style="font-size:28px;font-weight:800;color:var(--primary);">12</div>' +
@@ -705,30 +655,38 @@
                     '<div style="background:var(--gray-light);padding:20px;text-align:center;border-radius:12px;">' +
                     '<div style="font-size:28px;font-weight:800;color:var(--primary);">8</div>' +
                     '<div style="font-size:13px;color:var(--text-muted);">Ventes</div></div></div>';
+
             case 'faq':
-                return '<h3>❓ FAQ</h3>' +
-                    '<div style="margin-bottom:16px;"><strong>Comment se connecter avec Pi ?</strong><p style="color:var(--text-muted);margin-top:4px;">Ouvrez l\'app dans Pi Browser puis cliquez sur "Connecter avec Pi Network".</p></div>' +
-                    '<div style="margin-bottom:16px;"><strong>Pourquoi je dois me connecter ?</strong><p style="color:var(--text-muted);margin-top:4px;">La connexion Pi est obligatoire pour acheter, vendre ou publier.</p></div>' +
-                    '<div><strong>Comment payer avec Pi ?</strong><p style="color:var(--text-muted);margin-top:4px;">Ajoutez des produits au panier puis cliquez sur "Payer avec Pi".</p></div>';
+                return '<h3><i class="fas fa-question-circle"></i> FAQ</h3>' +
+                    '<div style="margin-bottom:20px;"><strong>Comment se connecter ?</strong><p style="color:var(--text-muted);margin-top:6px;">Ouvrez l\'app dans Pi Browser puis cliquez sur "Connecter avec Pi Network".</p></div>' +
+                    '<div style="margin-bottom:20px;"><strong>Comment payer ?</strong><p style="color:var(--text-muted);margin-top:6px;">Ajoutez des produits au panier puis cliquez sur "Payer avec Pi".</p></div>' +
+                    '<div><strong>Pourquoi se connecter ?</strong><p style="color:var(--text-muted);margin-top:6px;">La connexion Pi est obligatoire pour toutes les opérations.</p></div>';
+
             default:
                 return '<p>Sélectionnez une option.</p>';
         }
     }
 
+    // Écouteurs menu profil
     document.querySelectorAll('.menu-item').forEach(function(item) {
         item.addEventListener('click', function() {
             var tab = this.getAttribute('data-tab');
             var label = this.querySelector('.menu-label').textContent;
-            openProfileSubpage(tab, label);
+            openSideDrawer(tab, label);
         });
     });
 
-    // ============ BOUTON CONNEXION PI (double rôle) ============
+    // Boutons fermeture drawer
+    document.getElementById('sideDrawerClose').addEventListener('click', closeSideDrawer);
+    document.getElementById('sideDrawerBack').addEventListener('click', closeSideDrawer);
+    document.getElementById('sideDrawerOverlay').addEventListener('click', closeSideDrawer);
+
+    // ============ BOUTON CONNEXION PI ============
     var btnPiConnect = document.getElementById('piActionBtn');
     if (btnPiConnect) {
         btnPiConnect.addEventListener('click', function(e) {
             e.preventDefault();
-            console.log('[Pi] Bouton action cliqué, état :', piUser ? 'connecté' : 'non connecté');
+            console.log('[Pi] Action clic. État :', piUser ? 'connecté' : 'non connecté');
             if (piUser) {
                 disconnectPi();
             } else {
@@ -737,22 +695,25 @@
         });
     }
 
-    // ============ BOUTON MODALE ============
+    // Modale auth - bouton
     document.getElementById('authModalConnectBtn').addEventListener('click', function() {
         closeAuthModal();
-        // Ouvrir le profil
         window.openProfile();
-        // Scroll vers la carte de connexion
         setTimeout(function() {
             var card = document.getElementById('piAccountCard');
             if (card) card.scrollIntoView({ behavior: 'smooth', block: 'center' });
         }, 300);
     });
-    document.getElementById('authModalCancelBtn').addEventListener('click', function() {
-        closeAuthModal();
+    document.getElementById('authModalCancelBtn').addEventListener('click', closeAuthModal);
+
+    // Modale paiement
+    document.getElementById('paymentCancelBtn').addEventListener('click', closePaymentModal);
+    document.getElementById('paymentConfirmBtn').addEventListener('click', function() {
+        closePaymentModal();
+        executePayment();
     });
 
-    // ============ UPLOAD IMAGES ============
+    // ============ UPLOAD ============
     var uploadedImages = [];
     var pImages = document.getElementById('pImages');
     if (pImages) {
@@ -790,11 +751,9 @@
         renderUploadPreview();
     };
 
-    // ============ PANIER (avec GUARD) ============
+    // ============ PANIER ============
     window.addToCart = function(id) {
-        // 🔒 GUARD : connexion requise
         if (!requireAuth('panier')) return;
-
         var p = products.find(function(x) { return x.id === id; });
         if (!p) return;
         var existing = cartItems.find(function(item) { return item.id === id; });
@@ -803,11 +762,6 @@
         updateCartBadge();
         showToast(p.name + ' ajouté au panier', 'success');
         if (isCartOpen) renderCartItems();
-    };
-
-    window.contactSupplier = function() {
-        if (!requireAuth('contacter')) return;
-        showToast('Fonctionnalité de contact bientôt disponible', 'info');
     };
 
     window.removeFromCart = function(id) {
@@ -841,7 +795,7 @@
                 '<div class="item-image"><img src="' + imgSrc + '" /></div>' +
                 '<div class="item-info">' +
                 '<div class="name">' + item.name + '</div>' +
-                '<div class="price">' + (item.price * item.qty) + ' π</div>' +
+                '<div class="price">' + (item.price * item.qty).toFixed(2) + ' π</div>' +
                 '<div class="item-qty">' +
                 '<button onclick="updateQty(' + item.id + ',-1)">-</button>' +
                 '<span>' + item.qty + '</span>' +
@@ -868,7 +822,6 @@
 
     var isCartOpen = false;
     function toggleCart() {
-        // 🔒 GUARD : On peut voir le panier mais ne rien faire sans connexion
         isCartOpen = !isCartOpen;
         var overlay = document.getElementById('cartOverlay');
         if (isCartOpen) { overlay.classList.add('open'); renderCartItems(); }
@@ -881,20 +834,20 @@
         if (e.target === this) toggleCart();
     });
 
-    // ============ CHECKOUT (avec GUARD) ============
+    // ============ CHECKOUT ============
     document.getElementById('checkoutBtn').addEventListener('click', function() {
-        // 🔒 GUARD
         if (!requireAuth('commande')) return;
-
         if (cartItems.length === 0) { showToast('Panier vide', 'error'); return; }
+        // Fermer le panier et ouvrir la modale de paiement
+        toggleCart();
+        setTimeout(openPaymentModal, 300);
+    });
 
+    function executePayment() {
         var total = cartItems.reduce(function(s, i) { return s + (i.price * i.qty); }, 0);
         var totalFixed = parseFloat(total.toFixed(2));
 
-        var btn = this;
-        var originalHTML = btn.innerHTML;
-        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Traitement...';
-        btn.disabled = true;
+        showToast('Traitement du paiement...', 'info');
 
         createPiPayment(totalFixed, 'Global Bulk - ' + cartItems.length + ' article(s)', {
             items: cartItems.map(function(i) { return { id: i.id, name: i.name, qty: i.qty, price: i.price }; }),
@@ -903,21 +856,21 @@
             timestamp: Date.now()
         })
         .then(function(result) {
-            showToast('✅ Paiement réussi ! TxID: ' + result.txid.substring(0, 12) + '...', 'success');
+            showToast('✅ Paiement réussi !', 'success');
+            console.log('[Pi] Transaction ID:', result.txid);
             cartItems = [];
             updateCartBadge();
             renderCartItems();
-            setTimeout(toggleCart, 800);
         })
         .catch(function(err) {
             console.error('[Pi] Erreur paiement :', err);
-            showToast('Erreur : ' + (err.message || 'paiement échoué'), 'error');
-        })
-        .finally(function() {
-            btn.innerHTML = originalHTML;
-            btn.disabled = false;
+            if (/annulé/i.test(err.message)) {
+                showToast('Paiement annulé', 'info');
+            } else {
+                showToast('Erreur : ' + (err.message || 'paiement échoué'), 'error');
+            }
         });
-    });
+    }
 
     // ============ STATS ============
     function animateStats() {
@@ -962,13 +915,12 @@
     document.getElementById('footerFaq').addEventListener('click', function(e) {
         e.preventDefault();
         window.openProfile();
-        setTimeout(function() { openProfileSubpage('faq', 'FAQ'); }, 100);
+        setTimeout(function() { openSideDrawer('faq', 'FAQ'); }, 400);
     });
 
-    // ============ PUBLISH FORM (avec GUARD) ============
+    // ============ PUBLISH FORM ============
     document.getElementById('publishForm').addEventListener('submit', function(e) {
         e.preventDefault();
-        // 🔒 GUARD
         if (!requireAuth('publier')) return;
 
         var name = document.getElementById('pName').value.trim();
@@ -994,7 +946,7 @@
         });
         renderProducts();
         applyFilters();
-        showToast('Produit publié avec succès !', 'success');
+        showToast('Produit publié !', 'success');
         uploadedImages = [];
         document.getElementById('uploadPreview').innerHTML = '';
         this.reset();
@@ -1019,29 +971,26 @@
     }
 
     // ============ INITIALISATION ============
-    console.log('[App] 🚀 Démarrage Global Bulk');
+    console.log('[App] 🚀 Démarrage');
 
-    // 1) Détecter Pi Browser immédiatement
+    // Détection immédiate
     detectPiBrowser();
-
-    // 2) Charger la session sauvegardée
     loadPiSession();
 
-    // 3) Attendre le SDK Pi puis initialiser
-    waitForPiSdk(50)
+    // Attendre le SDK
+    waitForPiSdk(5000)
         .then(function() {
             console.log('[Pi] SDK prêt');
             initPiSdk();
             updatePiUI();
         })
-        .catch(function(err) {
-            console.warn('[Pi] SDK non chargé :', err.message);
-            console.warn('[Pi] → Ouvrez l\'app dans Pi Browser pour la connexion Pi');
+        .catch(function() {
+            console.warn('[Pi] SDK non chargé. Ouvrez dans Pi Browser.');
             inPiBrowser = false;
             updatePiUI();
         });
 
-    // 4) Démarrer l'app
+    // Démarrage app
     simulateLoader(function() {
         renderCategoryFilters();
         renderProducts();
@@ -1053,14 +1002,13 @@
         updatePiUI();
         setTimeout(animateStats, 300);
 
-        // Message d'accueil
         setTimeout(function() {
             if (piUser) {
                 showToast('Bon retour ' + piUser.username + ' !', 'success');
             } else if (inPiBrowser) {
-                showToast('Cliquez sur "Profil" pour vous connecter avec Pi', 'info');
+                showToast('Allez dans Profil pour vous connecter', 'info');
             } else {
-                showToast('Ouvrez l\'app dans Pi Browser pour vous connecter', 'info');
+                showToast('Ouvrez dans Pi Browser pour Pi', 'info');
             }
         }, 800);
     });
