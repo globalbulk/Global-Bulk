@@ -8,7 +8,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
     <link rel="stylesheet" href="style.css" />
-    <!-- SDK Pi Network -->
+    <!-- SDK Pi Network officiel -->
     <script src="https://socialchain.app/sdk.js"></script>
 </head>
 <body>
@@ -34,7 +34,7 @@
                 <div class="header-actions">
                     <button class="pi-user-badge" id="piUserBadge" style="display:none;" onclick="window.openProfile()">
                         <i class="fab fa-pi"></i>
-                        <span id="piUsername">Guest</span>
+                        <span id="piUsername">--</span>
                     </button>
                     <button class="icon-btn" id="searchToggle"><i class="fas fa-search"></i></button>
                     <button class="icon-btn"><i class="fas fa-envelope"></i><span class="badge-count">3</span></button>
@@ -183,77 +183,71 @@
             </div>
 
             <div class="profile-wrapper">
-                <!-- En-tête utilisateur -->
-                <div class="profile-card-header" id="profileHeader">
-                    <div class="profile-avatar" id="profileAvatar">?</div>
-                    <h2 class="profile-username" id="profileUsername">Non connecté</h2>
-                    <p class="profile-subtitle" id="profileSubtitle">Connectez-vous avec Pi Network</p>
-                </div>
-
-                <!-- Carte connexion Pi -->
-                <div class="profile-card" id="piConnectCard">
-                    <div class="pi-icon-circle">
+                <!-- ===== CARTE COMPTE PI ===== -->
+                <div class="pi-account-card" id="piAccountCard">
+                    <div class="pi-avatar" id="piAvatar">
                         <i class="fab fa-pi"></i>
                     </div>
-                    <p class="pi-message" id="piMessage">
-                        Connectez-vous pour accéder à toutes les fonctionnalités et effectuer des paiements.
-                    </p>
-                    <button class="btn-pi-connect" id="btnPiConnect">
+                    <div class="pi-account-info">
+                        <h2 class="pi-account-username" id="piAccountUsername">Non connecté</h2>
+                        <p class="pi-account-subtitle" id="piAccountSubtitle">Connectez-vous avec Pi Network</p>
+                    </div>
+
+                    <!-- Bouton dynamique (Connexion / Déconnexion) -->
+                    <button class="pi-action-btn" id="piActionBtn">
                         <i class="fab fa-pi"></i>
-                        <span id="btnPiConnectText">Connecter avec Pi Network</span>
+                        <span id="piActionText">Connecter avec Pi Network</span>
                     </button>
-                    <p class="pi-hint" id="piHint">
-                        <i class="fas fa-info-circle"></i>
-                        Ouvrez cette application dans <strong>Pi Browser</strong> pour vous connecter.
-                    </p>
+
+                    <div class="pi-account-hint" id="piAccountHint"></div>
                 </div>
 
-                <!-- Menu profil -->
+                <!-- ===== MENU ===== -->
                 <div class="profile-menu">
-                    <button class="profile-menu-item" data-tab="monprofil">
-                        <div class="menu-icon"><i class="fas fa-user-circle"></i></div>
+                    <button class="menu-item" data-tab="monprofil">
+                        <div class="menu-icon"><i class="fas fa-user"></i></div>
                         <span class="menu-label">Mon profil</span>
                         <i class="fas fa-chevron-right menu-arrow"></i>
                     </button>
-                    <button class="profile-menu-item" data-tab="parametres">
-                        <div class="menu-icon"><i class="fas fa-sliders-h"></i></div>
+                    <button class="menu-item" data-tab="parametres">
+                        <div class="menu-icon"><i class="fas fa-cog"></i></div>
                         <span class="menu-label">Paramètres</span>
                         <i class="fas fa-chevron-right menu-arrow"></i>
                     </button>
-                    <button class="profile-menu-item" data-tab="langues">
-                        <div class="menu-icon"><i class="fas fa-globe"></i></div>
+                    <button class="menu-item" data-tab="langues">
+                        <div class="menu-icon"><i class="fas fa-language"></i></div>
                         <span class="menu-label">Langues</span>
                         <i class="fas fa-chevron-right menu-arrow"></i>
                     </button>
-                    <button class="profile-menu-item" data-tab="livre-blanc">
+                    <button class="menu-item" data-tab="livre-blanc">
                         <div class="menu-icon"><i class="fas fa-file-pdf"></i></div>
                         <span class="menu-label">Livre blanc</span>
                         <i class="fas fa-chevron-right menu-arrow"></i>
                     </button>
-                    <button class="profile-menu-item" data-tab="mes-produits">
-                        <div class="menu-icon"><i class="fas fa-boxes"></i></div>
+                    <button class="menu-item" data-tab="mes-produits">
+                        <div class="menu-icon"><i class="fas fa-box"></i></div>
                         <span class="menu-label">Mes produits</span>
                         <i class="fas fa-chevron-right menu-arrow"></i>
                     </button>
-                    <button class="profile-menu-item" data-tab="historique">
+                    <button class="menu-item" data-tab="historique">
                         <div class="menu-icon"><i class="fas fa-history"></i></div>
                         <span class="menu-label">Historique</span>
                         <i class="fas fa-chevron-right menu-arrow"></i>
                     </button>
-                    <button class="profile-menu-item" data-tab="achats-ventes">
+                    <button class="menu-item" data-tab="achats-ventes">
                         <div class="menu-icon"><i class="fas fa-chart-line"></i></div>
                         <span class="menu-label">Achats & Ventes</span>
                         <i class="fas fa-chevron-right menu-arrow"></i>
                     </button>
-                    <button class="profile-menu-item" data-tab="faq">
-                        <div class="menu-icon"><i class="fas fa-question-circle"></i></div>
+                    <button class="menu-item" data-tab="faq">
+                        <div class="menu-icon"><i class="fas fa-question"></i></div>
                         <span class="menu-label">FAQ</span>
                         <i class="fas fa-chevron-right menu-arrow"></i>
                     </button>
                 </div>
             </div>
 
-            <!-- Sous-page du profil (contenu dynamique) -->
+            <!-- Sous-page du profil -->
             <div class="profile-subpage" id="profileSubpage" style="display:none;">
                 <div class="page-header">
                     <button class="btn-back" onclick="closeProfileSubpage()"><i class="fas fa-arrow-left"></i> Retour</button>
