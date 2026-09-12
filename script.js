@@ -1,6 +1,7 @@
 (function() {
     'use strict';
 
+    // ===== DONNÉES =====
     var categories = [
         { icon: 'fa-laptop', name: 'Électronique', count: 1240 },
         { icon: 'fa-tshirt', name: 'Mode', count: 980 },
@@ -25,197 +26,53 @@
     ];
 
     var products = [{
-        id: 1,
-        name: 'Smartphone Galaxy S24',
-        price: 120,
-        unit: 'Pi',
-        minOrder: 10,
-        stock: 850,
-        supplier: 'MobileTech GmbH',
-        country: 'Allemagne',
-        verified: true,
-        rating: 4.9,
-        category: 'Électronique',
-        images: [
-            'https://images.unsplash.com/photo-1610945415295-d9bbf067e59c?w=600&h=400&fit=crop',
-            'https://images.unsplash.com/photo-1598327105666-5b89351aff97?w=600&h=400&fit=crop'
-        ]
+        id: 1, name: 'Smartphone Galaxy S24', price: 120, unit: 'Pi', minOrder: 10, stock: 850,
+        supplier: 'MobileTech GmbH', country: 'Allemagne', verified: true, rating: 4.9, category: 'Électronique',
+        images: ['https://images.unsplash.com/photo-1610945415295-d9bbf067e59c?w=600&h=400&fit=crop', 'https://images.unsplash.com/photo-1598327105666-5b89351aff97?w=600&h=400&fit=crop']
     }, {
-        id: 2,
-        name: 'Ordinateur Portable Pro',
-        price: 450,
-        unit: 'Pi',
-        minOrder: 5,
-        stock: 320,
-        supplier: 'TechImport SARL',
-        country: 'Chine',
-        verified: true,
-        rating: 4.8,
-        category: 'Électronique',
-        images: [
-            'https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=600&h=400&fit=crop',
-            'https://images.unsplash.com/photo-1531297484001-80022131f5a1?w=600&h=400&fit=crop'
-        ]
+        id: 2, name: 'Ordinateur Portable Pro', price: 450, unit: 'Pi', minOrder: 5, stock: 320,
+        supplier: 'TechImport SARL', country: 'Chine', verified: true, rating: 4.8, category: 'Électronique',
+        images: ['https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=600&h=400&fit=crop', 'https://images.unsplash.com/photo-1531297484001-80022131f5a1?w=600&h=400&fit=crop']
     }, {
-        id: 3,
-        name: 'Voiture Électrique Model 3',
-        price: 35000,
-        unit: 'Pi',
-        minOrder: 1,
-        stock: 45,
-        supplier: 'AutoGreen SA',
-        country: 'USA',
-        verified: true,
-        rating: 4.7,
-        category: 'Automobile',
-        images: [
-            'https://images.unsplash.com/photo-1560958089-b8a1929cea89?w=600&h=400&fit=crop',
-            'https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?w=600&h=400&fit=crop'
-        ]
+        id: 3, name: 'Voiture Électrique Model 3', price: 35000, unit: 'Pi', minOrder: 1, stock: 45,
+        supplier: 'AutoGreen SA', country: 'USA', verified: true, rating: 4.7, category: 'Automobile',
+        images: ['https://images.unsplash.com/photo-1560958089-b8a1929cea89?w=600&h=400&fit=crop', 'https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?w=600&h=400&fit=crop']
     }, {
-        id: 4,
-        name: 'T-shirt en coton bio',
-        price: 2.5,
-        unit: 'Pi',
-        minOrder: 200,
-        stock: 12000,
-        supplier: 'EcoWear SARL',
-        country: 'France',
-        verified: true,
-        rating: 4.7,
-        category: 'Mode',
-        images: [
-            'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=600&h=400&fit=crop',
-            'https://images.unsplash.com/photo-1503341504253-dff4815485f1?w=600&h=400&fit=crop'
-        ]
+        id: 4, name: 'T-shirt en coton bio', price: 2.5, unit: 'Pi', minOrder: 200, stock: 12000,
+        supplier: 'EcoWear SARL', country: 'France', verified: true, rating: 4.7, category: 'Mode',
+        images: ['https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=600&h=400&fit=crop', 'https://images.unsplash.com/photo-1503341504253-dff4815485f1?w=600&h=400&fit=crop']
     }, {
-        id: 5,
-        name: 'Chaussures de sport',
-        price: 12,
-        unit: 'Pi',
-        minOrder: 50,
-        stock: 320,
-        supplier: 'SportFoot Inc',
-        country: 'USA',
-        verified: false,
-        rating: 4.2,
-        category: 'Chaussures',
-        images: [
-            'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=600&h=400&fit=crop',
-            'https://images.unsplash.com/photo-1605348532760-1633b2c78b2e?w=600&h=400&fit=crop'
-        ]
+        id: 5, name: 'Chaussures de sport', price: 12, unit: 'Pi', minOrder: 50, stock: 320,
+        supplier: 'SportFoot Inc', country: 'USA', verified: false, rating: 4.2, category: 'Chaussures',
+        images: ['https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=600&h=400&fit=crop', 'https://images.unsplash.com/photo-1605348532760-1633b2c78b2e?w=600&h=400&fit=crop']
     }, {
-        id: 6,
-        name: 'Montre connectée',
-        price: 35,
-        unit: 'Pi',
-        minOrder: 20,
-        stock: 1500,
-        supplier: 'TechImport SARL',
-        country: 'Chine',
-        verified: true,
-        rating: 4.6,
-        category: 'Électronique',
-        images: [
-            'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=600&h=400&fit=crop',
-            'https://images.unsplash.com/photo-1508685096489-7aacd43bd3b1?w=600&h=400&fit=crop'
-        ]
+        id: 6, name: 'Montre connectée', price: 35, unit: 'Pi', minOrder: 20, stock: 1500,
+        supplier: 'TechImport SARL', country: 'Chine', verified: true, rating: 4.6, category: 'Électronique',
+        images: ['https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=600&h=400&fit=crop', 'https://images.unsplash.com/photo-1508685096489-7aacd43bd3b1?w=600&h=400&fit=crop']
     }, {
-        id: 7,
-        name: 'Lampe solaire 10W',
-        price: 4.5,
-        unit: 'Pi',
-        minOrder: 100,
-        stock: 3000,
-        supplier: 'GreenEnergy Ltd',
-        country: 'Allemagne',
-        verified: true,
-        rating: 4.5,
-        category: 'Énergie',
-        images: [
-            'https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?w=600&h=400&fit=crop',
-            'https://images.unsplash.com/photo-1531995811006-35cb42e1a022?w=600&h=400&fit=crop'
-        ]
+        id: 7, name: 'Lampe solaire 10W', price: 4.5, unit: 'Pi', minOrder: 100, stock: 3000,
+        supplier: 'GreenEnergy Ltd', country: 'Allemagne', verified: true, rating: 4.5, category: 'Énergie',
+        images: ['https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?w=600&h=400&fit=crop', 'https://images.unsplash.com/photo-1531995811006-35cb42e1a022?w=600&h=400&fit=crop']
     }, {
-        id: 8,
-        name: 'Meubles de salon (set)',
-        price: 180,
-        unit: 'Pi',
-        minOrder: 5,
-        stock: 120,
-        supplier: 'HomeFurnish SARL',
-        country: 'France',
-        verified: false,
-        rating: 4.0,
-        category: 'Maison',
-        images: [
-            'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=600&h=400&fit=crop',
-            'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=600&h=400&fit=crop'
-        ]
+        id: 8, name: 'Meubles de salon (set)', price: 180, unit: 'Pi', minOrder: 5, stock: 120,
+        supplier: 'HomeFurnish SARL', country: 'France', verified: false, rating: 4.0, category: 'Maison',
+        images: ['https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=600&h=400&fit=crop', 'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=600&h=400&fit=crop']
     }, {
-        id: 9,
-        name: 'Café Arabica 1kg',
-        price: 3.2,
-        unit: 'Pi',
-        minOrder: 500,
-        stock: 8000,
-        supplier: 'AgriExport Co',
-        country: 'Colombie',
-        verified: true,
-        rating: 4.9,
-        category: 'Alimentation',
-        images: [
-            'https://images.unsplash.com/photo-1559056199-641a0ac8b55e?w=600&h=400&fit=crop',
-            'https://images.unsplash.com/photo-1447933601403-0c6688de566e?w=600&h=400&fit=crop'
-        ]
+        id: 9, name: 'Café Arabica 1kg', price: 3.2, unit: 'Pi', minOrder: 500, stock: 8000,
+        supplier: 'AgriExport Co', country: 'Colombie', verified: true, rating: 4.9, category: 'Alimentation',
+        images: ['https://images.unsplash.com/photo-1559056199-641a0ac8b55e?w=600&h=400&fit=crop', 'https://images.unsplash.com/photo-1447933601403-0c6688de566e?w=600&h=400&fit=crop']
     }, {
-        id: 10,
-        name: 'Crème Anti-Âge 50ml',
-        price: 8,
-        unit: 'Pi',
-        minOrder: 100,
-        stock: 2000,
-        supplier: 'BeautyLab SAS',
-        country: 'France',
-        verified: true,
-        rating: 4.3,
-        category: 'Beauté',
-        images: [
-            'https://images.unsplash.com/photo-1556228578-0d85b1a4d571?w=600&h=400&fit=crop',
-            'https://images.unsplash.com/photo-1556228454-3a6d7d1c5c7f?w=600&h=400&fit=crop'
-        ]
+        id: 10, name: 'Crème Anti-Âge 50ml', price: 8, unit: 'Pi', minOrder: 100, stock: 2000,
+        supplier: 'BeautyLab SAS', country: 'France', verified: true, rating: 4.3, category: 'Beauté',
+        images: ['https://images.unsplash.com/photo-1556228578-0d85b1a4d571?w=600&h=400&fit=crop', 'https://images.unsplash.com/photo-1556228454-3a6d7d1c5c7f?w=600&h=400&fit=crop']
     }, {
-        id: 11,
-        name: 'Tracteur Agricole 4x4',
-        price: 45000,
-        unit: 'Pi',
-        minOrder: 1,
-        stock: 12,
-        supplier: 'AgriMachines Ltd',
-        country: 'USA',
-        verified: true,
-        rating: 4.4,
-        category: 'Agriculture',
-        images: [
-            'https://images.unsplash.com/photo-1531816458010-4f4c24de72e1?w=600&h=400&fit=crop',
-            'https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=600&h=400&fit=crop'
-        ]
+        id: 11, name: 'Tracteur Agricole 4x4', price: 45000, unit: 'Pi', minOrder: 1, stock: 12,
+        supplier: 'AgriMachines Ltd', country: 'USA', verified: true, rating: 4.4, category: 'Agriculture',
+        images: ['https://images.unsplash.com/photo-1531816458010-4f4c24de72e1?w=600&h=400&fit=crop', 'https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=600&h=400&fit=crop']
     }, {
-        id: 12,
-        name: 'Équipement de Chantier (set)',
-        price: 220,
-        unit: 'Pi',
-        minOrder: 10,
-        stock: 340,
-        supplier: 'BuildPro SARL',
-        country: 'France',
-        verified: false,
-        rating: 3.9,
-        category: 'Construction',
-        images: [
-            'https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?w=600&h=400&fit=crop',
-            'https://images.unsplash.com/photo-1541888946425-d81bb19240f5?w=600&h=400&fit=crop'
-        ]
+        id: 12, name: 'Équipement de Chantier (set)', price: 220, unit: 'Pi', minOrder: 10, stock: 340,
+        supplier: 'BuildPro SARL', country: 'France', verified: false, rating: 3.9, category: 'Construction',
+        images: ['https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?w=600&h=400&fit=crop', 'https://images.unsplash.com/photo-1541888946425-d81bb19240f5?w=600&h=400&fit=crop']
     }];
 
     var suppliers = [
@@ -256,6 +113,11 @@
     var selectedCountry = '';
     var selectedCategory = 'all';
 
+    // ===== ÉTAT PI NETWORK =====
+    var piUser = null; // { uid, username }
+    var piInitialized = false;
+
+    // ===== UTILITAIRES =====
     function formatNumber(n) {
         return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
     }
@@ -277,6 +139,155 @@
         }, 3500);
     }
 
+    // ===== PI NETWORK - INITIALISATION =====
+    function initPiNetwork() {
+        if (typeof Pi === 'undefined') {
+            console.warn('Pi SDK non chargé. Ouvrez l\'application dans Pi Browser pour activer les paiements.');
+            return;
+        }
+        try {
+            Pi.init({ version: "2.0", sandbox: false });
+            piInitialized = true;
+            console.log('Pi SDK initialisé.');
+        } catch (e) {
+            console.warn('Erreur d\'initialisation Pi:', e);
+        }
+    }
+
+    // ===== PI NETWORK - AUTHENTIFICATION =====
+    function onIncompletePaymentFound(payment) {
+        console.log('Paiement incomplet détecté :', payment);
+        // Ici, dans une vraie application, on appellerait le backend pour compléter le paiement
+        // Pour l'instant on affiche simplement un message
+        showToast('Un paiement incomplet a été détecté', 'info');
+    }
+
+    function connectPi() {
+        if (typeof Pi === 'undefined') {
+            showToast('Veuillez ouvrir l\'application dans Pi Browser', 'error');
+            return;
+        }
+        if (!piInitialized) {
+            try {
+                Pi.init({ version: "2.0", sandbox: false });
+                piInitialized = true;
+            } catch (e) {
+                showToast('Erreur d\'initialisation Pi', 'error');
+                return;
+            }
+        }
+        Pi.authenticate(['username', 'payments'], onIncompletePaymentFound)
+            .then(function(auth) {
+                piUser = {
+                    uid: auth.user.uid,
+                    username: auth.user.username
+                };
+                try {
+                    sessionStorage.setItem('pi_user', JSON.stringify(piUser));
+                } catch (e) {}
+                updatePiUI();
+                showToast('Connecté à Pi : ' + auth.user.username, 'success');
+                // Rafraîchir le contenu du profil si on est sur l'onglet connexion
+                var activeTab = document.querySelector('.profile-betix-item.active');
+                if (activeTab && activeTab.getAttribute('data-tab') === 'connexion') {
+                    activateProfileBetixTab('connexion');
+                }
+            })
+            .catch(function(err) {
+                console.error('Erreur authentification Pi :', err);
+                showToast('Connexion Pi annulée ou échouée', 'error');
+            });
+    }
+
+    function disconnectPi() {
+        piUser = null;
+        try { sessionStorage.removeItem('pi_user'); } catch (e) {}
+        updatePiUI();
+        showToast('Déconnecté de Pi', 'info');
+        var activeTab = document.querySelector('.profile-betix-item.active');
+        if (activeTab && activeTab.getAttribute('data-tab') === 'connexion') {
+            activateProfileBetixTab('connexion');
+        }
+    }
+
+    function updatePiUI() {
+        // Badge dans le header
+        var badge = document.getElementById('piUserBadge');
+        var usernameEl = document.getElementById('piUsername');
+        if (piUser) {
+            if (badge) badge.style.display = 'inline-flex';
+            if (usernameEl) usernameEl.textContent = piUser.username;
+        } else {
+            if (badge) badge.style.display = 'none';
+        }
+
+        // En-tête du profil
+        var profileNameDisplay = document.getElementById('profileNameDisplay');
+        var profileRoleDisplay = document.getElementById('profileRoleDisplay');
+        var profileAvatarLarge = document.getElementById('profileAvatarLarge');
+        if (piUser) {
+            if (profileNameDisplay) profileNameDisplay.textContent = piUser.username;
+            if (profileRoleDisplay) profileRoleDisplay.textContent = 'Membre Pi Network';
+            if (profileAvatarLarge) profileAvatarLarge.textContent = piUser.username.substring(0, 2).toUpperCase();
+        } else {
+            if (profileNameDisplay) profileNameDisplay.textContent = 'Non connecté';
+            if (profileRoleDisplay) profileRoleDisplay.textContent = 'Connectez-vous avec Pi';
+            if (profileAvatarLarge) profileAvatarLarge.textContent = '?';
+        }
+    }
+
+    // Charge la session Pi si elle existe
+    function loadPiSession() {
+        try {
+            var stored = sessionStorage.getItem('pi_user');
+            if (stored) {
+                piUser = JSON.parse(stored);
+                updatePiUI();
+            }
+        } catch (e) {}
+    }
+
+    // ===== PI NETWORK - PAIEMENT =====
+    function createPiPayment(total, memo, metadata) {
+        return new Promise(function(resolve, reject) {
+            if (typeof Pi === 'undefined') {
+                reject(new Error('Pi SDK non disponible'));
+                return;
+            }
+            if (!piUser) {
+                reject(new Error('Utilisateur non connecté à Pi'));
+                return;
+            }
+            Pi.createPayment({
+                amount: total,
+                memo: memo,
+                metadata: metadata
+            }, {
+                onReadyForServerApproval: function(paymentId) {
+                    // Dans une vraie app : envoyer paymentId à votre backend pour approbation
+                    // Ici on simule une approbation immédiate
+                    console.log('Paiement prêt pour approbation :', paymentId);
+                    // En production : fetch('/api/approve', { method:'POST', body: { paymentId } })
+                    // Puis : Pi Server API appelle /approve
+                    // Simulation : on ne fait rien ici car Pi gère l'approbation côté SDK pour les tests
+                },
+                onReadyForServerCompletion: function(paymentId, txid) {
+                    console.log('Paiement complété :', paymentId, txid);
+                    resolve({ paymentId: paymentId, txid: txid });
+                },
+                onCancel: function(paymentId) {
+                    console.log('Paiement annulé :', paymentId);
+                    reject(new Error('Paiement annulé'));
+                },
+                onError: function(error, payment) {
+                    console.error('Erreur paiement :', error, payment);
+                    reject(error);
+                }
+            });
+        });
+    }
+
+    // ===== LOADER =====
     function simulateLoader(callback) {
         var bar = document.getElementById('loaderBar');
         var text = document.getElementById('loaderText');
@@ -309,39 +320,20 @@
         }, 5000);
     }
 
+    // ===== SLIDER =====
     function initSlider() {
         var slides = [
-            {
-                image: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=1200&h=600&fit=crop',
-                title: 'First Purchase',
-                subtitle: 'Enjoy a Special Offer!',
-                cta: 'Découvrir',
-                link: '#'
-            },
-            {
-                image: 'https://images.unsplash.com/photo-1498049794561-7780e7231661?w=1200&h=600&fit=crop',
-                title: 'Électronique de pointe',
-                subtitle: 'Des ordinateurs et smartphones au meilleur prix',
-                cta: 'Voir les offres',
-                link: '#'
-            },
-            {
-                image: 'https://images.unsplash.com/photo-1583121274602-3e2820c69888?w=1200&h=600&fit=crop',
-                title: 'Automobile et équipements',
-                subtitle: 'Des véhicules et accessoires pour professionnels',
-                cta: 'Explorer',
-                link: '#'
-            }
+            { image: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=1200&h=600&fit=crop', title: 'First Purchase', subtitle: 'Enjoy a Special Offer!', cta: 'Découvrir', link: '#' },
+            { image: 'https://images.unsplash.com/photo-1498049794561-7780e7231661?w=1200&h=600&fit=crop', title: 'Électronique de pointe', subtitle: 'Des ordinateurs et smartphones au meilleur prix', cta: 'Voir les offres', link: '#' },
+            { image: 'https://images.unsplash.com/photo-1583121274602-3e2820c69888?w=1200&h=600&fit=crop', title: 'Automobile et équipements', subtitle: 'Des véhicules et accessoires pour professionnels', cta: 'Explorer', link: '#' }
         ];
-
         var track = document.getElementById('sliderTrack');
         var dotsContainer = document.getElementById('sliderDots');
         if (!track || !dotsContainer) return;
-
         var currentIndex = 0;
         var totalSlides = slides.length;
 
-        track.innerHTML = slides.map(function(s, i) {
+        track.innerHTML = slides.map(function(s) {
             return '<div class="slider-slide" style="background-image: url(' + s.image + ');">' +
                 '<div class="slide-overlay"></div>' +
                 '<div class="slide-content">' +
@@ -360,24 +352,18 @@
             if (index >= totalSlides) index = 0;
             currentIndex = index;
             track.style.transform = 'translateX(-' + (currentIndex * 100) + '%)';
-            var dots = dotsContainer.querySelectorAll('.dot');
-            dots.forEach(function(dot, i) {
+            dotsContainer.querySelectorAll('.dot').forEach(function(dot, i) {
                 dot.classList.toggle('active', i === currentIndex);
             });
         }
-
         var prevBtn = document.getElementById('sliderPrev');
         var nextBtn = document.getElementById('sliderNext');
         if (prevBtn) prevBtn.addEventListener('click', function() { goToSlide(currentIndex - 1); });
         if (nextBtn) nextBtn.addEventListener('click', function() { goToSlide(currentIndex + 1); });
-
         dotsContainer.addEventListener('click', function(e) {
             var dot = e.target.closest('.dot');
-            if (dot) {
-                goToSlide(parseInt(dot.getAttribute('data-index')));
-            }
+            if (dot) goToSlide(parseInt(dot.getAttribute('data-index')));
         });
-
         var autoPlayInterval = setInterval(function() { goToSlide(currentIndex + 1); }, 5000);
         var sliderContainer = document.querySelector('.slider-container');
         if (sliderContainer) {
@@ -388,13 +374,12 @@
         }
     }
 
+    // ===== FILTRES CATÉGORIES =====
     function renderCategoryFilters() {
         var container = document.getElementById('categoryFilterList');
         if (!container) return;
         container.innerHTML = '';
-
         var allNames = ['Tous'].concat(categories.map(function(c) { return c.name; }));
-
         allNames.forEach(function(catName, index) {
             var btn = document.createElement('button');
             btn.className = 'filter-cat' + (index === 0 ? ' active' : '');
@@ -405,32 +390,19 @@
             });
             container.appendChild(btn);
         });
-
-        document.querySelectorAll('.filter-cat').forEach(function(btn) {
-            if (btn.getAttribute('data-cat') === selectedCategory) {
-                btn.classList.add('active');
-            } else {
-                btn.classList.remove('active');
-            }
-        });
     }
 
     function selectCategoryFilter(catName) {
         selectedCategory = catName;
         document.querySelectorAll('.filter-cat').forEach(function(btn) {
             btn.classList.remove('active');
-            if (btn.getAttribute('data-cat') === catName) {
-                btn.classList.add('active');
-            }
+            if (btn.getAttribute('data-cat') === catName) btn.classList.add('active');
         });
         applyFilters();
-        if (catName === 'all') {
-            showToast('Toutes les catégories', 'info');
-        } else {
-            showToast('Catégorie : ' + catName, 'info');
-        }
+        showToast(catName === 'all' ? 'Toutes les catégories' : 'Catégorie : ' + catName, 'info');
     }
 
+    // ===== RENDER PRODUCTS =====
     function renderProducts(list) {
         list = list || products;
         var grid = document.getElementById('productGrid');
@@ -443,8 +415,7 @@
             return '<div class="card-product" onclick="showProductDetail(' + p.id + ')">' +
                 '<div class="image">' +
                 '<img src="' + firstImage + '" alt="' + p.name + '" loading="lazy" />' +
-                verifiedBadge +
-                countBadge +
+                verifiedBadge + countBadge +
                 '</div>' +
                 '<div class="body">' +
                 '<div class="title">' + p.name + '</div>' +
@@ -498,15 +469,12 @@
 
     function applyFilters() {
         var filtered = products.slice();
-        if (selectedCountry) {
-            filtered = filtered.filter(function(p) { return p.country === selectedCountry; });
-        }
-        if (selectedCategory && selectedCategory !== 'all') {
-            filtered = filtered.filter(function(p) { return p.category === selectedCategory; });
-        }
+        if (selectedCountry) filtered = filtered.filter(function(p) { return p.country === selectedCountry; });
+        if (selectedCategory && selectedCategory !== 'all') filtered = filtered.filter(function(p) { return p.category === selectedCategory; });
         renderProducts(filtered);
     }
 
+    // ===== RECHERCHE =====
     document.getElementById('searchToggle').addEventListener('click', function() {
         document.getElementById('searchDropdown').classList.toggle('open');
     });
@@ -529,7 +497,7 @@
         document.getElementById('searchDropdown').classList.remove('open');
     }
 
-    // ===== GESTION DES PAGES SECONDAIRES =====
+    // ===== PAGES SECONDAIRES =====
     function showMainContent() {
         document.getElementById('mainContent').style.display = 'block';
         document.getElementById('productDetail').style.display = 'none';
@@ -545,17 +513,14 @@
         var p = products.find(function(x) { return x.id === id; });
         if (!p) return;
         hideMainContent();
-        var detailSection = document.getElementById('productDetail');
-        detailSection.style.display = 'block';
+        document.getElementById('productDetail').style.display = 'block';
         document.getElementById('productDetailTitle').textContent = p.name;
         var content = document.getElementById('productDetailContent');
         if (!content) return;
-
         var images = p.images && p.images.length > 0 ? p.images : ['https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=600&h=400&fit=crop'];
         var thumbnailsHtml = images.map(function(img, i) {
             return '<div class="thumb' + (i === 0 ? ' active' : '') + '" onclick="changeMainImage(this, \'' + img + '\')"><img src="' + img + '" alt="Image ' + (i+1) + '" /></div>';
         }).join('');
-
         content.innerHTML =
             '<div class="product-detail-grid">' +
             '<div class="gallery">' +
@@ -620,10 +585,9 @@
         document.getElementById('profileSection').style.display = 'block';
         document.getElementById('productDetail').style.display = 'none';
         document.getElementById('publishSection').style.display = 'none';
+        updatePiUI();
         var firstTab = document.querySelector('.profile-betix-item');
-        if (firstTab) {
-            activateProfileBetixTab(firstTab.getAttribute('data-tab'));
-        }
+        if (firstTab) activateProfileBetixTab(firstTab.getAttribute('data-tab'));
         window.scrollTo({ top: 0, behavior: 'smooth' });
     };
     window.closeProfile = function() {
@@ -632,15 +596,12 @@
         document.querySelector('.bottom-nav .nav-item[data-page="home"]').classList.add('active');
     };
 
-    // ===== PROFIL - CONTENU AMÉLIORÉ =====
+    // ===== PROFIL - ONGLETS =====
     function activateProfileBetixTab(tabId) {
         document.querySelectorAll('.profile-betix-item').forEach(function(item) {
             item.classList.remove('active');
-            if (item.getAttribute('data-tab') === tabId) {
-                item.classList.add('active');
-            }
+            if (item.getAttribute('data-tab') === tabId) item.classList.add('active');
         });
-
         var content = document.getElementById('profileContent');
         if (!content) return;
 
@@ -655,14 +616,57 @@
         var html = '';
 
         switch (tabId) {
+            case 'connexion':
+                if (piUser) {
+                    // Utilisateur connecté : afficher bouton DÉCONNEXION rouge
+                    html = '<div class="profile-page-title"><i class="fas fa-user-astronaut"></i> Connexion Pi</div>' +
+                        '<div class="pi-connection-box">' +
+                        '<div class="pi-logo-big"><i class="fab fa-pi"></i></div>' +
+                        '<div class="pi-status connected"><i class="fas fa-check-circle"></i> Connecté</div>' +
+                        '<div class="pi-user-info">' +
+                        '<div class="row"><i class="fas fa-user"></i><strong>Nom d\'utilisateur :</strong> ' + piUser.username + '</div>' +
+                        '<div class="row"><i class="fas fa-fingerprint"></i><strong>UID Pi :</strong> ' + piUser.uid + '</div>' +
+                        '</div>' +
+                        '<button class="btn-pi-disconnect" onclick="window.piDisconnect()">' +
+                        '<i class="fas fa-sign-out-alt"></i> Déconnexion' +
+                        '</button>' +
+                        '</div>';
+                } else {
+                    // Non connecté : afficher bouton CONNEXION Pi violet
+                    html = '<div class="profile-page-title"><i class="fas fa-user-astronaut"></i> Connexion Pi</div>' +
+                        '<div class="pi-connection-box">' +
+                        '<div class="pi-logo-big"><i class="fab fa-pi"></i></div>' +
+                        '<div class="pi-status">Connectez-vous avec votre compte Pi Network pour accéder à toutes les fonctionnalités et effectuer des paiements.</div>' +
+                        '<button class="btn-pi" onclick="window.piConnect()">' +
+                        '<i class="fab fa-pi"></i> Connecter avec Pi Network' +
+                        '</button>' +
+                        '<p style="margin-top:12px;font-size:12px;color:var(--text-muted);">' +
+                        '<i class="fas fa-info-circle"></i> Vous devez ouvrir cette application dans Pi Browser.' +
+                        '</p>' +
+                        '</div>';
+                }
+                break;
+
             case 'profil':
-                html = '<div class="profile-page-title"><i class="fas fa-user-circle"></i> Mon profil</div>' +
-                    infoLine('fa-user', 'Nom', 'Jean Dupont') +
-                    infoLine('fa-envelope', 'Email', 'jean.dupont@email.com') +
-                    infoLine('fa-phone', 'Téléphone', '+33 6 12 34 56 78') +
-                    infoLine('fa-flag', 'Pays', 'France') +
-                    infoLine('fa-briefcase', 'Rôle', 'Acheteur professionnel') +
-                    '<div class="profile-action-btn"><button class="btn btn-outline btn-sm" onclick="showToast(\'Modification du profil\',\'info\')"><i class="fas fa-edit"></i> Modifier</button></div>';
+                if (piUser) {
+                    html = '<div class="profile-page-title"><i class="fas fa-user-circle"></i> Mon profil</div>' +
+                        infoLine('fa-user', 'Nom', piUser.username) +
+                        infoLine('fa-fingerprint', 'UID Pi', piUser.uid) +
+                        infoLine('fa-shield-alt', 'Statut', 'Membre Pi Network') +
+                        infoLine('fa-globe', 'Réseau', 'Pi Network Mainnet') +
+                        '<div class="profile-action-btn">' +
+                        '<button class="btn btn-outline btn-sm" onclick="showToast(\'Profil Pi synchronisé\',\'info\')"><i class="fas fa-sync"></i> Synchroniser</button>' +
+                        '</div>';
+                } else {
+                    html = '<div class="profile-page-title"><i class="fas fa-user-circle"></i> Mon profil</div>' +
+                        '<div style="text-align:center;padding:20px 0;">' +
+                        '<i class="fas fa-user-slash" style="font-size:48px;color:var(--text-muted);opacity:0.4;"></i>' +
+                        '<p style="margin-top:12px;color:var(--text-muted);">Vous n\'êtes pas connecté.</p>' +
+                        '<button class="btn-pi" style="max-width:300px;margin:16px auto 0;" onclick="window.piConnect()">' +
+                        '<i class="fab fa-pi"></i> Se connecter avec Pi' +
+                        '</button>' +
+                        '</div>';
+                }
                 break;
 
             case 'parametres':
@@ -670,7 +674,7 @@
                     infoLine('fa-bell', 'Notifications', 'Activées') +
                     infoLine('fa-language', 'Langue', 'Français') +
                     infoLine('fa-palette', 'Thème', 'Clair') +
-                    infoLine('fa-lock', 'Authentification 2 facteurs', 'Désactivée') +
+                    infoLine('fa-lock', 'Auth. 2 facteurs', 'Désactivée') +
                     '<div class="profile-action-btn"><button class="btn btn-primary btn-sm" onclick="showToast(\'Paramètres enregistrés\',\'success\')"><i class="fas fa-save"></i> Enregistrer</button></div>';
                 break;
 
@@ -681,18 +685,7 @@
                     '<li><i class="fas fa-circle" style="color:#ccc;"></i> English <span class="badge-status inactive">Inactif</span></li>' +
                     '<li><i class="fas fa-circle" style="color:#ccc;"></i> Español <span class="badge-status inactive">Inactif</span></li>' +
                     '<li><i class="fas fa-circle" style="color:#ccc;"></i> العربية <span class="badge-status inactive">Inactif</span></li>' +
-                    '</ul>' +
-                    '<div class="profile-action-btn"><button class="btn btn-outline btn-sm" onclick="showToast(\'Gestion des langues\',\'info\')"><i class="fas fa-plus"></i> Ajouter une langue</button></div>';
-                break;
-
-            case 'connexion':
-                html = '<div class="profile-page-title"><i class="fas fa-sign-in-alt"></i> Connexion</div>' +
-                    '<div style="margin-bottom:12px;"><strong>Compte actuel</strong><br><span style="color:var(--text-muted);">jean.dupont@email.com</span></div>' +
-                    '<div class="profile-action-btn" style="display:flex; gap:10px; flex-wrap:wrap;">' +
-                    '<button class="btn btn-primary" onclick="showToast(\'Connexion en cours...\',\'info\')"><i class="fas fa-sign-in-alt"></i> Se connecter</button>' +
-                    '<button class="btn btn-outline" onclick="showToast(\'Déconnexion\',\'info\')"><i class="fas fa-sign-out-alt"></i> Déconnexion</button>' +
-                    '</div>' +
-                    '<div style="margin-top:16px;"><a href="#" style="color:var(--primary);font-weight:600;" onclick="showToast(\'Création de compte\',\'info\')"><i class="fas fa-user-plus"></i> Créer un compte</a></div>';
+                    '</ul>';
                 break;
 
             case 'livre-blanc':
@@ -700,9 +693,8 @@
                     '<ul class="profile-list">' +
                     '<li><i class="fas fa-file-pdf" style="color:var(--secondary);"></i> Guide commerce de gros 2026 <span class="badge-status active">Disponible</span></li>' +
                     '<li><i class="fas fa-file-pdf" style="color:var(--secondary);"></i> Stratégies d\'approvisionnement <span class="badge-status active">Disponible</span></li>' +
-                    '<li><i class="fas fa-file-pdf" style="color:var(--secondary);"></i> Analyse des marchés émergents <span class="badge-status inactive">À venir</span></li>' +
-                    '</ul>' +
-                    '<div class="profile-action-btn"><button class="btn btn-primary btn-sm" onclick="showToast(\'Téléchargement en cours...\',\'info\')"><i class="fas fa-download"></i> Télécharger tous les PDF</button></div>';
+                    '<li><i class="fas fa-file-pdf" style="color:var(--secondary);"></i> Analyse marchés émergents <span class="badge-status inactive">À venir</span></li>' +
+                    '</ul>';
                 break;
 
             case 'mes-produits':
@@ -713,23 +705,21 @@
                     '<span class="text-muted">Stock: 5000</span>' +
                     '<button class="btn btn-sm btn-outline" onclick="showToast(\'Modifier le produit\',\'info\')">Modifier</button>' +
                     '</div>' +
-                    '<div style="display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid #f0f2f5;">' +
+                    '<div style="display:flex;justify-content:space-between;align-items:center;padding:10px 0;">' +
                     '<span><i class="fas fa-watch" style="color:var(--primary);"></i> Montre connectée</span>' +
                     '<span class="text-muted">Stock: 120</span>' +
                     '<button class="btn btn-sm btn-outline" onclick="showToast(\'Modifier le produit\',\'info\')">Modifier</button>' +
-                    '</div>' +
-                    '</div>' +
+                    '</div></div>' +
                     '<div class="profile-action-btn"><button class="btn btn-primary btn-sm" onclick="window.openPublish()"><i class="fas fa-plus"></i> Ajouter un produit</button></div>';
                 break;
 
             case 'historique':
                 html = '<div class="profile-page-title"><i class="fas fa-history"></i> Historique</div>' +
                     '<ul class="profile-list">' +
-                    '<li><i class="fas fa-receipt" style="color:var(--secondary);"></i> 24/11/2024 - Commande #GB-001 - 120 Pi <span class="badge-status active">Livré</span></li>' +
-                    '<li><i class="fas fa-receipt" style="color:var(--secondary);"></i> 20/11/2024 - Commande #GB-002 - 1200 Pi <span class="badge-status active">En cours</span></li>' +
-                    '<li><i class="fas fa-receipt" style="color:var(--secondary);"></i> 15/11/2024 - Commande #GB-003 - 850 Pi <span class="badge-status inactive">Annulée</span></li>' +
-                    '</ul>' +
-                    '<div class="profile-action-btn"><button class="btn btn-outline btn-sm" onclick="showToast(\'Voir tout l\'historique\',\'info\')"><i class="fas fa-eye"></i> Voir tout</button></div>';
+                    '<li><i class="fas fa-receipt" style="color:var(--secondary);"></i> 24/11/2024 - #GB-001 - 120 π <span class="badge-status active">Livré</span></li>' +
+                    '<li><i class="fas fa-receipt" style="color:var(--secondary);"></i> 20/11/2024 - #GB-002 - 1200 π <span class="badge-status active">En cours</span></li>' +
+                    '<li><i class="fas fa-receipt" style="color:var(--secondary);"></i> 15/11/2024 - #GB-003 - 850 π <span class="badge-status inactive">Annulée</span></li>' +
+                    '</ul>';
                 break;
 
             case 'achats-ventes':
@@ -739,39 +729,38 @@
                     '<div class="stat-card"><span class="number">8</span><span class="label">Ventes</span></div>' +
                     '</div>' +
                     '<div style="margin-top:12px;padding:12px;background:var(--gray-light);border-radius:var(--radius-sm);">' +
-                    '<p style="font-weight:600;color:var(--primary);"><i class="fas fa-arrow-up" style="color:#4caf50;"></i> Chiffre d\'affaires total : 45 230 π</p>' +
+                    '<p style="font-weight:600;color:var(--primary);"><i class="fas fa-arrow-up" style="color:#4caf50;"></i> Chiffre d\'affaires : 45 230 π</p>' +
                     '</div>';
                 break;
 
             case 'faq':
                 html = '<div class="profile-page-title"><i class="fas fa-question-circle"></i> FAQ</div>' +
-                    '<div class="faq-item"><div class="question">❓ Comment acheter en gros ?</div><div class="answer">Trouvez un produit, ajoutez-le au panier et passez commande. Vous recevrez une confirmation par email.</div></div>' +
-                    '<div class="faq-item"><div class="question">❓ Les produits sont-ils vérifiés ?</div><div class="answer">Oui, nous vérifions rigoureusement chaque fournisseur avant de l\'intégrer à notre plateforme.</div></div>' +
-                    '<div class="faq-item"><div class="question">❓ Quels sont les délais de livraison ?</div><div class="answer">Généralement 5 à 10 jours ouvrés selon la destination et le mode d\'expédition choisi.</div></div>' +
-                    '<div class="faq-item"><div class="question">❓ Comment contacter un fournisseur ?</div><div class="answer">Utilisez le bouton "Contacter" sur la page du produit ou envoyez un message via votre espace messagerie.</div></div>';
+                    '<div class="faq-item"><div class="question">❓ Comment se connecter avec Pi ?</div><div class="answer">Allez dans Connexion Pi, cliquez sur "Connecter avec Pi Network". Assurez-vous d\'utiliser Pi Browser.</div></div>' +
+                    '<div class="faq-item"><div class="question">❓ Comment payer avec Pi ?</div><div class="answer">Ajoutez des produits au panier, puis cliquez sur "Payer avec Pi". Confirmez la transaction dans Pi Browser.</div></div>' +
+                    '<div class="faq-item"><div class="question">❓ Mes données sont-elles sécurisées ?</div><div class="answer">Oui, toutes les transactions sont sécurisées par la blockchain Pi Network.</div></div>' +
+                    '<div class="faq-item"><div class="question">❓ Quels sont les délais de livraison ?</div><div class="answer">Généralement 5 à 10 jours ouvrés selon la destination.</div></div>';
                 break;
 
             default:
-                html = '<div class="profile-page-title"><i class="fas fa-home"></i> Bienvenue</div><p>Sélectionnez une option dans le menu.</p>';
+                html = '<div class="profile-page-title"><i class="fas fa-home"></i> Bienvenue</div><p>Sélectionnez une option.</p>';
         }
-
         content.innerHTML = html;
     }
 
-    // ===== PUBLISH IMAGE UPLOAD =====
-    var uploadedImages = [];
+    // Exposition globale des fonctions Pi pour les boutons inline
+    window.piConnect = connectPi;
+    window.piDisconnect = disconnectPi;
 
+    // ===== UPLOAD IMAGES =====
+    var uploadedImages = [];
     document.getElementById('pImages').addEventListener('change', function(e) {
         var files = e.target.files;
-        var preview = document.getElementById('uploadPreview');
         var maxImages = 6;
-
         if (uploadedImages.length + files.length > maxImages) {
             showToast('Maximum 6 images autorisées', 'error');
             this.value = '';
             return;
         }
-
         for (var i = 0; i < files.length; i++) {
             var file = files[i];
             if (!file.type.startsWith('image/')) continue;
@@ -797,7 +786,7 @@
         renderUploadPreview();
     };
 
-    // ===== CART =====
+    // ===== PANIER =====
     window.addToCart = function(id) {
         var p = products.find(function(x) { return x.id === id; });
         if (!p) return;
@@ -830,13 +819,11 @@
         var footer = document.getElementById('cartFooter');
         var totalEl = document.getElementById('cartTotalPrice');
         if (!body) return;
-
         if (cartItems.length === 0) {
             body.innerHTML = '<div class="cart-empty"><i class="fas fa-shopping-bag"></i><p>Votre panier est vide</p></div>';
             footer.style.display = 'none';
             return;
         }
-
         body.innerHTML = cartItems.map(function(item) {
             var imgSrc = item.image || 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=100&h=100&fit=crop';
             return '<div class="cart-item">' +
@@ -848,12 +835,10 @@
                 '<button onclick="updateQty(' + item.id + ',-1)">-</button>' +
                 '<span>' + item.qty + '</span>' +
                 '<button onclick="updateQty(' + item.id + ',1)">+</button>' +
-                '</div>' +
-                '</div>' +
+                '</div></div>' +
                 '<button class="btn btn-sm btn-danger" onclick="removeFromCart(' + item.id + ')"><i class="fas fa-trash"></i></button>' +
                 '</div>';
         }).join('');
-
         footer.style.display = 'block';
         var total = cartItems.reduce(function(s, i) { return s + (i.price * i.qty); }, 0);
         totalEl.textContent = total + ' π';
@@ -883,14 +868,66 @@
     document.getElementById('cartOverlay').addEventListener('click', function(e) {
         if (e.target === this) toggleCart();
     });
+
+    // ===== CHECKOUT AVEC PI PAYMENT =====
     document.getElementById('checkoutBtn').addEventListener('click', function() {
         if (cartItems.length === 0) { showToast('Panier vide', 'error'); return; }
+
         var total = cartItems.reduce(function(s, i) { return s + (i.price * i.qty); }, 0);
-        showToast('Commande validée ! Total : ' + total + ' π', 'success');
-        cartItems = [];
-        updateCartBadge();
-        renderCartItems();
-        toggleCart();
+        var totalFixed = parseFloat(total.toFixed(7)); // Pi accepte jusqu'à 7 décimales
+
+        if (typeof Pi === 'undefined') {
+            showToast('Ouvrez l\'application dans Pi Browser pour payer', 'error');
+            return;
+        }
+
+        if (!piUser) {
+            showToast('Veuillez vous connecter avec Pi d\'abord', 'error');
+            // Ouvrir le profil sur l'onglet connexion
+            setTimeout(function() {
+                window.openProfile();
+                setTimeout(function() { activateProfileBetixTab('connexion'); }, 200);
+            }, 800);
+            return;
+        }
+
+        var memo = 'Global Bulk - Commande de ' + cartItems.length + ' article(s)';
+        var metadata = {
+            items: cartItems.map(function(i) {
+                return { id: i.id, name: i.name, qty: i.qty, price: i.price };
+            }),
+            total: totalFixed,
+            username: piUser.username,
+            timestamp: Date.now()
+        };
+
+        // Feedback utilisateur
+        var btn = this;
+        var originalText = btn.innerHTML;
+        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Traitement...';
+        btn.disabled = true;
+
+        createPiPayment(totalFixed, memo, metadata)
+            .then(function(result) {
+                console.log('Paiement réussi', result);
+                showToast('Paiement Pi réussi ! Transaction : ' + result.txid.substring(0, 10) + '...', 'success');
+                cartItems = [];
+                updateCartBadge();
+                renderCartItems();
+                setTimeout(function() { toggleCart(); }, 800);
+            })
+            .catch(function(err) {
+                console.error('Erreur paiement', err);
+                if (err && err.message === 'Paiement annulé') {
+                    showToast('Paiement annulé', 'info');
+                } else {
+                    showToast('Erreur de paiement : ' + (err.message || 'inconnue'), 'error');
+                }
+            })
+            .finally(function() {
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+            });
     });
 
     // ===== STATS =====
@@ -911,18 +948,11 @@
     document.querySelectorAll('.bottom-nav .nav-item').forEach(function(btn) {
         btn.addEventListener('click', function() {
             var page = this.getAttribute('data-page');
-            if (page === 'profile') {
-                window.openProfile();
-                return;
-            }
-            if (page === 'publish') {
-                window.openPublish();
-                return;
-            }
+            if (page === 'profile') { window.openProfile(); return; }
+            if (page === 'publish') { window.openPublish(); return; }
             showMainContent();
             document.querySelectorAll('.bottom-nav .nav-item').forEach(function(b) { b.classList.remove('active'); });
             this.classList.add('active');
-
             var sections = {
                 home: ['productsSection', 'suppliersSection'],
                 market: ['productsSection'],
@@ -942,15 +972,12 @@
         });
     });
 
-    // ===== PROFIL - ÉCOUTEURS =====
     document.querySelectorAll('.profile-betix-item').forEach(function(item) {
         item.addEventListener('click', function() {
-            var tab = this.getAttribute('data-tab');
-            activateProfileBetixTab(tab);
+            activateProfileBetixTab(this.getAttribute('data-tab'));
         });
     });
 
-    // ===== FLOATING BUTTON & FOOTER =====
     document.getElementById('btnPublishFloating').addEventListener('click', function() { window.openPublish(); });
 
     document.getElementById('footerPublish').addEventListener('click', function(e) {
@@ -960,9 +987,7 @@
     document.getElementById('footerFaq').addEventListener('click', function(e) {
         e.preventDefault();
         window.openProfile();
-        setTimeout(function() {
-            activateProfileBetixTab('faq');
-        }, 100);
+        setTimeout(function() { activateProfileBetixTab('faq'); }, 100);
     });
 
     // ===== PUBLISH FORM =====
@@ -988,18 +1013,9 @@
         var images = uploadedImages.length > 0 ? uploadedImages : ['https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400&h=300&fit=crop'];
 
         var newProduct = {
-            id: products.length + 1,
-            name: name,
-            price: price,
-            unit: unit,
-            minOrder: minOrder,
-            stock: stock,
-            supplier: supplier,
-            country: country,
-            verified: verified,
-            rating: rating,
-            category: category,
-            images: images
+            id: products.length + 1, name: name, price: price, unit: unit,
+            minOrder: minOrder, stock: stock, supplier: supplier, country: country,
+            verified: verified, rating: rating, category: category, images: images
         };
         products.push(newProduct);
         renderProducts();
@@ -1014,7 +1030,6 @@
         renderCategoryFilters();
     });
 
-    // ===== POPULATE FORM SELECTS =====
     function populateFormSelects() {
         var pCategory = document.getElementById('pCategory');
         if (pCategory) {
@@ -1032,7 +1047,10 @@
         }
     }
 
-    // ===== INIT =====
+    // ===== INITIALISATION =====
+    initPiNetwork();
+    loadPiSession();
+
     simulateLoader(function() {
         renderCategoryFilters();
         renderProducts();
@@ -1041,6 +1059,7 @@
         populateFormSelects();
         updateCartBadge();
         initSlider();
+        updatePiUI();
         setTimeout(animateStats, 300);
         setTimeout(function() { showToast('Bienvenue sur Global Bulk', 'success'); }, 500);
     });
