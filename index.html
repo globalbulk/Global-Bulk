@@ -8,8 +8,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
     <link rel="stylesheet" href="style.css" />
-    <!-- SDK Pi Network -->
-    <script src="https://socialchain.app/sdk.js"></script>
+    <!-- ✅ SDK Pi Network OFFICIEL -->
+    <script src="https://sdk.minepi.com/pi-sdk.js"></script>
 </head>
 <body>
 
@@ -21,19 +21,40 @@
         </div>
     </div>
 
-    <!-- MODALE D'AUTHENTIFICATION REQUISE -->
+    <!-- MODALE AUTH REQUISE -->
     <div id="authRequiredModal" class="auth-modal">
         <div class="auth-modal-content">
-            <div class="auth-modal-icon">
-                <i class="fab fa-pi"></i>
-            </div>
+            <div class="auth-modal-icon"><i class="fab fa-pi"></i></div>
             <h2>Connexion Pi requise</h2>
             <p id="authModalMessage">Vous devez vous connecter avec Pi Network pour continuer.</p>
             <button class="auth-modal-btn" id="authModalConnectBtn">
                 <i class="fab fa-pi"></i>
-                <span>Se connecter avec Pi</span>
+                <span>Se connecter maintenant</span>
             </button>
-            <button class="auth-modal-cancel" id="authModalCancelBtn">Annuler</button>
+            <button class="auth-modal-cancel" id="authModalCancelBtn">Plus tard</button>
+        </div>
+    </div>
+
+    <!-- MODALE PAIEMENT -->
+    <div id="paymentModal" class="payment-modal">
+        <div class="payment-modal-content">
+            <div class="payment-modal-header">
+                <div class="payment-icon"><i class="fab fa-pi"></i></div>
+                <h2>Confirmer le paiement</h2>
+                <p>Vérifiez les détails avant de valider</p>
+            </div>
+            <div class="payment-summary" id="paymentSummary">
+                <!-- Rempli par JS -->
+            </div>
+            <div class="payment-total">
+                <span>Total à payer</span>
+                <span class="payment-amount" id="paymentAmount">0 π</span>
+            </div>
+            <button class="payment-confirm-btn" id="paymentConfirmBtn">
+                <i class="fab fa-pi"></i>
+                <span>Payer avec Pi Network</span>
+            </button>
+            <button class="payment-cancel-btn" id="paymentCancelBtn">Annuler</button>
         </div>
     </div>
 
@@ -191,7 +212,7 @@
             </div>
         </section>
 
-        <!-- PROFIL -->
+        <!-- PROFIL (page principale) -->
         <section class="section page-secondary" id="profileSection" style="display:none;">
             <div class="page-header">
                 <button class="btn-back" onclick="closeProfile()"><i class="fas fa-arrow-left"></i> Retour</button>
@@ -199,23 +220,17 @@
             </div>
 
             <div class="profile-wrapper">
-                <!-- Carte compte Pi -->
                 <div class="pi-account-card" id="piAccountCard">
-                    <div class="pi-avatar" id="piAvatar">
-                        <i class="fab fa-pi"></i>
-                    </div>
+                    <div class="pi-avatar" id="piAvatar"><i class="fab fa-pi"></i></div>
                     <h2 class="pi-account-username" id="piAccountUsername">Non connecté</h2>
                     <p class="pi-account-subtitle" id="piAccountSubtitle">Connectez-vous avec Pi Network</p>
-
                     <button class="pi-action-btn" id="piActionBtn">
                         <i class="fab fa-pi"></i>
                         <span id="piActionText">Connecter avec Pi Network</span>
                     </button>
-
                     <div class="pi-account-hint" id="piAccountHint"></div>
                 </div>
 
-                <!-- Menu -->
                 <div class="profile-menu">
                     <button class="menu-item" data-tab="monprofil">
                         <div class="menu-icon"><i class="fas fa-user"></i></div>
@@ -259,16 +274,22 @@
                     </button>
                 </div>
             </div>
-
-            <!-- Sous-page du profil -->
-            <div class="profile-subpage" id="profileSubpage" style="display:none;">
-                <div class="page-header">
-                    <button class="btn-back" onclick="closeProfileSubpage()"><i class="fas fa-arrow-left"></i> Retour</button>
-                    <h2 class="page-title" id="profileSubpageTitle">Détail</h2>
-                </div>
-                <div class="profile-subpage-content" id="profileSubpageContent"></div>
-            </div>
         </section>
+
+        <!-- ===== TIROIR LATÉRAL PROFIL (slide-in drawer) ===== -->
+        <div class="side-drawer-overlay" id="sideDrawerOverlay"></div>
+        <aside class="side-drawer" id="sideDrawer">
+            <div class="side-drawer-header">
+                <button class="side-drawer-back" id="sideDrawerBack">
+                    <i class="fas fa-arrow-left"></i>
+                </button>
+                <h2 class="side-drawer-title" id="sideDrawerTitle">Détail</h2>
+                <button class="side-drawer-close" id="sideDrawerClose">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="side-drawer-content" id="sideDrawerContent"></div>
+        </aside>
 
         <!-- PANIER -->
         <div class="cart-overlay" id="cartOverlay">
