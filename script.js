@@ -304,22 +304,35 @@
             }, {
                 onReadyForServerApproval: function(paymentId) {
                     console.log('[Pi] 📤 Prêt pour approbation serveur :', paymentId);
-                    // ⚠️ EN PRODUCTION : Appelez votre backend pour approuver ce paiement
-                    // fetch('/api/pi/approve', {
-                    //     method: 'POST',
-                    //     headers: { 'Content-Type': 'application/json' },
-                    //     body: JSON.stringify({ paymentId: paymentId })
-                    // });
+                    
+                    // ⚠️ REMPLACEZ CETTE URL par celle de votre backend Render
+                    fetch('https://global-bulk-pi-backend.onrender.com/approve', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ paymentId: paymentId })
+                    })
+                    .then(response => response.json())
+                    .then(data => console.log('[Pi] ✅ Approbation confirmée par le serveur:', data))
+                    .catch(error => console.error('[Pi] ❌ Erreur approbation:', error));
                 },
                 onReadyForServerCompletion: function(paymentId, txid) {
                     console.log('[Pi] ✅ Paiement complété :', paymentId, txid);
-                    // ⚠️ EN PRODUCTION : Appelez votre backend pour compléter ce paiement
-                    // fetch('/api/pi/complete', {
-                    //     method: 'POST',
-                    //     headers: { 'Content-Type': 'application/json' },
-                    //     body: JSON.stringify({ paymentId: paymentId, txid: txid })
-                    // });
-                    resolve({ paymentId: paymentId, txid: txid });
+                    
+                    // ⚠️ REMPLACEZ CETTE URL par celle de votre backend Render
+                    fetch('https://global-bulk-pi-backend.onrender.com/complete', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ paymentId: paymentId, txid: txid })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log('[Pi] ✅ Finalisation confirmée:', data);
+                        resolve({ paymentId: paymentId, txid: txid });
+                    })
+                    .catch(error => {
+                        console.error('[Pi] ❌ Erreur finalisation:', error);
+                        reject(error);
+                    });
                 },
                 onCancel: function(paymentId) {
                     console.log('[Pi] ❌ Paiement annulé');
