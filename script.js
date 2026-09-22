@@ -25,6 +25,208 @@
         { icon: 'fa-paw', name: 'Animalerie', count: 95 }
     ];
 
+    // ============ LISTE COMPLÈTE DES PAYS DU MONDE AVEC DRAPEAUX ============
+    var countriesData = [
+        { code: 'AF', name: 'Afghanistan', flag: '\uD83C\uDDE6\uD83C\uDDEB' },
+        { code: 'ZA', name: 'Afrique du Sud', flag: '\uD83C\uDDFF\uD83C\uDDE6' },
+        { code: 'AL', name: 'Albanie', flag: '\uD83C\uDDE6\uD83C\uDDF1' },
+        { code: 'DZ', name: 'Algérie', flag: '\uD83C\uDDE9\uD83C\uDDFF' },
+        { code: 'DE', name: 'Allemagne', flag: '\uD83C\uDDE9\uD83C\uDDEA' },
+        { code: 'AD', name: 'Andorre', flag: '\uD83C\uDDE6\uD83C\uDDE9' },
+        { code: 'AO', name: 'Angola', flag: '\uD83C\uDDE6\uD83C\uDDF4' },
+        { code: 'AG', name: 'Antigua-et-Barbuda', flag: '\uD83C\uDDE6\uD83C\uDDEC' },
+        { code: 'SA', name: 'Arabie saoudite', flag: '\uD83C\uDDF8\uD83C\uDDE6' },
+        { code: 'AR', name: 'Argentine', flag: '\uD83C\uDDE6\uD83C\uDDF7' },
+        { code: 'AM', name: 'Arménie', flag: '\uD83C\uDDE6\uD83C\uDDF2' },
+        { code: 'AU', name: 'Australie', flag: '\uD83C\uDDE6\uD83C\uDDFA' },
+        { code: 'AT', name: 'Autriche', flag: '\uD83C\uDDE6\uD83C\uDDF9' },
+        { code: 'AZ', name: 'Azerbaïdjan', flag: '\uD83C\uDDE6\uD83C\uDDFF' },
+        { code: 'BS', name: 'Bahamas', flag: '\uD83C\uDDE7\uD83C\uDDF8' },
+        { code: 'BH', name: 'Bahreïn', flag: '\uD83C\uDDE7\uD83C\uDDED' },
+        { code: 'BD', name: 'Bangladesh', flag: '\uD83C\uDDE7\uD83C\uDDE9' },
+        { code: 'BB', name: 'Barbade', flag: '\uD83C\uDDE7\uD83C\uDDE7' },
+        { code: 'BE', name: 'Belgique', flag: '\uD83C\uDDE7\uD83C\uDDEA' },
+        { code: 'BZ', name: 'Belize', flag: '\uD83C\uDDE7\uD83C\uDDFF' },
+        { code: 'BJ', name: 'Bénin', flag: '\uD83C\uDDE7\uD83C\uDDEF' },
+        { code: 'BT', name: 'Bhoutan', flag: '\uD83C\uDDE7\uD83C\uDDF9' },
+        { code: 'BY', name: 'Biélorussie', flag: '\uD83C\uDDE7\uD83C\uDDFE' },
+        { code: 'MM', name: 'Birmanie', flag: '\uD83C\uDDF2\uD83C\uDDF2' },
+        { code: 'BO', name: 'Bolivie', flag: '\uD83C\uDDE7\uD83C\uDDF4' },
+        { code: 'BA', name: 'Bosnie-Herzégovine', flag: '\uD83C\uDDE7\uD83C\uDDE6' },
+        { code: 'BW', name: 'Botswana', flag: '\uD83C\uDDE7\uD83C\uDDFC' },
+        { code: 'BR', name: 'Brésil', flag: '\uD83C\uDDE7\uD83C\uDDF7' },
+        { code: 'BN', name: 'Brunei', flag: '\uD83C\uDDE7\uD83C\uDDF3' },
+        { code: 'BG', name: 'Bulgarie', flag: '\uD83C\uDDE7\uD83C\uDDEC' },
+        { code: 'BF', name: 'Burkina Faso', flag: '\uD83C\uDDE7\uD83C\uDDEB' },
+        { code: 'BI', name: 'Burundi', flag: '\uD83C\uDDE7\uD83C\uDDEE' },
+        { code: 'KH', name: 'Cambodge', flag: '\uD83C\uDDF0\uD83C\uDDED' },
+        { code: 'CM', name: 'Cameroun', flag: '\uD83C\uDDE8\uD83C\uDDF2' },
+        { code: 'CA', name: 'Canada', flag: '\uD83C\uDDE8\uD83C\uDDE6' },
+        { code: 'CV', name: 'Cap-Vert', flag: '\uD83C\uDDE8\uD83C\uDDFB' },
+        { code: 'CF', name: 'République centrafricaine', flag: '\uD83C\uDDE8\uD83C\uDDEB' },
+        { code: 'CL', name: 'Chili', flag: '\uD83C\uDDE8\uD83C\uDDF1' },
+        { code: 'CN', name: 'Chine', flag: '\uD83C\uDDE8\uD83C\uDDF3' },
+        { code: 'CY', name: 'Chypre', flag: '\uD83C\uDDE8\uD83C\uDDFE' },
+        { code: 'CO', name: 'Colombie', flag: '\uD83C\uDDE8\uD83C\uDDF4' },
+        { code: 'KM', name: 'Comores', flag: '\uD83C\uDDF0\uD83C\uDDF2' },
+        { code: 'CG', name: 'Congo-Brazzaville', flag: '\uD83C\uDDE8\uD83C\uDDEC' },
+        { code: 'CD', name: 'Congo-Kinshasa', flag: '\uD83C\uDDE8\uD83C\uDDE9' },
+        { code: 'KP', name: 'Corée du Nord', flag: '\uD83C\uDDF0\uD83C\uDDF5' },
+        { code: 'KR', name: 'Corée du Sud', flag: '\uD83C\uDDF0\uD83C\uDDF7' },
+        { code: 'CR', name: 'Costa Rica', flag: '\uD83C\uDDE8\uD83C\uDDF7' },
+        { code: 'CI', name: "Côte d'Ivoire", flag: '\uD83C\uDDE8\uD83C\uDDEE' },
+        { code: 'HR', name: 'Croatie', flag: '\uD83C\uDDED\uD83C\uDDF7' },
+        { code: 'CU', name: 'Cuba', flag: '\uD83C\uDDE8\uD83C\uDDFA' },
+        { code: 'DK', name: 'Danemark', flag: '\uD83C\uDDE9\uD83C\uDDF0' },
+        { code: 'DJ', name: 'Djibouti', flag: '\uD83C\uDDE9\uD83C\uDDEF' },
+        { code: 'DM', name: 'Dominique', flag: '\uD83C\uDDE9\uD83C\uDDF2' },
+        { code: 'EG', name: 'Égypte', flag: '\uD83C\uDDEA\uD83C\uDDEC' },
+        { code: 'AE', name: 'Émirats arabes unis', flag: '\uD83C\uDDE6\uD83C\uDDEA' },
+        { code: 'EC', name: 'Équateur', flag: '\uD83C\uDDEA\uD83C\uDDE8' },
+        { code: 'ER', name: 'Érythrée', flag: '\uD83C\uDDEA\uD83C\uDDF7' },
+        { code: 'ES', name: 'Espagne', flag: '\uD83C\uDDEA\uD83C\uDDF8' },
+        { code: 'EE', name: 'Estonie', flag: '\uD83C\uDDEA\uD83C\uDDEA' },
+        { code: 'SZ', name: 'Eswatini', flag: '\uD83C\uDDF8\uD83C\uDDFF' },
+        { code: 'US', name: 'États-Unis', flag: '\uD83C\uDDFA\uD83C\uDDF8' },
+        { code: 'ET', name: 'Éthiopie', flag: '\uD83C\uDDEA\uD83C\uDDF9' },
+        { code: 'FJ', name: 'Fidji', flag: '\uD83C\uDDEB\uD83C\uDDEF' },
+        { code: 'FI', name: 'Finlande', flag: '\uD83C\uDDEB\uD83C\uDDEE' },
+        { code: 'FR', name: 'France', flag: '\uD83C\uDDEB\uD83C\uDDF7' },
+        { code: 'GA', name: 'Gabon', flag: '\uD83C\uDDEC\uD83C\uDDE6' },
+        { code: 'GM', name: 'Gambie', flag: '\uD83C\uDDEC\uD83C\uDDF2' },
+        { code: 'GE', name: 'Géorgie', flag: '\uD83C\uDDEC\uD83C\uDDEA' },
+        { code: 'GH', name: 'Ghana', flag: '\uD83C\uDDEC\uD83C\uDDED' },
+        { code: 'GR', name: 'Grèce', flag: '\uD83C\uDDEC\uD83C\uDDF7' },
+        { code: 'GD', name: 'Grenade', flag: '\uD83C\uDDEC\uD83C\uDDE9' },
+        { code: 'GT', name: 'Guatemala', flag: '\uD83C\uDDEC\uD83C\uDDF9' },
+        { code: 'GN', name: 'Guinée', flag: '\uD83C\uDDEC\uD83C\uDDF3' },
+        { code: 'GW', name: 'Guinée-Bissau', flag: '\uD83C\uDDEC\uD83C\uDDFC' },
+        { code: 'GQ', name: 'Guinée équatoriale', flag: '\uD83C\uDDEC\uD83C\uDDF6' },
+        { code: 'GY', name: 'Guyana', flag: '\uD83C\uDDEC\uD83C\uDDFE' },
+        { code: 'HT', name: 'Haïti', flag: '\uD83C\uDDED\uD83C\uDDF9' },
+        { code: 'HN', name: 'Honduras', flag: '\uD83C\uDDED\uD83C\uDDF3' },
+        { code: 'HU', name: 'Hongrie', flag: '\uD83C\uDDED\uD83C\uDDFA' },
+        { code: 'IN', name: 'Inde', flag: '\uD83C\uDDEE\uD83C\uDDF3' },
+        { code: 'ID', name: 'Indonésie', flag: '\uD83C\uDDEE\uD83C\uDDE9' },
+        { code: 'IQ', name: 'Irak', flag: '\uD83C\uDDEE\uD83C\uDDF6' },
+        { code: 'IR', name: 'Iran', flag: '\uD83C\uDDEE\uD83C\uDDF7' },
+        { code: 'IE', name: 'Irlande', flag: '\uD83C\uDDEE\uD83C\uDDEA' },
+        { code: 'IS', name: 'Islande', flag: '\uD83C\uDDEE\uD83C\uDDF8' },
+        { code: 'IL', name: 'Israël', flag: '\uD83C\uDDEE\uD83C\uDDF1' },
+        { code: 'IT', name: 'Italie', flag: '\uD83C\uDDEE\uD83C\uDDF9' },
+        { code: 'JM', name: 'Jamaïque', flag: '\uD83C\uDDEF\uD83C\uDDF2' },
+        { code: 'JP', name: 'Japon', flag: '\uD83C\uDDEF\uD83C\uDDF5' },
+        { code: 'JO', name: 'Jordanie', flag: '\uD83C\uDDEF\uD83C\uDDF4' },
+        { code: 'KZ', name: 'Kazakhstan', flag: '\uD83C\uDDF0\uD83C\uDDFF' },
+        { code: 'KE', name: 'Kenya', flag: '\uD83C\uDDF0\uD83C\uDDEA' },
+        { code: 'KG', name: 'Kirghizistan', flag: '\uD83C\uDDF0\uD83C\uDDEC' },
+        { code: 'KI', name: 'Kiribati', flag: '\uD83C\uDDF0\uD83C\uDDEE' },
+        { code: 'XK', name: 'Kosovo', flag: '\uD83C\uDDFD\uD83C\uDDF0' },
+        { code: 'KW', name: 'Koweït', flag: '\uD83C\uDDF0\uD83C\uDDFC' },
+        { code: 'LA', name: 'Laos', flag: '\uD83C\uDDF1\uD83C\uDDE6' },
+        { code: 'LS', name: 'Lesotho', flag: '\uD83C\uDDF1\uD83C\uDDF8' },
+        { code: 'LV', name: 'Lettonie', flag: '\uD83C\uDDF1\uD83C\uDDFB' },
+        { code: 'LB', name: 'Liban', flag: '\uD83C\uDDF1\uD83C\uDDE7' },
+        { code: 'LR', name: 'Liberia', flag: '\uD83C\uDDF1\uD83C\uDDF7' },
+        { code: 'LY', name: 'Libye', flag: '\uD83C\uDDF1\uD83C\uDDFE' },
+        { code: 'LI', name: 'Liechtenstein', flag: '\uD83C\uDDF1\uD83C\uDDEE' },
+        { code: 'LT', name: 'Lituanie', flag: '\uD83C\uDDF1\uD83C\uDDF9' },
+        { code: 'LU', name: 'Luxembourg', flag: '\uD83C\uDDF1\uD83C\uDDFA' },
+        { code: 'MK', name: 'Macédoine du Nord', flag: '\uD83C\uDDF2\uD83C\uDDF0' },
+        { code: 'MG', name: 'Madagascar', flag: '\uD83C\uDDF2\uD83C\uDDEC' },
+        { code: 'MY', name: 'Malaisie', flag: '\uD83C\uDDF2\uD83C\uDDFE' },
+        { code: 'MW', name: 'Malawi', flag: '\uD83C\uDDF2\uD83C\uDDFC' },
+        { code: 'MV', name: 'Maldives', flag: '\uD83C\uDDF2\uD83C\uDDFB' },
+        { code: 'ML', name: 'Mali', flag: '\uD83C\uDDF2\uD83C\uDDF1' },
+        { code: 'MT', name: 'Malte', flag: '\uD83C\uDDF2\uD83C\uDDF9' },
+        { code: 'MA', name: 'Maroc', flag: '\uD83C\uDDF2\uD83C\uDDE6' },
+        { code: 'MH', name: 'Marshall', flag: '\uD83C\uDDF2\uD83C\uDDED' },
+        { code: 'MU', name: 'Maurice', flag: '\uD83C\uDDF2\uD83C\uDDFA' },
+        { code: 'MR', name: 'Mauritanie', flag: '\uD83C\uDDF2\uD83C\uDDF7' },
+        { code: 'MX', name: 'Mexique', flag: '\uD83C\uDDF2\uD83C\uDDFD' },
+        { code: 'FM', name: 'Micronésie', flag: '\uD83C\uDDEB\uD83C\uDDF2' },
+        { code: 'MD', name: 'Moldavie', flag: '\uD83C\uDDF2\uD83C\uDDE9' },
+        { code: 'MC', name: 'Monaco', flag: '\uD83C\uDDF2\uD83C\uDDE8' },
+        { code: 'MN', name: 'Mongolie', flag: '\uD83C\uDDF2\uD83C\uDDF3' },
+        { code: 'ME', name: 'Monténégro', flag: '\uD83C\uDDF2\uD83C\uDDEA' },
+        { code: 'MZ', name: 'Mozambique', flag: '\uD83C\uDDF2\uD83C\uDDFF' },
+        { code: 'NA', name: 'Namibie', flag: '\uD83C\uDDF3\uD83C\uDDE6' },
+        { code: 'NR', name: 'Nauru', flag: '\uD83C\uDDF3\uD83C\uDDF7' },
+        { code: 'NP', name: 'Népal', flag: '\uD83C\uDDF3\uD83C\uDDF5' },
+        { code: 'NI', name: 'Nicaragua', flag: '\uD83C\uDDF3\uD83C\uDDEE' },
+        { code: 'NE', name: 'Niger', flag: '\uD83C\uDDF3\uD83C\uDDEA' },
+        { code: 'NG', name: 'Nigeria', flag: '\uD83C\uDDF3\uD83C\uDDEC' },
+        { code: 'NO', name: 'Norvège', flag: '\uD83C\uDDF3\uD83C\uDDF4' },
+        { code: 'NZ', name: 'Nouvelle-Zélande', flag: '\uD83C\uDDF3\uD83C\uDDFF' },
+        { code: 'OM', name: 'Oman', flag: '\uD83C\uDDF4\uD83C\uDDF2' },
+        { code: 'UG', name: 'Ouganda', flag: '\uD83C\uDDFA\uD83C\uDDEC' },
+        { code: 'UZ', name: 'Ouzbékistan', flag: '\uD83C\uDDFA\uD83C\uDDFF' },
+        { code: 'PK', name: 'Pakistan', flag: '\uD83C\uDDF5\uD83C\uDDF0' },
+        { code: 'PW', name: 'Palaos', flag: '\uD83C\uDDF5\uD83C\uDDFC' },
+        { code: 'PS', name: 'Palestine', flag: '\uD83C\uDDF5\uD83C\uDDF8' },
+        { code: 'PA', name: 'Panama', flag: '\uD83C\uDDF5\uD83C\uDDE6' },
+        { code: 'PG', name: 'Papouasie-Nouvelle-Guinée', flag: '\uD83C\uDDF5\uD83C\uDDEC' },
+        { code: 'PY', name: 'Paraguay', flag: '\uD83C\uDDF5\uD83C\uDDFE' },
+        { code: 'NL', name: 'Pays-Bas', flag: '\uD83C\uDDF3\uD83C\uDDF1' },
+        { code: 'PE', name: 'Pérou', flag: '\uD83C\uDDF5\uD83C\uDDEA' },
+        { code: 'PH', name: 'Philippines', flag: '\uD83C\uDDF5\uD83C\uDDED' },
+        { code: 'PL', name: 'Pologne', flag: '\uD83C\uDDF5\uD83C\uDDF1' },
+        { code: 'PT', name: 'Portugal', flag: '\uD83C\uDDF5\uD83C\uDDF9' },
+        { code: 'QA', name: 'Qatar', flag: '\uD83C\uDDF6\uD83C\uDDE6' },
+        { code: 'RO', name: 'Roumanie', flag: '\uD83C\uDDF7\uD83C\uDDF4' },
+        { code: 'GB', name: 'Royaume-Uni', flag: '\uD83C\uDDEC\uD83C\uDDE7' },
+        { code: 'RU', name: 'Russie', flag: '\uD83C\uDDF7\uD83C\uDDFA' },
+        { code: 'RW', name: 'Rwanda', flag: '\uD83C\uDDF7\uD83C\uDDFC' },
+        { code: 'KN', name: 'Saint-Christophe-et-Niévès', flag: '\uD83C\uDDF0\uD83C\uDDF3' },
+        { code: 'SM', name: 'Saint-Marin', flag: '\uD83C\uDDF8\uD83C\uDDF2' },
+        { code: 'VC', name: 'Saint-Vincent-et-les-Grenadines', flag: '\uD83C\uDDFB\uD83C\uDDE8' },
+        { code: 'LC', name: 'Sainte-Lucie', flag: '\uD83C\uDDF1\uD83C\uDDE8' },
+        { code: 'SB', name: 'Salomon', flag: '\uD83C\uDDF8\uD83C\uDDE7' },
+        { code: 'SV', name: 'Salvador', flag: '\uD83C\uDDF8\uD83C\uDDFB' },
+        { code: 'WS', name: 'Samoa', flag: '\uD83C\uDDFC\uD83C\uDDF8' },
+        { code: 'ST', name: 'Sao Tomé-et-Principe', flag: '\uD83C\uDDF8\uD83C\uDDF9' },
+        { code: 'SN', name: 'Sénégal', flag: '\uD83C\uDDF8\uD83C\uDDF3' },
+        { code: 'RS', name: 'Serbie', flag: '\uD83C\uDDF7\uD83C\uDDF8' },
+        { code: 'SC', name: 'Seychelles', flag: '\uD83C\uDDF8\uD83C\uDDE8' },
+        { code: 'SL', name: 'Sierra Leone', flag: '\uD83C\uDDF8\uD83C\uDDF1' },
+        { code: 'SG', name: 'Singapour', flag: '\uD83C\uDDF8\uD83C\uDDEC' },
+        { code: 'SK', name: 'Slovaquie', flag: '\uD83C\uDDF8\uD83C\uDDF0' },
+        { code: 'SI', name: 'Slovénie', flag: '\uD83C\uDDF8\uD83C\uDDEE' },
+        { code: 'SO', name: 'Somalie', flag: '\uD83C\uDDF8\uD83C\uDDF4' },
+        { code: 'SD', name: 'Soudan', flag: '\uD83C\uDDF8\uD83C\uDDE9' },
+        { code: 'SS', name: 'Soudan du Sud', flag: '\uD83C\uDDF8\uD83C\uDDF8' },
+        { code: 'LK', name: 'Sri Lanka', flag: '\uD83C\uDDF1\uD83C\uDDF0' },
+        { code: 'SE', name: 'Suède', flag: '\uD83C\uDDF8\uD83C\uDDEA' },
+        { code: 'CH', name: 'Suisse', flag: '\uD83C\uDDE8\uD83C\uDDED' },
+        { code: 'SR', name: 'Suriname', flag: '\uD83C\uDDF8\uD83C\uDDF7' },
+        { code: 'SY', name: 'Syrie', flag: '\uD83C\uDDF8\uD83C\uDDFE' },
+        { code: 'TJ', name: 'Tadjikistan', flag: '\uD83C\uDDF9\uD83C\uDDEF' },
+        { code: 'TZ', name: 'Tanzanie', flag: '\uD83C\uDDF9\uD83C\uDDFF' },
+        { code: 'TD', name: 'Tchad', flag: '\uD83C\uDDF9\uD83C\uDDE9' },
+        { code: 'CZ', name: 'Tchéquie', flag: '\uD83C\uDDE8\uD83C\uDDFF' },
+        { code: 'TH', name: 'Thaïlande', flag: '\uD83C\uDDF9\uD83C\uDDED' },
+        { code: 'TL', name: 'Timor oriental', flag: '\uD83C\uDDF9\uD83C\uDDF1' },
+        { code: 'TG', name: 'Togo', flag: '\uD83C\uDDF9\uD83C\uDDEC' },
+        { code: 'TO', name: 'Tonga', flag: '\uD83C\uDDF9\uD83C\uDDF4' },
+        { code: 'TT', name: 'Trinité-et-Tobago', flag: '\uD83C\uDDF9\uD83C\uDDF9' },
+        { code: 'TN', name: 'Tunisie', flag: '\uD83C\uDDF9\uD83C\uDDF3' },
+        { code: 'TM', name: 'Turkménistan', flag: '\uD83C\uDDF9\uD83C\uDDF2' },
+        { code: 'TR', name: 'Turquie', flag: '\uD83C\uDDF9\uD83C\uDDF7' },
+        { code: 'TV', name: 'Tuvalu', flag: '\uD83C\uDDF9\uD83C\uDDFB' },
+        { code: 'UA', name: 'Ukraine', flag: '\uD83C\uDDFA\uD83C\uDDE6' },
+        { code: 'UY', name: 'Uruguay', flag: '\uD83C\uDDFA\uD83C\uDDFE' },
+        { code: 'VU', name: 'Vanuatu', flag: '\uD83C\uDDFB\uD83C\uDDFA' },
+        { code: 'VA', name: 'Vatican', flag: '\uD83C\uDDFB\uD83C\uDDE6' },
+        { code: 'VE', name: 'Venezuela', flag: '\uD83C\uDDFB\uD83C\uDDEA' },
+        { code: 'VN', name: 'Vietnam', flag: '\uD83C\uDDFB\uD83C\uDDF3' },
+        { code: 'YE', name: 'Yémen', flag: '\uD83C\uDDFE\uD83C\uDDEA' },
+        { code: 'ZM', name: 'Zambie', flag: '\uD83C\uDDFF\uD83C\uDDF2' },
+        { code: 'ZW', name: 'Zimbabwe', flag: '\uD83C\uDDFF\uD83C\uDDFC' }
+    ];
+
+    // Compatibilité : liste des noms pour filtres et populateFormSelects existant
+    var allCountries = countriesData.map(function(c) { return c.name; });
+
     var products = [
         { id: 1, name: 'Smartphone Galaxy S24', price: 120, unit: 'Pi', minOrder: 10, stock: 850, supplier: 'MobileTech GmbH', country: 'Allemagne', verified: true, rating: 4.9, category: 'Électronique', images: ['https://images.unsplash.com/photo-1610945415295-d9bbf067e59c?w=600&h=400&fit=crop'] },
         { id: 2, name: 'Ordinateur Portable Pro', price: 450, unit: 'Pi', minOrder: 5, stock: 320, supplier: 'TechImport SARL', country: 'Chine', verified: true, rating: 4.8, category: 'Électronique', images: ['https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=600&h=400&fit=crop'] },
@@ -49,17 +251,13 @@
     ];
 
     var cartItems = [];
-    var allCountries = ['Allemagne', 'Chine', 'France', 'USA', 'Colombie', 'Espagne', 'Italie', 'Belgique', 'Canada', 'Japon', 'Brésil', 'Inde', 'Royaume-Uni', 'Pays-Bas', 'Maroc', 'Sénégal', 'Côte d\'Ivoire', 'Cameroun', 'Congo', 'Nigeria'];
-
     var selectedCountry = '';
     var selectedCategory = 'all';
 
-    // ============ ÉTAT PI ============
     var piUser = null;
     var piReady = false;
     var inPiBrowser = false;
 
-    // ============ UTILITAIRES ============
     function formatNumber(n) {
         return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
     }
@@ -81,17 +279,16 @@
         }, 4000);
     }
 
-    // ============ DÉTECTION & INIT PI ============
     function waitForPiSdk(maxMs) {
         maxMs = maxMs || 5000;
         return new Promise(function(resolve, reject) {
             var start = Date.now();
             function check() {
                 if (typeof Pi !== 'undefined' && Pi.init && Pi.authenticate) {
-                    console.log('[Pi] ✅ SDK détecté après ' + (Date.now() - start) + 'ms');
+                    console.log('[Pi] SDK detecte apres ' + (Date.now() - start) + 'ms');
                     resolve(true);
                 } else if (Date.now() - start > maxMs) {
-                    console.warn('[Pi] ⏱️ Timeout SDK après ' + maxMs + 'ms');
+                    console.warn('[Pi] Timeout SDK apres ' + maxMs + 'ms');
                     reject(new Error('SDK timeout'));
                 } else {
                     setTimeout(check, 150);
@@ -114,21 +311,20 @@
         try {
             Pi.init({ version: "2.0", sandbox: false });
             piReady = true;
-            console.log('[Pi] ✅ SDK initialisé');
+            console.log('[Pi] SDK initialise');
             return true;
         } catch (e) {
-            console.error('[Pi] ❌ Erreur init :', e);
+            console.error('[Pi] Erreur init :', e);
             return false;
         }
     }
 
-    // ============ AUTHENTIFICATION PI ============
     function onIncompletePaymentFound(payment) {
         console.log('[Pi] Paiement incomplet :', payment);
     }
 
     function connectPi() {
-        console.log('[Pi] 🚀 Connexion demandée');
+        console.log('[Pi] Connexion demandee');
         if (!inPiBrowser) { showToast('Ouvrez cette app dans Pi Browser', 'error'); return; }
         if (!piReady && !initPiSdk()) { showToast('Erreur initialisation Pi SDK', 'error'); return; }
 
@@ -140,7 +336,7 @@
 
         Pi.authenticate(['username', 'payments'], onIncompletePaymentFound)
             .then(function(auth) {
-                console.log('[Pi] ✅ SUCCÈS :', auth.user);
+                console.log('[Pi] SUCCES :', auth.user);
                 piUser = { uid: auth.user.uid, username: auth.user.username };
                 try { localStorage.setItem('pi_user', JSON.stringify(piUser)); } catch (e) {}
                 updatePiUI();
@@ -148,9 +344,9 @@
                 showToast('Bienvenue ' + auth.user.username + ' !', 'success');
             })
             .catch(function(err) {
-                console.error('[Pi] ❌ Erreur auth :', err);
-                var msg = (err && err.message) ? err.message : 'Connexion échouée';
-                if (/denied|cancel/i.test(msg)) { showToast('Connexion annulée', 'info'); }
+                console.error('[Pi] Erreur auth :', err);
+                var msg = (err && err.message) ? err.message : 'Connexion echouee';
+                if (/denied|cancel/i.test(msg)) { showToast('Connexion annulee', 'info'); }
                 else { showToast('Erreur : ' + msg, 'error'); }
             })
             .finally(function() {
@@ -163,7 +359,7 @@
         piUser = null;
         try { localStorage.removeItem('pi_user'); } catch (e) {}
         updatePiUI();
-        showToast('Déconnecté de Pi', 'info');
+        showToast('Deconnecte de Pi', 'info');
     }
 
     function updatePiUI() {
@@ -188,8 +384,8 @@
             if (accountUsername) accountUsername.textContent = piUser.username;
             if (accountSubtitle) accountSubtitle.textContent = 'Membre Pi Network';
             if (actionBtn) { actionBtn.classList.add('disconnect'); actionBtn.disabled = false; }
-            if (actionText) actionText.textContent = 'Déconnexion';
-            if (hint) hint.innerHTML = '<i class="fas fa-shield-alt" style="color:var(--success);"></i> Connecté en tant que <strong>' + piUser.username + '</strong>';
+            if (actionText) actionText.textContent = 'Deconnexion';
+            if (hint) hint.innerHTML = '<i class="fas fa-shield-alt" style="color:var(--success);"></i> Connecte en tant que <strong>' + piUser.username + '</strong>';
             if (publishAvatar) publishAvatar.textContent = piUser.username.substring(0, 2).toUpperCase();
             if (publishName) publishName.textContent = piUser.username;
             if (publishHandle) publishHandle.textContent = '@' + piUser.username.toLowerCase();
@@ -197,12 +393,12 @@
             if (badge) badge.style.display = 'none';
             if (accountCard) accountCard.classList.remove('connected');
             if (avatar) avatar.innerHTML = '<i class="fab fa-pi"></i>';
-            if (accountUsername) accountUsername.textContent = 'Non connecté';
+            if (accountUsername) accountUsername.textContent = 'Non connecte';
             if (accountSubtitle) accountSubtitle.textContent = 'Connectez-vous avec Pi Network';
             if (actionBtn) { actionBtn.classList.remove('disconnect'); actionBtn.disabled = !inPiBrowser; }
             if (actionText) actionText.textContent = 'Connecter avec Pi Network';
             if (hint) {
-                if (inPiBrowser) { hint.innerHTML = '<i class="fas fa-check-circle" style="color:var(--success);"></i> Pi Browser détecté. Cliquez pour vous connecter.'; }
+                if (inPiBrowser) { hint.innerHTML = '<i class="fas fa-check-circle" style="color:var(--success);"></i> Pi Browser detecte. Cliquez pour vous connecter.'; }
                 else { hint.innerHTML = '<i class="fas fa-exclamation-triangle" style="color:#e6b000;"></i> Ouvrez cette app dans <strong>Pi Browser</strong> pour vous connecter.'; }
             }
             if (publishAvatar) publishAvatar.textContent = 'GB';
@@ -214,11 +410,10 @@
     function loadPiSession() {
         try {
             var stored = localStorage.getItem('pi_user');
-            if (stored) { piUser = JSON.parse(stored); console.log('[Pi] Session restaurée :', piUser.username); }
+            if (stored) { piUser = JSON.parse(stored); console.log('[Pi] Session restauree :', piUser.username); }
         } catch (e) {}
     }
 
-    // ============ MODALES ============
     function openAuthModal(message) {
         var modal = document.getElementById('authRequiredModal');
         var msgEl = document.getElementById('authModalMessage');
@@ -237,12 +432,12 @@
         summary.innerHTML = cartItems.map(function(item) {
             return '<div class="payment-summary-item">' +
                 '<span class="name">' + item.name + '</span>' +
-                '<span class="qty">×' + item.qty + '</span>' +
-                '<span class="price">' + (item.price * item.qty).toFixed(2) + ' π</span>' +
+                '<span class="qty">x' + item.qty + '</span>' +
+                '<span class="price">' + (item.price * item.qty).toFixed(2) + ' Pi</span>' +
                 '</div>';
         }).join('');
         var total = cartItems.reduce(function(s, i) { return s + (i.price * i.qty); }, 0);
-        amount.textContent = total.toFixed(2) + ' π';
+        amount.textContent = total.toFixed(2) + ' Pi';
         modal.classList.add('open');
     }
     function closePaymentModal() {
@@ -250,10 +445,9 @@
         if (modal) modal.classList.remove('open');
     }
 
-    // ============ GUARD AUTH ============
     function requireAuth(actionName) {
         if (piUser) return true;
-        console.log('[Auth] Refusé : ' + actionName);
+        console.log('[Auth] Refuse : ' + actionName);
         var messages = {
             'panier': 'Connectez-vous avec Pi Network pour ajouter des produits au panier.',
             'commande': 'Connectez-vous avec Pi Network pour passer commande.',
@@ -264,10 +458,9 @@
         return false;
     }
 
-    // ============ PAIEMENT PI (INCHANGÉ) ============
     function createPiPayment(amount, memo, metadata) {
         return new Promise(function(resolve, reject) {
-            if (!piUser) { reject(new Error('Non connecté')); return; }
+            if (!piUser) { reject(new Error('Non connecte')); return; }
             if (typeof Pi === 'undefined' || !Pi.createPayment) { reject(new Error('SDK Pi introuvable')); return; }
             Pi.createPayment({
                 amount: amount,
@@ -275,18 +468,18 @@
                 metadata: metadata
             }, {
                 onReadyForServerApproval: function(paymentId) {
-                    console.log('[Pi] 📤 Prêt pour approbation serveur :', paymentId);
+                    console.log('[Pi] Pret pour approbation serveur :', paymentId);
                     fetch('https://global-bulk-pi-backend.onrender.com/approve', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({ paymentId: paymentId })
                     })
                     .then(response => response.json())
-                    .then(data => console.log('[Pi] ✅ Approbation confirmée par le serveur:', data))
-                    .catch(error => console.error('[Pi] ❌ Erreur approbation:', error));
+                    .then(data => console.log('[Pi] Approbation confirmee par le serveur:', data))
+                    .catch(error => console.error('[Pi] Erreur approbation:', error));
                 },
                 onReadyForServerCompletion: function(paymentId, txid) {
-                    console.log('[Pi] ✅ Paiement complété :', paymentId, txid);
+                    console.log('[Pi] Paiement complete :', paymentId, txid);
                     fetch('https://global-bulk-pi-backend.onrender.com/complete', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
@@ -294,27 +487,26 @@
                     })
                     .then(response => response.json())
                     .then(data => {
-                        console.log('[Pi] ✅ Finalisation confirmée:', data);
+                        console.log('[Pi] Finalisation confirmee:', data);
                         resolve({ paymentId: paymentId, txid: txid });
                     })
                     .catch(error => {
-                        console.error('[Pi] ❌ Erreur finalisation:', error);
+                        console.error('[Pi] Erreur finalisation:', error);
                         reject(error);
                     });
                 },
                 onCancel: function(paymentId) {
-                    console.log('[Pi] ❌ Paiement annulé');
-                    reject(new Error('Paiement annulé'));
+                    console.log('[Pi] Paiement annule');
+                    reject(new Error('Paiement annule'));
                 },
                 onError: function(error) {
-                    console.error('[Pi] ❌ Erreur paiement :', error);
+                    console.error('[Pi] Erreur paiement :', error);
                     reject(error);
                 }
             });
         });
     }
 
-    // ============ LOADER ============
     function simulateLoader(callback) {
         var bar = document.getElementById('loaderBar');
         var text = document.getElementById('loaderText');
@@ -324,7 +516,7 @@
             if (progress >= 100) {
                 progress = 100;
                 clearInterval(interval);
-                text.textContent = 'Prêt !';
+                text.textContent = 'Pret !';
                 setTimeout(function() {
                     document.getElementById('globalLoader').classList.add('hidden');
                     document.getElementById('appContent').style.display = 'block';
@@ -336,11 +528,10 @@
         }, 100);
     }
 
-    // ============ SLIDER ============
     function initSlider() {
         var slides = [
-            { image: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=1200&h=600&fit=crop', title: 'First Purchase', subtitle: 'Enjoy a Special Offer!', cta: 'Découvrir' },
-            { image: 'https://images.unsplash.com/photo-1498049794561-7780e7231661?w=1200&h=600&fit=crop', title: 'Électronique de pointe', subtitle: 'Au meilleur prix', cta: 'Voir les offres' },
+            { image: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=1200&h=600&fit=crop', title: 'First Purchase', subtitle: 'Enjoy a Special Offer!', cta: 'Decouvrir' },
+            { image: 'https://images.unsplash.com/photo-1498049794561-7780e7231661?w=1200&h=600&fit=crop', title: 'Electronique de pointe', subtitle: 'Au meilleur prix', cta: 'Voir les offres' },
             { image: 'https://images.unsplash.com/photo-1583121274602-3e2820c69888?w=1200&h=600&fit=crop', title: 'Automobile', subtitle: 'Pour professionnels', cta: 'Explorer' }
         ];
         var track = document.getElementById('sliderTrack');
@@ -374,7 +565,6 @@
         setInterval(function() { goToSlide(currentIndex + 1); }, 5000);
     }
 
-    // ============ FILTRES ============
     function renderCategoryFilters() {
         var container = document.getElementById('categoryFilterList');
         if (!container) return;
@@ -397,25 +587,24 @@
         });
     }
 
-    // ============ PRODUITS ============
     function renderProducts(list) {
         list = list || products;
         var grid = document.getElementById('productGrid');
         if (!grid) return;
         grid.innerHTML = list.map(function(p) {
-            var verifiedBadge = p.verified ? '<span class="verified-badge"><i class="fas fa-check-circle"></i> Vérifié</span>' : '';
+            var verifiedBadge = p.verified ? '<span class="verified-badge"><i class="fas fa-check-circle"></i> Verifie</span>' : '';
             var firstImage = p.images && p.images.length > 0 ? p.images[0] : '';
             return '<div class="card-product" onclick="showProductDetail(' + p.id + ')">' +
                 '<div class="image"><img src="' + firstImage + '" alt="' + p.name + '" loading="lazy" />' + verifiedBadge + '</div>' +
                 '<div class="body">' +
                 '<div class="title">' + p.name + '</div>' +
-                '<div class="price">' + p.price + ' ' + p.unit + ' <small>/ unité</small></div>' +
+                '<div class="price">' + p.price + ' ' + p.unit + ' <small>/ unite</small></div>' +
                 '<div class="meta">' +
                 '<span><i class="fas fa-box"></i> Min: ' + p.minOrder + '</span>' +
                 '<span><i class="fas fa-warehouse"></i> ' + formatNumber(p.stock) + '</span>' +
                 '<span><i class="fas fa-star" style="color:var(--secondary);"></i> ' + p.rating + '</span>' +
                 '</div>' +
-                '<div style="font-size:12px;color:var(--text-muted);">' + p.supplier + ' · ' + p.country + '</div>' +
+                '<div style="font-size:12px;color:var(--text-muted);">' + p.supplier + ' - ' + p.country + '</div>' +
                 '<div class="actions">' +
                 '<button class="btn btn-primary btn-sm" onclick="event.stopPropagation();addToCart(' + p.id + ')"><i class="fas fa-cart-plus"></i></button>' +
                 '<button class="btn btn-outline btn-sm" onclick="event.stopPropagation();showProductDetail(' + p.id + ')">Voir</button>' +
@@ -444,7 +633,9 @@
         var countrySelect = document.getElementById('filterCountry');
         if (!countrySelect) return;
         countrySelect.innerHTML = '<option value="">Tous</option>';
-        allCountries.forEach(function(c) { countrySelect.innerHTML += '<option value="' + c + '">' + c + '</option>'; });
+        countriesData.forEach(function(c) {
+            countrySelect.innerHTML += '<option value="' + c.name + '">' + c.flag + ' ' + c.name + '</option>';
+        });
         countrySelect.addEventListener('change', function() {
             selectedCountry = this.value;
             applyFilters();
@@ -458,7 +649,6 @@
         renderProducts(filtered);
     }
 
-    // ============ RECHERCHE ============
     document.getElementById('searchToggle').addEventListener('click', function() {
         document.getElementById('searchDropdown').classList.toggle('open');
     });
@@ -473,12 +663,11 @@
         var filtered = products.filter(function(p) {
             return p.name.toLowerCase().includes(q) || p.category.toLowerCase().includes(q) || p.supplier.toLowerCase().includes(q);
         });
-        if (filtered.length === 0) showToast('Aucun résultat', 'error');
-        else { renderProducts(filtered); showToast(filtered.length + ' résultat(s)', 'success'); }
+        if (filtered.length === 0) showToast('Aucun resultat', 'error');
+        else { renderProducts(filtered); showToast(filtered.length + ' resultat(s)', 'success'); }
         document.getElementById('searchDropdown').classList.remove('open');
     }
 
-    // ============ NAVIGATION ============
     function showMainContent() {
         document.getElementById('mainContent').style.display = 'block';
         document.getElementById('productDetail').style.display = 'none';
@@ -502,11 +691,11 @@
             '<div class="gallery"><div class="main-image"><img src="' + images[0] + '" /></div></div>' +
             '<div class="info">' +
             '<h1>' + p.name + '</h1>' +
-            '<div style="margin-bottom:10px;"><span class="badge badge-verified"><i class="fas fa-check-circle"></i> ' + (p.verified ? 'Vérifié' : 'Non vérifié') + '</span></div>' +
-            '<div style="font-size:13px;color:var(--text-muted);margin-bottom:14px;"><i class="fas fa-building"></i> ' + p.supplier + ' · ' + p.country + '</div>' +
+            '<div style="margin-bottom:10px;"><span class="badge badge-verified"><i class="fas fa-check-circle"></i> ' + (p.verified ? 'Verifie' : 'Non verifie') + '</span></div>' +
+            '<div style="font-size:13px;color:var(--text-muted);margin-bottom:14px;"><i class="fas fa-building"></i> ' + p.supplier + ' - ' + p.country + '</div>' +
             '<div class="price-box">' +
             '<div><span style="font-size:13px;color:var(--text-muted);">Prix de gros</span><br><span style="font-size:28px;font-weight:700;color:var(--primary);">' + p.price + ' ' + p.unit + '</span></div>' +
-            '<div><span style="font-size:13px;color:var(--text-muted);">Qté min.</span><br><span style="font-size:20px;font-weight:600;">' + p.minOrder + ' unités</span></div>' +
+            '<div><span style="font-size:13px;color:var(--text-muted);">Qte min.</span><br><span style="font-size:20px;font-weight:600;">' + p.minOrder + ' unites</span></div>' +
             '</div>' +
             '<div class="volume-pricing">' +
             '<div class="tier"><div style="font-size:12px;color:var(--text-muted);">' + p.minOrder + '+</div><div class="price">' + p.price + ' Pi</div></div>' +
@@ -549,7 +738,6 @@
         document.querySelector('.bottom-nav .nav-item[data-page="home"]').classList.add('active');
     };
 
-    // ============ TIROIR LATÉRAL ============
     function openSideDrawer(tabId, title) {
         var drawer = document.getElementById('sideDrawer');
         var overlay = document.getElementById('sideDrawerOverlay');
@@ -585,33 +773,33 @@
                     infoItem('fa-user', 'Pseudo', piUser.username) +
                     infoItem('fa-fingerprint', 'UID', piUser.uid.substring(0, 20) + '...') +
                     infoItem('fa-shield-alt', 'Statut', 'Membre Pi Network') +
-                    infoItem('fa-globe', 'Réseau', 'Pi Network Mainnet');
+                    infoItem('fa-globe', 'Reseau', 'Pi Network Mainnet');
             case 'parametres':
-                return '<h3><i class="fas fa-sliders-h"></i> Paramètres</h3>' +
-                    infoItem('fa-bell', 'Notifications', 'Activées') +
-                    infoItem('fa-language', 'Langue', 'Français') +
-                    infoItem('fa-palette', 'Thème', 'Clair');
+                return '<h3><i class="fas fa-sliders-h"></i> Parametres</h3>' +
+                    infoItem('fa-bell', 'Notifications', 'Activees') +
+                    infoItem('fa-language', 'Langue', 'Francais') +
+                    infoItem('fa-palette', 'Theme', 'Clair');
             case 'langues':
                 return '<h3><i class="fas fa-globe"></i> Langues</h3>' +
-                    '<div class="info-item"><i class="fas fa-check-circle" style="color:#4caf50;"></i><span class="label">Français</span><span class="value">Actif</span></div>' +
+                    '<div class="info-item"><i class="fas fa-check-circle" style="color:#4caf50;"></i><span class="label">Francais</span><span class="value">Actif</span></div>' +
                     '<div class="info-item"><i class="fas fa-circle" style="color:#ccc;"></i><span class="label">English</span><span class="value">Inactif</span></div>' +
-                    '<div class="info-item"><i class="fas fa-circle" style="color:#ccc;"></i><span class="label">Español</span><span class="value">Inactif</span></div>';
+                    '<div class="info-item"><i class="fas fa-circle" style="color:#ccc;"></i><span class="label">Espanol</span><span class="value">Inactif</span></div>';
             case 'livre-blanc':
                 return '<h3><i class="fas fa-file-pdf"></i> Livre blanc</h3>' +
                     infoItem('fa-file-pdf', 'Guide 2026', 'Disponible') +
-                    infoItem('fa-file-pdf', 'Stratégies', 'Disponible') +
-                    infoItem('fa-file-pdf', 'Marchés émergents', 'Bientôt');
+                    infoItem('fa-file-pdf', 'Strategies', 'Disponible') +
+                    infoItem('fa-file-pdf', 'Marches emergents', 'Bientot');
             case 'mes-produits':
                 if (!piUser) return '<div class="empty-state"><i class="fas fa-box-open"></i><p>Connectez-vous pour voir vos produits.</p></div>';
                 return '<h3><i class="fas fa-boxes"></i> Mes produits</h3>' +
-                    infoItem('fa-headphones', 'Écouteurs BT', '5000 en stock') +
-                    infoItem('fa-watch', 'Montre connectée', '120 en stock');
+                    infoItem('fa-headphones', 'Ecouteurs BT', '5000 en stock') +
+                    infoItem('fa-watch', 'Montre connectee', '120 en stock');
             case 'historique':
                 if (!piUser) return '<div class="empty-state"><i class="fas fa-history"></i><p>Connectez-vous pour voir votre historique.</p></div>';
                 return '<h3><i class="fas fa-history"></i> Historique</h3>' +
-                    infoItem('fa-receipt', '24/11/2024', '120 π') +
-                    infoItem('fa-receipt', '20/11/2024', '1200 π') +
-                    infoItem('fa-receipt', '15/11/2024', '850 π');
+                    infoItem('fa-receipt', '24/11/2024', '120 Pi') +
+                    infoItem('fa-receipt', '20/11/2024', '1200 Pi') +
+                    infoItem('fa-receipt', '15/11/2024', '850 Pi');
             case 'achats-ventes':
                 if (!piUser) return '<div class="empty-state"><i class="fas fa-chart-line"></i><p>Connectez-vous pour voir vos statistiques.</p></div>';
                 return '<h3><i class="fas fa-chart-line"></i> Achats & Ventes</h3>' +
@@ -626,13 +814,12 @@
                 return '<h3><i class="fas fa-question-circle"></i> FAQ</h3>' +
                     '<div style="margin-bottom:20px;"><strong>Comment se connecter ?</strong><p style="color:var(--text-muted);margin-top:6px;">Ouvrez l\'app dans Pi Browser puis cliquez sur "Connecter avec Pi Network".</p></div>' +
                     '<div style="margin-bottom:20px;"><strong>Comment payer ?</strong><p style="color:var(--text-muted);margin-top:6px;">Ajoutez des produits au panier puis cliquez sur "Payer avec Pi".</p></div>' +
-                    '<div><strong>Pourquoi se connecter ?</strong><p style="color:var(--text-muted);margin-top:6px;">La connexion Pi est obligatoire pour toutes les opérations.</p></div>';
+                    '<div><strong>Pourquoi se connecter ?</strong><p style="color:var(--text-muted);margin-top:6px;">La connexion Pi est obligatoire pour toutes les operations.</p></div>';
             default:
-                return '<p>Sélectionnez une option.</p>';
+                return '<p>Selectionnez une option.</p>';
         }
     }
 
-    // Écouteurs menu profil
     document.querySelectorAll('.menu-item').forEach(function(item) {
         item.addEventListener('click', function() {
             var tab = this.getAttribute('data-tab');
@@ -641,22 +828,19 @@
         });
     });
 
-    // Boutons fermeture drawer
     document.getElementById('sideDrawerClose').addEventListener('click', closeSideDrawer);
     document.getElementById('sideDrawerBack').addEventListener('click', closeSideDrawer);
     document.getElementById('sideDrawerOverlay').addEventListener('click', closeSideDrawer);
 
-    // ============ BOUTON CONNEXION PI ============
     var btnPiConnect = document.getElementById('piActionBtn');
     if (btnPiConnect) {
         btnPiConnect.addEventListener('click', function(e) {
             e.preventDefault();
-            console.log('[Pi] Action clic. État :', piUser ? 'connecté' : 'non connecté');
+            console.log('[Pi] Action clic. Etat :', piUser ? 'connecte' : 'non connecte');
             if (piUser) { disconnectPi(); } else { connectPi(); }
         });
     }
 
-    // Modale auth - bouton
     document.getElementById('authModalConnectBtn').addEventListener('click', function() {
         closeAuthModal();
         window.openProfile();
@@ -667,14 +851,12 @@
     });
     document.getElementById('authModalCancelBtn').addEventListener('click', closeAuthModal);
 
-    // Modale paiement
     document.getElementById('paymentCancelBtn').addEventListener('click', closePaymentModal);
     document.getElementById('paymentConfirmBtn').addEventListener('click', function() {
         closePaymentModal();
         executePayment();
     });
 
-    // ============ UPLOAD (CORRIGÉ) ============
     var uploadedImages = [];
     var pImages = document.getElementById('pImages');
     if (pImages) {
@@ -712,7 +894,6 @@
         renderUploadPreview();
     };
 
-    // ============ PANIER ============
     window.addToCart = function(id) {
         if (!requireAuth('panier')) return;
         var p = products.find(function(x) { return x.id === id; });
@@ -721,7 +902,7 @@
         if (existing) existing.qty += p.minOrder;
         else cartItems.push({ id: p.id, name: p.name, qty: p.minOrder, price: p.price, image: p.images ? p.images[0] : '' });
         updateCartBadge();
-        showToast(p.name + ' ajouté au panier', 'success');
+        showToast(p.name + ' ajoute au panier', 'success');
         if (isCartOpen) renderCartItems();
     };
 
@@ -756,7 +937,7 @@
                 '<div class="item-image"><img src="' + imgSrc + '" /></div>' +
                 '<div class="item-info">' +
                 '<div class="name">' + item.name + '</div>' +
-                '<div class="price">' + (item.price * item.qty).toFixed(2) + ' π</div>' +
+                '<div class="price">' + (item.price * item.qty).toFixed(2) + ' Pi</div>' +
                 '<div class="item-qty">' +
                 '<button onclick="updateQty(' + item.id + ',-1)">-</button>' +
                 '<span>' + item.qty + '</span>' +
@@ -767,7 +948,7 @@
         }).join('');
         footer.style.display = 'block';
         var total = cartItems.reduce(function(s, i) { return s + (i.price * i.qty); }, 0);
-        totalEl.textContent = total.toFixed(2) + ' π';
+        totalEl.textContent = total.toFixed(2) + ' Pi';
     }
 
     function updateCartBadge() {
@@ -795,7 +976,6 @@
         if (e.target === this) toggleCart();
     });
 
-    // ============ CHECKOUT (INCHANGÉ) ============
     document.getElementById('checkoutBtn').addEventListener('click', function() {
         if (!requireAuth('commande')) return;
         if (cartItems.length === 0) { showToast('Panier vide', 'error'); return; }
@@ -814,7 +994,7 @@
             timestamp: Date.now()
         })
         .then(function(result) {
-            showToast('✅ Paiement réussi !', 'success');
+            showToast('Paiement reussi !', 'success');
             console.log('[Pi] Transaction ID:', result.txid);
             cartItems = [];
             updateCartBadge();
@@ -822,12 +1002,11 @@
         })
         .catch(function(err) {
             console.error('[Pi] Erreur paiement :', err);
-            if (/annulé/i.test(err.message)) { showToast('Paiement annulé', 'info'); }
-            else { showToast('Erreur : ' + (err.message || 'paiement échoué'), 'error'); }
+            if (/annule/i.test(err.message)) { showToast('Paiement annule', 'info'); }
+            else { showToast('Erreur : ' + (err.message || 'paiement echoue'), 'error'); }
         });
     }
 
-    // ============ STATS ============
     function animateStats() {
         document.querySelectorAll('.stats-grid .stat-item .number').forEach(function(el) {
             var target = parseInt(el.getAttribute('data-count'));
@@ -841,7 +1020,6 @@
         });
     }
 
-    // ============ BOTTOM NAV ============
     document.querySelectorAll('.bottom-nav .nav-item').forEach(function(btn) {
         btn.addEventListener('click', function() {
             var page = this.getAttribute('data-page');
@@ -865,7 +1043,6 @@
         });
     });
 
-    // ✅ CORRECTION : Vérifier l'existence de btnPublishFloating avant d'y attacher un listener
     var btnPublishFloating = document.getElementById('btnPublishFloating');
     if (btnPublishFloating) {
         btnPublishFloating.addEventListener('click', function() { window.openPublish(); });
@@ -878,7 +1055,6 @@
         setTimeout(function() { openSideDrawer('faq', 'FAQ'); }, 400);
     });
 
-    // ============ PUBLISH FORM (INCHANGÉ) ============
     document.getElementById('publishForm').addEventListener('submit', function(e) {
         e.preventDefault();
         if (!requireAuth('publier')) return;
@@ -892,7 +1068,7 @@
         var country = document.getElementById('pCountry').value;
 
         if (!name || !category || isNaN(price) || isNaN(minOrder) || isNaN(stock) || !supplier || !country) {
-            showToast('Remplissez tous les champs', 'error');
+            showToast('Remplissez tous les champs obligatoires', 'error');
             return;
         }
 
@@ -901,12 +1077,12 @@
             id: products.length + 1, name: name, price: price,
             unit: document.getElementById('pUnit').value, minOrder: minOrder, stock: stock,
             supplier: piUser.username, country: country, verified: true,
-            rating: parseFloat(document.getElementById('pRating').value) || 4.5,
+            rating: 4.5,
             category: category, images: images
         });
         renderProducts();
         applyFilters();
-        showToast('Produit publié !', 'success');
+        showToast('Produit publie !', 'success');
         uploadedImages = [];
         document.getElementById('uploadPreview').innerHTML = '';
         this.reset();
@@ -916,29 +1092,32 @@
     function populateFormSelects() {
         var pCategory = document.getElementById('pCategory');
         if (pCategory) {
-            pCategory.innerHTML = '<option value="">Catégorie *</option>';
-            categories.forEach(function(c) { pCategory.innerHTML += '<option value="' + c.name + '">' + c.name + '</option>'; });
+            pCategory.innerHTML = '<option value="">Selectionner une categorie</option>';
+            categories.forEach(function(c) {
+                pCategory.innerHTML += '<option value="' + c.name + '">' + c.name + '</option>';
+            });
         }
         var pCountry = document.getElementById('pCountry');
         if (pCountry) {
-            pCountry.innerHTML = '<option value="">Pays *</option>';
-            allCountries.forEach(function(c) { pCountry.innerHTML += '<option value="' + c + '">' + c + '</option>'; });
+            pCountry.innerHTML = '<option value="">Selectionner un pays</option>';
+            countriesData.forEach(function(c) {
+                pCountry.innerHTML += '<option value="' + c.name + '">' + c.flag + ' ' + c.name + '</option>';
+            });
         }
     }
 
-    // ============ INITIALISATION ============
-    console.log('[App] 🚀 Démarrage');
+    console.log('[App] Demarrage');
     detectPiBrowser();
     loadPiSession();
 
     waitForPiSdk(5000)
         .then(function() {
-            console.log('[Pi] SDK prêt');
+            console.log('[Pi] SDK pret');
             initPiSdk();
             updatePiUI();
         })
         .catch(function() {
-            console.warn('[Pi] SDK non chargé. Ouvrez dans Pi Browser.');
+            console.warn('[Pi] SDK non charge. Ouvrez dans Pi Browser.');
             inPiBrowser = false;
             updatePiUI();
         });
