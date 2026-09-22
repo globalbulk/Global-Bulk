@@ -43,9 +43,7 @@
                 <h2>Confirmer le paiement</h2>
                 <p>Vérifiez les détails avant de valider</p>
             </div>
-            <div class="payment-summary" id="paymentSummary">
-                <!-- Rempli par JS -->
-            </div>
+            <div class="payment-summary" id="paymentSummary"></div>
             <div class="payment-total">
                 <span>Total à payer</span>
                 <span class="payment-amount" id="paymentAmount">0 π</span>
@@ -98,8 +96,7 @@
             <button class="nav-item" data-page="profile"><i class="fas fa-user"></i><span>Profil</span></button>
         </nav>
 
-        <!-- FLOATING PUBLISH -->
-        <button class="btn-publish-floating" id="btnPublishFloating"><i class="fas fa-plus"></i> Publier</button>
+        <!-- ✅ BOUTON FLOTTANT SUPPRIMÉ (déplacé uniquement dans la bottom nav) -->
 
         <!-- ACCUEIL -->
         <div id="mainContent">
@@ -175,8 +172,11 @@
                 </div>
                 <form id="publishForm" class="publish-form-social">
                     <textarea id="pDescription" rows="5" placeholder="Décrivez votre produit en détail..." required></textarea>
+                    <!-- ✅ CORRECTION : label avec for="pImages" pour lier à l'input -->
                     <div class="publish-images-upload">
-                        <label class="upload-label"><i class="fas fa-cloud-upload-alt"></i> Ajouter des photos (max 6)</label>
+                        <label class="upload-label" for="pImages">
+                            <i class="fas fa-cloud-upload-alt"></i> Ajouter des photos (max 6)
+                        </label>
                         <input type="file" id="pImages" accept="image/*" multiple />
                         <div class="upload-preview" id="uploadPreview"></div>
                     </div>
@@ -212,7 +212,7 @@
             </div>
         </section>
 
-        <!-- PROFIL (page principale) -->
+        <!-- PROFIL -->
         <section class="section page-secondary" id="profileSection" style="display:none;">
             <div class="page-header">
                 <button class="btn-back" onclick="closeProfile()"><i class="fas fa-arrow-left"></i> Retour</button>
@@ -220,6 +220,7 @@
             </div>
 
             <div class="profile-wrapper">
+                <!-- ⚠️ CARTE PI - NE PAS MODIFIER LES IDs -->
                 <div class="pi-account-card" id="piAccountCard">
                     <div class="pi-avatar" id="piAvatar"><i class="fab fa-pi"></i></div>
                     <h2 class="pi-account-username" id="piAccountUsername">Non connecté</h2>
@@ -231,10 +232,21 @@
                     <div class="pi-account-hint" id="piAccountHint"></div>
                 </div>
 
+                <!-- ✅ MENU PROFIL NETTOYÉ (suppression du doublon "Mon profil") -->
                 <div class="profile-menu">
-                    <button class="menu-item" data-tab="monprofil">
-                        <div class="menu-icon"><i class="fas fa-user"></i></div>
-                        <span class="menu-label">Mon profil</span>
+                    <button class="menu-item" data-tab="mes-produits">
+                        <div class="menu-icon"><i class="fas fa-box"></i></div>
+                        <span class="menu-label">Mes produits</span>
+                        <i class="fas fa-chevron-right menu-arrow"></i>
+                    </button>
+                    <button class="menu-item" data-tab="achats-ventes">
+                        <div class="menu-icon"><i class="fas fa-chart-line"></i></div>
+                        <span class="menu-label">Achats & Ventes</span>
+                        <i class="fas fa-chevron-right menu-arrow"></i>
+                    </button>
+                    <button class="menu-item" data-tab="historique">
+                        <div class="menu-icon"><i class="fas fa-history"></i></div>
+                        <span class="menu-label">Historique</span>
                         <i class="fas fa-chevron-right menu-arrow"></i>
                     </button>
                     <button class="menu-item" data-tab="parametres">
@@ -247,46 +259,27 @@
                         <span class="menu-label">Langues</span>
                         <i class="fas fa-chevron-right menu-arrow"></i>
                     </button>
-                    <button class="menu-item" data-tab="livre-blanc">
-                        <div class="menu-icon"><i class="fas fa-file-pdf"></i></div>
-                        <span class="menu-label">Livre blanc</span>
-                        <i class="fas fa-chevron-right menu-arrow"></i>
-                    </button>
-                    <button class="menu-item" data-tab="mes-produits">
-                        <div class="menu-icon"><i class="fas fa-box"></i></div>
-                        <span class="menu-label">Mes produits</span>
-                        <i class="fas fa-chevron-right menu-arrow"></i>
-                    </button>
-                    <button class="menu-item" data-tab="historique">
-                        <div class="menu-icon"><i class="fas fa-history"></i></div>
-                        <span class="menu-label">Historique</span>
-                        <i class="fas fa-chevron-right menu-arrow"></i>
-                    </button>
-                    <button class="menu-item" data-tab="achats-ventes">
-                        <div class="menu-icon"><i class="fas fa-chart-line"></i></div>
-                        <span class="menu-label">Achats & Ventes</span>
-                        <i class="fas fa-chevron-right menu-arrow"></i>
-                    </button>
                     <button class="menu-item" data-tab="faq">
                         <div class="menu-icon"><i class="fas fa-question"></i></div>
                         <span class="menu-label">FAQ</span>
+                        <i class="fas fa-chevron-right menu-arrow"></i>
+                    </button>
+                    <button class="menu-item" data-tab="livre-blanc">
+                        <div class="menu-icon"><i class="fas fa-file-pdf"></i></div>
+                        <span class="menu-label">Livre blanc</span>
                         <i class="fas fa-chevron-right menu-arrow"></i>
                     </button>
                 </div>
             </div>
         </section>
 
-        <!-- ===== TIROIR LATÉRAL PROFIL (slide-in drawer) ===== -->
+        <!-- TIROIR LATÉRAL PROFIL -->
         <div class="side-drawer-overlay" id="sideDrawerOverlay"></div>
         <aside class="side-drawer" id="sideDrawer">
             <div class="side-drawer-header">
-                <button class="side-drawer-back" id="sideDrawerBack">
-                    <i class="fas fa-arrow-left"></i>
-                </button>
+                <button class="side-drawer-back" id="sideDrawerBack"><i class="fas fa-arrow-left"></i></button>
                 <h2 class="side-drawer-title" id="sideDrawerTitle">Détail</h2>
-                <button class="side-drawer-close" id="sideDrawerClose">
-                    <i class="fas fa-times"></i>
-                </button>
+                <button class="side-drawer-close" id="sideDrawerClose"><i class="fas fa-times"></i></button>
             </div>
             <div class="side-drawer-content" id="sideDrawerContent"></div>
         </aside>
@@ -342,8 +335,16 @@
                         </ul>
                     </div>
                 </div>
+                <!-- ✅ AJOUT DES RÉSEAUX SOCIAUX -->
                 <div class="footer-bottom">
-                    <span>&copy; 2026 Global Bulk</span>
+                    <div class="social-links-footer">
+                        <a href="https://facebook.com/globalbulk" target="_blank" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                        <a href="https://twitter.com/globalbulk" target="_blank" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                        <a href="https://instagram.com/globalbulk" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="https://t.me/globalbulk" target="_blank" aria-label="Telegram"><i class="fab fa-telegram-plane"></i></a>
+                        <a href="https://wa.me/33600000000" target="_blank" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+                    </div>
+                    <span>&copy; 2026 Global Bulk - Tous droits réservés</span>
                 </div>
             </div>
         </footer>
