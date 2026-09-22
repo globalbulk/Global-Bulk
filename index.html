@@ -4,16 +4,14 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5" />
     <title>Global Bulk - Place de marché B2B</title>
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='80'>🌐</text></svg>" />
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%230B2A5B'/><text x='50' y='65' font-size='45' font-weight='bold' text-anchor='middle' fill='%23FFC400' font-family='Arial'>GB</text></svg>" />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
     <link rel="stylesheet" href="style.css" />
-    <!-- ✅ SDK Pi Network OFFICIEL -->
     <script src="https://sdk.minepi.com/pi-sdk.js"></script>
 </head>
 <body>
 
-    <!-- LOADER -->
     <div id="globalLoader" class="global-loader-fullscreen">
         <div class="loader-content">
             <div class="loader-track"><div class="loader-bar" id="loaderBar" style="width:0%;"></div></div>
@@ -21,7 +19,6 @@
         </div>
     </div>
 
-    <!-- MODALE AUTH REQUISE -->
     <div id="authRequiredModal" class="auth-modal">
         <div class="auth-modal-content">
             <div class="auth-modal-icon"><i class="fab fa-pi"></i></div>
@@ -35,7 +32,6 @@
         </div>
     </div>
 
-    <!-- MODALE PAIEMENT -->
     <div id="paymentModal" class="payment-modal">
         <div class="payment-modal-content">
             <div class="payment-modal-header">
@@ -56,10 +52,8 @@
         </div>
     </div>
 
-    <!-- CONTENU -->
     <div id="appContent" style="display:none;">
 
-        <!-- HEADER -->
         <header class="header">
             <div class="header-inner container">
                 <a href="index.html" class="logo">
@@ -87,7 +81,6 @@
             </div>
         </header>
 
-        <!-- BOTTOM NAV -->
         <nav class="bottom-nav">
             <button class="nav-item active" data-page="home"><i class="fas fa-home"></i><span>Accueil</span></button>
             <button class="nav-item" data-page="market"><i class="fas fa-store"></i><span>Marché</span></button>
@@ -96,9 +89,6 @@
             <button class="nav-item" data-page="profile"><i class="fas fa-user"></i><span>Profil</span></button>
         </nav>
 
-        <!-- ✅ BOUTON FLOTTANT SUPPRIMÉ (déplacé uniquement dans la bottom nav) -->
-
-        <!-- ACCUEIL -->
         <div id="mainContent">
             <section class="slider-section">
                 <div class="slider-container">
@@ -147,7 +137,6 @@
             </main>
         </div>
 
-        <!-- DÉTAIL PRODUIT -->
         <section class="section page-secondary" id="productDetail" style="display:none;">
             <div class="page-header">
                 <button class="btn-back" onclick="closeProductDetail()"><i class="fas fa-arrow-left"></i> Retour</button>
@@ -156,7 +145,7 @@
             <div class="card product-detail-card" id="productDetailContent"></div>
         </section>
 
-        <!-- PUBLIER -->
+        <!-- PUBLIER - NOUVEAU FORMULAIRE SIMPLIFIÉ -->
         <section class="section page-secondary" id="publishSection" style="display:none;">
             <div class="page-header">
                 <button class="btn-back" onclick="closePublish()"><i class="fas fa-arrow-left"></i> Retour</button>
@@ -170,43 +159,109 @@
                         <span class="publish-handle" id="publishHandle">@globalbulk</span>
                     </div>
                 </div>
+
                 <form id="publishForm" class="publish-form-social">
-                    <textarea id="pDescription" rows="5" placeholder="Décrivez votre produit en détail..." required></textarea>
-                    <!-- ✅ CORRECTION : label avec for="pImages" pour lier à l'input -->
-                    <div class="publish-images-upload">
-                        <label class="upload-label" for="pImages">
-                            <i class="fas fa-cloud-upload-alt"></i> Ajouter des photos (max 6)
-                        </label>
-                        <input type="file" id="pImages" accept="image/*" multiple />
-                        <div class="upload-preview" id="uploadPreview"></div>
-                    </div>
-                    <div class="publish-fields">
-                        <div class="publish-row"><input type="text" id="pName" placeholder="Nom du produit *" required /></div>
-                        <div class="publish-row">
-                            <select id="pCategory" required><option value="">Catégorie *</option></select>
-                            <select id="pCountry" required><option value="">Pays *</option></select>
+
+                    <!-- ETAPE 1 : DESCRIPTION -->
+                    <div class="form-block">
+                        <div class="form-block-header">
+                            <span class="form-block-number">1</span>
+                            <h3 class="form-block-title">Description du produit</h3>
                         </div>
-                        <div class="publish-row">
-                            <input type="number" id="pPrice" step="0.01" placeholder="Prix *" required />
-                            <select id="pUnit" required>
-                                <option value="Pi">Pièce</option>
-                                <option value="Kg">Kg</option>
-                                <option value="L">Litre</option>
-                                <option value="M">Mètre</option>
-                                <option value="Set">Set</option>
-                            </select>
-                        </div>
-                        <div class="publish-row">
-                            <input type="number" id="pMinOrder" placeholder="Qté min. *" required />
-                            <input type="number" id="pStock" placeholder="Stock *" required />
-                        </div>
-                        <div class="publish-row">
-                            <input type="text" id="pSupplier" placeholder="Fournisseur *" required />
-                            <input type="number" id="pRating" step="0.1" min="0" max="5" placeholder="Note" value="4.5" />
+                        <div class="form-field">
+                            <label for="pDescription">Que vendez-vous ?</label>
+                            <textarea id="pDescription" rows="4" placeholder="Décrivez votre produit : matière, qualité, origine, conditionnement..." required></textarea>
                         </div>
                     </div>
-                    <button type="submit" class="btn btn-primary btn-block publish-submit">
-                        <i class="fas fa-rocket"></i> Publier
+
+                    <!-- ETAPE 2 : PHOTOS -->
+                    <div class="form-block">
+                        <div class="form-block-header">
+                            <span class="form-block-number">2</span>
+                            <h3 class="form-block-title">Photos du produit</h3>
+                        </div>
+                        <div class="form-field">
+                            <label>Ajoutez jusqu'à 6 photos</label>
+                            <div class="publish-images-upload">
+                                <label class="upload-label" for="pImages">
+                                    <i class="fas fa-camera"></i>
+                                    <span>Choisir des photos</span>
+                                </label>
+                                <input type="file" id="pImages" accept="image/*" multiple />
+                                <div class="upload-preview" id="uploadPreview"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ETAPE 3 : INFORMATIONS PRINCIPALES -->
+                    <div class="form-block">
+                        <div class="form-block-header">
+                            <span class="form-block-number">3</span>
+                            <h3 class="form-block-title">Informations principales</h3>
+                        </div>
+                        <div class="form-field">
+                            <label for="pName">Nom du produit <span class="required">*</span></label>
+                            <input type="text" id="pName" placeholder="Ex : Smartphone Galaxy S24" required />
+                        </div>
+                        <div class="form-field">
+                            <label for="pCategory">Catégorie <span class="required">*</span></label>
+                            <select id="pCategory" required><option value="">Sélectionner une catégorie</option></select>
+                        </div>
+                        <div class="form-field">
+                            <label for="pCountry">Pays d'origine <span class="required">*</span></label>
+                            <select id="pCountry" required><option value="">Sélectionner un pays</option></select>
+                        </div>
+                    </div>
+
+                    <!-- ETAPE 4 : PRIX ET QUANTITE -->
+                    <div class="form-block">
+                        <div class="form-block-header">
+                            <span class="form-block-number">4</span>
+                            <h3 class="form-block-title">Prix et quantité</h3>
+                        </div>
+                        <div class="form-grid-2">
+                            <div class="form-field">
+                                <label for="pPrice">Prix unitaire (Pi) <span class="required">*</span></label>
+                                <input type="number" id="pPrice" step="0.01" placeholder="0.00" required />
+                            </div>
+                            <div class="form-field">
+                                <label for="pUnit">Unité de mesure <span class="required">*</span></label>
+                                <select id="pUnit" required>
+                                    <option value="Pi">Pièce</option>
+                                    <option value="Kg">Kilogramme</option>
+                                    <option value="L">Litre</option>
+                                    <option value="M">Mètre</option>
+                                    <option value="Set">Set / Lot</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-grid-2">
+                            <div class="form-field">
+                                <label for="pMinOrder">Quantité minimum <span class="required">*</span></label>
+                                <input type="number" id="pMinOrder" placeholder="Ex : 10" required />
+                            </div>
+                            <div class="form-field">
+                                <label for="pStock">Stock disponible <span class="required">*</span></label>
+                                <input type="number" id="pStock" placeholder="Ex : 500" required />
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ETAPE 5 : FOURNISSEUR -->
+                    <div class="form-block">
+                        <div class="form-block-header">
+                            <span class="form-block-number">5</span>
+                            <h3 class="form-block-title">Fournisseur</h3>
+                        </div>
+                        <div class="form-field">
+                            <label for="pSupplier">Nom du fournisseur <span class="required">*</span></label>
+                            <input type="text" id="pSupplier" placeholder="Ex : TechImport SARL" required />
+                        </div>
+                    </div>
+
+                    <button type="submit" class="publish-submit">
+                        <i class="fas fa-check-circle"></i>
+                        <span>Publier le produit</span>
                     </button>
                 </form>
             </div>
@@ -220,7 +275,6 @@
             </div>
 
             <div class="profile-wrapper">
-                <!-- ⚠️ CARTE PI - NE PAS MODIFIER LES IDs -->
                 <div class="pi-account-card" id="piAccountCard">
                     <div class="pi-avatar" id="piAvatar"><i class="fab fa-pi"></i></div>
                     <h2 class="pi-account-username" id="piAccountUsername">Non connecté</h2>
@@ -232,7 +286,6 @@
                     <div class="pi-account-hint" id="piAccountHint"></div>
                 </div>
 
-                <!-- ✅ MENU PROFIL NETTOYÉ (suppression du doublon "Mon profil") -->
                 <div class="profile-menu">
                     <button class="menu-item" data-tab="mes-produits">
                         <div class="menu-icon"><i class="fas fa-box"></i></div>
@@ -273,7 +326,6 @@
             </div>
         </section>
 
-        <!-- TIROIR LATÉRAL PROFIL -->
         <div class="side-drawer-overlay" id="sideDrawerOverlay"></div>
         <aside class="side-drawer" id="sideDrawer">
             <div class="side-drawer-header">
@@ -284,7 +336,6 @@
             <div class="side-drawer-content" id="sideDrawerContent"></div>
         </aside>
 
-        <!-- PANIER -->
         <div class="cart-overlay" id="cartOverlay">
             <div class="cart-panel">
                 <div class="cart-header">
@@ -303,7 +354,6 @@
             </div>
         </div>
 
-        <!-- FOOTER -->
         <footer class="footer">
             <div class="container">
                 <div class="footer-grid">
@@ -335,7 +385,6 @@
                         </ul>
                     </div>
                 </div>
-                <!-- ✅ AJOUT DES RÉSEAUX SOCIAUX -->
                 <div class="footer-bottom">
                     <div class="social-links-footer">
                         <a href="https://facebook.com/globalbulk" target="_blank" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
