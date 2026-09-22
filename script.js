@@ -129,31 +129,19 @@
 
     function connectPi() {
         console.log('[Pi] 🚀 Connexion demandée');
-
-        if (!inPiBrowser) {
-            showToast('Ouvrez cette app dans Pi Browser', 'error');
-            return;
-        }
-
-        if (!piReady && !initPiSdk()) {
-            showToast('Erreur initialisation Pi SDK', 'error');
-            return;
-        }
+        if (!inPiBrowser) { showToast('Ouvrez cette app dans Pi Browser', 'error'); return; }
+        if (!piReady && !initPiSdk()) { showToast('Erreur initialisation Pi SDK', 'error'); return; }
 
         var btn = document.getElementById('piActionBtn');
         var actionText = document.getElementById('piActionText');
         if (btn) btn.disabled = true;
         if (actionText) actionText.textContent = 'Connexion...';
-
         showToast('Ouverture de Pi Network...', 'info');
 
         Pi.authenticate(['username', 'payments'], onIncompletePaymentFound)
             .then(function(auth) {
                 console.log('[Pi] ✅ SUCCÈS :', auth.user);
-                piUser = {
-                    uid: auth.user.uid,
-                    username: auth.user.username
-                };
+                piUser = { uid: auth.user.uid, username: auth.user.username };
                 try { localStorage.setItem('pi_user', JSON.stringify(piUser)); } catch (e) {}
                 updatePiUI();
                 closeAuthModal();
@@ -162,11 +150,8 @@
             .catch(function(err) {
                 console.error('[Pi] ❌ Erreur auth :', err);
                 var msg = (err && err.message) ? err.message : 'Connexion échouée';
-                if (/denied|cancel/i.test(msg)) {
-                    showToast('Connexion annulée', 'info');
-                } else {
-                    showToast('Erreur : ' + msg, 'error');
-                }
+                if (/denied|cancel/i.test(msg)) { showToast('Connexion annulée', 'info'); }
+                else { showToast('Erreur : ' + msg, 'error'); }
             })
             .finally(function() {
                 if (btn) btn.disabled = false;
@@ -217,11 +202,8 @@
             if (actionBtn) { actionBtn.classList.remove('disconnect'); actionBtn.disabled = !inPiBrowser; }
             if (actionText) actionText.textContent = 'Connecter avec Pi Network';
             if (hint) {
-                if (inPiBrowser) {
-                    hint.innerHTML = '<i class="fas fa-check-circle" style="color:var(--success);"></i> Pi Browser détecté. Cliquez pour vous connecter.';
-                } else {
-                    hint.innerHTML = '<i class="fas fa-exclamation-triangle" style="color:#e6b000;"></i> Ouvrez cette app dans <strong>Pi Browser</strong> pour vous connecter.';
-                }
+                if (inPiBrowser) { hint.innerHTML = '<i class="fas fa-check-circle" style="color:var(--success);"></i> Pi Browser détecté. Cliquez pour vous connecter.'; }
+                else { hint.innerHTML = '<i class="fas fa-exclamation-triangle" style="color:#e6b000;"></i> Ouvrez cette app dans <strong>Pi Browser</strong> pour vous connecter.'; }
             }
             if (publishAvatar) publishAvatar.textContent = 'GB';
             if (publishName) publishName.textContent = 'Global Bulk';
@@ -232,10 +214,7 @@
     function loadPiSession() {
         try {
             var stored = localStorage.getItem('pi_user');
-            if (stored) {
-                piUser = JSON.parse(stored);
-                console.log('[Pi] Session restaurée :', piUser.username);
-            }
+            if (stored) { piUser = JSON.parse(stored); console.log('[Pi] Session restaurée :', piUser.username); }
         } catch (e) {}
     }
 
@@ -255,8 +234,6 @@
         var summary = document.getElementById('paymentSummary');
         var amount = document.getElementById('paymentAmount');
         if (!summary) return;
-
-        // Résumé
         summary.innerHTML = cartItems.map(function(item) {
             return '<div class="payment-summary-item">' +
                 '<span class="name">' + item.name + '</span>' +
@@ -264,10 +241,8 @@
                 '<span class="price">' + (item.price * item.qty).toFixed(2) + ' π</span>' +
                 '</div>';
         }).join('');
-
         var total = cartItems.reduce(function(s, i) { return s + (i.price * i.qty); }, 0);
         amount.textContent = total.toFixed(2) + ' π';
-
         modal.classList.add('open');
     }
     function closePaymentModal() {
@@ -289,14 +264,11 @@
         return false;
     }
 
-    // ============ PAIEMENT PI ============
+    // ============ PAIEMENT PI (INCHANGÉ) ============
     function createPiPayment(amount, memo, metadata) {
         return new Promise(function(resolve, reject) {
             if (!piUser) { reject(new Error('Non connecté')); return; }
-            if (typeof Pi === 'undefined' || !Pi.createPayment) {
-                reject(new Error('SDK Pi introuvable'));
-                return;
-            }
+            if (typeof Pi === 'undefined' || !Pi.createPayment) { reject(new Error('SDK Pi introuvable')); return; }
             Pi.createPayment({
                 amount: amount,
                 memo: memo,
@@ -304,8 +276,6 @@
             }, {
                 onReadyForServerApproval: function(paymentId) {
                     console.log('[Pi] 📤 Prêt pour approbation serveur :', paymentId);
-                    
-                    // ⚠️ REMPLACEZ CETTE URL par celle de votre backend Render
                     fetch('https://global-bulk-pi-backend.onrender.com/approve', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
@@ -317,8 +287,6 @@
                 },
                 onReadyForServerCompletion: function(paymentId, txid) {
                     console.log('[Pi] ✅ Paiement complété :', paymentId, txid);
-                    
-                    // ⚠️ REMPLACEZ CETTE URL par celle de votre backend Render
                     fetch('https://global-bulk-pi-backend.onrender.com/complete', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
@@ -379,18 +347,15 @@
         var dotsContainer = document.getElementById('sliderDots');
         if (!track) return;
         var currentIndex = 0;
-
         track.innerHTML = slides.map(function(s) {
             return '<div class="slider-slide" style="background-image: url(' + s.image + ');">' +
                 '<div class="slide-overlay"></div>' +
                 '<div class="slide-content"><h2>' + s.title + '</h2><p>' + s.subtitle + '</p>' +
                 '<a href="#" class="btn">' + s.cta + ' <i class="fas fa-arrow-right"></i></a></div></div>';
         }).join('');
-
         dotsContainer.innerHTML = slides.map(function(_, i) {
             return '<button class="dot' + (i === 0 ? ' active' : '') + '" data-index="' + i + '"></button>';
         }).join('');
-
         function goToSlide(index) {
             if (index < 0) index = slides.length - 1;
             if (index >= slides.length) index = 0;
@@ -479,9 +444,7 @@
         var countrySelect = document.getElementById('filterCountry');
         if (!countrySelect) return;
         countrySelect.innerHTML = '<option value="">Tous</option>';
-        allCountries.forEach(function(c) {
-            countrySelect.innerHTML += '<option value="' + c + '">' + c + '</option>';
-        });
+        allCountries.forEach(function(c) { countrySelect.innerHTML += '<option value="' + c + '">' + c + '</option>'; });
         countrySelect.addEventListener('change', function() {
             selectedCountry = this.value;
             applyFilters();
@@ -592,10 +555,8 @@
         var overlay = document.getElementById('sideDrawerOverlay');
         var titleEl = document.getElementById('sideDrawerTitle');
         var content = document.getElementById('sideDrawerContent');
-
         if (titleEl) titleEl.textContent = title;
         if (content) content.innerHTML = renderSideDrawerContent(tabId);
-
         if (drawer) drawer.classList.add('open');
         if (overlay) overlay.classList.add('open');
         document.body.style.overflow = 'hidden';
@@ -617,7 +578,6 @@
                 '<span class="value">' + value + '</span>' +
                 '</div>';
         }
-
         switch(tabId) {
             case 'monprofil':
                 if (!piUser) return '<div class="empty-state"><i class="fas fa-user-slash"></i><p>Connectez-vous avec Pi pour voir votre profil.</p></div>';
@@ -626,38 +586,32 @@
                     infoItem('fa-fingerprint', 'UID', piUser.uid.substring(0, 20) + '...') +
                     infoItem('fa-shield-alt', 'Statut', 'Membre Pi Network') +
                     infoItem('fa-globe', 'Réseau', 'Pi Network Mainnet');
-
             case 'parametres':
                 return '<h3><i class="fas fa-sliders-h"></i> Paramètres</h3>' +
                     infoItem('fa-bell', 'Notifications', 'Activées') +
                     infoItem('fa-language', 'Langue', 'Français') +
                     infoItem('fa-palette', 'Thème', 'Clair');
-
             case 'langues':
                 return '<h3><i class="fas fa-globe"></i> Langues</h3>' +
                     '<div class="info-item"><i class="fas fa-check-circle" style="color:#4caf50;"></i><span class="label">Français</span><span class="value">Actif</span></div>' +
                     '<div class="info-item"><i class="fas fa-circle" style="color:#ccc;"></i><span class="label">English</span><span class="value">Inactif</span></div>' +
                     '<div class="info-item"><i class="fas fa-circle" style="color:#ccc;"></i><span class="label">Español</span><span class="value">Inactif</span></div>';
-
             case 'livre-blanc':
                 return '<h3><i class="fas fa-file-pdf"></i> Livre blanc</h3>' +
                     infoItem('fa-file-pdf', 'Guide 2026', 'Disponible') +
                     infoItem('fa-file-pdf', 'Stratégies', 'Disponible') +
                     infoItem('fa-file-pdf', 'Marchés émergents', 'Bientôt');
-
             case 'mes-produits':
                 if (!piUser) return '<div class="empty-state"><i class="fas fa-box-open"></i><p>Connectez-vous pour voir vos produits.</p></div>';
                 return '<h3><i class="fas fa-boxes"></i> Mes produits</h3>' +
                     infoItem('fa-headphones', 'Écouteurs BT', '5000 en stock') +
                     infoItem('fa-watch', 'Montre connectée', '120 en stock');
-
             case 'historique':
                 if (!piUser) return '<div class="empty-state"><i class="fas fa-history"></i><p>Connectez-vous pour voir votre historique.</p></div>';
                 return '<h3><i class="fas fa-history"></i> Historique</h3>' +
                     infoItem('fa-receipt', '24/11/2024', '120 π') +
                     infoItem('fa-receipt', '20/11/2024', '1200 π') +
                     infoItem('fa-receipt', '15/11/2024', '850 π');
-
             case 'achats-ventes':
                 if (!piUser) return '<div class="empty-state"><i class="fas fa-chart-line"></i><p>Connectez-vous pour voir vos statistiques.</p></div>';
                 return '<h3><i class="fas fa-chart-line"></i> Achats & Ventes</h3>' +
@@ -668,13 +622,11 @@
                     '<div style="background:var(--gray-light);padding:20px;text-align:center;border-radius:12px;">' +
                     '<div style="font-size:28px;font-weight:800;color:var(--primary);">8</div>' +
                     '<div style="font-size:13px;color:var(--text-muted);">Ventes</div></div></div>';
-
             case 'faq':
                 return '<h3><i class="fas fa-question-circle"></i> FAQ</h3>' +
                     '<div style="margin-bottom:20px;"><strong>Comment se connecter ?</strong><p style="color:var(--text-muted);margin-top:6px;">Ouvrez l\'app dans Pi Browser puis cliquez sur "Connecter avec Pi Network".</p></div>' +
                     '<div style="margin-bottom:20px;"><strong>Comment payer ?</strong><p style="color:var(--text-muted);margin-top:6px;">Ajoutez des produits au panier puis cliquez sur "Payer avec Pi".</p></div>' +
                     '<div><strong>Pourquoi se connecter ?</strong><p style="color:var(--text-muted);margin-top:6px;">La connexion Pi est obligatoire pour toutes les opérations.</p></div>';
-
             default:
                 return '<p>Sélectionnez une option.</p>';
         }
@@ -700,11 +652,7 @@
         btnPiConnect.addEventListener('click', function(e) {
             e.preventDefault();
             console.log('[Pi] Action clic. État :', piUser ? 'connecté' : 'non connecté');
-            if (piUser) {
-                disconnectPi();
-            } else {
-                connectPi();
-            }
+            if (piUser) { disconnectPi(); } else { connectPi(); }
         });
     }
 
@@ -726,7 +674,7 @@
         executePayment();
     });
 
-    // ============ UPLOAD ============
+    // ============ UPLOAD (CORRIGÉ) ============
     var uploadedImages = [];
     var pImages = document.getElementById('pImages');
     if (pImages) {
@@ -847,11 +795,10 @@
         if (e.target === this) toggleCart();
     });
 
-    // ============ CHECKOUT ============
+    // ============ CHECKOUT (INCHANGÉ) ============
     document.getElementById('checkoutBtn').addEventListener('click', function() {
         if (!requireAuth('commande')) return;
         if (cartItems.length === 0) { showToast('Panier vide', 'error'); return; }
-        // Fermer le panier et ouvrir la modale de paiement
         toggleCart();
         setTimeout(openPaymentModal, 300);
     });
@@ -859,9 +806,7 @@
     function executePayment() {
         var total = cartItems.reduce(function(s, i) { return s + (i.price * i.qty); }, 0);
         var totalFixed = parseFloat(total.toFixed(2));
-
         showToast('Traitement du paiement...', 'info');
-
         createPiPayment(totalFixed, 'Global Bulk - ' + cartItems.length + ' article(s)', {
             items: cartItems.map(function(i) { return { id: i.id, name: i.name, qty: i.qty, price: i.price }; }),
             total: totalFixed,
@@ -877,11 +822,8 @@
         })
         .catch(function(err) {
             console.error('[Pi] Erreur paiement :', err);
-            if (/annulé/i.test(err.message)) {
-                showToast('Paiement annulé', 'info');
-            } else {
-                showToast('Erreur : ' + (err.message || 'paiement échoué'), 'error');
-            }
+            if (/annulé/i.test(err.message)) { showToast('Paiement annulé', 'info'); }
+            else { showToast('Erreur : ' + (err.message || 'paiement échoué'), 'error'); }
         });
     }
 
@@ -923,7 +865,12 @@
         });
     });
 
-    document.getElementById('btnPublishFloating').addEventListener('click', function() { window.openPublish(); });
+    // ✅ CORRECTION : Vérifier l'existence de btnPublishFloating avant d'y attacher un listener
+    var btnPublishFloating = document.getElementById('btnPublishFloating');
+    if (btnPublishFloating) {
+        btnPublishFloating.addEventListener('click', function() { window.openPublish(); });
+    }
+
     document.getElementById('footerPublish').addEventListener('click', function(e) { e.preventDefault(); window.openPublish(); });
     document.getElementById('footerFaq').addEventListener('click', function(e) {
         e.preventDefault();
@@ -931,7 +878,7 @@
         setTimeout(function() { openSideDrawer('faq', 'FAQ'); }, 400);
     });
 
-    // ============ PUBLISH FORM ============
+    // ============ PUBLISH FORM (INCHANGÉ) ============
     document.getElementById('publishForm').addEventListener('submit', function(e) {
         e.preventDefault();
         if (!requireAuth('publier')) return;
@@ -970,27 +917,20 @@
         var pCategory = document.getElementById('pCategory');
         if (pCategory) {
             pCategory.innerHTML = '<option value="">Catégorie *</option>';
-            categories.forEach(function(c) {
-                pCategory.innerHTML += '<option value="' + c.name + '">' + c.name + '</option>';
-            });
+            categories.forEach(function(c) { pCategory.innerHTML += '<option value="' + c.name + '">' + c.name + '</option>'; });
         }
         var pCountry = document.getElementById('pCountry');
         if (pCountry) {
             pCountry.innerHTML = '<option value="">Pays *</option>';
-            allCountries.forEach(function(c) {
-                pCountry.innerHTML += '<option value="' + c + '">' + c + '</option>';
-            });
+            allCountries.forEach(function(c) { pCountry.innerHTML += '<option value="' + c + '">' + c + '</option>'; });
         }
     }
 
     // ============ INITIALISATION ============
     console.log('[App] 🚀 Démarrage');
-
-    // Détection immédiate
     detectPiBrowser();
     loadPiSession();
 
-    // Attendre le SDK
     waitForPiSdk(5000)
         .then(function() {
             console.log('[Pi] SDK prêt');
@@ -1003,7 +943,6 @@
             updatePiUI();
         });
 
-    // Démarrage app
     simulateLoader(function() {
         renderCategoryFilters();
         renderProducts();
@@ -1016,13 +955,9 @@
         setTimeout(animateStats, 300);
 
         setTimeout(function() {
-            if (piUser) {
-                showToast('Bon retour ' + piUser.username + ' !', 'success');
-            } else if (inPiBrowser) {
-                showToast('Allez dans Profil pour vous connecter', 'info');
-            } else {
-                showToast('Ouvrez dans Pi Browser pour Pi', 'info');
-            }
+            if (piUser) { showToast('Bon retour ' + piUser.username + ' !', 'success'); }
+            else if (inPiBrowser) { showToast('Allez dans Profil pour vous connecter', 'info'); }
+            else { showToast('Ouvrez dans Pi Browser pour Pi', 'info'); }
         }, 800);
     });
 
