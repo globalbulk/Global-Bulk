@@ -93,7 +93,6 @@ ul { list-style:none; }
 .logo .logo-text span { color:var(--secondary); }
 .logo .logo-text { display:flex; line-height:1.1; }
 
-/* ✅ NOUVEAU : Style pour le logo image */
 .logo-img {
     width: 42px;
     height: 42px;
@@ -107,7 +106,7 @@ ul { list-style:none; }
 .icon-btn:hover { background:var(--gray-light); color:var(--primary); }
 .badge-count { position:absolute; top:2px; right:2px; background:#e53935; color:white; font-size:9px; font-weight:700; width:18px; height:18px; border-radius:50%; display:flex; align-items:center; justify-content:center; }
 
-/* ⚠️ pi-user-badge : conservé en CSS pour compatibilité mais plus utilisé */
+/* pi-user-badge : conservé mais caché (le bouton a été supprimé du HTML) */
 .pi-user-badge { display: none !important; }
 
 .search-dropdown { position:absolute; top:100%; left:0; right:0; background:var(--white); padding:14px 0; box-shadow:0 8px 30px rgba(0,0,0,0.08); transform:translateY(-10px); opacity:0; pointer-events:none; transition:var(--transition); }
@@ -205,14 +204,77 @@ ul { list-style:none; }
 .volume-pricing .tier { background:var(--gray-light); padding:8px; border-radius:var(--radius-sm); text-align:center; }
 .volume-pricing .tier .price { font-size:16px; font-weight:700; color:var(--primary); }
 
+/* ===== FORMULAIRE PUBLICATION AMÉLIORÉ ===== */
 .publish-card-social { max-width: 100%; background: var(--white); border-radius: var(--radius); box-shadow: var(--shadow-lg); padding: 20px; margin: 20px 16px; }
 .publish-header { display: flex; align-items: center; gap: 12px; padding-bottom: 14px; border-bottom: 1px solid #f0f2f5; margin-bottom: 16px; }
 .publish-avatar { width: 44px; height: 44px; border-radius: 50%; background: var(--pi-purple); color: var(--white); display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 18px; }
 .publish-name { font-weight: 700; font-size: 16px; }
 .publish-handle { font-size: 13px; color: var(--text-muted); }
-.publish-form-social { display: flex; flex-direction: column; gap: 14px; }
-.publish-form-social textarea { width: 100%; padding: 14px 16px; border: 1px solid #dce0e6; border-radius: var(--radius-sm); font-size: 16px; resize: vertical; min-height: 120px; }
-.publish-images-upload { border: 2px dashed #dce0e6; border-radius: var(--radius-sm); padding: 16px; text-align: center; background: var(--gray-light); }
+.publish-form-social { display: flex; flex-direction: column; gap: 0; }
+
+.form-section {
+    background: #FAFBFC;
+    border: 1px solid #e9ecf0;
+    border-radius: 12px;
+    padding: 16px;
+    margin-bottom: 14px;
+}
+.form-section-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--primary);
+    margin-bottom: 14px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #e9ecf0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.form-section-title i {
+    color: var(--secondary);
+    font-size: 15px;
+}
+.form-group { margin-bottom: 12px; }
+.form-group:last-child { margin-bottom: 0; }
+.form-group label {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-dark);
+    margin-bottom: 6px;
+}
+.form-group label .req { color: #e53935; margin-left: 2px; }
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1.5px solid #dce0e6;
+    border-radius: 10px;
+    font-size: 14px;
+    background: #fff;
+    transition: var(--transition);
+    font-family: inherit;
+}
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(11,42,91,0.08);
+}
+.form-group textarea {
+    resize: vertical;
+    min-height: 90px;
+    line-height: 1.5;
+}
+.form-row-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+
+/* Upload photos */
+.publish-images-upload { border: 2px dashed #dce0e6; border-radius: var(--radius-sm); padding: 16px; text-align: center; background: #fff; }
 .publish-images-upload .upload-label { display: inline-block; padding: 10px 24px; background: var(--primary); color: var(--white); border-radius: var(--radius-sm); font-weight: 600; font-size: 14px; cursor: pointer; transition: var(--transition); }
 .publish-images-upload .upload-label:hover { background: var(--primary-dark); transform: translateY(-1px); }
 .publish-images-upload input[type="file"] { display: none; }
@@ -220,10 +282,15 @@ ul { list-style:none; }
 .publish-images-upload .preview-thumb { width: 80px; height: 80px; border-radius: var(--radius-sm); overflow: hidden; position: relative; }
 .publish-images-upload .preview-thumb img { width: 100%; height: 100%; object-fit: cover; }
 .publish-images-upload .preview-thumb .remove-btn { position: absolute; top: -6px; right: -6px; width: 20px; height: 20px; border-radius: 50%; background: #e53935; color: white; font-size: 12px; display: flex; align-items: center; justify-content: center; }
-.publish-fields { display: flex; flex-direction: column; gap: 10px; }
-.publish-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-.publish-row input, .publish-row select { width: 100%; padding: 12px 14px; border: 1px solid #dce0e6; border-radius: var(--radius-sm); font-size: 14px; }
-.publish-submit { padding: 16px; font-size: 18px; }
+
+.publish-submit { padding: 16px; font-size: 16px; margin-top: 8px; border-radius: 12px; }
+
+/* Drapeaux dans les selects */
+#pCountry option,
+#filterCountry option {
+    padding: 8px;
+    font-size: 15px;
+}
 
 /* ===== PANIER ===== */
 .cart-overlay { position:fixed; inset:0; background:rgba(0,0,0,0.4); z-index:2000; opacity:0; pointer-events:none; transition:var(--transition); }
@@ -324,7 +391,6 @@ ul { list-style:none; }
 @media (max-width:767px) {
     .product-grid { grid-template-columns: 1fr; gap: 16px; }
     .card-product .image { height: 260px; }
-    .publish-row { grid-template-columns: 1fr; }
     .product-detail-grid { grid-template-columns: 1fr; }
     .product-detail-grid .main-image { height: 300px; }
     .volume-pricing { grid-template-columns: 1fr; }
@@ -343,4 +409,6 @@ ul { list-style:none; }
     .pi-account-username { font-size: 19px; }
     .menu-icon { width: 36px; height: 36px; font-size: 16px; }
     .social-links-footer a { width: 36px; height: 36px; font-size: 1rem; }
+    .form-row-2 { grid-template-columns: 1fr; }
+    .form-section { padding: 14px; }
 }
