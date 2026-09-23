@@ -25,9 +25,8 @@
         { icon: 'fa-paw', name: 'Animalerie', count: 95 }
     ];
 
-    // ============ PAYS AVEC DRAPEAUX (Liste mondiale) ============
+    // ============ PAYS AVEC DRAPEAUX ============
     var allCountries = [
-        // Afrique
         { name: 'Afrique du Sud', flag: '🇿🇦' },
         { name: 'Algérie', flag: '🇩🇿' },
         { name: 'Angola', flag: '🇦🇴' },
@@ -54,18 +53,15 @@
         { name: 'Tanzanie', flag: '🇹🇿' },
         { name: 'Togo', flag: '🇹🇬' },
         { name: 'Tunisie', flag: '🇹🇳' },
-        // Amérique du Nord
         { name: 'Canada', flag: '🇨🇦' },
         { name: 'États-Unis', flag: '🇺🇸' },
         { name: 'Mexique', flag: '🇲🇽' },
-        // Amérique Centrale & Caraïbes
         { name: 'Costa Rica', flag: '🇨🇷' },
         { name: 'Cuba', flag: '🇨🇺' },
         { name: 'Guatemala', flag: '🇬🇹' },
         { name: 'Haïti', flag: '🇭🇹' },
         { name: 'Panama', flag: '🇵🇦' },
         { name: 'République Dominicaine', flag: '🇩🇴' },
-        // Amérique du Sud
         { name: 'Argentine', flag: '🇦🇷' },
         { name: 'Bolivie', flag: '🇧🇴' },
         { name: 'Brésil', flag: '🇧🇷' },
@@ -75,7 +71,6 @@
         { name: 'Pérou', flag: '🇵🇪' },
         { name: 'Uruguay', flag: '🇺🇾' },
         { name: 'Venezuela', flag: '🇻🇪' },
-        // Asie
         { name: 'Arabie Saoudite', flag: '🇸🇦' },
         { name: 'Bangladesh', flag: '🇧🇩' },
         { name: 'Chine', flag: '🇨🇳' },
@@ -93,7 +88,6 @@
         { name: 'Thaïlande', flag: '🇹🇭' },
         { name: 'Turquie', flag: '🇹🇷' },
         { name: 'Vietnam', flag: '🇻🇳' },
-        // Europe
         { name: 'Allemagne', flag: '🇩🇪' },
         { name: 'Autriche', flag: '🇦🇹' },
         { name: 'Belgique', flag: '🇧🇪' },
@@ -118,7 +112,6 @@
         { name: 'Suède', flag: '🇸🇪' },
         { name: 'Suisse', flag: '🇨🇭' },
         { name: 'Ukraine', flag: '🇺🇦' },
-        // Océanie
         { name: 'Australie', flag: '🇦🇺' },
         { name: 'Nouvelle-Zélande', flag: '🇳🇿' }
     ];
@@ -471,7 +464,6 @@
         }).join('');
     }
 
-    // ✅ FILTRE PAYS AVEC DRAPEAUX
     function setupFilters() {
         var countrySelect = document.getElementById('filterCountry');
         if (!countrySelect) return;
@@ -853,7 +845,6 @@
         setTimeout(function() { openSideDrawer('faq', 'FAQ'); }, 400);
     });
 
-    // ============ PUBLISH FORM (AMÉLIORÉ - sans pRating) ============
     document.getElementById('publishForm').addEventListener('submit', function(e) {
         e.preventDefault();
         if (!requireAuth('publier')) return;
@@ -885,7 +876,7 @@
             supplier: piUser.username,
             country: country,
             verified: true,
-            rating: 4.5,  // Valeur par défaut (le champ Note a été supprimé)
+            rating: 4.5,
             category: category,
             images: images
         });
@@ -899,7 +890,6 @@
         window.closePublish();
     });
 
-    // ✅ REMPLISSAGE DES SELECTS AVEC DRAPEAUX
     function populateFormSelects() {
         var pCategory = document.getElementById('pCategory');
         if (pCategory) {
