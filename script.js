@@ -167,6 +167,7 @@
     }
 
     function updatePiUI() {
+        // ⚠️ Le badge header a été supprimé du HTML, mais on garde les vérifications par sécurité
         var badge = document.getElementById('piUserBadge');
         var usernameEl = document.getElementById('piUsername');
         var accountCard = document.getElementById('piAccountCard');
@@ -586,40 +587,6 @@
                     infoItem('fa-fingerprint', 'UID', piUser.uid.substring(0, 20) + '...') +
                     infoItem('fa-shield-alt', 'Statut', 'Membre Pi Network') +
                     infoItem('fa-globe', 'Réseau', 'Pi Network Mainnet');
-
-            // ✅ DYNAMIQUE : Affiche les produits publiés par l'utilisateur connecté
-            case 'mes-produits':
-                if (!piUser) {
-                    return '<div class="empty-state"><i class="fas fa-box-open"></i><p>Connectez-vous avec Pi pour voir vos produits.</p></div>';
-                }
-                
-                var myProducts = products.filter(function(p) { return p.supplier === piUser.username; });
-                var html = '<h3><i class="fas fa-boxes"></i> Mes produits (' + myProducts.length + ')</h3>';
-                
-                if (myProducts.length === 0) {
-                    html += '<div class="empty-state">' +
-                            '<i class="fas fa-box-open"></i>' +
-                            '<p>Vous n\'avez publié aucun produit pour le moment.</p>' +
-                            '<p style="font-size:12px; margin-top:8px;">Rendez-vous dans l\'onglet <strong>Publier</strong> pour ajouter votre premier produit.</p>' +
-                            '</div>';
-                } else {
-                    html += '<div style="display:flex;flex-direction:column;gap:10px;">';
-                    myProducts.forEach(function(p) {
-                        var img = (p.images && p.images.length > 0) ? p.images[0] : '';
-                        html += '<div class="my-product-item" onclick="closeSideDrawer(); showProductDetail(' + p.id + ');">' +
-                                    '<img class="my-product-img" src="' + img + '" alt="' + p.name + '" />' +
-                                    '<div class="my-product-info">' +
-                                        '<div class="my-product-name">' + p.name + '</div>' +
-                                        '<div class="my-product-price">' + p.price + ' ' + p.unit + '</div>' +
-                                        '<div class="my-product-meta">Stock: ' + p.stock + ' · Cat: ' + p.category + '</div>' +
-                                    '</div>' +
-                                    '<i class="fas fa-chevron-right" style="color:var(--text-muted);"></i>' +
-                                '</div>';
-                    });
-                    html += '</div>';
-                }
-                return html;
-
             case 'parametres':
                 return '<h3><i class="fas fa-sliders-h"></i> Paramètres</h3>' +
                     infoItem('fa-bell', 'Notifications', 'Activées') +
@@ -635,6 +602,24 @@
                     infoItem('fa-file-pdf', 'Guide 2026', 'Disponible') +
                     infoItem('fa-file-pdf', 'Stratégies', 'Disponible') +
                     infoItem('fa-file-pdf', 'Marchés émergents', 'Bientôt');
+
+            // ✅ MES PRODUITS : affiche dynamiquement les produits publiés par l'utilisateur connecté
+            case 'mes-produits':
+                if (!piUser) return '<div class="empty-state"><i class="fas fa-box-open"></i><p>Connectez-vous pour voir vos produits.</p></div>';
+                var myProducts = products.filter(function(p) { return p.supplier === piUser.username; });
+                var html = '<h3><i class="fas fa-boxes"></i> Mes produits</h3>';
+                if (myProducts.length === 0) {
+                    html += '<div class="empty-state" style="padding:20px 0;">' +
+                            '<i class="fas fa-box-open" style="font-size:36px; margin-bottom:10px;"></i>' +
+                            '<p style="font-size:14px;">Vous n\'avez publié aucun produit pour le moment.</p>' +
+                            '</div>';
+                } else {
+                    myProducts.forEach(function(p) {
+                        html += infoItem('fa-box', p.name, p.price + ' ' + p.unit + ' <br><small style="font-weight:400;color:var(--text-muted);">Stock: ' + p.stock + '</small>');
+                    });
+                }
+                return html;
+
             case 'historique':
                 if (!piUser) return '<div class="empty-state"><i class="fas fa-history"></i><p>Connectez-vous pour voir votre historique.</p></div>';
                 return '<h3><i class="fas fa-history"></i> Historique</h3>' +
@@ -661,7 +646,6 @@
         }
     }
 
-    // Écouteurs menu profil
     document.querySelectorAll('.menu-item').forEach(function(item) {
         item.addEventListener('click', function() {
             var tab = this.getAttribute('data-tab');
@@ -670,7 +654,6 @@
         });
     });
 
-    // Boutons fermeture drawer
     document.getElementById('sideDrawerClose').addEventListener('click', closeSideDrawer);
     document.getElementById('sideDrawerBack').addEventListener('click', closeSideDrawer);
     document.getElementById('sideDrawerOverlay').addEventListener('click', closeSideDrawer);
@@ -685,7 +668,6 @@
         });
     }
 
-    // Modale auth - bouton
     document.getElementById('authModalConnectBtn').addEventListener('click', function() {
         closeAuthModal();
         window.openProfile();
@@ -696,7 +678,6 @@
     });
     document.getElementById('authModalCancelBtn').addEventListener('click', closeAuthModal);
 
-    // Modale paiement
     document.getElementById('paymentCancelBtn').addEventListener('click', closePaymentModal);
     document.getElementById('paymentConfirmBtn').addEventListener('click', function() {
         closePaymentModal();
@@ -775,7 +756,7 @@
         var totalEl = document.getElementById('cartTotalPrice');
         if (!body) return;
         if (cartItems.length === 0) {
-            body.innerHTML = '<div class="cart-empty"><i class="fas fa-cart-shopping"></i><p>Panier vide</p></div>';
+            body.innerHTML = '<div class="cart-empty"><i class="fas fa-shopping-bag"></i><p>Panier vide</p></div>';
             footer.style.display = 'none';
             return;
         }
@@ -799,17 +780,15 @@
         totalEl.textContent = total.toFixed(2) + ' π';
     }
 
-    // ✅ MISE À JOUR : Utilise l'ID 'cartToggle' (plus fiable que la classe de l'icône)
     function updateCartBadge() {
         var total = cartItems.reduce(function(s, i) { return s + i.qty; }, 0);
-        var cartToggle = document.getElementById('cartToggle');
-        if (cartToggle) {
-            var badge = cartToggle.querySelector('.badge-count');
-            if (badge) {
-                badge.textContent = total;
-                badge.style.display = total > 0 ? 'flex' : 'none';
+        document.querySelectorAll('.badge-count').forEach(function(el) {
+            var parent = el.closest('.icon-btn');
+            if (parent && parent.querySelector('.fa-cart-shopping')) {
+                el.textContent = total;
+                el.style.display = total > 0 ? 'flex' : 'none';
             }
-        }
+        });
     }
 
     var isCartOpen = false;
@@ -936,7 +915,7 @@
         });
         renderProducts();
         applyFilters();
-        showToast('Produit publié ! Retrouvez-le dans "Mes produits".', 'success');
+        showToast('Produit publié !', 'success');
         uploadedImages = [];
         document.getElementById('uploadPreview').innerHTML = '';
         this.reset();
