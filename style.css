@@ -93,11 +93,12 @@ ul { list-style:none; }
 .logo .logo-text span { color:var(--secondary); }
 .logo .logo-text { display:flex; line-height:1.1; }
 
+/* ✅ LOGO AGRANDI */
 .logo-img {
-    width: 42px;
-    height: 42px;
+    width: 52px;
+    height: 52px;
     object-fit: contain;
-    border-radius: 10px;
+    border-radius: 12px;
     flex-shrink: 0;
 }
 
@@ -106,7 +107,6 @@ ul { list-style:none; }
 .icon-btn:hover { background:var(--gray-light); color:var(--primary); }
 .badge-count { position:absolute; top:2px; right:2px; background:#e53935; color:white; font-size:9px; font-weight:700; width:18px; height:18px; border-radius:50%; display:flex; align-items:center; justify-content:center; }
 
-/* pi-user-badge : conservé mais caché (le bouton a été supprimé du HTML) */
 .pi-user-badge { display: none !important; }
 
 .search-dropdown { position:absolute; top:100%; left:0; right:0; background:var(--white); padding:14px 0; box-shadow:0 8px 30px rgba(0,0,0,0.08); transform:translateY(-10px); opacity:0; pointer-events:none; transition:var(--transition); }
@@ -204,7 +204,7 @@ ul { list-style:none; }
 .volume-pricing .tier { background:var(--gray-light); padding:8px; border-radius:var(--radius-sm); text-align:center; }
 .volume-pricing .tier .price { font-size:16px; font-weight:700; color:var(--primary); }
 
-/* ===== FORMULAIRE PUBLICATION AMÉLIORÉ ===== */
+/* ===== FORMULAIRE PUBLICATION ===== */
 .publish-card-social { max-width: 100%; background: var(--white); border-radius: var(--radius); box-shadow: var(--shadow-lg); padding: 20px; margin: 20px 16px; }
 .publish-header { display: flex; align-items: center; gap: 12px; padding-bottom: 14px; border-bottom: 1px solid #f0f2f5; margin-bottom: 16px; }
 .publish-avatar { width: 44px; height: 44px; border-radius: 50%; background: var(--pi-purple); color: var(--white); display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 18px; }
@@ -230,10 +230,7 @@ ul { list-style:none; }
     align-items: center;
     gap: 8px;
 }
-.form-section-title i {
-    color: var(--secondary);
-    font-size: 15px;
-}
+.form-section-title i { color: var(--secondary); font-size: 15px; }
 .form-group { margin-bottom: 12px; }
 .form-group:last-child { margin-bottom: 0; }
 .form-group label {
@@ -262,18 +259,9 @@ ul { list-style:none; }
     border-color: var(--primary);
     box-shadow: 0 0 0 3px rgba(11,42,91,0.08);
 }
-.form-group textarea {
-    resize: vertical;
-    min-height: 90px;
-    line-height: 1.5;
-}
-.form-row-2 {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
-}
+.form-group textarea { resize: vertical; min-height: 90px; line-height: 1.5; }
+.form-row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
 
-/* Upload photos */
 .publish-images-upload { border: 2px dashed #dce0e6; border-radius: var(--radius-sm); padding: 16px; text-align: center; background: #fff; }
 .publish-images-upload .upload-label { display: inline-block; padding: 10px 24px; background: var(--primary); color: var(--white); border-radius: var(--radius-sm); font-weight: 600; font-size: 14px; cursor: pointer; transition: var(--transition); }
 .publish-images-upload .upload-label:hover { background: var(--primary-dark); transform: translateY(-1px); }
@@ -285,12 +273,8 @@ ul { list-style:none; }
 
 .publish-submit { padding: 16px; font-size: 16px; margin-top: 8px; border-radius: 12px; }
 
-/* Drapeaux dans les selects */
 #pCountry option,
-#filterCountry option {
-    padding: 8px;
-    font-size: 15px;
-}
+#filterCountry option { padding: 8px; font-size: 15px; }
 
 /* ===== PANIER ===== */
 .cart-overlay { position:fixed; inset:0; background:rgba(0,0,0,0.4); z-index:2000; opacity:0; pointer-events:none; transition:var(--transition); }
@@ -319,18 +303,77 @@ ul { list-style:none; }
 
 /* ===== PROFIL ===== */
 .profile-wrapper { padding: 16px; max-width: 640px; margin: 0 auto; }
-.pi-account-card { background: var(--white); border-radius: var(--radius); box-shadow: var(--shadow); padding: 24px 20px; text-align: center; margin-bottom: 16px; }
-.pi-avatar { width: 80px; height: 80px; border-radius: 50%; background: linear-gradient(135deg, var(--pi-purple), var(--pi-purple-dark)); color: white; display: flex; align-items: center; justify-content: center; margin: 0 auto 14px; font-size: 40px; box-shadow: 0 8px 24px rgba(123,63,228,0.3); transition: var(--transition); }
-.pi-account-card.connected .pi-avatar { background: var(--primary); border: 3px solid var(--secondary); color: var(--secondary); font-size: 26px; font-weight: 800; }
-.pi-account-username { font-size: 22px; font-weight: 800; color: var(--text-dark); margin-bottom: 4px; }
-.pi-account-subtitle { font-size: 14px; color: var(--text-muted); margin-bottom: 20px; }
-.pi-action-btn { width: 100%; padding: 16px 24px; background: var(--pi-purple); color: white; border-radius: var(--radius-sm); border: none; font-weight: 700; font-size: 16px; display: flex; align-items: center; justify-content: center; gap: 10px; transition: var(--transition); min-height: 56px; }
-.pi-action-btn:hover:not(:disabled) { background: var(--pi-purple-dark); transform: translateY(-2px); }
-.pi-action-btn i { font-size: 20px; }
-.pi-action-btn.disconnect { background: transparent; border: 2px solid var(--danger); color: var(--danger); }
+
+/* ✅ CARTE PI COMPACTE */
+.pi-account-card {
+    background: var(--white);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 16px 18px;
+    text-align: center;
+    margin-bottom: 14px;
+}
+.pi-avatar {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--pi-purple), var(--pi-purple-dark));
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 10px;
+    font-size: 28px;
+    box-shadow: 0 6px 18px rgba(123,63,228,0.25);
+    transition: var(--transition);
+}
+.pi-account-card.connected .pi-avatar {
+    background: var(--primary);
+    border: 2.5px solid var(--secondary);
+    color: var(--secondary);
+    font-size: 20px;
+    font-weight: 800;
+}
+.pi-account-username {
+    font-size: 17px;
+    font-weight: 800;
+    color: var(--text-dark);
+    margin-bottom: 2px;
+    line-height: 1.2;
+}
+.pi-account-subtitle {
+    font-size: 12.5px;
+    color: var(--text-muted);
+    margin-bottom: 12px;
+    line-height: 1.3;
+}
+.pi-action-btn {
+    width: 100%;
+    padding: 10px 18px;
+    background: var(--pi-purple);
+    color: white;
+    border-radius: var(--radius-sm);
+    border: none;
+    font-weight: 700;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: var(--transition);
+    min-height: 42px;
+}
+.pi-action-btn:hover:not(:disabled) { background: var(--pi-purple-dark); transform: translateY(-1px); }
+.pi-action-btn i { font-size: 16px; }
+.pi-action-btn.disconnect { background: transparent; border: 2px solid var(--danger); color: var(--danger); padding: 8px 18px; }
 .pi-action-btn.disconnect:hover { background: var(--danger); color: white; }
 .pi-action-btn:disabled { background: #b0b5c0; cursor: not-allowed; }
-.pi-account-hint { margin-top: 16px; font-size: 13px; color: var(--text-muted); line-height: 1.5; }
+.pi-account-hint {
+    margin-top: 10px;
+    font-size: 12px;
+    color: var(--text-muted);
+    line-height: 1.4;
+}
 
 .profile-menu { background: var(--white); border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden; }
 .menu-item { display: flex; align-items: center; gap: 14px; padding: 16px 18px; width: 100%; background: transparent; border-bottom: 1px solid #f0f2f5; font-size: 15px; font-weight: 500; color: var(--text-dark); text-align: left; transition: var(--transition); }
@@ -404,9 +447,9 @@ ul { list-style:none; }
     body { padding-top: 64px; }
     .icon-btn { width: 36px; height: 36px; font-size: 15px; }
     .logo .logo-text { font-size: 17px; }
-    .logo-img { width: 34px; height: 34px; }
-    .pi-avatar { width: 64px; height: 64px; font-size: 30px; }
-    .pi-account-username { font-size: 19px; }
+    .logo-img { width: 42px; height: 42px; }
+    .pi-avatar { width: 56px; height: 56px; font-size: 26px; }
+    .pi-account-username { font-size: 16px; }
     .menu-icon { width: 36px; height: 36px; font-size: 16px; }
     .social-links-footer a { width: 36px; height: 36px; font-size: 1rem; }
     .form-row-2 { grid-template-columns: 1fr; }
