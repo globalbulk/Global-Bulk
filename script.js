@@ -1,7 +1,7 @@
 (function() {
     'use strict';
 
-    // ============ DONNÉES ============
+    // ============ CATÉGORIES ============
     var categories = [
         { icon: 'fa-laptop', name: 'Électronique', count: 1240 },
         { icon: 'fa-tshirt', name: 'Mode', count: 980 },
@@ -25,18 +25,116 @@
         { icon: 'fa-paw', name: 'Animalerie', count: 95 }
     ];
 
+    // ============ PAYS AVEC DRAPEAUX (Liste mondiale) ============
+    var allCountries = [
+        // Afrique
+        { name: 'Afrique du Sud', flag: '🇿🇦' },
+        { name: 'Algérie', flag: '🇩🇿' },
+        { name: 'Angola', flag: '🇦🇴' },
+        { name: 'Bénin', flag: '🇧🇯' },
+        { name: 'Burkina Faso', flag: '🇧🇫' },
+        { name: 'Cameroun', flag: '🇨🇲' },
+        { name: 'Congo', flag: '🇨🇬' },
+        { name: 'RD Congo', flag: '🇨🇩' },
+        { name: 'Côte d\'Ivoire', flag: '🇨🇮' },
+        { name: 'Égypte', flag: '🇪🇬' },
+        { name: 'Éthiopie', flag: '🇪🇹' },
+        { name: 'Gabon', flag: '🇬🇦' },
+        { name: 'Ghana', flag: '🇬🇭' },
+        { name: 'Guinée', flag: '🇬🇳' },
+        { name: 'Kenya', flag: '🇰🇪' },
+        { name: 'Madagascar', flag: '🇲🇬' },
+        { name: 'Mali', flag: '🇲🇱' },
+        { name: 'Maroc', flag: '🇲🇦' },
+        { name: 'Maurice', flag: '🇲🇺' },
+        { name: 'Niger', flag: '🇳🇪' },
+        { name: 'Nigeria', flag: '🇳🇬' },
+        { name: 'Rwanda', flag: '🇷🇼' },
+        { name: 'Sénégal', flag: '🇸🇳' },
+        { name: 'Tanzanie', flag: '🇹🇿' },
+        { name: 'Togo', flag: '🇹🇬' },
+        { name: 'Tunisie', flag: '🇹🇳' },
+        // Amérique du Nord
+        { name: 'Canada', flag: '🇨🇦' },
+        { name: 'États-Unis', flag: '🇺🇸' },
+        { name: 'Mexique', flag: '🇲🇽' },
+        // Amérique Centrale & Caraïbes
+        { name: 'Costa Rica', flag: '🇨🇷' },
+        { name: 'Cuba', flag: '🇨🇺' },
+        { name: 'Guatemala', flag: '🇬🇹' },
+        { name: 'Haïti', flag: '🇭🇹' },
+        { name: 'Panama', flag: '🇵🇦' },
+        { name: 'République Dominicaine', flag: '🇩🇴' },
+        // Amérique du Sud
+        { name: 'Argentine', flag: '🇦🇷' },
+        { name: 'Bolivie', flag: '🇧🇴' },
+        { name: 'Brésil', flag: '🇧🇷' },
+        { name: 'Chili', flag: '🇨🇱' },
+        { name: 'Colombie', flag: '🇨🇴' },
+        { name: 'Équateur', flag: '🇪🇨' },
+        { name: 'Pérou', flag: '🇵🇪' },
+        { name: 'Uruguay', flag: '🇺🇾' },
+        { name: 'Venezuela', flag: '🇻🇪' },
+        // Asie
+        { name: 'Arabie Saoudite', flag: '🇸🇦' },
+        { name: 'Bangladesh', flag: '🇧🇩' },
+        { name: 'Chine', flag: '🇨🇳' },
+        { name: 'Corée du Sud', flag: '🇰🇷' },
+        { name: 'Émirats arabes unis', flag: '🇦🇪' },
+        { name: 'Inde', flag: '🇮🇳' },
+        { name: 'Indonésie', flag: '🇮🇩' },
+        { name: 'Israël', flag: '🇮🇱' },
+        { name: 'Japon', flag: '🇯🇵' },
+        { name: 'Malaisie', flag: '🇲🇾' },
+        { name: 'Pakistan', flag: '🇵🇰' },
+        { name: 'Philippines', flag: '🇵🇭' },
+        { name: 'Qatar', flag: '🇶🇦' },
+        { name: 'Singapour', flag: '🇸🇬' },
+        { name: 'Thaïlande', flag: '🇹🇭' },
+        { name: 'Turquie', flag: '🇹🇷' },
+        { name: 'Vietnam', flag: '🇻🇳' },
+        // Europe
+        { name: 'Allemagne', flag: '🇩🇪' },
+        { name: 'Autriche', flag: '🇦🇹' },
+        { name: 'Belgique', flag: '🇧🇪' },
+        { name: 'Bulgarie', flag: '🇧🇬' },
+        { name: 'Danemark', flag: '🇩🇰' },
+        { name: 'Espagne', flag: '🇪🇸' },
+        { name: 'Estonie', flag: '🇪🇪' },
+        { name: 'Finlande', flag: '🇫🇮' },
+        { name: 'France', flag: '🇫🇷' },
+        { name: 'Grèce', flag: '🇬🇷' },
+        { name: 'Hongrie', flag: '🇭🇺' },
+        { name: 'Irlande', flag: '🇮🇪' },
+        { name: 'Italie', flag: '🇮🇹' },
+        { name: 'Luxembourg', flag: '🇱🇺' },
+        { name: 'Norvège', flag: '🇳🇴' },
+        { name: 'Pays-Bas', flag: '🇳🇱' },
+        { name: 'Pologne', flag: '🇵🇱' },
+        { name: 'Portugal', flag: '🇵🇹' },
+        { name: 'Roumanie', flag: '🇷🇴' },
+        { name: 'Royaume-Uni', flag: '🇬🇧' },
+        { name: 'Russie', flag: '🇷🇺' },
+        { name: 'Suède', flag: '🇸🇪' },
+        { name: 'Suisse', flag: '🇨🇭' },
+        { name: 'Ukraine', flag: '🇺🇦' },
+        // Océanie
+        { name: 'Australie', flag: '🇦🇺' },
+        { name: 'Nouvelle-Zélande', flag: '🇳🇿' }
+    ];
+
     var products = [
         { id: 1, name: 'Smartphone Galaxy S24', price: 120, unit: 'Pi', minOrder: 10, stock: 850, supplier: 'MobileTech GmbH', country: 'Allemagne', verified: true, rating: 4.9, category: 'Électronique', images: ['https://images.unsplash.com/photo-1610945415295-d9bbf067e59c?w=600&h=400&fit=crop'] },
         { id: 2, name: 'Ordinateur Portable Pro', price: 450, unit: 'Pi', minOrder: 5, stock: 320, supplier: 'TechImport SARL', country: 'Chine', verified: true, rating: 4.8, category: 'Électronique', images: ['https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=600&h=400&fit=crop'] },
-        { id: 3, name: 'Voiture Électrique Model 3', price: 35000, unit: 'Pi', minOrder: 1, stock: 45, supplier: 'AutoGreen SA', country: 'USA', verified: true, rating: 4.7, category: 'Automobile', images: ['https://images.unsplash.com/photo-1560958089-b8a1929cea89?w=600&h=400&fit=crop'] },
+        { id: 3, name: 'Voiture Électrique Model 3', price: 35000, unit: 'Pi', minOrder: 1, stock: 45, supplier: 'AutoGreen SA', country: 'États-Unis', verified: true, rating: 4.7, category: 'Automobile', images: ['https://images.unsplash.com/photo-1560958089-b8a1929cea89?w=600&h=400&fit=crop'] },
         { id: 4, name: 'T-shirt en coton bio', price: 2.5, unit: 'Pi', minOrder: 200, stock: 12000, supplier: 'EcoWear SARL', country: 'France', verified: true, rating: 4.7, category: 'Mode', images: ['https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=600&h=400&fit=crop'] },
-        { id: 5, name: 'Chaussures de sport', price: 12, unit: 'Pi', minOrder: 50, stock: 320, supplier: 'SportFoot Inc', country: 'USA', verified: false, rating: 4.2, category: 'Chaussures', images: ['https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=600&h=400&fit=crop'] },
+        { id: 5, name: 'Chaussures de sport', price: 12, unit: 'Pi', minOrder: 50, stock: 320, supplier: 'SportFoot Inc', country: 'États-Unis', verified: false, rating: 4.2, category: 'Chaussures', images: ['https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=600&h=400&fit=crop'] },
         { id: 6, name: 'Montre connectée', price: 35, unit: 'Pi', minOrder: 20, stock: 1500, supplier: 'TechImport SARL', country: 'Chine', verified: true, rating: 4.6, category: 'Électronique', images: ['https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=600&h=400&fit=crop'] },
         { id: 7, name: 'Lampe solaire 10W', price: 4.5, unit: 'Pi', minOrder: 100, stock: 3000, supplier: 'GreenEnergy Ltd', country: 'Allemagne', verified: true, rating: 4.5, category: 'Énergie', images: ['https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?w=600&h=400&fit=crop'] },
         { id: 8, name: 'Meubles de salon (set)', price: 180, unit: 'Pi', minOrder: 5, stock: 120, supplier: 'HomeFurnish SARL', country: 'France', verified: false, rating: 4.0, category: 'Maison', images: ['https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=600&h=400&fit=crop'] },
         { id: 9, name: 'Café Arabica 1kg', price: 3.2, unit: 'Pi', minOrder: 500, stock: 8000, supplier: 'AgriExport Co', country: 'Colombie', verified: true, rating: 4.9, category: 'Alimentation', images: ['https://images.unsplash.com/photo-1559056199-641a0ac8b55e?w=600&h=400&fit=crop'] },
         { id: 10, name: 'Crème Anti-Âge 50ml', price: 8, unit: 'Pi', minOrder: 100, stock: 2000, supplier: 'BeautyLab SAS', country: 'France', verified: true, rating: 4.3, category: 'Beauté', images: ['https://images.unsplash.com/photo-1556228578-0d85b1a4d571?w=600&h=400&fit=crop'] },
-        { id: 11, name: 'Tracteur Agricole 4x4', price: 45000, unit: 'Pi', minOrder: 1, stock: 12, supplier: 'AgriMachines Ltd', country: 'USA', verified: true, rating: 4.4, category: 'Agriculture', images: ['https://images.unsplash.com/photo-1531816458010-4f4c24de72e1?w=600&h=400&fit=crop'] },
+        { id: 11, name: 'Tracteur Agricole 4x4', price: 45000, unit: 'Pi', minOrder: 1, stock: 12, supplier: 'AgriMachines Ltd', country: 'États-Unis', verified: true, rating: 4.4, category: 'Agriculture', images: ['https://images.unsplash.com/photo-1531816458010-4f4c24de72e1?w=600&h=400&fit=crop'] },
         { id: 12, name: 'Équipement de Chantier (set)', price: 220, unit: 'Pi', minOrder: 10, stock: 340, supplier: 'BuildPro SARL', country: 'France', verified: false, rating: 3.9, category: 'Construction', images: ['https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?w=600&h=400&fit=crop'] }
     ];
 
@@ -45,21 +143,17 @@
         { name: 'MobileTech GmbH', country: 'Allemagne', verified: true, products: 210, rating: 4.9, responseRate: 98 },
         { name: 'EcoWear SARL', country: 'France', verified: true, products: 180, rating: 4.7, responseRate: 92 },
         { name: 'GreenEnergy Ltd', country: 'Allemagne', verified: true, products: 90, rating: 4.5, responseRate: 88 },
-        { name: 'SportFoot Inc', country: 'USA', verified: false, products: 65, rating: 4.2, responseRate: 75 }
+        { name: 'SportFoot Inc', country: 'États-Unis', verified: false, products: 65, rating: 4.2, responseRate: 75 }
     ];
 
     var cartItems = [];
-    var allCountries = ['Allemagne', 'Chine', 'France', 'USA', 'Colombie', 'Espagne', 'Italie', 'Belgique', 'Canada', 'Japon', 'Brésil', 'Inde', 'Royaume-Uni', 'Pays-Bas', 'Maroc', 'Sénégal', 'Côte d\'Ivoire', 'Cameroun', 'Congo', 'Nigeria'];
-
     var selectedCountry = '';
     var selectedCategory = 'all';
 
-    // ============ ÉTAT PI ============
     var piUser = null;
     var piReady = false;
     var inPiBrowser = false;
 
-    // ============ UTILITAIRES ============
     function formatNumber(n) {
         return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
     }
@@ -71,8 +165,7 @@
         var toast = document.createElement('div');
         toast.className = 'toast ' + type;
         var iconMap = { success: 'fa-check-circle', error: 'fa-exclamation-circle', info: 'fa-info-circle' };
-        var icon = iconMap[type] || 'fa-info-circle';
-        toast.innerHTML = '<i class="fas ' + icon + '"></i> ' + message;
+        toast.innerHTML = '<i class="fas ' + (iconMap[type] || 'fa-info-circle') + '"></i> ' + message;
         container.appendChild(toast);
         setTimeout(function() {
             toast.style.opacity = '0';
@@ -81,21 +174,14 @@
         }, 4000);
     }
 
-    // ============ DÉTECTION & INIT PI ============
     function waitForPiSdk(maxMs) {
         maxMs = maxMs || 5000;
         return new Promise(function(resolve, reject) {
             var start = Date.now();
             function check() {
-                if (typeof Pi !== 'undefined' && Pi.init && Pi.authenticate) {
-                    console.log('[Pi] ✅ SDK détecté après ' + (Date.now() - start) + 'ms');
-                    resolve(true);
-                } else if (Date.now() - start > maxMs) {
-                    console.warn('[Pi] ⏱️ Timeout SDK après ' + maxMs + 'ms');
-                    reject(new Error('SDK timeout'));
-                } else {
-                    setTimeout(check, 150);
-                }
+                if (typeof Pi !== 'undefined' && Pi.init && Pi.authenticate) { resolve(true); }
+                else if (Date.now() - start > maxMs) { reject(new Error('SDK timeout')); }
+                else { setTimeout(check, 150); }
             }
             check();
         });
@@ -105,58 +191,38 @@
         var uaIsPi = /PiBrowser/i.test(navigator.userAgent);
         var hasPi = typeof Pi !== 'undefined';
         inPiBrowser = uaIsPi || hasPi;
-        console.log('[Pi] UA PiBrowser:', uaIsPi, '| SDK:', hasPi, '| =>', inPiBrowser);
         return inPiBrowser;
     }
 
     function initPiSdk() {
         if (!inPiBrowser) return false;
-        try {
-            Pi.init({ version: "2.0", sandbox: false });
-            piReady = true;
-            console.log('[Pi] ✅ SDK initialisé');
-            return true;
-        } catch (e) {
-            console.error('[Pi] ❌ Erreur init :', e);
-            return false;
-        }
+        try { Pi.init({ version: "2.0", sandbox: false }); piReady = true; return true; }
+        catch (e) { return false; }
     }
 
-    // ============ AUTHENTIFICATION PI ============
-    function onIncompletePaymentFound(payment) {
-        console.log('[Pi] Paiement incomplet :', payment);
-    }
+    function onIncompletePaymentFound(payment) { console.log('[Pi] Paiement incomplet :', payment); }
 
     function connectPi() {
-        console.log('[Pi] 🚀 Connexion demandée');
         if (!inPiBrowser) { showToast('Ouvrez cette app dans Pi Browser', 'error'); return; }
         if (!piReady && !initPiSdk()) { showToast('Erreur initialisation Pi SDK', 'error'); return; }
-
         var btn = document.getElementById('piActionBtn');
         var actionText = document.getElementById('piActionText');
         if (btn) btn.disabled = true;
         if (actionText) actionText.textContent = 'Connexion...';
         showToast('Ouverture de Pi Network...', 'info');
-
         Pi.authenticate(['username', 'payments'], onIncompletePaymentFound)
             .then(function(auth) {
-                console.log('[Pi] ✅ SUCCÈS :', auth.user);
                 piUser = { uid: auth.user.uid, username: auth.user.username };
                 try { localStorage.setItem('pi_user', JSON.stringify(piUser)); } catch (e) {}
-                updatePiUI();
-                closeAuthModal();
+                updatePiUI(); closeAuthModal();
                 showToast('Bienvenue ' + auth.user.username + ' !', 'success');
             })
             .catch(function(err) {
-                console.error('[Pi] ❌ Erreur auth :', err);
                 var msg = (err && err.message) ? err.message : 'Connexion échouée';
                 if (/denied|cancel/i.test(msg)) { showToast('Connexion annulée', 'info'); }
                 else { showToast('Erreur : ' + msg, 'error'); }
             })
-            .finally(function() {
-                if (btn) btn.disabled = false;
-                updatePiUI();
-            });
+            .finally(function() { if (btn) btn.disabled = false; updatePiUI(); });
     }
 
     function disconnectPi() {
@@ -167,7 +233,6 @@
     }
 
     function updatePiUI() {
-        // ⚠️ Le badge header a été supprimé du HTML, mais on garde les vérifications par sécurité
         var badge = document.getElementById('piUserBadge');
         var usernameEl = document.getElementById('piUsername');
         var accountCard = document.getElementById('piAccountCard');
@@ -215,11 +280,10 @@
     function loadPiSession() {
         try {
             var stored = localStorage.getItem('pi_user');
-            if (stored) { piUser = JSON.parse(stored); console.log('[Pi] Session restaurée :', piUser.username); }
+            if (stored) { piUser = JSON.parse(stored); }
         } catch (e) {}
     }
 
-    // ============ MODALES ============
     function openAuthModal(message) {
         var modal = document.getElementById('authRequiredModal');
         var msgEl = document.getElementById('authModalMessage');
@@ -239,8 +303,7 @@
             return '<div class="payment-summary-item">' +
                 '<span class="name">' + item.name + '</span>' +
                 '<span class="qty">×' + item.qty + '</span>' +
-                '<span class="price">' + (item.price * item.qty).toFixed(2) + ' π</span>' +
-                '</div>';
+                '<span class="price">' + (item.price * item.qty).toFixed(2) + ' π</span></div>';
         }).join('');
         var total = cartItems.reduce(function(s, i) { return s + (i.price * i.qty); }, 0);
         amount.textContent = total.toFixed(2) + ' π';
@@ -251,10 +314,8 @@
         if (modal) modal.classList.remove('open');
     }
 
-    // ============ GUARD AUTH ============
     function requireAuth(actionName) {
         if (piUser) return true;
-        console.log('[Auth] Refusé : ' + actionName);
         var messages = {
             'panier': 'Connectez-vous avec Pi Network pour ajouter des produits au panier.',
             'commande': 'Connectez-vous avec Pi Network pour passer commande.',
@@ -265,57 +326,34 @@
         return false;
     }
 
-    // ============ PAIEMENT PI (INCHANGÉ) ============
     function createPiPayment(amount, memo, metadata) {
         return new Promise(function(resolve, reject) {
             if (!piUser) { reject(new Error('Non connecté')); return; }
             if (typeof Pi === 'undefined' || !Pi.createPayment) { reject(new Error('SDK Pi introuvable')); return; }
-            Pi.createPayment({
-                amount: amount,
-                memo: memo,
-                metadata: metadata
-            }, {
+            Pi.createPayment({ amount: amount, memo: memo, metadata: metadata }, {
                 onReadyForServerApproval: function(paymentId) {
-                    console.log('[Pi] 📤 Prêt pour approbation serveur :', paymentId);
                     fetch('https://global-bulk-pi-backend.onrender.com/approve', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({ paymentId: paymentId })
-                    })
-                    .then(response => response.json())
-                    .then(data => console.log('[Pi] ✅ Approbation confirmée par le serveur:', data))
-                    .catch(error => console.error('[Pi] ❌ Erreur approbation:', error));
+                    }).catch(function(e) { console.error(e); });
                 },
                 onReadyForServerCompletion: function(paymentId, txid) {
-                    console.log('[Pi] ✅ Paiement complété :', paymentId, txid);
                     fetch('https://global-bulk-pi-backend.onrender.com/complete', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({ paymentId: paymentId, txid: txid })
                     })
-                    .then(response => response.json())
-                    .then(data => {
-                        console.log('[Pi] ✅ Finalisation confirmée:', data);
-                        resolve({ paymentId: paymentId, txid: txid });
-                    })
-                    .catch(error => {
-                        console.error('[Pi] ❌ Erreur finalisation:', error);
-                        reject(error);
-                    });
+                    .then(function(r) { return r.json(); })
+                    .then(function(data) { resolve({ paymentId: paymentId, txid: txid }); })
+                    .catch(function(error) { reject(error); });
                 },
-                onCancel: function(paymentId) {
-                    console.log('[Pi] ❌ Paiement annulé');
-                    reject(new Error('Paiement annulé'));
-                },
-                onError: function(error) {
-                    console.error('[Pi] ❌ Erreur paiement :', error);
-                    reject(error);
-                }
+                onCancel: function() { reject(new Error('Paiement annulé')); },
+                onError: function(error) { reject(error); }
             });
         });
     }
 
-    // ============ LOADER ============
     function simulateLoader(callback) {
         var bar = document.getElementById('loaderBar');
         var text = document.getElementById('loaderText');
@@ -337,7 +375,6 @@
         }, 100);
     }
 
-    // ============ SLIDER ============
     function initSlider() {
         var slides = [
             { image: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=1200&h=600&fit=crop', title: 'First Purchase', subtitle: 'Enjoy a Special Offer!', cta: 'Découvrir' },
@@ -362,9 +399,7 @@
             if (index >= slides.length) index = 0;
             currentIndex = index;
             track.style.transform = 'translateX(-' + (currentIndex * 100) + '%)';
-            dotsContainer.querySelectorAll('.dot').forEach(function(dot, i) {
-                dot.classList.toggle('active', i === currentIndex);
-            });
+            dotsContainer.querySelectorAll('.dot').forEach(function(dot, i) { dot.classList.toggle('active', i === currentIndex); });
         }
         document.getElementById('sliderPrev').addEventListener('click', function() { goToSlide(currentIndex - 1); });
         document.getElementById('sliderNext').addEventListener('click', function() { goToSlide(currentIndex + 1); });
@@ -375,7 +410,6 @@
         setInterval(function() { goToSlide(currentIndex + 1); }, 5000);
     }
 
-    // ============ FILTRES ============
     function renderCategoryFilters() {
         var container = document.getElementById('categoryFilterList');
         if (!container) return;
@@ -398,7 +432,6 @@
         });
     }
 
-    // ============ PRODUITS ============
     function renderProducts(list) {
         list = list || products;
         var grid = document.getElementById('productGrid');
@@ -432,20 +465,20 @@
         grid.innerHTML = suppliers.map(function(s) {
             return '<div class="card-supplier">' +
                 '<div class="avatar"><i class="fas fa-building"></i></div>' +
-                '<div class="info">' +
-                '<div class="name">' + s.name + (s.verified ? ' <span class="badge badge-verified" style="font-size:10px;"><i class="fas fa-check-circle"></i></span>' : '') + '</div>' +
-                '<div class="detail">' +
-                '<span><i class="fas fa-map-marker-alt"></i> ' + s.country + '</span>' +
-                '<span><i class="fas fa-star" style="color:var(--secondary);"></i> ' + s.rating + '</span>' +
-                '</div></div></div>';
+                '<div class="info"><div class="name">' + s.name + (s.verified ? ' <span class="badge badge-verified" style="font-size:10px;"><i class="fas fa-check-circle"></i></span>' : '') + '</div>' +
+                '<div class="detail"><span><i class="fas fa-map-marker-alt"></i> ' + s.country + '</span>' +
+                '<span><i class="fas fa-star" style="color:var(--secondary);"></i> ' + s.rating + '</span></div></div></div>';
         }).join('');
     }
 
+    // ✅ FILTRE PAYS AVEC DRAPEAUX
     function setupFilters() {
         var countrySelect = document.getElementById('filterCountry');
         if (!countrySelect) return;
-        countrySelect.innerHTML = '<option value="">Tous</option>';
-        allCountries.forEach(function(c) { countrySelect.innerHTML += '<option value="' + c + '">' + c + '</option>'; });
+        countrySelect.innerHTML = '<option value="">🌍 Tous les pays</option>';
+        allCountries.forEach(function(c) {
+            countrySelect.innerHTML += '<option value="' + c.name + '">' + c.flag + ' ' + c.name + '</option>';
+        });
         countrySelect.addEventListener('change', function() {
             selectedCountry = this.value;
             applyFilters();
@@ -459,7 +492,6 @@
         renderProducts(filtered);
     }
 
-    // ============ RECHERCHE ============
     document.getElementById('searchToggle').addEventListener('click', function() {
         document.getElementById('searchDropdown').classList.toggle('open');
     });
@@ -479,16 +511,13 @@
         document.getElementById('searchDropdown').classList.remove('open');
     }
 
-    // ============ NAVIGATION ============
     function showMainContent() {
         document.getElementById('mainContent').style.display = 'block';
         document.getElementById('productDetail').style.display = 'none';
         document.getElementById('publishSection').style.display = 'none';
         document.getElementById('profileSection').style.display = 'none';
     }
-    function hideMainContent() {
-        document.getElementById('mainContent').style.display = 'none';
-    }
+    function hideMainContent() { document.getElementById('mainContent').style.display = 'none'; }
 
     window.showProductDetail = function(id) {
         var p = products.find(function(x) { return x.id === id; });
@@ -501,22 +530,16 @@
         content.innerHTML =
             '<div class="product-detail-grid">' +
             '<div class="gallery"><div class="main-image"><img src="' + images[0] + '" /></div></div>' +
-            '<div class="info">' +
-            '<h1>' + p.name + '</h1>' +
+            '<div class="info"><h1>' + p.name + '</h1>' +
             '<div style="margin-bottom:10px;"><span class="badge badge-verified"><i class="fas fa-check-circle"></i> ' + (p.verified ? 'Vérifié' : 'Non vérifié') + '</span></div>' +
             '<div style="font-size:13px;color:var(--text-muted);margin-bottom:14px;"><i class="fas fa-building"></i> ' + p.supplier + ' · ' + p.country + '</div>' +
-            '<div class="price-box">' +
-            '<div><span style="font-size:13px;color:var(--text-muted);">Prix de gros</span><br><span style="font-size:28px;font-weight:700;color:var(--primary);">' + p.price + ' ' + p.unit + '</span></div>' +
-            '<div><span style="font-size:13px;color:var(--text-muted);">Qté min.</span><br><span style="font-size:20px;font-weight:600;">' + p.minOrder + ' unités</span></div>' +
-            '</div>' +
+            '<div class="price-box"><div><span style="font-size:13px;color:var(--text-muted);">Prix de gros</span><br><span style="font-size:28px;font-weight:700;color:var(--primary);">' + p.price + ' ' + p.unit + '</span></div>' +
+            '<div><span style="font-size:13px;color:var(--text-muted);">Qté min.</span><br><span style="font-size:20px;font-weight:600;">' + p.minOrder + ' unités</span></div></div>' +
             '<div class="volume-pricing">' +
             '<div class="tier"><div style="font-size:12px;color:var(--text-muted);">' + p.minOrder + '+</div><div class="price">' + p.price + ' Pi</div></div>' +
             '<div class="tier"><div style="font-size:12px;color:var(--text-muted);">' + (p.minOrder * 5) + '+</div><div class="price">' + (p.price * 0.9).toFixed(1) + ' Pi</div></div>' +
-            '<div class="tier"><div style="font-size:12px;color:var(--text-muted);">' + (p.minOrder * 10) + '+</div><div class="price">' + (p.price * 0.8).toFixed(1) + ' Pi</div></div>' +
-            '</div>' +
-            '<div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:16px;">' +
-            '<button class="btn btn-primary" onclick="addToCart(' + p.id + ')"><i class="fas fa-cart-plus"></i> Ajouter au panier</button>' +
-            '</div></div></div>';
+            '<div class="tier"><div style="font-size:12px;color:var(--text-muted);">' + (p.minOrder * 10) + '+</div><div class="price">' + (p.price * 0.8).toFixed(1) + ' Pi</div></div></div>' +
+            '<div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:16px;"><button class="btn btn-primary" onclick="addToCart(' + p.id + ')"><i class="fas fa-cart-plus"></i> Ajouter au panier</button></div></div></div>';
         window.scrollTo({ top: 0, behavior: 'smooth' });
     };
 
@@ -525,7 +548,6 @@
         document.querySelectorAll('.bottom-nav .nav-item').forEach(function(b) { b.classList.remove('active'); });
         document.querySelector('.bottom-nav .nav-item[data-page="home"]').classList.add('active');
     };
-
     window.openPublish = function() {
         if (!requireAuth('publier')) return;
         hideMainContent();
@@ -537,7 +559,6 @@
         document.querySelectorAll('.bottom-nav .nav-item').forEach(function(b) { b.classList.remove('active'); });
         document.querySelector('.bottom-nav .nav-item[data-page="home"]').classList.add('active');
     };
-
     window.openProfile = function() {
         hideMainContent();
         document.getElementById('profileSection').style.display = 'block';
@@ -550,7 +571,6 @@
         document.querySelector('.bottom-nav .nav-item[data-page="home"]').classList.add('active');
     };
 
-    // ============ TIROIR LATÉRAL ============
     function openSideDrawer(tabId, title) {
         var drawer = document.getElementById('sideDrawer');
         var overlay = document.getElementById('sideDrawerOverlay');
@@ -562,7 +582,6 @@
         if (overlay) overlay.classList.add('open');
         document.body.style.overflow = 'hidden';
     }
-
     function closeSideDrawer() {
         var drawer = document.getElementById('sideDrawer');
         var overlay = document.getElementById('sideDrawerOverlay');
@@ -573,11 +592,7 @@
 
     function renderSideDrawerContent(tabId) {
         function infoItem(icon, label, value) {
-            return '<div class="info-item">' +
-                '<i class="fas ' + icon + '"></i>' +
-                '<span class="label">' + label + '</span>' +
-                '<span class="value">' + value + '</span>' +
-                '</div>';
+            return '<div class="info-item"><i class="fas ' + icon + '"></i><span class="label">' + label + '</span><span class="value">' + value + '</span></div>';
         }
         switch(tabId) {
             case 'monprofil':
@@ -602,24 +617,18 @@
                     infoItem('fa-file-pdf', 'Guide 2026', 'Disponible') +
                     infoItem('fa-file-pdf', 'Stratégies', 'Disponible') +
                     infoItem('fa-file-pdf', 'Marchés émergents', 'Bientôt');
-
-            // ✅ MES PRODUITS : affiche dynamiquement les produits publiés par l'utilisateur connecté
             case 'mes-produits':
                 if (!piUser) return '<div class="empty-state"><i class="fas fa-box-open"></i><p>Connectez-vous pour voir vos produits.</p></div>';
                 var myProducts = products.filter(function(p) { return p.supplier === piUser.username; });
                 var html = '<h3><i class="fas fa-boxes"></i> Mes produits</h3>';
                 if (myProducts.length === 0) {
-                    html += '<div class="empty-state" style="padding:20px 0;">' +
-                            '<i class="fas fa-box-open" style="font-size:36px; margin-bottom:10px;"></i>' +
-                            '<p style="font-size:14px;">Vous n\'avez publié aucun produit pour le moment.</p>' +
-                            '</div>';
+                    html += '<div class="empty-state" style="padding:20px 0;"><i class="fas fa-box-open" style="font-size:36px;margin-bottom:10px;"></i><p style="font-size:14px;">Vous n\'avez publié aucun produit pour le moment.</p></div>';
                 } else {
                     myProducts.forEach(function(p) {
                         html += infoItem('fa-box', p.name, p.price + ' ' + p.unit + ' <br><small style="font-weight:400;color:var(--text-muted);">Stock: ' + p.stock + '</small>');
                     });
                 }
                 return html;
-
             case 'historique':
                 if (!piUser) return '<div class="empty-state"><i class="fas fa-history"></i><p>Connectez-vous pour voir votre historique.</p></div>';
                 return '<h3><i class="fas fa-history"></i> Historique</h3>' +
@@ -630,12 +639,8 @@
                 if (!piUser) return '<div class="empty-state"><i class="fas fa-chart-line"></i><p>Connectez-vous pour voir vos statistiques.</p></div>';
                 return '<h3><i class="fas fa-chart-line"></i> Achats & Ventes</h3>' +
                     '<div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:16px;">' +
-                    '<div style="background:var(--gray-light);padding:20px;text-align:center;border-radius:12px;">' +
-                    '<div style="font-size:28px;font-weight:800;color:var(--primary);">12</div>' +
-                    '<div style="font-size:13px;color:var(--text-muted);">Achats</div></div>' +
-                    '<div style="background:var(--gray-light);padding:20px;text-align:center;border-radius:12px;">' +
-                    '<div style="font-size:28px;font-weight:800;color:var(--primary);">8</div>' +
-                    '<div style="font-size:13px;color:var(--text-muted);">Ventes</div></div></div>';
+                    '<div style="background:var(--gray-light);padding:20px;text-align:center;border-radius:12px;"><div style="font-size:28px;font-weight:800;color:var(--primary);">12</div><div style="font-size:13px;color:var(--text-muted);">Achats</div></div>' +
+                    '<div style="background:var(--gray-light);padding:20px;text-align:center;border-radius:12px;"><div style="font-size:28px;font-weight:800;color:var(--primary);">8</div><div style="font-size:13px;color:var(--text-muted);">Ventes</div></div></div>';
             case 'faq':
                 return '<h3><i class="fas fa-question-circle"></i> FAQ</h3>' +
                     '<div style="margin-bottom:20px;"><strong>Comment se connecter ?</strong><p style="color:var(--text-muted);margin-top:6px;">Ouvrez l\'app dans Pi Browser puis cliquez sur "Connecter avec Pi Network".</p></div>' +
@@ -658,12 +663,10 @@
     document.getElementById('sideDrawerBack').addEventListener('click', closeSideDrawer);
     document.getElementById('sideDrawerOverlay').addEventListener('click', closeSideDrawer);
 
-    // ============ BOUTON CONNEXION PI ============
     var btnPiConnect = document.getElementById('piActionBtn');
     if (btnPiConnect) {
         btnPiConnect.addEventListener('click', function(e) {
             e.preventDefault();
-            console.log('[Pi] Action clic. État :', piUser ? 'connecté' : 'non connecté');
             if (piUser) { disconnectPi(); } else { connectPi(); }
         });
     }
@@ -677,14 +680,12 @@
         }, 300);
     });
     document.getElementById('authModalCancelBtn').addEventListener('click', closeAuthModal);
-
     document.getElementById('paymentCancelBtn').addEventListener('click', closePaymentModal);
     document.getElementById('paymentConfirmBtn').addEventListener('click', function() {
         closePaymentModal();
         executePayment();
     });
 
-    // ============ UPLOAD ============
     var uploadedImages = [];
     var pImages = document.getElementById('pImages');
     if (pImages) {
@@ -708,21 +709,18 @@
             this.value = '';
         });
     }
-
     function renderUploadPreview() {
         var preview = document.getElementById('uploadPreview');
         if (!preview) return;
         preview.innerHTML = uploadedImages.map(function(img, index) {
-            return '<div class="preview-thumb"><img src="' + img + '" /><button class="remove-btn" onclick="removeImage(' + index + ')"><i class="fas fa-times"></i></button></div>';
+            return '<div class="preview-thumb"><img src="' + img + '" /><button type="button" class="remove-btn" onclick="removeImage(' + index + ')"><i class="fas fa-times"></i></button></div>';
         }).join('');
     }
-
     window.removeImage = function(index) {
         uploadedImages.splice(index, 1);
         renderUploadPreview();
     };
 
-    // ============ PANIER ============
     window.addToCart = function(id) {
         if (!requireAuth('panier')) return;
         var p = products.find(function(x) { return x.id === id; });
@@ -734,13 +732,11 @@
         showToast(p.name + ' ajouté au panier', 'success');
         if (isCartOpen) renderCartItems();
     };
-
     window.removeFromCart = function(id) {
         cartItems = cartItems.filter(function(item) { return item.id !== id; });
         updateCartBadge();
         renderCartItems();
     };
-
     window.updateQty = function(id, delta) {
         var item = cartItems.find(function(i) { return i.id === id; });
         if (!item) return;
@@ -749,7 +745,6 @@
         renderCartItems();
         updateCartBadge();
     };
-
     function renderCartItems() {
         var body = document.getElementById('cartBody');
         var footer = document.getElementById('cartFooter');
@@ -761,25 +756,16 @@
             return;
         }
         body.innerHTML = cartItems.map(function(item) {
-            var imgSrc = item.image || '';
-            return '<div class="cart-item">' +
-                '<div class="item-image"><img src="' + imgSrc + '" /></div>' +
-                '<div class="item-info">' +
-                '<div class="name">' + item.name + '</div>' +
+            return '<div class="cart-item"><div class="item-image"><img src="' + (item.image || '') + '" /></div>' +
+                '<div class="item-info"><div class="name">' + item.name + '</div>' +
                 '<div class="price">' + (item.price * item.qty).toFixed(2) + ' π</div>' +
-                '<div class="item-qty">' +
-                '<button onclick="updateQty(' + item.id + ',-1)">-</button>' +
-                '<span>' + item.qty + '</span>' +
-                '<button onclick="updateQty(' + item.id + ',1)">+</button>' +
-                '</div></div>' +
-                '<button class="btn btn-sm btn-danger" onclick="removeFromCart(' + item.id + ')"><i class="fas fa-trash"></i></button>' +
-                '</div>';
+                '<div class="item-qty"><button onclick="updateQty(' + item.id + ',-1)">-</button><span>' + item.qty + '</span><button onclick="updateQty(' + item.id + ',1)">+</button></div></div>' +
+                '<button class="btn btn-sm btn-danger" onclick="removeFromCart(' + item.id + ')"><i class="fas fa-trash"></i></button></div>';
         }).join('');
         footer.style.display = 'block';
         var total = cartItems.reduce(function(s, i) { return s + (i.price * i.qty); }, 0);
         totalEl.textContent = total.toFixed(2) + ' π';
     }
-
     function updateCartBadge() {
         var total = cartItems.reduce(function(s, i) { return s + i.qty; }, 0);
         document.querySelectorAll('.badge-count').forEach(function(el) {
@@ -790,7 +776,6 @@
             }
         });
     }
-
     var isCartOpen = false;
     function toggleCart() {
         isCartOpen = !isCartOpen;
@@ -798,14 +783,10 @@
         if (isCartOpen) { overlay.classList.add('open'); renderCartItems(); }
         else overlay.classList.remove('open');
     }
-
     document.getElementById('cartToggle').addEventListener('click', toggleCart);
     document.getElementById('cartClose').addEventListener('click', toggleCart);
-    document.getElementById('cartOverlay').addEventListener('click', function(e) {
-        if (e.target === this) toggleCart();
-    });
+    document.getElementById('cartOverlay').addEventListener('click', function(e) { if (e.target === this) toggleCart(); });
 
-    // ============ CHECKOUT (INCHANGÉ) ============
     document.getElementById('checkoutBtn').addEventListener('click', function() {
         if (!requireAuth('commande')) return;
         if (cartItems.length === 0) { showToast('Panier vide', 'error'); return; }
@@ -819,25 +800,20 @@
         showToast('Traitement du paiement...', 'info');
         createPiPayment(totalFixed, 'Global Bulk - ' + cartItems.length + ' article(s)', {
             items: cartItems.map(function(i) { return { id: i.id, name: i.name, qty: i.qty, price: i.price }; }),
-            total: totalFixed,
-            username: piUser.username,
-            timestamp: Date.now()
+            total: totalFixed, username: piUser.username, timestamp: Date.now()
         })
         .then(function(result) {
             showToast('✅ Paiement réussi !', 'success');
-            console.log('[Pi] Transaction ID:', result.txid);
             cartItems = [];
             updateCartBadge();
             renderCartItems();
         })
         .catch(function(err) {
-            console.error('[Pi] Erreur paiement :', err);
             if (/annulé/i.test(err.message)) { showToast('Paiement annulé', 'info'); }
             else { showToast('Erreur : ' + (err.message || 'paiement échoué'), 'error'); }
         });
     }
 
-    // ============ STATS ============
     function animateStats() {
         document.querySelectorAll('.stats-grid .stat-item .number').forEach(function(el) {
             var target = parseInt(el.getAttribute('data-count'));
@@ -851,7 +827,6 @@
         });
     }
 
-    // ============ BOTTOM NAV ============
     document.querySelectorAll('.bottom-nav .nav-item').forEach(function(btn) {
         btn.addEventListener('click', function() {
             var page = this.getAttribute('data-page');
@@ -860,11 +835,7 @@
             showMainContent();
             document.querySelectorAll('.bottom-nav .nav-item').forEach(function(b) { b.classList.remove('active'); });
             this.classList.add('active');
-            var sections = {
-                home: ['productsSection', 'suppliersSection'],
-                market: ['productsSection'],
-                suppliers: ['suppliersSection']
-            };
+            var sections = { home: ['productsSection', 'suppliersSection'], market: ['productsSection'], suppliers: ['suppliersSection'] };
             document.querySelectorAll('.section:not(.page-secondary)').forEach(function(s) { s.style.display = 'none'; });
             var ids = sections[page] || ['productsSection'];
             ids.forEach(function(id) {
@@ -875,11 +846,6 @@
         });
     });
 
-    var btnPublishFloating = document.getElementById('btnPublishFloating');
-    if (btnPublishFloating) {
-        btnPublishFloating.addEventListener('click', function() { window.openPublish(); });
-    }
-
     document.getElementById('footerPublish').addEventListener('click', function(e) { e.preventDefault(); window.openPublish(); });
     document.getElementById('footerFaq').addEventListener('click', function(e) {
         e.preventDefault();
@@ -887,12 +853,13 @@
         setTimeout(function() { openSideDrawer('faq', 'FAQ'); }, 400);
     });
 
-    // ============ PUBLISH FORM (INCHANGÉ) ============
+    // ============ PUBLISH FORM (AMÉLIORÉ - sans pRating) ============
     document.getElementById('publishForm').addEventListener('submit', function(e) {
         e.preventDefault();
         if (!requireAuth('publier')) return;
 
         var name = document.getElementById('pName').value.trim();
+        var description = document.getElementById('pDescription').value.trim();
         var category = document.getElementById('pCategory').value;
         var price = parseFloat(document.getElementById('pPrice').value);
         var minOrder = parseInt(document.getElementById('pMinOrder').value);
@@ -900,57 +867,63 @@
         var supplier = document.getElementById('pSupplier').value.trim();
         var country = document.getElementById('pCountry').value;
 
-        if (!name || !category || isNaN(price) || isNaN(minOrder) || isNaN(stock) || !supplier || !country) {
-            showToast('Remplissez tous les champs', 'error');
+        if (!name || !description || !category || isNaN(price) || isNaN(minOrder) || isNaN(stock) || !supplier || !country) {
+            showToast('Veuillez remplir tous les champs obligatoires', 'error');
             return;
         }
 
         var images = uploadedImages.length > 0 ? uploadedImages : [''];
+
         products.push({
-            id: products.length + 1, name: name, price: price,
-            unit: document.getElementById('pUnit').value, minOrder: minOrder, stock: stock,
-            supplier: piUser.username, country: country, verified: true,
-            rating: parseFloat(document.getElementById('pRating').value) || 4.5,
-            category: category, images: images
+            id: products.length + 1,
+            name: name,
+            description: description,
+            price: price,
+            unit: document.getElementById('pUnit').value,
+            minOrder: minOrder,
+            stock: stock,
+            supplier: piUser.username,
+            country: country,
+            verified: true,
+            rating: 4.5,  // Valeur par défaut (le champ Note a été supprimé)
+            category: category,
+            images: images
         });
+
         renderProducts();
         applyFilters();
-        showToast('Produit publié !', 'success');
+        showToast('✅ Produit publié avec succès !', 'success');
         uploadedImages = [];
         document.getElementById('uploadPreview').innerHTML = '';
         this.reset();
         window.closePublish();
     });
 
+    // ✅ REMPLISSAGE DES SELECTS AVEC DRAPEAUX
     function populateFormSelects() {
         var pCategory = document.getElementById('pCategory');
         if (pCategory) {
-            pCategory.innerHTML = '<option value="">Catégorie *</option>';
-            categories.forEach(function(c) { pCategory.innerHTML += '<option value="' + c.name + '">' + c.name + '</option>'; });
+            pCategory.innerHTML = '<option value="">Sélectionner une catégorie</option>';
+            categories.forEach(function(c) {
+                pCategory.innerHTML += '<option value="' + c.name + '">' + c.name + '</option>';
+            });
         }
         var pCountry = document.getElementById('pCountry');
         if (pCountry) {
-            pCountry.innerHTML = '<option value="">Pays *</option>';
-            allCountries.forEach(function(c) { pCountry.innerHTML += '<option value="' + c + '">' + c + '</option>'; });
+            pCountry.innerHTML = '<option value="">Sélectionner un pays</option>';
+            allCountries.forEach(function(c) {
+                pCountry.innerHTML += '<option value="' + c.name + '">' + c.flag + ' ' + c.name + '</option>';
+            });
         }
     }
 
-    // ============ INITIALISATION ============
     console.log('[App] 🚀 Démarrage');
     detectPiBrowser();
     loadPiSession();
 
     waitForPiSdk(5000)
-        .then(function() {
-            console.log('[Pi] SDK prêt');
-            initPiSdk();
-            updatePiUI();
-        })
-        .catch(function() {
-            console.warn('[Pi] SDK non chargé. Ouvrez dans Pi Browser.');
-            inPiBrowser = false;
-            updatePiUI();
-        });
+        .then(function() { initPiSdk(); updatePiUI(); })
+        .catch(function() { inPiBrowser = false; updatePiUI(); });
 
     simulateLoader(function() {
         renderCategoryFilters();
