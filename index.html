@@ -8,12 +8,10 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
     <link rel="stylesheet" href="style.css" />
-    <!-- ✅ SDK Pi Network OFFICIEL -->
     <script src="https://sdk.minepi.com/pi-sdk.js"></script>
 </head>
 <body>
 
-    <!-- LOADER -->
     <div id="globalLoader" class="global-loader-fullscreen">
         <div class="loader-content">
             <div class="loader-track"><div class="loader-bar" id="loaderBar" style="width:0%;"></div></div>
@@ -21,21 +19,16 @@
         </div>
     </div>
 
-    <!-- MODALE AUTH REQUISE -->
     <div id="authRequiredModal" class="auth-modal">
         <div class="auth-modal-content">
             <div class="auth-modal-icon"><i class="fab fa-pi"></i></div>
             <h2>Connexion Pi requise</h2>
             <p id="authModalMessage">Vous devez vous connecter avec Pi Network pour continuer.</p>
-            <button class="auth-modal-btn" id="authModalConnectBtn">
-                <i class="fab fa-pi"></i>
-                <span>Se connecter maintenant</span>
-            </button>
+            <button class="auth-modal-btn" id="authModalConnectBtn"><i class="fab fa-pi"></i><span>Se connecter maintenant</span></button>
             <button class="auth-modal-cancel" id="authModalCancelBtn">Plus tard</button>
         </div>
     </div>
 
-    <!-- MODALE PAIEMENT -->
     <div id="paymentModal" class="payment-modal">
         <div class="payment-modal-content">
             <div class="payment-modal-header">
@@ -44,22 +37,14 @@
                 <p>Vérifiez les détails avant de valider</p>
             </div>
             <div class="payment-summary" id="paymentSummary"></div>
-            <div class="payment-total">
-                <span>Total à payer</span>
-                <span class="payment-amount" id="paymentAmount">0 π</span>
-            </div>
-            <button class="payment-confirm-btn" id="paymentConfirmBtn">
-                <i class="fab fa-pi"></i>
-                <span>Payer avec Pi Network</span>
-            </button>
+            <div class="payment-total"><span>Total à payer</span><span class="payment-amount" id="paymentAmount">0 π</span></div>
+            <button class="payment-confirm-btn" id="paymentConfirmBtn"><i class="fab fa-pi"></i><span>Payer avec Pi Network</span></button>
             <button class="payment-cancel-btn" id="paymentCancelBtn">Annuler</button>
         </div>
     </div>
 
-    <!-- CONTENU -->
     <div id="appContent" style="display:none;">
 
-        <!-- HEADER -->
         <header class="header">
             <div class="header-inner container">
                 <a href="index.html" class="logo">
@@ -67,7 +52,6 @@
                     <span class="logo-text">GLOBAL<span>BULK</span></span>
                 </a>
                 <div class="header-actions">
-                    <!-- ✅ BOUTON PI-USER-BADGE SUPPRIMÉ (pour enlever l'ovale bleu) -->
                     <button class="icon-btn" id="searchToggle"><i class="fas fa-search"></i></button>
                     <button class="icon-btn"><i class="fas fa-envelope"></i><span class="badge-count">3</span></button>
                     <button class="icon-btn" id="cartToggle"><i class="fas fa-cart-shopping"></i><span class="badge-count" id="cartBadge">0</span></button>
@@ -84,7 +68,6 @@
             </div>
         </header>
 
-        <!-- BOTTOM NAV -->
         <nav class="bottom-nav">
             <button class="nav-item active" data-page="home"><i class="fas fa-home"></i><span>Accueil</span></button>
             <button class="nav-item" data-page="market"><i class="fas fa-store"></i><span>Marché</span></button>
@@ -93,7 +76,6 @@
             <button class="nav-item" data-page="profile"><i class="fas fa-user"></i><span>Profil</span></button>
         </nav>
 
-        <!-- ACCUEIL -->
         <div id="mainContent">
             <section class="slider-section">
                 <div class="slider-container">
@@ -142,7 +124,6 @@
             </main>
         </div>
 
-        <!-- DÉTAIL PRODUIT -->
         <section class="section page-secondary" id="productDetail" style="display:none;">
             <div class="page-header">
                 <button class="btn-back" onclick="closeProductDetail()"><i class="fas fa-arrow-left"></i> Retour</button>
@@ -151,7 +132,7 @@
             <div class="card product-detail-card" id="productDetailContent"></div>
         </section>
 
-        <!-- PUBLIER -->
+        <!-- ============ PUBLIER (FORMULAIRE AMÉLIORÉ) ============ -->
         <section class="section page-secondary" id="publishSection" style="display:none;">
             <div class="page-header">
                 <button class="btn-back" onclick="closePublish()"><i class="fas fa-arrow-left"></i> Retour</button>
@@ -165,54 +146,99 @@
                         <span class="publish-handle" id="publishHandle">@globalbulk</span>
                     </div>
                 </div>
-                <form id="publishForm" class="publish-form-social">
-                    <textarea id="pDescription" rows="5" placeholder="Décrivez votre produit en détail..." required></textarea>
-                    <div class="publish-images-upload">
-                        <label class="upload-label" for="pImages">
-                            <i class="fas fa-cloud-upload-alt"></i> Ajouter des photos (max 6)
-                        </label>
-                        <input type="file" id="pImages" accept="image/*" multiple />
-                        <div class="upload-preview" id="uploadPreview"></div>
-                    </div>
-                    <div class="publish-fields">
-                        <div class="publish-row"><input type="text" id="pName" placeholder="Nom du produit *" required /></div>
-                        <div class="publish-row">
-                            <select id="pCategory" required><option value="">Catégorie *</option></select>
-                            <select id="pCountry" required><option value="">Pays *</option></select>
+                <form id="publishForm" class="publish-form-social" novalidate>
+
+                    <!-- SECTION 1 : Présentation -->
+                    <div class="form-section">
+                        <h3 class="form-section-title"><i class="fas fa-info-circle"></i> Présentation du produit</h3>
+                        <div class="form-group">
+                            <label for="pName">Nom du produit <span class="req">*</span></label>
+                            <input type="text" id="pName" placeholder="Ex : Smartphone Galaxy S24" required />
                         </div>
-                        <div class="publish-row">
-                            <input type="number" id="pPrice" step="0.01" placeholder="Prix *" required />
-                            <select id="pUnit" required>
-                                <option value="Pi">Pièce</option>
-                                <option value="Kg">Kg</option>
-                                <option value="L">Litre</option>
-                                <option value="M">Mètre</option>
-                                <option value="Set">Set</option>
-                            </select>
-                        </div>
-                        <div class="publish-row">
-                            <input type="number" id="pMinOrder" placeholder="Qté min. *" required />
-                            <input type="number" id="pStock" placeholder="Stock *" required />
-                        </div>
-                        <div class="publish-row">
-                            <input type="text" id="pSupplier" placeholder="Fournisseur *" required />
-                            <input type="number" id="pRating" step="0.1" min="0" max="5" placeholder="Note" value="4.5" />
+                        <div class="form-group">
+                            <label for="pDescription">Description détaillée <span class="req">*</span></label>
+                            <textarea id="pDescription" rows="4" placeholder="Décrivez votre produit (caractéristiques, qualité, conditionnement...)" required></textarea>
                         </div>
                     </div>
+
+                    <!-- SECTION 2 : Photos -->
+                    <div class="form-section">
+                        <h3 class="form-section-title"><i class="fas fa-camera"></i> Photos du produit</h3>
+                        <div class="publish-images-upload">
+                            <label class="upload-label" for="pImages">
+                                <i class="fas fa-cloud-upload-alt"></i> Ajouter des photos (max 6)
+                            </label>
+                            <input type="file" id="pImages" accept="image/*" multiple />
+                            <div class="upload-preview" id="uploadPreview"></div>
+                        </div>
+                    </div>
+
+                    <!-- SECTION 3 : Catégorie & Localisation -->
+                    <div class="form-section">
+                        <h3 class="form-section-title"><i class="fas fa-tags"></i> Catégorie & Localisation</h3>
+                        <div class="form-group">
+                            <label for="pCategory">Catégorie <span class="req">*</span></label>
+                            <select id="pCategory" required><option value="">Sélectionner une catégorie</option></select>
+                        </div>
+                        <div class="form-group">
+                            <label for="pCountry">Pays d'origine <span class="req">*</span></label>
+                            <select id="pCountry" required><option value="">Sélectionner un pays</option></select>
+                        </div>
+                    </div>
+
+                    <!-- SECTION 4 : Prix & Stock -->
+                    <div class="form-section">
+                        <h3 class="form-section-title"><i class="fas fa-coins"></i> Prix & Disponibilité</h3>
+                        <div class="form-row-2">
+                            <div class="form-group">
+                                <label for="pPrice">Prix <span class="req">*</span></label>
+                                <input type="number" id="pPrice" step="0.01" min="0" placeholder="0.00" required />
+                            </div>
+                            <div class="form-group">
+                                <label for="pUnit">Unité <span class="req">*</span></label>
+                                <select id="pUnit" required>
+                                    <option value="Pi">Pièce</option>
+                                    <option value="Kg">Kilogramme</option>
+                                    <option value="L">Litre</option>
+                                    <option value="M">Mètre</option>
+                                    <option value="Set">Set</option>
+                                    <option value="Tonne">Tonne</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-row-2">
+                            <div class="form-group">
+                                <label for="pMinOrder">Qté minimum <span class="req">*</span></label>
+                                <input type="number" id="pMinOrder" min="1" placeholder="Ex : 10" required />
+                            </div>
+                            <div class="form-group">
+                                <label for="pStock">Stock disponible <span class="req">*</span></label>
+                                <input type="number" id="pStock" min="1" placeholder="Ex : 500" required />
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- SECTION 5 : Fournisseur -->
+                    <div class="form-section">
+                        <h3 class="form-section-title"><i class="fas fa-building"></i> Fournisseur</h3>
+                        <div class="form-group">
+                            <label for="pSupplier">Nom du fournisseur <span class="req">*</span></label>
+                            <input type="text" id="pSupplier" placeholder="Ex : TechImport SARL" required />
+                        </div>
+                    </div>
+
                     <button type="submit" class="btn btn-primary btn-block publish-submit">
-                        <i class="fas fa-rocket"></i> Publier
+                        <i class="fas fa-rocket"></i> Publier mon produit
                     </button>
                 </form>
             </div>
         </section>
 
-        <!-- PROFIL -->
         <section class="section page-secondary" id="profileSection" style="display:none;">
             <div class="page-header">
                 <button class="btn-back" onclick="closeProfile()"><i class="fas fa-arrow-left"></i> Retour</button>
                 <h2 class="page-title">Mon profil</h2>
             </div>
-
             <div class="profile-wrapper">
                 <div class="pi-account-card" id="piAccountCard">
                     <div class="pi-avatar" id="piAvatar"><i class="fab fa-pi"></i></div>
@@ -226,46 +252,17 @@
                 </div>
 
                 <div class="profile-menu">
-                    <button class="menu-item" data-tab="mes-produits">
-                        <div class="menu-icon"><i class="fas fa-box"></i></div>
-                        <span class="menu-label">Mes produits</span>
-                        <i class="fas fa-chevron-right menu-arrow"></i>
-                    </button>
-                    <button class="menu-item" data-tab="achats-ventes">
-                        <div class="menu-icon"><i class="fas fa-chart-line"></i></div>
-                        <span class="menu-label">Achats & Ventes</span>
-                        <i class="fas fa-chevron-right menu-arrow"></i>
-                    </button>
-                    <button class="menu-item" data-tab="historique">
-                        <div class="menu-icon"><i class="fas fa-history"></i></div>
-                        <span class="menu-label">Historique</span>
-                        <i class="fas fa-chevron-right menu-arrow"></i>
-                    </button>
-                    <button class="menu-item" data-tab="parametres">
-                        <div class="menu-icon"><i class="fas fa-cog"></i></div>
-                        <span class="menu-label">Paramètres</span>
-                        <i class="fas fa-chevron-right menu-arrow"></i>
-                    </button>
-                    <button class="menu-item" data-tab="langues">
-                        <div class="menu-icon"><i class="fas fa-language"></i></div>
-                        <span class="menu-label">Langues</span>
-                        <i class="fas fa-chevron-right menu-arrow"></i>
-                    </button>
-                    <button class="menu-item" data-tab="faq">
-                        <div class="menu-icon"><i class="fas fa-question"></i></div>
-                        <span class="menu-label">FAQ</span>
-                        <i class="fas fa-chevron-right menu-arrow"></i>
-                    </button>
-                    <button class="menu-item" data-tab="livre-blanc">
-                        <div class="menu-icon"><i class="fas fa-file-pdf"></i></div>
-                        <span class="menu-label">Livre blanc</span>
-                        <i class="fas fa-chevron-right menu-arrow"></i>
-                    </button>
+                    <button class="menu-item" data-tab="mes-produits"><div class="menu-icon"><i class="fas fa-box"></i></div><span class="menu-label">Mes produits</span><i class="fas fa-chevron-right menu-arrow"></i></button>
+                    <button class="menu-item" data-tab="achats-ventes"><div class="menu-icon"><i class="fas fa-chart-line"></i></div><span class="menu-label">Achats & Ventes</span><i class="fas fa-chevron-right menu-arrow"></i></button>
+                    <button class="menu-item" data-tab="historique"><div class="menu-icon"><i class="fas fa-history"></i></div><span class="menu-label">Historique</span><i class="fas fa-chevron-right menu-arrow"></i></button>
+                    <button class="menu-item" data-tab="parametres"><div class="menu-icon"><i class="fas fa-cog"></i></div><span class="menu-label">Paramètres</span><i class="fas fa-chevron-right menu-arrow"></i></button>
+                    <button class="menu-item" data-tab="langues"><div class="menu-icon"><i class="fas fa-language"></i></div><span class="menu-label">Langues</span><i class="fas fa-chevron-right menu-arrow"></i></button>
+                    <button class="menu-item" data-tab="faq"><div class="menu-icon"><i class="fas fa-question"></i></div><span class="menu-label">FAQ</span><i class="fas fa-chevron-right menu-arrow"></i></button>
+                    <button class="menu-item" data-tab="livre-blanc"><div class="menu-icon"><i class="fas fa-file-pdf"></i></div><span class="menu-label">Livre blanc</span><i class="fas fa-chevron-right menu-arrow"></i></button>
                 </div>
             </div>
         </section>
 
-        <!-- TIROIR LATÉRAL -->
         <div class="side-drawer-overlay" id="sideDrawerOverlay"></div>
         <aside class="side-drawer" id="sideDrawer">
             <div class="side-drawer-header">
@@ -276,7 +273,6 @@
             <div class="side-drawer-content" id="sideDrawerContent"></div>
         </aside>
 
-        <!-- PANIER -->
         <div class="cart-overlay" id="cartOverlay">
             <div class="cart-panel">
                 <div class="cart-header">
@@ -288,14 +284,11 @@
                 </div>
                 <div class="cart-footer" id="cartFooter" style="display:none;">
                     <div class="cart-total"><span>Total</span><span id="cartTotalPrice">0 π</span></div>
-                    <button class="btn-pi-pay" id="checkoutBtn">
-                        <i class="fab fa-pi"></i> Payer avec Pi
-                    </button>
+                    <button class="btn-pi-pay" id="checkoutBtn"><i class="fab fa-pi"></i> Payer avec Pi</button>
                 </div>
             </div>
         </div>
 
-        <!-- FOOTER -->
         <footer class="footer">
             <div class="container">
                 <div class="footer-grid">
