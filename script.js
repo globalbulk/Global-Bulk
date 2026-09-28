@@ -139,6 +139,83 @@
         { name: 'SportFoot Inc', country: 'États-Unis', verified: false, products: 65, rating: 4.2, responseRate: 75 }
     ];
 
+    /* =========================================================
+       ===== AJOUT : Config réseaux sociaux ====================
+       ========================================================= */
+    var SOCIAL = {
+        x:  { url: 'https://x.com/GlobalBulk',                              label: 'X (Twitter)' },
+        fb: { url: 'https://www.facebook.com/share/19GwWG3QJi/',            label: 'Facebook' },
+        wa: { url: 'https://whatsapp.com/channel/0029VbDvvwi9mrGWHAbw7x0x', label: 'WhatsApp Channel' }
+    };
+
+    /* =========================================================
+       ===== AJOUT : FAQ enrichie (40 questions / 10 catégories)
+       ========================================================= */
+    var FAQ_CATEGORIES = [
+        { key: 'general',      label: 'Général' },
+        { key: 'compte',       label: 'Compte' },
+        { key: 'produits',     label: 'Produits' },
+        { key: 'paiement',     label: 'Paiement' },
+        { key: 'livraison',    label: 'Livraison' },
+        { key: 'fournisseurs', label: 'Fournisseurs' },
+        { key: 'securite',     label: 'Sécurité' },
+        { key: 'tarifs',       label: 'Tarifs' },
+        { key: 'support',      label: 'Support' },
+        { key: 'partenaires',  label: 'Partenaires' }
+    ];
+
+    var FAQ_DATA = [
+        { cat:'general', q:"Qu'est-ce que Global Bulk ?", a:"Global Bulk est une place de marché B2B internationale qui met en relation acheteurs professionnels et fournisseurs vérifiés dans plus de 89 pays. Elle centralise la recherche, la mise en concurrence, la négociation et le paiement sécurisé via Pi Network." },
+        { cat:'general', q:"À qui s'adresse la plateforme ?", a:"Aux PME, ETI, grandes entreprises, importateurs, distributeurs et revendeurs souhaitant s'approvisionner en gros à l'international. Les fournisseurs (usines, fabricants, grossistes) peuvent aussi référencer leurs produits." },
+        { cat:'general', q:"Dans quels pays opérez-vous ?", a:"Plus de 89 pays répartis sur l'Afrique, l'Amérique du Nord et du Sud, l'Asie, l'Europe, le Moyen-Orient et l'Océanie. Principaux corridors : Europe ↔ Asie, Europe ↔ Afrique, Amérique ↔ Asie." },
+        { cat:'general', q:"Quels secteurs sont couverts ?", a:"20 catégories : électronique, mode, chaussures, beauté, maison, construction, agriculture, alimentation, automobile, équipements, énergie, fournitures, bijoux, jouets, librairie, sport, instruments, photo, outillage et animalerie." },
+        { cat:'general', q:"Quelle est la différence avec les marketplaces classiques ?", a:"Global Bulk se concentre exclusivement sur le B2B de gros : fournisseurs vérifiés, mise en concurrence directe, paiement Pi Network sécurisé, filtres avancés (MOQ, pays, catégorie) et support multilingue." },
+
+        { cat:'compte', q:"Comment créer un compte ?", a:"Ouvrez l'application dans Pi Browser puis rendez-vous dans Profil → « Connecter avec Pi Network ». Votre compte est directement lié à votre identité Pi (username + UID), sans mot de passe à mémoriser." },
+        { cat:'compte', q:"Pourquoi se connecter avec Pi Network ?", a:"La connexion Pi est obligatoire pour toutes les opérations : ajouter au panier, payer, publier un produit, contacter un fournisseur. Elle garantit l'authenticité des utilisateurs et sécurise les transactions." },
+        { cat:'compte', q:"Puis-je utiliser l'app sans Pi Network ?", a:"Vous pouvez naviguer (accueil, marché, fournisseurs, FAQ, livre blanc) sans connexion. Mais toute action (panier, achat, publication) nécessite une authentification Pi." },
+        { cat:'compte', q:"Que se passe-t-il si je me déconnecte ?", a:"Votre session locale est effacée. Vous restez inscrit côté réseau Pi : il suffit de cliquer à nouveau sur « Connecter avec Pi Network » pour retrouver votre compte et vos données." },
+        { cat:'compte', q:"Puis-je supprimer mon compte ?", a:"Oui, à tout moment depuis Profil → Paramètres. Les données associées sont supprimées sous 30 jours, sauf obligations légales de conservation." },
+
+        { cat:'produits', q:"Comment rechercher un produit ?", a:"Utilisez l'icône loupe dans le header, ou naviguez par catégorie via les filtres. Vous pouvez combiner filtres pays et catégorie simultanément." },
+        { cat:'produits', q:"Qu'est-ce que le MOQ ?", a:"Le Minimum Order Quantity (quantité minimum de commande) est le seuil fixé par le fournisseur pour accepter une commande. Il s'ajoute automatiquement au panier." },
+        { cat:'produits', q:"Les prix affichés sont-ils négociables ?", a:"Les prix catalogue sont indicatifs. Les remises de volume sont fréquentes : le détail produit affiche d'ailleurs 3 paliers (1×, 5× et 10× le MOQ)." },
+        { cat:'produits', q:"Comment publier un produit ?", a:"Profil → Publier (ou bouton central de la nav). Remplissez nom, description, photos (max 6), catégorie, pays, prix, unité, MOQ, stock et nom du fournisseur." },
+        { cat:'produits', q:"Puis-je ajouter des photos à un produit ?", a:"Oui, jusqu'à 6 photos par produit. Elles s'affichent dans la fiche produit et dans les résultats de recherche." },
+
+        { cat:'paiement', q:"Quel moyen de paiement acceptez-vous ?", a:"Le paiement s'effectue exclusivement en Pi Network (π) via le SDK officiel Pi. Aucune carte bancaire ni cryptomonnaie externe n'est acceptée." },
+        { cat:'paiement', q:"Le paiement est-il sécurisé ?", a:"Oui. Chaque paiement passe par le SDK Pi Network officiel : approbation serveur (approve) puis finalisation (complete) via notre backend sécurisé. Les fonds sont tracés on-chain." },
+        { cat:'paiement', q:"Comment fonctionne le panier ?", a:"Ajoutez des produits : la quantité MOQ est appliquée automatiquement. Ajustez les quantités avec +/-, retirez des lignes. Le badge du header indique le nombre total d'articles." },
+        { cat:'paiement', q:"Que se passe-t-il après le paiement ?", a:"Une confirmation s'affiche, le panier se vide et vous recevez une notification toast. Le détail est consultable dans Profil → Historique." },
+        { cat:'paiement', q:"Puis-je annuler un paiement ?", a:"Tant que la fenêtre Pi Network est ouverte, vous pouvez annuler. Une fois validé on-chain, le paiement est définitif." },
+
+        { cat:'livraison', q:"Qui gère la livraison ?", a:"La logistique est organisée directement entre l'acheteur et le fournisseur, hors plateforme. Global Bulk fournit les coordonnées et le contexte de la commande." },
+        { cat:'livraison', q:"Quels sont les délais moyens ?", a:"Variables selon le fournisseur et le corridor. Le fournisseur précise ses délais dans sa fiche produit ou lors de l'échange." },
+        { cat:'livraison', q:"Puis-je suivre ma commande ?", a:"Le suivi logistique est géré par le fournisseur. Global Bulk conserve l'historique de vos achats dans Profil → Historique." },
+
+        { cat:'fournisseurs', q:"Comment les fournisseurs sont-ils vérifiés ?", a:"Les fournisseurs « Vérifiés » affichent un badge vert. La vérification couvre l'identité, l'existence légale, les certifications et l'historique d'activité." },
+        { cat:'fournisseurs', q:"Comment contacter un fournisseur ?", a:"Ouvrez la fiche produit puis cliquez sur « Voir » pour accéder au détail, ou contactez-le via son profil fournisseur." },
+        { cat:'fournisseurs', q:"Que faire si un fournisseur ne répond pas ?", a:"Signalez-le via le support. Les fournisseurs inactifs ou signalés à répétition perdent leur badge de vérification." },
+        { cat:'fournisseurs', q:"Les avis sont-ils fiables ?", a:"Les notes affichées proviennent uniquement d'acheteurs ayant réellement commandé. Chaque note est vérifiée côté backend." },
+
+        { cat:'securite', q:"Mes données sont-elles protégées ?", a:"Oui. Les données sensibles sont stockées localement et sur des serveurs sécurisés. Aucun mot de passe n'est stocké : l'authentification passe par Pi Network." },
+        { cat:'securite', q:"Comment signaler un utilisateur frauduleux ?", a:"Via le support (Profil → Paramètres) ou par email à abuse@globalbulk.com. Traitement sous 24 h ouvrées." },
+        { cat:'securite', q:"Partagez-vous mes données ?", a:"Non. Aucune revente ni partage à des fins commerciales. Seuls les prestataires techniques nécessaires à la transaction y ont accès." },
+        { cat:'securite', q:"Que se passe-t-il si je perds mon téléphone ?", a:"Votre compte est lié à Pi Network, pas au téléphone. Reconnectez-vous simplement depuis un autre appareil via Pi Browser." },
+
+        { cat:'tarifs', q:"L'inscription est-elle gratuite ?", a:"Oui, la navigation, la consultation et l'inscription sont 100 % gratuites. Seul le paiement des commandes est requis." },
+        { cat:'tarifs', q:"Y a-t-il des frais cachés ?", a:"Non. Le prix affiché est le prix payé en Pi. Aucune commission supplémentaire n'est prélevée par Global Bulk." },
+        { cat:'tarifs', q:"Puis-je publier gratuitement ?", a:"Oui. Publier un produit est gratuit une fois connecté avec Pi Network." },
+
+        { cat:'support', q:"Comment contacter le support ?", a:"Par email à contact@globalbulk.com, ou via la chaîne WhatsApp officielle (lien dans le footer de l'app)." },
+        { cat:'support', q:"Quels sont les délais de réponse ?", a:"Support par email : moins de 24 h ouvrées. WhatsApp Channel : publication immédiate des annonces et mises à jour." },
+        { cat:'support', q:"Où trouver les annonces officielles ?", a:"Sur X (Twitter) @GlobalBulk, sur la page Facebook officielle et sur la chaîne WhatsApp Global Bulk Market — liens dans le footer." },
+
+        { cat:'partenaires', q:"Puis-je devenir fournisseur officiel ?", a:"Oui. Créez un compte Pi, publiez vos produits et demandez la vérification via le support. Une fois validé, vous recevez le badge « Vérifié »." },
+        { cat:'partenaires', q:"Proposez-vous un programme d'affiliation ?", a:"Contactez-nous par email pour discuter d'un partenariat : mise en avant, commission sur ventes, co-marketing." },
+        { cat:'partenaires', q:"Comment suivre les nouveautés Global Bulk ?", a:"Rejoignez la chaîne WhatsApp Global Bulk Market (lien dans le footer) et suivez-nous sur X et Facebook." }
+    ];
+
     var cartItems = [];
     var selectedCountry = '';
     var selectedCategory = 'all';
@@ -568,11 +645,15 @@
         var overlay = document.getElementById('sideDrawerOverlay');
         var titleEl = document.getElementById('sideDrawerTitle');
         var content = document.getElementById('sideDrawerContent');
+        // ===== AJOUT : reset FAQ à chaque ouverture =====
+        if (tabId === 'faq') { faqCurrentCat = 'all'; faqCurrentQuery = ''; }
         if (titleEl) titleEl.textContent = title;
         if (content) content.innerHTML = renderSideDrawerContent(tabId);
         if (drawer) drawer.classList.add('open');
         if (overlay) overlay.classList.add('open');
         document.body.style.overflow = 'hidden';
+        // ===== AJOUT : initialiser les events FAQ =====
+        if (tabId === 'faq') { initFaqDrawerEvents(); }
     }
     function closeSideDrawer() {
         var drawer = document.getElementById('sideDrawer');
@@ -580,6 +661,93 @@
         if (drawer) drawer.classList.remove('open');
         if (overlay) overlay.classList.remove('open');
         document.body.style.overflow = '';
+    }
+
+    /* =========================================================
+       ===== AJOUT : FAQ Drawer functions ======================
+       ========================================================= */
+    var faqCurrentCat = 'all';
+    var faqCurrentQuery = '';
+
+    function renderFaqDrawer() {
+        var cats = [{ key:'all', label:'Toutes' }].concat(FAQ_CATEGORIES);
+        var chipsHtml = cats.map(function(c) {
+            return '<button class="faq-chip' + (c.key === faqCurrentCat ? ' active' : '') + '" data-cat="' + c.key + '">' + c.label + '</button>';
+        }).join('');
+
+        var filtered = FAQ_DATA.filter(function(item) {
+            var catOk = (faqCurrentCat === 'all' || item.cat === faqCurrentCat);
+            var q = faqCurrentQuery;
+            var queryOk = !q || item.q.toLowerCase().indexOf(q) !== -1 || item.a.toLowerCase().indexOf(q) !== -1;
+            return catOk && queryOk;
+        });
+
+        var listHtml = filtered.map(function(item) {
+            return '<div class="faq-acc-item">' +
+                '<button class="faq-acc-q" type="button">' +
+                    '<span>' + item.q + '</span>' +
+                    '<i class="fas fa-chevron-down"></i>' +
+                '</button>' +
+                '<div class="faq-acc-a">' + item.a + '</div>' +
+            '</div>';
+        }).join('');
+
+        if (filtered.length === 0) {
+            listHtml = '<div class="faq-drawer-empty"><i class="fas fa-circle-question"></i><p>Aucune question ne correspond à votre recherche.</p></div>';
+        }
+
+        return '<h3><i class="fas fa-question-circle"></i> FAQ</h3>' +
+            '<div class="faq-drawer-search">' +
+                '<i class="fas fa-search"></i>' +
+                '<input type="search" id="faqDrawerSearch" placeholder="Rechercher une question..." value="' + faqCurrentQuery + '" />' +
+            '</div>' +
+            '<div class="faq-chips" id="faqDrawerChips">' + chipsHtml + '</div>' +
+            '<div class="faq-drawer-count">' + filtered.length + ' question' + (filtered.length > 1 ? 's' : '') + '</div>' +
+            '<div class="faq-accordion" id="faqAccordion">' + listHtml + '</div>';
+    }
+
+    function initFaqDrawerEvents() {
+        var search = document.getElementById('faqDrawerSearch');
+        if (search) {
+            var val = search.value;
+            search.focus();
+            try { search.setSelectionRange(val.length, val.length); } catch(e) {}
+            search.addEventListener('input', function(e) {
+                faqCurrentQuery = e.target.value.trim().toLowerCase();
+                refreshFaqDrawer();
+            });
+        }
+
+        var chips = document.getElementById('faqDrawerChips');
+        if (chips) {
+            chips.addEventListener('click', function(e) {
+                var chip = e.target.closest('.faq-chip');
+                if (!chip) return;
+                faqCurrentCat = chip.getAttribute('data-cat');
+                refreshFaqDrawer();
+            });
+        }
+
+        var acc = document.getElementById('faqAccordion');
+        if (acc) {
+            acc.addEventListener('click', function(e) {
+                var q = e.target.closest('.faq-acc-q');
+                if (!q) return;
+                var item = q.parentElement;
+                var isOpen = item.classList.contains('open');
+                acc.querySelectorAll('.faq-acc-item.open').forEach(function(el) { el.classList.remove('open'); });
+                if (!isOpen) item.classList.add('open');
+            });
+        }
+    }
+
+    function refreshFaqDrawer() {
+        var content = document.getElementById('sideDrawerContent');
+        if (!content) return;
+        var scrollTop = content.scrollTop;
+        content.innerHTML = renderFaqDrawer();
+        content.scrollTop = scrollTop;
+        initFaqDrawerEvents();
     }
 
     function renderSideDrawerContent(tabId) {
@@ -634,10 +802,8 @@
                     '<div style="background:var(--gray-light);padding:20px;text-align:center;border-radius:12px;"><div style="font-size:28px;font-weight:800;color:var(--primary);">12</div><div style="font-size:13px;color:var(--text-muted);">Achats</div></div>' +
                     '<div style="background:var(--gray-light);padding:20px;text-align:center;border-radius:12px;"><div style="font-size:28px;font-weight:800;color:var(--primary);">8</div><div style="font-size:13px;color:var(--text-muted);">Ventes</div></div></div>';
             case 'faq':
-                return '<h3><i class="fas fa-question-circle"></i> FAQ</h3>' +
-                    '<div style="margin-bottom:20px;"><strong>Comment se connecter ?</strong><p style="color:var(--text-muted);margin-top:6px;">Ouvrez l\'app dans Pi Browser puis cliquez sur "Connecter avec Pi Network".</p></div>' +
-                    '<div style="margin-bottom:20px;"><strong>Comment payer ?</strong><p style="color:var(--text-muted);margin-top:6px;">Ajoutez des produits au panier puis cliquez sur "Payer avec Pi".</p></div>' +
-                    '<div><strong>Pourquoi se connecter ?</strong><p style="color:var(--text-muted);margin-top:6px;">La connexion Pi est obligatoire pour toutes les opérations.</p></div>';
+                // ===== MODIFIÉ : utilise maintenant le rendu enrichi =====
+                return renderFaqDrawer();
             default:
                 return '<p>Sélectionnez une option.</p>';
         }
@@ -839,11 +1005,6 @@
     });
 
     document.getElementById('footerPublish').addEventListener('click', function(e) { e.preventDefault(); window.openPublish(); });
-    document.getElementById('footerFaq').addEventListener('click', function(e) {
-        e.preventDefault();
-        window.openProfile();
-        setTimeout(function() { openSideDrawer('faq', 'FAQ'); }, 400);
-    });
 
     document.getElementById('publishForm').addEventListener('submit', function(e) {
         e.preventDefault();
