@@ -359,14 +359,14 @@ ul { list-style:none; }
 }
 
 /* =====================================================================
-   ===== AJOUT : Réseaux sociaux footer (couleurs officielles au hover) ===
+   ===== Réseaux sociaux footer (couleurs officielles au hover) ========
    ===================================================================== */
 .social-links-footer a.social-x:hover  { color: #fff; background: #000; }
 .social-links-footer a.social-fb:hover { color: #fff; background: #1877F2; }
 .social-links-footer a.social-wa:hover { color: #fff; background: #25D366; }
 
 /* =====================================================================
-   ===== AJOUT : FAQ enrichie (dans le side drawer) =====================
+   ===== FAQ enrichie (dans le side drawer) ============================
    ===================================================================== */
 .faq-drawer-search {
     display: flex; align-items: center; gap: 10px;
@@ -433,99 +433,47 @@ ul { list-style:none; }
 }
 
 /* =====================================================================
-   ===== AJOUT : Pages annexes (whitepaper.html & faq.html) ============
-   Ces styles servent pour les pages HTML autonomes, pas l'app.
+   ===== NOUVEAU : Correctif Bug 2 — isolation du drawer ==============
+   Masque complètement le header et la bottom-nav quand un drawer est ouvert
    ===================================================================== */
-.doc-header { text-align: left; margin-bottom: 32px; }
-.doc-badge {
-    display: inline-block; background: var(--secondary); color: var(--primary);
-    font-size: 12px; font-weight: 700; text-transform: uppercase;
-    letter-spacing: 1px; padding: 6px 14px; border-radius: 999px; margin-bottom: 16px;
-}
-.doc-header h1 { color: var(--primary); font-size: 32px; line-height: 1.25; font-weight: 800; margin-bottom: 12px; }
-.doc-subtitle { color: var(--text-muted); font-size: 16px; margin-bottom: 20px; }
-.doc-meta { display: flex; gap: 18px; flex-wrap: wrap; color: var(--text-muted); font-size: 13px; margin-bottom: 24px; }
-.doc-meta i { color: var(--secondary); margin-right: 4px; }
-.doc-actions { display: flex; gap: 12px; flex-wrap: wrap; }
-
-.toc {
-    background: var(--gray-light); border-left: 4px solid var(--secondary);
-    border-radius: var(--radius-sm); padding: 20px 24px; margin-bottom: 36px;
-}
-.toc h2 { font-size: 15px; color: var(--primary); margin-bottom: 12px; text-transform: uppercase; letter-spacing: 1px; }
-.toc ol { padding-left: 20px; columns: 2; column-gap: 32px; }
-.toc li { margin-bottom: 6px; color: var(--text-dark); font-size: 14px; }
-.toc a { color: var(--text-dark); }
-.toc a:hover { color: var(--primary); }
-
-.whitepaper section { margin-bottom: 38px; scroll-margin-top: 100px; }
-.whitepaper h2 { color: var(--primary); font-size: 22px; margin-bottom: 14px; padding-bottom: 8px; border-bottom: 2px solid #e9ecf0; }
-.whitepaper h3 { color: var(--primary-dark); font-size: 17px; margin: 20px 0 10px; }
-.whitepaper p { margin-bottom: 14px; color: var(--text-dark); font-size: 15.5px; }
-.whitepaper ul, .whitepaper ol { padding-left: 22px; margin-bottom: 16px; }
-.whitepaper li { margin-bottom: 6px; font-size: 15px; }
-
-.highlight-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 16px; margin: 24px 0; }
-.highlight { background: var(--gray-light); border-radius: var(--radius); padding: 18px; text-align: center; }
-.highlight .num { display: block; font-size: 24px; font-weight: 800; color: var(--primary); }
-.highlight .lbl { display: block; font-size: 12.5px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-top: 4px; }
-
-.data-table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 14px; }
-.data-table th, .data-table td { padding: 10px 12px; border-bottom: 1px solid #e9ecf0; text-align: left; }
-.data-table th { background: var(--gray-light); color: var(--primary); font-weight: 700; }
-.data-table tr:hover td { background: var(--gray-light); }
-
-.cta-box {
-    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-    color: var(--white); border-radius: var(--radius); padding: 28px;
-    text-align: center; margin-top: 24px;
-}
-.cta-box p { color: var(--white); font-size: 17px; margin-bottom: 16px; }
-.cta-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
-.cta-box .btn-outline { border-color: var(--white); color: var(--white); }
-.cta-box .btn-outline:hover { background: var(--white); color: var(--primary); }
-
-.doc-card {
-    background: var(--white); border-radius: var(--radius);
-    box-shadow: var(--shadow-lg); max-width: 920px; margin: 0 auto;
-    padding: 48px 44px;
-}
-.doc-main { padding-top: 100px; padding-bottom: 60px; min-height: calc(100vh - 200px); }
-
-/* FAQ page autonome */
-.faq-list { max-width: 820px; margin: 0 auto; display: flex; flex-direction: column; gap: 10px; }
-.faq-item { background: var(--white); border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden; transition: var(--transition); }
-.faq-item:hover { box-shadow: var(--shadow-lg); }
-.faq-q { width: 100%; display: flex; justify-content: space-between; align-items: center; gap: 16px; padding: 18px 22px; background: transparent; border: none; text-align: left; font-size: 15.5px; font-weight: 600; color: var(--text-dark); cursor: pointer; font-family: inherit; }
-.faq-q i { color: var(--primary); transition: transform 0.3s; }
-.faq-item.open .faq-q i { transform: rotate(180deg); }
-.faq-a { max-height: 0; overflow: hidden; transition: max-height 0.35s ease; padding: 0 22px; }
-.faq-item.open .faq-a { max-height: 500px; padding: 0 22px 20px; }
-.faq-a p { color: var(--text-muted); font-size: 14.5px; line-height: 1.7; }
-.faq-toolbar { max-width: 760px; margin: 24px auto 0; }
-.search-box { position: relative; margin-bottom: 16px; }
-.search-box i { position: absolute; left: 18px; top: 50%; transform: translateY(-50%); color: var(--text-muted); }
-.search-box input { width: 100%; padding: 14px 18px 14px 46px; border-radius: 999px; border: 2px solid #dce0e6; background: var(--white); font-size: 15px; font-family: inherit; outline: none; transition: var(--transition); }
-.search-box input:focus { border-color: var(--primary); box-shadow: 0 0 0 4px rgba(11,42,91,0.08); }
-.faq-filters { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-bottom: 24px; }
-.faq-filters button { padding: 8px 16px; border-radius: 999px; border: 2px solid #dce0e6; background: var(--white); color: var(--text-dark); font-size: 13px; font-weight: 600; cursor: pointer; transition: var(--transition); }
-.faq-filters button:hover { border-color: var(--primary); color: var(--primary); }
-.faq-filters button.active { background: var(--primary); color: var(--white); border-color: var(--primary); }
-.faq-header { text-align: center; margin-bottom: 32px; }
-.faq-header h1 { color: var(--primary); font-size: 32px; font-weight: 800; margin: 12px 0; }
-
-@media print {
-    .header, .bottom-nav, .footer, .doc-actions, .toc { display: none !important; }
-    .doc-main { padding-top: 0; }
-    .doc-card { box-shadow: none; padding: 0; max-width: 100%; }
-    body { background: var(--white); padding: 0; }
-    section { page-break-inside: avoid; }
-    h2 { page-break-after: avoid; }
+body.drawer-open .header,
+body.drawer-open .bottom-nav {
+    visibility: hidden;
 }
 
-@media (max-width: 720px) {
-    .doc-card { padding: 28px 20px; }
-    .doc-header h1 { font-size: 24px; }
-    .toc ol { columns: 1; }
-    .faq-header h1 { font-size: 24px; }
+/* =====================================================================
+   ===== NOUVEAU : Items cliquables du Livre blanc (drawer) ============
+   ===================================================================== */
+.doc-item {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 4px;
+    border: none;
+    border-bottom: 1px solid #f5f7fa;
+    background: transparent;
+    font-family: inherit;
+    font-size: 15px;
+    text-align: left;
+    cursor: pointer;
+    transition: var(--transition);
+    color: var(--text-dark);
 }
+.doc-item:last-of-type { border-bottom: none; }
+.doc-item:hover { background: var(--gray-light); padding-left: 10px; padding-right: 10px; border-radius: 8px; }
+.doc-item > i:first-child {
+    width: 32px; height: 32px; border-radius: 8px;
+    background: var(--gray-light);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 15px; color: var(--primary); flex-shrink: 0;
+}
+.doc-item:hover > i:first-child { background: var(--secondary); color: var(--primary); }
+.doc-item .label { color: var(--text-muted); font-weight: 500; flex: 1; }
+.doc-item .value { font-weight: 600; color: var(--text-dark); }
+.doc-item .doc-arrow { color: var(--text-muted); font-size: 12px; margin-left: 6px; flex-shrink: 0; }
+
+.doc-item-disabled { opacity: 0.55; cursor: not-allowed; }
+.doc-item-disabled:hover { background: transparent; padding-left: 4px; padding-right: 4px; }
+.doc-item-disabled .value { color: var(--text-muted); font-style: italic; }
+.doc-item-disabled .doc-arrow { display: none; }
