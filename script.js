@@ -140,7 +140,7 @@
     ];
 
     /* =========================================================
-       ===== AJOUT : Config réseaux sociaux ====================
+       ===== Config réseaux sociaux ============================
        ========================================================= */
     var SOCIAL = {
         x:  { url: 'https://x.com/GlobalBulk',                              label: 'X (Twitter)' },
@@ -149,7 +149,7 @@
     };
 
     /* =========================================================
-       ===== AJOUT : FAQ enrichie (40 questions / 10 catégories)
+       ===== FAQ enrichie (40 questions / 10 catégories) =======
        ========================================================= */
     var FAQ_CATEGORIES = [
         { key: 'general',      label: 'Général' },
@@ -645,15 +645,18 @@
         var overlay = document.getElementById('sideDrawerOverlay');
         var titleEl = document.getElementById('sideDrawerTitle');
         var content = document.getElementById('sideDrawerContent');
-        // ===== AJOUT : reset FAQ à chaque ouverture =====
+        // Reset FAQ à chaque ouverture
         if (tabId === 'faq') { faqCurrentCat = 'all'; faqCurrentQuery = ''; }
         if (titleEl) titleEl.textContent = title;
         if (content) content.innerHTML = renderSideDrawerContent(tabId);
         if (drawer) drawer.classList.add('open');
         if (overlay) overlay.classList.add('open');
         document.body.style.overflow = 'hidden';
-        // ===== AJOUT : initialiser les events FAQ =====
+        // ===== CORRECTIF BUG 2 : masquer header + bottom-nav =====
+        document.body.classList.add('drawer-open');
+        // Events spécifiques
         if (tabId === 'faq') { initFaqDrawerEvents(); }
+        if (tabId === 'livre-blanc') { initDocDrawerEvents(); }
     }
     function closeSideDrawer() {
         var drawer = document.getElementById('sideDrawer');
@@ -661,10 +664,12 @@
         if (drawer) drawer.classList.remove('open');
         if (overlay) overlay.classList.remove('open');
         document.body.style.overflow = '';
+        // ===== CORRECTIF BUG 2 : réafficher header + bottom-nav =====
+        document.body.classList.remove('drawer-open');
     }
 
     /* =========================================================
-       ===== AJOUT : FAQ Drawer functions ======================
+       ===== FAQ Drawer functions ==============================
        ========================================================= */
     var faqCurrentCat = 'all';
     var faqCurrentQuery = '';
@@ -750,9 +755,50 @@
         initFaqDrawerEvents();
     }
 
+    /* =========================================================
+       ===== NOUVEAU : Livre blanc — événements cliquables =====
+       ========================================================= */
+    function initDocDrawerEvents() {
+        var items = document.querySelectorAll('#sideDrawerContent .doc-item');
+        for (var i = 0; i < items.length; i++) {
+            (function(item) {
+                if (item.classList.contains('doc-item-disabled')) return;
+                item.addEventListener('click', function() {
+                    var url = item.getAttribute('data-url');
+                    var label = item.getAttribute('data-label');
+                    if (url) {
+                        window.location.href = url;
+                    } else {
+                        showToast('« ' + label + ' » sera bientôt disponible', 'info');
+                    }
+                });
+            })(items[i]);
+        }
+        // Cas "Bientôt" : afficher un toast même sur les items désactivés
+        var disabled = document.querySelectorAll('#sideDrawerContent .doc-item-disabled');
+        for (var j = 0; j < disabled.length; j++) {
+            (function(item) {
+                item.addEventListener('click', function() {
+                    showToast('« ' + item.getAttribute('data-label') + ' » sera bientôt disponible', 'info');
+                });
+            })(disabled[j]);
+        }
+    }
+
     function renderSideDrawerContent(tabId) {
         function infoItem(icon, label, value) {
             return '<div class="info-item"><i class="fas ' + icon + '"></i><span class="label">' + label + '</span><span class="value">' + value + '</span></div>';
+        }
+        // ===== NOUVEAU : item cliquable pour le livre blanc =====
+        function docItem(icon, label, value, url) {
+            var isAvailable = !!url;
+            return '<button type="button" class="doc-item' + (isAvailable ? '' : ' doc-item-disabled') +
+                '" data-url="' + (url || '') + '" data-label="' + label + '">' +
+                '<i class="fas ' + icon + '"></i>' +
+                '<span class="label">' + label + '</span>' +
+                '<span class="value">' + value + '</span>' +
+                '<i class="fas fa-chevron-right doc-arrow"></i>' +
+            '</button>';
         }
         switch(tabId) {
             case 'monprofil':
@@ -774,9 +820,10 @@
                     '<div class="info-item"><i class="fas fa-circle" style="color:#ccc;"></i><span class="label">Español</span><span class="value">Inactif</span></div>';
             case 'livre-blanc':
                 return '<h3><i class="fas fa-file-pdf"></i> Livre blanc</h3>' +
-                    infoItem('fa-file-pdf', 'Guide 2026', 'Disponible') +
-                    infoItem('fa-file-pdf', 'Stratégies', 'Disponible') +
-                    infoItem('fa-file-pdf', 'Marchés émergents', 'Bientôt');
+                    '<p style="color:var(--text-muted);font-size:13.5px;margin-bottom:14px;line-height:1.5;">Sélectionnez un document pour le consulter.</p>' +
+                    docItem('fa-file-pdf', 'Guide 2026', 'Disponible', 'whitepaper.html') +
+                    docItem('fa-file-pdf', 'Stratégies', 'Disponible', 'whitepaper.html#guide') +
+                    docItem('fa-file-pdf', 'Marchés émergents', 'Bientôt', '');
             case 'mes-produits':
                 if (!piUser) return '<div class="empty-state"><i class="fas fa-box-open"></i><p>Connectez-vous pour voir vos produits.</p></div>';
                 var myProducts = products.filter(function(p) { return p.supplier === piUser.username; });
@@ -802,7 +849,6 @@
                     '<div style="background:var(--gray-light);padding:20px;text-align:center;border-radius:12px;"><div style="font-size:28px;font-weight:800;color:var(--primary);">12</div><div style="font-size:13px;color:var(--text-muted);">Achats</div></div>' +
                     '<div style="background:var(--gray-light);padding:20px;text-align:center;border-radius:12px;"><div style="font-size:28px;font-weight:800;color:var(--primary);">8</div><div style="font-size:13px;color:var(--text-muted);">Ventes</div></div></div>';
             case 'faq':
-                // ===== MODIFIÉ : utilise maintenant le rendu enrichi =====
                 return renderFaqDrawer();
             default:
                 return '<p>Sélectionnez une option.</p>';
@@ -820,6 +866,16 @@
     document.getElementById('sideDrawerClose').addEventListener('click', closeSideDrawer);
     document.getElementById('sideDrawerBack').addEventListener('click', closeSideDrawer);
     document.getElementById('sideDrawerOverlay').addEventListener('click', closeSideDrawer);
+
+    // ===== NOUVEAU : liens footer vers le drawer =====
+    document.querySelectorAll('.footer-drawer-link').forEach(function(link) {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            var tab = this.getAttribute('data-drawer');
+            var label = tab === 'faq' ? 'FAQ' : 'Livre blanc';
+            openSideDrawer(tab, label);
+        });
+    });
 
     var btnPiConnect = document.getElementById('piActionBtn');
     if (btnPiConnect) {
