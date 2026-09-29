@@ -25,7 +25,7 @@
         { icon: 'fa-paw', name: 'Animalerie', count: 95 }
     ];
 
-    // ============ PAYS ============
+    // ============ PAYS AVEC DRAPEAUX ============
     var allCountries = [
         { name: 'Afrique du Sud', flag: '🇿🇦' }, { name: 'Algérie', flag: '🇩🇿' }, { name: 'Angola', flag: '🇦🇴' },
         { name: 'Bénin', flag: '🇧🇯' }, { name: 'Burkina Faso', flag: '🇧🇫' }, { name: 'Cameroun', flag: '🇨🇲' },
@@ -84,6 +84,7 @@
     var cartItems = [];
     var selectedCountry = '';
     var selectedCategory = 'all';
+
     var piUser = null;
     var piReady = false;
     var inPiBrowser = false;
@@ -543,16 +544,6 @@
         function infoItem(icon, label, value) {
             return '<div class="info-item"><i class="fas ' + icon + '"></i><span class="label">' + label + '</span><span class="value">' + value + '</span></div>';
         }
-        function docItem(icon, label, value, url) {
-            var isAvailable = !!url;
-            return '<button type="button" class="doc-item' + (isAvailable ? '' : ' doc-item-disabled') +
-                '" data-url="' + (url || '') + '" data-label="' + label + '">' +
-                '<i class="fas ' + icon + '"></i>' +
-                '<span class="label">' + label + '</span>' +
-                '<span class="value">' + value + '</span>' +
-                '<i class="fas fa-chevron-right doc-arrow"></i>' +
-            '</button>';
-        }
         switch(tabId) {
             case 'parametres':
                 return '<h3><i class="fas fa-sliders-h"></i> Paramètres</h3>' +
@@ -565,11 +556,19 @@
                     '<div class="info-item"><i class="fas fa-circle" style="color:#ccc;"></i><span class="label">English</span><span class="value">Inactif</span></div>' +
                     '<div class="info-item"><i class="fas fa-circle" style="color:#ccc;"></i><span class="label">Español</span><span class="value">Inactif</span></div>';
             case 'livre-blanc':
-                return '<h3><i class="fas fa-file-pdf"></i> Livre blanc</h3>' +
-                    '<p style="color:var(--text-muted);font-size:13.5px;margin-bottom:14px;line-height:1.5;">Sélectionnez un document pour le consulter.</p>' +
-                    docItem('fa-file-pdf', 'Guide 2026', 'Disponible', 'whitepaper.html') +
-                    docItem('fa-file-pdf', 'Stratégies', 'Disponible', 'whitepaper.html#guide') +
-                    docItem('fa-file-pdf', 'Marchés émergents', 'Bientôt', '');
+                return '<h3><i class="fas fa-store"></i> Livre blanc</h3>' +
+                    '<p style="color:var(--text-muted);font-size:13.5px;margin-bottom:18px;line-height:1.5;">Découvrez Global Bulk comme un véritable centre commercial B2B international : organisation, fonctionnement, services et perspectives.</p>' +
+                    '<button type="button" class="doc-item" data-url="whitepaper.html" data-label="Livre blanc complet">' +
+                        '<i class="fas fa-file-pdf"></i>' +
+                        '<span class="label">Livre blanc 2026</span>' +
+                        '<span class="value">Ouvrir</span>' +
+                        '<i class="fas fa-chevron-right doc-arrow"></i>' +
+                    '</button>' +
+                    '<div style="margin-top:20px;padding:16px;background:var(--gray-light);border-radius:12px;">' +
+                        '<div style="font-size:12px;color:var(--text-muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;">Document officiel</div>' +
+                        '<div style="font-size:14px;font-weight:600;color:var(--primary);">Le mall B2B mondial, expliqué</div>' +
+                        '<div style="font-size:12.5px;color:var(--text-muted);margin-top:4px;line-height:1.5;">Édition 2026 — 12 chapitres — lecture ~18 min</div>' +
+                    '</div>';
             case 'mes-produits':
                 if (!piUser) return '<div class="empty-state"><i class="fas fa-box-open"></i><p>Connectez-vous pour voir vos produits.</p></div>';
                 var myProducts = products.filter(function(p) { return p.supplier === piUser.username; });
