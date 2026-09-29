@@ -25,7 +25,7 @@
         { icon: 'fa-paw', name: 'Animalerie', count: 95 }
     ];
 
-    // ============ PAYS AVEC DRAPEAUX ============
+    // ============ PAYS ============
     var allCountries = [
         { name: 'Afrique du Sud', flag: '🇿🇦' }, { name: 'Algérie', flag: '🇩🇿' }, { name: 'Angola', flag: '🇦🇴' },
         { name: 'Bénin', flag: '🇧🇯' }, { name: 'Burkina Faso', flag: '🇧🇫' }, { name: 'Cameroun', flag: '🇨🇲' },
@@ -88,6 +88,28 @@
     var piUser = null;
     var piReady = false;
     var inPiBrowser = false;
+
+    /* =========================================================
+       ===== PROFIL UTILISATEUR (obligatoire pour transactions)
+       ========================================================= */
+    function loadUserProfile() {
+        if (!piUser) return null;
+        try {
+            var stored = localStorage.getItem('pi_profile_' + piUser.uid);
+            return stored ? JSON.parse(stored) : null;
+        } catch (e) { return null; }
+    }
+
+    function saveUserProfile(data) {
+        if (!piUser) return;
+        try { localStorage.setItem('pi_profile_' + piUser.uid, JSON.stringify(data)); } catch (e) {}
+    }
+
+    function isProfileComplete() {
+        var p = loadUserProfile();
+        if (!p) return false;
+        return !!(p.nom && p.postNom && p.email && p.phone && p.address);
+    }
 
     function formatNumber(n) {
         return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
@@ -180,13 +202,22 @@
         var publishHandle = document.getElementById('publishHandle');
 
         if (piUser) {
+            var profileOk = isProfileComplete();
             if (accountCard) accountCard.classList.add('connected');
             if (avatar) avatar.textContent = piUser.username.substring(0, 2).toUpperCase();
             if (accountUsername) accountUsername.textContent = piUser.username;
-            if (accountSubtitle) accountSubtitle.textContent = 'Membre Pi Network';
+            if (accountSubtitle) {
+                accountSubtitle.textContent = profileOk ? 'Profil complet' : 'Profil à compléter';
+            }
             if (actionBtn) { actionBtn.classList.add('disconnect'); actionBtn.disabled = false; }
             if (actionText) actionText.textContent = 'Déconnexion';
-            if (hint) hint.innerHTML = '<i class="fas fa-shield-alt" style="color:var(--success);"></i> Connecté en tant que <strong>' + piUser.username + '</strong>';
+            if (hint) {
+                if (profileOk) {
+                    hint.innerHTML = '<i class="fas fa-shield-alt" style="color:var(--success);"></i> Connecté en tant que <strong>' + piUser.username + '</strong>';
+                } else {
+                    hint.innerHTML = '<i class="fas fa-exclamation-triangle" style="color:#e6b000;"></i> Complétez votre profil pour effectuer des transactions.';
+                }
+            }
             if (publishAvatar) publishAvatar.textContent = piUser.username.substring(0, 2).toUpperCase();
             if (publishName) publishName.textContent = piUser.username;
             if (publishHandle) publishHandle.textContent = '@' + piUser.username.toLowerCase();
@@ -244,16 +275,29 @@
         if (modal) modal.classList.remove('open');
     }
 
+    /* =========================================================
+       ===== requireAuth : vérifie Pi + profil complet
+       ========================================================= */
     function requireAuth(actionName) {
-        if (piUser) return true;
-        var messages = {
-            'panier': 'Connectez-vous avec Pi Network pour ajouter des produits au panier.',
-            'commande': 'Connectez-vous avec Pi Network pour passer commande.',
-            'publier': 'Connectez-vous avec Pi Network pour publier un produit.',
-            'contacter': 'Connectez-vous avec Pi Network pour contacter un fournisseur.'
-        };
-        openAuthModal(messages[actionName] || 'Connectez-vous avec Pi Network pour continuer.');
-        return false;
+        if (!piUser) {
+            var messages = {
+                'panier': 'Connectez-vous avec Pi Network pour ajouter des produits au panier.',
+                'commande': 'Connectez-vous avec Pi Network pour passer commande.',
+                'publier': 'Connectez-vous avec Pi Network pour publier un produit.',
+                'contacter': 'Connectez-vous avec Pi Network pour contacter un fournisseur.'
+            };
+            openAuthModal(messages[actionName] || 'Connectez-vous avec Pi Network pour continuer.');
+            return false;
+        }
+        if (!isProfileComplete()) {
+            showToast('Complétez votre profil avant de continuer', 'error');
+            // Ouvre automatiquement le drawer profil
+            setTimeout(function() {
+                openSideDrawer('mon-profil', 'Mon profil');
+            }, 300);
+            return false;
+        }
+        return true;
     }
 
     function createPiPayment(amount, memo, metadata) {
@@ -512,6 +556,7 @@
         document.body.style.overflow = 'hidden';
         document.body.classList.add('drawer-open');
         if (tabId === 'livre-blanc') { initDocDrawerEvents(); }
+        if (tabId === 'mon-profil') { initProfileFormEvents(); }
     }
     function closeSideDrawer() {
         var drawer = document.getElementById('sideDrawer');
@@ -540,11 +585,77 @@
         }
     }
 
+    /* ===== Profil : rendu + événements ===== */
+    function renderProfileForm() {
+        if (!piUser) {
+            return '<div class="empty-state"><i class="fas fa-user-slash"></i><p>Connectez-vous avec Pi Network pour compléter votre profil.</p></div>';
+        }
+        var p = loadUserProfile() || {};
+        var complete = isProfileComplete();
+        var statusHtml = complete
+            ? '<div class="profile-status-ok"><i class="fas fa-check-circle"></i> Profil complété</div>'
+            : '<div class="profile-status-warn"><i class="fas fa-exclamation-triangle"></i> Profil à compléter</div>';
+
+        function esc(v) {
+            return String(v || '').replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+        }
+
+        return '<h3><i class="fas fa-id-card"></i> Mon profil</h3>' +
+            '<p style="color:var(--text-muted);font-size:13px;margin-bottom:14px;line-height:1.5;">Ces informations sont obligatoires avant toute opération d\'achat ou de vente.</p>' +
+            statusHtml +
+            '<form id="profileForm" class="profile-form" novalidate>' +
+                '<div class="form-group"><label>Nom <span class="req">*</span></label><input type="text" id="pfNom" value="' + esc(p.nom) + '" placeholder="Votre nom" required /></div>' +
+                '<div class="form-group"><label>Post-nom <span class="req">*</span></label><input type="text" id="pfPostNom" value="' + esc(p.postNom) + '" placeholder="Votre post-nom" required /></div>' +
+                '<div class="form-group"><label>Email <span class="req">*</span></label><input type="email" id="pfEmail" value="' + esc(p.email) + '" placeholder="exemple@email.com" required /></div>' +
+                '<div class="form-group"><label>Numéro de téléphone <span class="req">*</span></label><input type="tel" id="pfPhone" value="' + esc(p.phone) + '" placeholder="+243 ..." required /></div>' +
+                '<div class="form-group"><label>Adresse de résidence <span class="req">*</span></label><textarea id="pfAddress" rows="3" placeholder="Ville, quartier, rue, n°" required>' + esc(p.address) + '</textarea></div>' +
+                '<div class="profile-note"><i class="fas fa-info-circle"></i><span>Veuillez mettre les <strong>vraies informations</strong>, car celles-ci serviront à l\'<strong>expédition</strong> de vos commandes.</span></div>' +
+                '<button type="submit" class="btn btn-primary btn-block publish-submit" style="margin-top:16px;"><i class="fas fa-save"></i> Enregistrer mon profil</button>' +
+            '</form>';
+    }
+
+    function initProfileFormEvents() {
+        var form = document.getElementById('profileForm');
+        if (!form) return;
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            if (!piUser) { showToast('Connectez-vous avec Pi Network', 'error'); return; }
+
+            var nom = document.getElementById('pfNom').value.trim();
+            var postNom = document.getElementById('pfPostNom').value.trim();
+            var email = document.getElementById('pfEmail').value.trim();
+            var phone = document.getElementById('pfPhone').value.trim();
+            var address = document.getElementById('pfAddress').value.trim();
+
+            if (!nom || !postNom || !email || !phone || !address) {
+                showToast('Veuillez remplir tous les champs', 'error');
+                return;
+            }
+            if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+                showToast('Email invalide', 'error');
+                return;
+            }
+
+            saveUserProfile({ nom: nom, postNom: postNom, email: email, phone: phone, address: address, updatedAt: Date.now() });
+            showToast('Profil enregistré avec succès', 'success');
+            updatePiUI();
+
+            // Rafraîchit le drawer pour afficher le statut "complété"
+            var content = document.getElementById('sideDrawerContent');
+            if (content) {
+                content.innerHTML = renderProfileForm();
+                initProfileFormEvents();
+            }
+        });
+    }
+
     function renderSideDrawerContent(tabId) {
         function infoItem(icon, label, value) {
             return '<div class="info-item"><i class="fas ' + icon + '"></i><span class="label">' + label + '</span><span class="value">' + value + '</span></div>';
         }
         switch(tabId) {
+            case 'mon-profil':
+                return renderProfileForm();
             case 'parametres':
                 return '<h3><i class="fas fa-sliders-h"></i> Paramètres</h3>' +
                     infoItem('fa-bell', 'Notifications', 'Activées') +
@@ -566,7 +677,7 @@
                     '</button>' +
                     '<div style="margin-top:20px;padding:16px;background:var(--gray-light);border-radius:12px;">' +
                         '<div style="font-size:12px;color:var(--text-muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;">Document officiel</div>' +
-                        '<div style="font-size:14px;font-weight:600;color:var(--primary);">Le mall B2B mondial, expliqué</div>' +
+                        '<div style="font-size:14px;font-weight:600;color:var(--primary);">Le centre commercial B2B mondial, expliqué</div>' +
                         '<div style="font-size:12.5px;color:var(--text-muted);margin-top:4px;line-height:1.5;">Édition 2026 — 12 chapitres — lecture ~18 min</div>' +
                     '</div>';
             case 'mes-produits':
@@ -878,9 +989,17 @@
         setTimeout(animateStats, 300);
 
         setTimeout(function() {
-            if (piUser) { showToast('Bon retour ' + piUser.username + ' !', 'success'); }
-            else if (inPiBrowser) { showToast('Allez dans Profil pour vous connecter', 'info'); }
-            else { showToast('Ouvrez dans Pi Browser pour Pi', 'info'); }
+            if (piUser) {
+                if (isProfileComplete()) {
+                    showToast('Bon retour ' + piUser.username + ' !', 'success');
+                } else {
+                    showToast('Complétez votre profil dans Mon profil', 'info');
+                }
+            } else if (inPiBrowser) {
+                showToast('Allez dans Profil pour vous connecter', 'info');
+            } else {
+                showToast('Ouvrez dans Pi Browser pour Pi', 'info');
+            }
         }, 800);
     });
 
