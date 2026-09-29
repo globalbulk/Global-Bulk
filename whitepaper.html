@@ -10,236 +10,249 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 <link rel="stylesheet" href="style.css" />
 </head>
-<body>
+<body class="standalone-page">
+
 <header class="header">
-    <div class="header-inner container">
-        <a href="index.html" class="logo">
-            <img src="logoglobalbulk.png" alt="Global Bulk" class="logo-img" />
-            <span class="logo-text">GLOBAL<span>BULK</span></span>
-        </a>
-        <div class="header-actions">
-            <a href="faq.html" class="icon-btn" title="FAQ"><i class="fas fa-circle-question"></i></a>
-            <a href="index.html" class="icon-btn" title="Accueil"><i class="fas fa-home"></i></a>
-        </div>
+  <div class="header-inner container">
+    <a href="index.html" class="logo">
+      <img src="logoglobalbulk.png" alt="Global Bulk" class="logo-img" />
+      <span class="logo-text">GLOBAL<span>BULK</span></span>
+    </a>
+    <div class="header-actions">
+      <a href="index.html" class="icon-btn" title="Accueil"><i class="fas fa-home"></i></a>
     </div>
+  </div>
 </header>
 
 <main class="container doc-main">
-    <article class="doc-card">
+  <article class="doc-card whitepaper">
 
-        <header class="doc-header">
-            <span class="doc-badge">Livre blanc 2026</span>
-            <h1>Stratégies d'approvisionnement et tendances du commerce B2B international</h1>
-            <p class="doc-subtitle">Comment les acheteurs professionnels optimisent leurs marges grâce aux plateformes de mise en relation vérifiée.</p>
-            <div class="doc-meta">
-                <span><i class="fas fa-calendar"></i> Édition janvier 2026</span>
-                <span><i class="fas fa-clock"></i> Temps de lecture : ~15 min</span>
-                <span><i class="fas fa-building"></i> Global Bulk Market</span>
-            </div>
-            <div class="doc-actions">
-                <button class="btn btn-primary" onclick="window.print()"><i class="fas fa-file-pdf"></i> Télécharger en PDF</button>
-                <a href="faq.html" class="btn btn-outline"><i class="fas fa-circle-question"></i> Consulter la FAQ</a>
-            </div>
-        </header>
+    <header class="doc-header">
+      <span class="doc-badge">Livre blanc 2026</span>
+      <h1>Stratégies d'approvisionnement et tendances du commerce B2B international</h1>
+      <p class="doc-subtitle">Comment les acheteurs professionnels optimisent leurs marges grâce aux plateformes de mise en relation vérifiée.</p>
+      <div class="doc-meta">
+        <span><i class="fas fa-calendar"></i> Édition janvier 2026</span>
+        <span><i class="fas fa-clock"></i> Temps de lecture : ~15 min</span>
+        <span><i class="fas fa-building"></i> Global Bulk Market</span>
+      </div>
+      <div class="doc-actions">
+        <button class="btn btn-primary" id="btnPrint"><i class="fas fa-file-pdf"></i> Télécharger en PDF</button>
+        <a href="faq.html" class="btn btn-outline"><i class="fas fa-circle-question"></i> Consulter la FAQ</a>
+      </div>
+    </header>
 
-        <nav class="toc" aria-label="Sommaire">
-            <h2><i class="fas fa-list"></i> Sommaire</h2>
-            <ol>
-                <li><a href="#resume">Résumé exécutif</a></li>
-                <li><a href="#contexte">Contexte du commerce B2B en 2026</a></li>
-                <li><a href="#presentation">Présentation de Global Bulk</a></li>
-                <li><a href="#fonctionnement">Fonctionnement de la plateforme</a></li>
-                <li><a href="#tendances">Tendances de marché</a></li>
-                <li><a href="#guide">Guide pratique d'approvisionnement</a></li>
-                <li><a href="#securite">Sécurité et confiance</a></li>
-                <li><a href="#modele">Modèle économique</a></li>
-                <li><a href="#roadmap">Feuille de route</a></li>
-                <li><a href="#conclusion">Conclusion</a></li>
-            </ol>
-        </nav>
+    <nav class="toc" aria-label="Sommaire">
+      <h2><i class="fas fa-list"></i> Sommaire</h2>
+      <ol>
+        <li><a href="#resume">Résumé exécutif</a></li>
+        <li><a href="#contexte">Contexte du commerce B2B en 2026</a></li>
+        <li><a href="#presentation">Présentation de Global Bulk</a></li>
+        <li><a href="#fonctionnement">Fonctionnement de la plateforme</a></li>
+        <li><a href="#tendances">Tendances de marché</a></li>
+        <li><a href="#guide">Guide pratique d'approvisionnement</a></li>
+        <li><a href="#securite">Sécurité et confiance</a></li>
+        <li><a href="#modele">Modèle économique</a></li>
+        <li><a href="#roadmap">Feuille de route</a></li>
+        <li><a href="#conclusion">Conclusion</a></li>
+      </ol>
+    </nav>
 
-        <section id="resume">
-            <h2>1. Résumé exécutif</h2>
-            <p>Le commerce de gros international représente plus de <strong>18 000 milliards de dollars</strong> d'échanges annuels. Pourtant, plus de 60 % des PME importatrices déclarent rencontrer des difficultés majeures : opacité des prix, fournisseurs non fiables, barrières linguistiques et complexité logistique.</p>
-            <p><strong>Global Bulk</strong> répond à ces défis en centralisant sur une seule plateforme : un réseau mondial de fournisseurs vérifiés, une transparence tarifaire, des outils de mise en concurrence et un paiement sécurisé via Pi Network. Ce livre blanc présente les leviers concrets pour réduire vos coûts d'approvisionnement de 8 à 22 % et sécuriser vos transactions.</p>
-            <div class="highlight-grid">
-                <div class="highlight"><span class="num">12 480</span><span class="lbl">Fournisseurs vérifiés</span></div>
-                <div class="highlight"><span class="num">89</span><span class="lbl">Pays couverts</span></div>
-                <div class="highlight"><span class="num">45 600</span><span class="lbl">Produits référencés</span></div>
-                <div class="highlight"><span class="num">24/7</span><span class="lbl">Support multilingue</span></div>
-            </div>
-        </section>
+    <section id="resume">
+      <h2>1. Résumé exécutif</h2>
+      <p>Le commerce de gros international représente plus de <strong>18 000 milliards de dollars</strong> d'échanges annuels. Pourtant, plus de 60 % des PME importatrices déclarent rencontrer des difficultés majeures : opacité des prix, fournisseurs non fiables, barrières linguistiques, complexité logistique.</p>
+      <p><strong>Global Bulk</strong> répond à ces défis en centralisant sur une seule plateforme : un réseau mondial de fournisseurs vérifiés, une transparence tarifaire, des outils de mise en concurrence et un accompagnement multilingue. Ce livre blanc présente les leviers concrets pour réduire vos coûts d'approvisionnement de 8 à 22 % et sécuriser vos transactions.</p>
+      <div class="highlight-grid">
+        <div class="highlight"><span class="num">+12 000</span><span class="lbl">Fournisseurs vérifiés</span></div>
+        <div class="highlight"><span class="num">89</span><span class="lbl">Pays couverts</span></div>
+        <div class="highlight"><span class="num">-15 %</span><span class="lbl">Coût moyen d'achat</span></div>
+        <div class="highlight"><span class="num">24/7</span><span class="lbl">Support multilingue</span></div>
+      </div>
+    </section>
 
-        <section id="contexte">
-            <h2>2. Contexte du commerce B2B en 2026</h2>
-            <h3>2.1 Un marché fragmenté</h3>
-            <p>L'acheteur professionnel jongle en moyenne entre <em>sept canaux différents</em> pour identifier un fournisseur : salons, brokers, catalogues papier, marketplaces généralistes, agents locaux, réseaux sociaux professionnels et bouche-à-oreille. Cette fragmentation génère des coûts cachés considérables : temps de recherche, absence de comparabilité, risque de fraude.</p>
-            <h3>2.2 Les cinq principaux points de friction</h3>
-            <ul>
-                <li><strong>Opacité des prix</strong> — impossible de savoir si l'offre reçue est compétitive</li>
-                <li><strong>Vérification difficile</strong> — statut juridique, capacité de production, certifications</li>
-                <li><strong>Barrières linguistiques et culturelles</strong> — négociations complexes</li>
-                <li><strong>Risque de paiement</strong> — absence de mécanismes d'escrow fiables</li>
-                <li><strong>Logistique internationale</strong> — Incoterms, douanes, assurances</li>
-            </ul>
-            <h3>2.3 L'attente d'une plateforme de confiance</h3>
-            <p>83 % des acheteurs B2B interrogés souhaitent une plateforme unique combinant sourcing, mise en concurrence, vérification et paiement sécurisé. Global Bulk est née de cette attente.</p>
-        </section>
+    <section id="contexte">
+      <h2>2. Contexte du commerce B2B en 2026</h2>
+      <h3>2.1 Un marché fragmenté</h3>
+      <p>L'acheteur professionnel jongle en moyenne entre <em>sept canaux différents</em> pour identifier un fournisseur : salons, brokers, catalogues papier, marketplaces généralistes, agents locaux, réseaux sociaux professionnels et bouche-à-oreille. Cette fragmentation génère des coûts cachés considérables.</p>
+      <h3>2.2 Les cinq principaux points de friction</h3>
+      <ul>
+        <li><strong>Opacité des prix</strong> — impossible de savoir si l'offre reçue est compétitive</li>
+        <li><strong>Vérification difficile</strong> — statut juridique, capacité de production, certifications</li>
+        <li><strong>Barrières linguistiques et culturelles</strong> — négociations complexes</li>
+        <li><strong>Risque de paiement</strong> — absence de mécanismes d'escrow fiables</li>
+        <li><strong>Logistique internationale</strong> — Incoterms, douanes, assurances</li>
+      </ul>
+      <h3>2.3 L'attente d'une plateforme de confiance</h3>
+      <p>83 % des acheteurs B2B interrogés souhaitent une plateforme unique combinant sourcing, mise en concurrence, vérification et paiement sécurisé.</p>
+    </section>
 
-        <section id="presentation">
-            <h2>3. Présentation de Global Bulk</h2>
-            <p><strong>Global Bulk Market</strong> est la plateforme B2B de référence pour le commerce de gros international. Notre mission : <em>démocratiser l'accès au sourcing mondial pour toutes les entreprises, quelle que soit leur taille</em>.</p>
-            <h3>3.1 Proposition de valeur</h3>
-            <ul>
-                <li>Accès direct à plus de 12 480 fournisseurs vérifiés dans 89 pays</li>
-                <li>Transparence totale des prix et conditions commerciales</li>
-                <li>Mise en concurrence automatisée via demandes de devis groupées</li>
-                <li>Vérification fournisseurs en 4 étapes (KYC, KYS, certifications, historique)</li>
-                <li>Paiement sécurisé en Pi Network via le SDK officiel</li>
-                <li>Support multilingue 24/7 et accompagnement personnalisé</li>
-            </ul>
-            <h3>3.2 Secteurs couverts</h3>
-            <p>20 catégories : électronique, mode, chaussures, beauté, maison, construction, agriculture, alimentation, automobile, équipements, énergie, fournitures, bijoux, jouets, librairie, sport, instruments, photo, outillage et animalerie.</p>
-        </section>
+    <section id="presentation">
+      <h2>3. Présentation de Global Bulk</h2>
+      <p><strong>Global Bulk Market</strong> est la plateforme B2B de référence pour le commerce de gros international. Notre mission : <em>démocratiser l'accès au sourcing mondial pour toutes les entreprises, quelle que soit leur taille</em>.</p>
+      <h3>3.1 Proposition de valeur</h3>
+      <ul>
+        <li>Accès direct à plus de 12 000 fournisseurs vérifiés dans 89 pays</li>
+        <li>Transparence totale des prix et conditions commerciales</li>
+        <li>Mise en concurrence automatisée via demandes de devis groupées</li>
+        <li>Vérification en 4 étapes (KYC, KYS, certifications, historique)</li>
+        <li>Paiement sécurisé en Pi Network</li>
+        <li>Support multilingue 24/7 et accompagnement personnalisé</li>
+      </ul>
+      <h3>3.2 Secteurs couverts</h3>
+      <p>20 catégories : électronique, mode, chaussures, beauté, maison, construction, agriculture, alimentation, automobile, équipements, énergie, fournitures, bijoux, jouets, librairie, sport, instruments, photo, outillage, animalerie.</p>
+    </section>
 
-        <section id="fonctionnement">
-            <h2>4. Fonctionnement de la plateforme</h2>
-            <h3>4.1 Parcours acheteur</h3>
-            <ol>
-                <li><strong>Inscription gratuite</strong> via Pi Network (Pi Browser requis)</li>
-                <li><strong>Recherche</strong> par mot-clé, catégorie, pays ou filtre avancé</li>
-                <li><strong>Consultation</strong> des fiches produits détaillées (prix, MOQ, stock, note fournisseur)</li>
-                <li><strong>Ajout au panier</strong> avec application automatique du MOQ</li>
-                <li><strong>Paiement sécurisé</strong> en Pi Network</li>
-                <li><strong>Suivi</strong> via Profil → Historique</li>
-            </ol>
-            <h3>4.2 Parcours fournisseur</h3>
-            <p>Création de profil, publication de produits avec photos (jusqu'à 6 par produit), gestion du stock, référencement dans les recherches, réponse aux demandes clients, statistiques via Profil → Achats & Ventes.</p>
-            <h3>4.3 Outils clés</h3>
-            <ul>
-                <li>Filtres avancés (pays, catégorie, MOQ, certifications, délais)</li>
-                <li>Prix dégressifs par volume (3 paliers automatiques)</li>
-                <li>Badge « Vérifié » attribué aux fournisseurs validés</li>
-                <li>Notifications toast en temps réel</li>
-                <li>Interface responsive mobile-first</li>
-                <li>Paiement escrow via Pi Network</li>
-            </ul>
-        </section>
+    <section id="fonctionnement">
+      <h2>4. Fonctionnement de la plateforme</h2>
+      <h3>4.1 Parcours acheteur</h3>
+      <ol class="steps">
+        <li><strong>Connexion Pi Network</strong> et vérification d'identité</li>
+        <li><strong>Recherche produit</strong> par catégorie, pays ou mot-clé</li>
+        <li><strong>Comparaison</strong> via fiche produit (prix, MOQ, stock, notes)</li>
+        <li><strong>Ajout au panier</strong> — le MOQ est appliqué automatiquement</li>
+        <li><strong>Paiement sécurisé</strong> en Pi via le SDK Pi Network officiel</li>
+        <li><strong>Mise en relation</strong> avec le fournisseur pour la livraison</li>
+        <li><strong>Suivi</strong> dans Profil → Historique</li>
+      </ol>
+      <h3>4.2 Parcours fournisseur</h3>
+      <p>Création de compte, publication du catalogue (photos, prix, MOQ, stock), réponse aux demandes, tableau de bord analytique.</p>
+      <h3>4.3 Outils clés</h3>
+      <ul>
+        <li>Filtres avancés (pays, catégorie, MOQ, stock)</li>
+        <li>Badge « Vérifié » avec 4 niveaux de contrôle</li>
+        <li>Paliers de prix volume (1×, 5×, 10× le MOQ)</li>
+        <li>Panier multi-articles avec ajustement des quantités</li>
+        <li>Notifications toast en temps réel</li>
+      </ul>
+    </section>
 
-        <section id="tendances">
-            <h2>5. Tendances de marché 2026</h2>
-            <h3>5.1 Secteurs à forte croissance</h3>
-            <table class="data-table">
-                <thead><tr><th>Secteur</th><th>Croissance 2025-2026</th><th>Zones motrices</th></tr></thead>
-                <tbody>
-                    <tr><td>Énergie renouvelable</td><td>+27 %</td><td>Asie, Europe, Afrique</td></tr>
-                    <tr><td>Électronique grand public</td><td>+14 %</td><td>Asie du Sud-Est</td></tr>
-                    <tr><td>Agroalimentaire bio</td><td>+19 %</td><td>Amérique Latine, Afrique</td></tr>
-                    <tr><td>Textile technique</td><td>+11 %</td><td>Asie, Turquie</td></tr>
-                    <tr><td>Matériaux construction</td><td>+9 %</td><td>Afrique, Moyen-Orient</td></tr>
-                </tbody>
-            </table>
-            <h3>5.2 Nouvelles attentes acheteurs</h3>
-            <ul>
-                <li>Traçabilité ESG des chaînes d'approvisionnement</li>
-                <li>Réduction du MOQ pour tester les fournisseurs</li>
-                <li>Paiements fractionnés et escrow</li>
-                <li>Visibilité en temps réel sur la logistique</li>
-                <li>Paiements décentralisés (Pi Network, stablecoins)</li>
-            </ul>
-        </section>
+    <section id="tendances">
+      <h2>5. Tendances de marché 2026</h2>
+      <h3>5.1 Secteurs à forte croissance</h3>
+      <table class="data-table">
+        <thead><tr><th>Secteur</th><th>Croissance 2025-2026</th><th>Zones motrices</th></tr></thead>
+        <tbody>
+          <tr><td>Énergie renouvelable</td><td>+27 %</td><td>Asie, Europe, Afrique</td></tr>
+          <tr><td>Électronique grand public</td><td>+14 %</td><td>Asie du Sud-Est</td></tr>
+          <tr><td>Agroalimentaire bio</td><td>+19 %</td><td>Amérique Latine, Afrique</td></tr>
+          <tr><td>Textile technique</td><td>+11 %</td><td>Asie, Turquie</td></tr>
+          <tr><td>Matériaux construction</td><td>+9 %</td><td>Afrique, Moyen-Orient</td></tr>
+        </tbody>
+      </table>
+      <h3>5.2 Nouvelles attentes acheteurs</h3>
+      <ul>
+        <li>Traçabilité ESG des chaînes d'approvisionnement</li>
+        <li>Réduction du MOQ pour tester les fournisseurs</li>
+        <li>Paiements en cryptomonnaies stables (Pi Network)</li>
+        <li>Visibilité en temps réel sur la logistique</li>
+      </ul>
+    </section>
 
-        <section id="guide">
-            <h2>6. Guide pratique d'approvisionnement</h2>
-            <h3>6.1 Préparer son sourcing</h3>
-            <ul>
-                <li>Définir une fiche produit précise (dimensions, matériaux, normes)</li>
-                <li>Fixer un MOQ réaliste et un prix cible</li>
-                <li>Identifier les certifications obligatoires dans le pays de destination</li>
-            </ul>
-            <h3>6.2 Sélectionner ses fournisseurs</h3>
-            <ul>
-                <li>Privilégier les profils vérifiés (badge vert)</li>
-                <li>Croiser notes, ancienneté et volume traité</li>
-                <li>Demander systématiquement un échantillon avant commande en volume</li>
-            </ul>
-            <h3>6.3 Négocier efficacement</h3>
-            <ul>
-                <li>Toujours lancer une RFQ à plusieurs fournisseurs (3 minimum)</li>
-                <li>Négocier le prix, mais aussi le délai, l'Incoterm et le mode de paiement</li>
-                <li>Utiliser les paliers de prix dégressifs affichés dans la fiche produit</li>
-            </ul>
-            <h3>6.4 Sécuriser la transaction</h3>
-            <ul>
-                <li>Utiliser le paiement escrow Pi Network pour les commandes importantes</li>
-                <li>Formaliser chaque commande par un contrat-type</li>
-                <li>Vérifier les Incoterms (FOB, CIF, DDP) et l'assurance</li>
-            </ul>
-        </section>
+    <section id="guide">
+      <h2>6. Guide pratique d'approvisionnement</h2>
+      <h3>6.1 Préparer son sourcing</h3>
+      <ul>
+        <li>Définir une fiche produit précise (dimensions, matériaux, normes)</li>
+        <li>Fixer un MOQ réaliste et un prix cible</li>
+        <li>Identifier les certifications obligatoires dans le pays de destination</li>
+      </ul>
+      <h3>6.2 Sélectionner ses fournisseurs</h3>
+      <ul>
+        <li>Privilégier les profils vérifiés (badge <i class="fas fa-circle-check"></i>)</li>
+        <li>Croiser notes, ancienneté et volume traité</li>
+        <li>Demander systématiquement un échantillon avant commande en volume</li>
+      </ul>
+      <h3>6.3 Négocier efficacement</h3>
+      <ul>
+        <li>Toujours comparer au moins 3 fournisseurs</li>
+        <li>Négocier le prix, mais aussi le délai et le mode de paiement</li>
+        <li>Utiliser les paliers volume pour objectiver les remises</li>
+      </ul>
+      <h3>6.4 Sécuriser la transaction</h3>
+      <ul>
+        <li>Utiliser le paiement Pi Network (traçable on-chain)</li>
+        <li>Formaliser chaque commande par un contrat-type</li>
+        <li>Vérifier les Incoterms et l'assurance transport</li>
+      </ul>
+    </section>
 
-        <section id="securite">
-            <h2>7. Sécurité et confiance</h2>
-            <h3>7.1 Vérification fournisseurs</h3>
-            <p>Chaque fournisseur passe par :</p>
-            <ol>
-                <li>Vérification d'identité (KYC via Pi Network)</li>
-                <li>Vérification d'entreprise (registre, TVA, statuts)</li>
-                <li>Vérification des certifications (ISO, CE, FCC, etc.)</li>
-                <li>Contrôle historique et anti-fraude</li>
-            </ol>
-            <h3>7.2 Paiement escrow Pi Network</h3>
-            <p>Les fonds sont bloqués jusqu'à confirmation de réception conforme. En cas de litige, notre équipe de médiation intervient sous 48 h. Les paiements sont tracés on-chain via le SDK Pi Network officiel.</p>
-            <h3>7.3 Protection des données</h3>
-            <p>Conformité RGPD, chiffrement TLS 1.3, hébergement européen, politique de conservation stricte. Aucune revente de données à des tiers.</p>
-        </section>
+    <section id="securite">
+      <h2>7. Sécurité et confiance</h2>
+      <h3>7.1 Vérification fournisseurs</h3>
+      <p>Chaque fournisseur passe par 4 étapes :</p>
+      <ol class="steps">
+        <li>Vérification d'identité (KYC)</li>
+        <li>Vérification d'entreprise (registre, TVA, statuts)</li>
+        <li>Vérification des certifications (ISO, CE, FCC, etc.)</li>
+        <li>Contrôle historique et anti-fraude</li>
+      </ol>
+      <h3>7.2 Paiement sécurisé</h3>
+      <p>Les paiements sont effectués via le SDK Pi Network officiel : approbation serveur (approve) puis finalisation (complete). Chaque transaction est traçable on-chain et consultable dans l'historique.</p>
+      <h3>7.3 Protection des données</h3>
+      <p>Aucun mot de passe n'est stocké : l'authentification passe à 100 % par Pi Network. Les données sensibles sont hébergées sur des serveurs sécurisés et ne sont jamais revendues.</p>
+    </section>
 
-        <section id="modele">
-            <h2>8. Modèle économique</h2>
-            <ul>
-                <li><strong>Freemium</strong> — inscription et usage de base gratuits</li>
-                <li><strong>Abonnements Pro / Business</strong> — fonctionnalités avancées, analytics, account manager</li>
-                <li><strong>Commission escrow</strong> — 1,5 à 2,5 % sur transactions sécurisées (optionnelle)</li>
-                <li><strong>Services additionnels</strong> — inspection qualité, logistique, traduction certifiée</li>
-            </ul>
-        </section>
+    <section id="modele">
+      <h2>8. Modèle économique</h2>
+      <ul>
+        <li><strong>Freemium</strong> — inscription et navigation gratuites</li>
+        <li><strong>Abonnements Pro / Business</strong> — fonctionnalités avancées, analytics</li>
+        <li><strong>Services additionnels</strong> — mise en avant produit, partenariats</li>
+      </ul>
+    </section>
 
-        <section id="roadmap">
-            <h2>9. Feuille de route 2026-2027</h2>
-            <ul>
-                <li><strong>T1 2026</strong> — Lancement public, 3 000 fournisseurs actifs</li>
-                <li><strong>T2 2026</strong> — API publique, intégration transporteurs</li>
-                <li><strong>T3 2026</strong> — Escrow multi-devises, 10 000 fournisseurs</li>
-                <li><strong>T4 2026</strong> — Application mobile iOS / Android native</li>
-                <li><strong>2027</strong> — Marketplace logistique intégrée, IA de matching, extension Afrique de l'Ouest</li>
-            </ul>
-        </section>
+    <section id="roadmap">
+      <h2>9. Feuille de route 2026-2027</h2>
+      <ul>
+        <li><strong>T1 2026</strong> — Lancement public, 3 000 fournisseurs</li>
+        <li><strong>T2 2026</strong> — API publique, intégration transporteurs</li>
+        <li><strong>T3 2026</strong> — Paiement multi-devises, 10 000 fournisseurs</li>
+        <li><strong>T4 2026</strong> — Application mobile iOS / Android</li>
+        <li><strong>2027</strong> — Marketplace logistique intégrée, IA de matching</li>
+      </ul>
+    </section>
 
-        <section id="conclusion">
-            <h2>10. Conclusion</h2>
-            <p>Global Bulk offre à chaque entreprise les moyens d'acheter au meilleur prix, en toute sécurité, partout dans le monde. Que vous soyez PME importatrice ou grand groupe, notre plateforme transforme une chaîne d'approvisionnement complexe en un processus simple, transparent et rentable.</p>
-            <div class="cta-box">
-                <p><strong>Prêt à optimiser vos approvisionnements ?</strong></p>
-                <div class="cta-actions">
-                    <a href="index.html" class="btn btn-primary"><i class="fas fa-rocket"></i> Créer un compte</a>
-                    <a href="faq.html" class="btn btn-outline"><i class="fas fa-circle-question"></i> Consulter la FAQ</a>
-                </div>
-            </div>
-        </section>
+    <section id="conclusion">
+      <h2>10. Conclusion</h2>
+      <p>Global Bulk offre à chaque entreprise les moyens d'acheter au meilleur prix, en toute sécurité, partout dans le monde. Que vous soyez PME importatrice ou grand groupe, notre plateforme transforme une chaîne d'approvisionnement complexe en un processus simple, transparent et rentable.</p>
+      <div class="cta-box">
+        <p><strong>Prêt à optimiser vos approvisionnements ?</strong></p>
+        <div class="cta-actions">
+          <a href="index.html" class="btn btn-primary"><i class="fas fa-rocket"></i> Retour à l'application</a>
+          <a href="faq.html" class="btn btn-outline"><i class="fas fa-circle-question"></i> Consulter la FAQ</a>
+        </div>
+      </div>
+    </section>
 
-    </article>
+  </article>
 </main>
 
 <footer class="footer">
-    <div class="container">
-        <div class="footer-bottom">
-            <div class="social-links-footer">
-                <a href="https://x.com/GlobalBulk" target="_blank" rel="noopener noreferrer" aria-label="X (Twitter)" class="social-x"><i class="fab fa-x-twitter"></i></a>
-                <a href="https://www.facebook.com/share/19GwWG3QJi/" target="_blank" rel="noopener noreferrer" aria-label="Facebook" class="social-fb"><i class="fab fa-facebook-f"></i></a>
-                <a href="https://whatsapp.com/channel/0029VbDvvwi9mrGWHAbw7x0x" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp Channel" class="social-wa"><i class="fab fa-whatsapp"></i></a>
-            </div>
-            <span>&copy; 2026 Global Bulk — Tous droits réservés</span>
-        </div>
+  <div class="container">
+    <div class="footer-bottom" style="border-top:none;">
+      <div class="social-links-footer">
+        <a href="https://x.com/GlobalBulk" target="_blank" rel="noopener noreferrer" aria-label="X (Twitter)" class="social-x"><i class="fab fa-x-twitter"></i></a>
+        <a href="https://www.facebook.com/share/19GwWG3QJi/" target="_blank" rel="noopener noreferrer" aria-label="Facebook" class="social-fb"><i class="fab fa-facebook-f"></i></a>
+        <a href="https://whatsapp.com/channel/0029VbDvvwi9mrGWHAbw7x0x" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp Channel" class="social-wa"><i class="fab fa-whatsapp"></i></a>
+      </div>
+      <span>&copy; 2026 Global Bulk - Tous droits réservés</span>
     </div>
+  </div>
 </footer>
+
+<script>
+  // Bouton impression
+  var btnPrint = document.getElementById('btnPrint');
+  if (btnPrint) btnPrint.addEventListener('click', function () { window.print(); });
+
+  // Smooth scroll pour le sommaire
+  document.querySelectorAll('.toc a[href^="#"]').forEach(function (a) {
+    a.addEventListener('click', function (e) {
+      e.preventDefault();
+      var target = document.querySelector(a.getAttribute('href'));
+      if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  });
+</script>
 </body>
 </html>
