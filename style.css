@@ -411,6 +411,78 @@ body.drawer-open .bottom-nav {
 .doc-item-disabled .doc-arrow { display: none; }
 
 /* =====================================================================
+   ===== NOUVEAU : Profil utilisateur (formulaire dans le drawer) =====
+   ===================================================================== */
+.profile-form { margin-top: 4px; }
+.profile-form .form-group { margin-bottom: 14px; }
+.profile-form .form-group label {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-dark);
+    margin-bottom: 6px;
+}
+.profile-form .form-group label .req { color: #e53935; margin-left: 2px; }
+.profile-form .form-group input,
+.profile-form .form-group textarea {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1.5px solid #dce0e6;
+    border-radius: 10px;
+    font-size: 14px;
+    background: #fff;
+    transition: var(--transition);
+    font-family: inherit;
+}
+.profile-form .form-group input:focus,
+.profile-form .form-group textarea:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(11,42,91,0.08);
+}
+.profile-form .form-group textarea { resize: vertical; min-height: 80px; line-height: 1.5; }
+
+.profile-note {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    margin-top: 8px;
+    padding: 12px 14px;
+    background: #FFF8E1;
+    border-left: 3px solid var(--secondary);
+    border-radius: 8px;
+    font-size: 12.5px;
+    color: #6b5c00;
+    line-height: 1.55;
+}
+.profile-note i { color: var(--secondary); font-size: 15px; margin-top: 2px; flex-shrink: 0; }
+.profile-note strong { color: #4a3f00; }
+
+.profile-status-ok {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 14px;
+    background: #E8F5E9;
+    color: #2e7d32;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 16px;
+}
+.profile-status-warn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 14px;
+    background: #FFF3E0;
+    color: #b35c00;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 16px;
+}
+
+/* =====================================================================
    ===== Pages autonomes (whitepaper.html / faq.html) =================
    ===================================================================== */
 body.standalone-page {
