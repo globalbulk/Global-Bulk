@@ -2,7 +2,7 @@
     'use strict';
 
     /* =========================================================
-       ===== CONFIG SUPABASE (URL corrigée + clé anon) ========
+       ===== CONFIG SUPABASE ==================================
        ========================================================= */
     var SUPABASE_URL = 'https://rixxdxgmsbjweyptzlfj.supabase.co';
     var SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJpeHhkeGdtc2Jqd2V5cHR6bGZqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTEyNTQ2MTIsImV4cCI6MjEwNjgzMDYxMn0.1yO_8kQ7LemA55KDuIKRX8eR7_1rrZyDtSS3U2Cv_lo';
@@ -10,7 +10,7 @@
     console.log('[Supa] URL =', SUPABASE_URL);
     console.log('[Supa] KEY starts with:', SUPABASE_KEY.substring(0, 20));
 
-    fetch(SUPABASE_URL + '/rest/v1/profils?select=identifiant&limit=1', {
+    fetch(SUPABASE_URL + '/rest/v1/profils?select=id&limit=1', {
         headers: {
             'apikey': SUPABASE_KEY,
             'Authorization': 'Bearer ' + SUPABASE_KEY
@@ -189,7 +189,6 @@
 
     function saveProfileToSupabase(data) {
         if (!piUser) return Promise.reject(new Error('Non connecté'));
-        // ⚠️ Ne PAS envoyer 'identifiant' — Postgres le génère automatiquement
         var payload = {
             pi_uid: piUser.uid,
             pi_username: piUser.username,
@@ -324,7 +323,7 @@
             toast.style.opacity = '0';
             toast.style.transform = 'translateX(20px)';
             setTimeout(function() { if (toast.parentNode) toast.remove(); }, 400);
-        }, 6000);
+        }, 5000);
     }
 
     function waitForPiSdk(maxMs) {
@@ -977,29 +976,59 @@
         executePayment();
     });
 
+    /* =========================================================
+       ===== UPLOAD IMAGES AVEC COMPRESSION ===================
+       ========================================================= */
     var uploadedImages = [];
+    var MAX_IMAGES = 4;
+
+    function compressImage(file, maxWidth, quality) {
+        return new Promise(function(resolve) {
+            var reader = new FileReader();
+            reader.onload = function(ev) {
+                var img = new Image();
+                img.onload = function() {
+                    var canvas = document.createElement('canvas');
+                    var w = img.width, h = img.height;
+                    if (w > maxWidth) { h = Math.round(h * maxWidth / w); w = maxWidth; }
+                    canvas.width = w; canvas.height = h;
+                    var ctx = canvas.getContext('2d');
+                    ctx.drawImage(img, 0, 0, w, h);
+                    var dataUrl = canvas.toDataURL('image/jpeg', quality);
+                    resolve(dataUrl);
+                };
+                img.onerror = function() { resolve(ev.target.result); };
+                img.src = ev.target.result;
+            };
+            reader.onerror = function() { resolve(null); };
+            reader.readAsDataURL(file);
+        });
+    }
+
     var pImages = document.getElementById('pImages');
     if (pImages) {
         pImages.addEventListener('change', function(e) {
-            var files = e.target.files;
-            if (uploadedImages.length + files.length > 6) {
-                showToast('Maximum 6 images', 'error');
+            var files = Array.prototype.slice.call(e.target.files);
+            if (uploadedImages.length + files.length > MAX_IMAGES) {
+                showToast('Maximum ' + MAX_IMAGES + ' images', 'error');
                 this.value = '';
                 return;
             }
-            for (var i = 0; i < files.length; i++) {
-                var file = files[i];
-                if (!file.type.startsWith('image/')) continue;
-                var reader = new FileReader();
-                reader.onload = function(ev) {
-                    uploadedImages.push(ev.target.result);
-                    renderUploadPreview();
-                };
-                reader.readAsDataURL(file);
-            }
-            this.value = '';
+            var self = this;
+            var tasks = files
+                .filter(function(f) { return f.type.indexOf('image/') === 0; })
+                .map(function(f) { return compressImage(f, 800, 0.7); });
+
+            Promise.all(tasks).then(function(results) {
+                results.forEach(function(dataUrl) {
+                    if (dataUrl) uploadedImages.push(dataUrl);
+                });
+                renderUploadPreview();
+                self.value = '';
+            });
         });
     }
+
     function renderUploadPreview() {
         var preview = document.getElementById('uploadPreview');
         if (!preview) return;
