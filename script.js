@@ -2,9 +2,9 @@
     'use strict';
 
     /* =========================================================
-       ===== CONFIG SUPABASE (clé héritage anon) ==============
+       ===== CONFIG SUPABASE (URL CORRIGÉE + clé anon) ========
        ========================================================= */
-    var SUPABASE_URL = 'https://rixdxgmsbjweyptzlfj.supabase.co';
+    var SUPABASE_URL = 'https://rixxdxgmsbjweyptzlfj.supabase.co';
     var SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJpeHhkeGdtc2Jqd2V5cHR6bGZqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTEyNTQ2MTIsImV4cCI6MjEwNjgzMDYxMn0.1yO_8kQ7LemA55KDuIKRX8eR7_1rrZyDtSS3U2Cv_lo';
 
     console.log('[Supa] URL =', SUPABASE_URL);
