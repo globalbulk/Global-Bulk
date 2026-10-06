@@ -18,21 +18,20 @@
         },
         get: function(path) {
             return fetch(SUPABASE_URL + '/rest/v1/' + path, { headers: SupaAPI.headers() })
-                .then(function(r) { if (!r.ok) throw new Error('GET ' + path + ' ' + r.status); return r.json(); });
+                .then(function(r) {
+                    if (!r.ok) return r.text().then(function(t) { throw new Error('GET ' + r.status + ' — ' + t); });
+                    return r.json();
+                });
         },
         post: function(path, body) {
             return fetch(SUPABASE_URL + '/rest/v1/' + path, {
                 method: 'POST',
                 headers: SupaAPI.headers(),
                 body: JSON.stringify(body)
-            }).then(function(r) { if (!r.ok) throw new Error('POST ' + path + ' ' + r.status); return r.json(); });
-        },
-        patch: function(path, body) {
-            return fetch(SUPABASE_URL + '/rest/v1/' + path, {
-                method: 'PATCH',
-                headers: SupaAPI.headers(),
-                body: JSON.stringify(body)
-            }).then(function(r) { if (!r.ok) throw new Error('PATCH ' + path + ' ' + r.status); return r.json(); });
+            }).then(function(r) {
+                if (!r.ok) return r.text().then(function(t) { throw new Error('POST ' + r.status + ' — ' + t); });
+                return r.json();
+            });
         },
         upsert: function(path, body, onConflict) {
             var h = SupaAPI.headers();
@@ -41,7 +40,10 @@
                 method: 'POST',
                 headers: h,
                 body: JSON.stringify(body)
-            }).then(function(r) { if (!r.ok) throw new Error('UPSERT ' + path + ' ' + r.status); return r.json(); });
+            }).then(function(r) {
+                if (!r.ok) return r.text().then(function(t) { throw new Error('UPSERT ' + r.status + ' — ' + t); });
+                return r.json();
+            });
         }
     };
 
@@ -107,7 +109,7 @@
     ];
 
     /* =========================================================
-       ===== PRODUITS (fallback local, en attendant Supabase)
+       ===== PRODUITS (fallback local)
        ========================================================= */
     var products = [
         { id: 1, name: 'Smartphone Galaxy S24', price: 120, unit: 'Pi', minOrder: 10, stock: 850, supplier: 'MobileTech GmbH', country: 'Allemagne', verified: true, rating: 4.9, category: 'Électronique', images: ['https://images.unsplash.com/photo-1610945415295-d9bbf067e59c?w=600&h=400&fit=crop'] },
@@ -144,11 +146,11 @@
     var userHistory = [];
 
     /* =========================================================
-       ===== PROFIL UTILISATEUR (Supabase + cache mémoire)
+       ===== PROFIL ============================================
        ========================================================= */
     function isProfileComplete() {
         if (!userProfile) return false;
-        return !!(userProfile.nom && userProfile.post_nom && userProfile.email && userProfile.phone && userProfile.address);
+        return !!(userProfile.nom && userProfile.post_nom && userProfile.email && userProfile.phone && userProfile.adresse);
     }
 
     function loadProfileFromSupabase() {
@@ -174,7 +176,7 @@
             post_nom: data.postNom,
             email: data.email,
             phone: data.phone,
-            address: data.address,
+            adresse: data.address,
             updated_at: new Date().toISOString()
         };
         return SupaAPI.upsert('profils', payload, 'pi_uid')
@@ -185,7 +187,7 @@
     }
 
     /* =========================================================
-       ===== PRODUITS (Supabase)
+       ===== PRODUITS ==========================================
        ========================================================= */
     function loadProductsFromSupabase() {
         return SupaAPI.get('produits?select=*&order=created_at.desc')
@@ -211,10 +213,7 @@
                     };
                 });
             })
-            .catch(function(e) {
-                console.error('[Supa] loadProducts error', e);
-                return [];
-            });
+            .catch(function(e) { console.error('[Supa] loadProducts error', e); return []; });
     }
 
     function saveProductToSupabase(p) {
@@ -237,7 +236,7 @@
     }
 
     /* =========================================================
-       ===== COMMANDES (Supabase)
+       ===== COMMANDES ========================================
        ========================================================= */
     function saveOrderToSupabase(order) {
         if (!piUser) return Promise.reject(new Error('Non connecté'));
@@ -262,7 +261,7 @@
     }
 
     /* =========================================================
-       ===== HISTORIQUE (Supabase)
+       ===== HISTORIQUE =======================================
        ========================================================= */
     function saveHistoryToSupabase(entry) {
         if (!piUser) return Promise.reject(new Error('Non connecté'));
@@ -285,7 +284,7 @@
     }
 
     /* =========================================================
-       ===== HELPERS ===========================================
+       ===== HELPERS ==========================================
        ========================================================= */
     function formatNumber(n) {
         return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
@@ -304,7 +303,7 @@
             toast.style.opacity = '0';
             toast.style.transform = 'translateX(20px)';
             setTimeout(function() { if (toast.parentNode) toast.remove(); }, 400);
-        }, 4000);
+        }, 5000);
     }
 
     function waitForPiSdk(maxMs) {
@@ -605,7 +604,7 @@
         grid.innerHTML = list.map(function(p) {
             var verifiedBadge = p.verified ? '<span class="verified-badge"><i class="fas fa-check-circle"></i> Vérifié</span>' : '';
             var firstImage = p.images && p.images.length > 0 ? p.images[0] : '';
-            var supplierLabel = p.ownerPiUid ? ('@' + p.ownerPiUid.substring(0, 8)) : p.supplier;
+            var supplierLabel = p.ownerPiUid ? ('@' + String(p.ownerPiUid).substring(0, 8)) : p.supplier;
             return '<div class="card-product" onclick="showProductDetail(\'' + p.id + '\')">' +
                 '<div class="image"><img src="' + firstImage + '" alt="' + p.name + '" loading="lazy" />' + verifiedBadge + '</div>' +
                 '<div class="body">' +
@@ -799,7 +798,7 @@
                 '<div class="form-group"><label>Post-nom <span class="req">*</span></label><input type="text" id="pfPostNom" value="' + esc(p.post_nom) + '" placeholder="Votre post-nom" required /></div>' +
                 '<div class="form-group"><label>Email <span class="req">*</span></label><input type="email" id="pfEmail" value="' + esc(p.email) + '" placeholder="exemple@email.com" required /></div>' +
                 '<div class="form-group"><label>Numéro de téléphone <span class="req">*</span></label><input type="tel" id="pfPhone" value="' + esc(p.phone) + '" placeholder="+243 ..." required /></div>' +
-                '<div class="form-group"><label>Adresse de résidence <span class="req">*</span></label><textarea id="pfAddress" rows="3" placeholder="Ville, quartier, rue, n°" required>' + esc(p.address) + '</textarea></div>' +
+                '<div class="form-group"><label>Adresse de résidence <span class="req">*</span></label><textarea id="pfAddress" rows="3" placeholder="Ville, quartier, rue, n°" required>' + esc(p.adresse) + '</textarea></div>' +
                 '<div class="profile-note"><i class="fas fa-info-circle"></i><span>Veuillez mettre les <strong>vraies informations</strong>, car celles-ci serviront à l\'<strong>expédition</strong> de vos commandes.</span></div>' +
                 '<button type="submit" class="btn btn-primary btn-block publish-submit" style="margin-top:16px;"><i class="fas fa-save"></i> Enregistrer mon profil</button>' +
             '</form>';
@@ -841,8 +840,8 @@
                     }
                 })
                 .catch(function(err) {
-                    console.error(err);
-                    showToast('Erreur : impossible d\'enregistrer le profil', 'error');
+                    console.error('[Profil] save error', err);
+                    showToast('Erreur : ' + (err.message || 'inconnue'), 'error');
                 })
                 .finally(function() {
                     if (btn) { btn.disabled = false; btn.innerHTML = '<i class="fas fa-save"></i> Enregistrer mon profil'; }
@@ -1092,9 +1091,7 @@
                     meta: { payment_id: result.paymentId, txid: result.txid }
                 });
             }).then(function() {
-                return loadOrdersFromSupabase();
-            }).then(function() {
-                return loadHistoryFromSupabase();
+                return Promise.all([loadOrdersFromSupabase(), loadHistoryFromSupabase()]);
             }).then(function() {
                 showToast('✅ Paiement réussi et enregistré !', 'success');
                 cartItems = [];
@@ -1103,6 +1100,7 @@
             });
         })
         .catch(function(err) {
+            console.error('[Paiement] error', err);
             if (/annulé/i.test(err.message)) { showToast('Paiement annulé', 'info'); }
             else { showToast('Erreur : ' + (err.message || 'paiement échoué'), 'error'); }
         });
@@ -1220,8 +1218,8 @@
                 window.closePublish();
             })
             .catch(function(err) {
-                console.error(err);
-                showToast('Erreur : publication non enregistrée', 'error');
+                console.error('[Publish] error', err);
+                showToast('Erreur : ' + (err.message || 'publication non enregistrée'), 'error');
             })
             .finally(function() {
                 if (submitBtn) { submitBtn.disabled = false; submitBtn.innerHTML = '<i class="fas fa-rocket"></i> Publier mon produit'; }
@@ -1264,7 +1262,6 @@
         updatePiUI();
         setTimeout(animateStats, 300);
 
-        // Restauration automatique de la session précédente (si piUser en cache)
         if (piUser) {
             loadProfileFromSupabase()
                 .then(function() {
