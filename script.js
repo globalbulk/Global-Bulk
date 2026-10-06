@@ -2,10 +2,32 @@
     'use strict';
 
     /* =========================================================
-       ===== CONFIG SUPABASE ===================================
+       ===== CONFIG SUPABASE (clé héritage anon) ==============
        ========================================================= */
     var SUPABASE_URL = 'https://rixdxgmsbjweyptzlfj.supabase.co';
-    var SUPABASE_KEY = 'sb_publishable_6uixjhvDKduS3yyqGtp32Q_uY7_tAyg';
+    var SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJpeHhkeGdtc2Jqd2V5cHR6bGZqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTEyNTQ2MTIsImV4cCI6MjEwNjgzMDYxMn0.1yO_8kQ7LemA55KDuIKRX8eR7_1rrZyDtSS3U2Cv_lo';
+
+    console.log('[Supa] URL =', SUPABASE_URL);
+    console.log('[Supa] KEY starts with:', SUPABASE_KEY.substring(0, 20));
+
+    /* ===== TEST DE CONNEXION AU DÉMARRAGE ===== */
+    fetch(SUPABASE_URL + '/rest/v1/profils?select=id&limit=1', {
+        headers: {
+            'apikey': SUPABASE_KEY,
+            'Authorization': 'Bearer ' + SUPABASE_KEY
+        }
+    })
+    .then(function(r) {
+        console.log('[Supa] TEST status =', r.status);
+        return r.text();
+    })
+    .then(function(t) {
+        console.log('[Supa] TEST body =', t.substring(0, 200));
+    })
+    .catch(function(e) {
+        console.error('[Supa] TEST FAILED =', e.message);
+        console.error('[Supa] FULL ERROR =', e);
+    });
 
     var SupaAPI = {
         headers: function() {
@@ -109,7 +131,7 @@
     ];
 
     /* =========================================================
-       ===== PRODUITS (fallback local)
+       ===== PRODUITS (fallback local) ========================
        ========================================================= */
     var products = [
         { id: 1, name: 'Smartphone Galaxy S24', price: 120, unit: 'Pi', minOrder: 10, stock: 850, supplier: 'MobileTech GmbH', country: 'Allemagne', verified: true, rating: 4.9, category: 'Électronique', images: ['https://images.unsplash.com/photo-1610945415295-d9bbf067e59c?w=600&h=400&fit=crop'] },
