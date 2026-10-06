@@ -2,7 +2,7 @@
     'use strict';
 
     /* =========================================================
-       ===== CONFIG SUPABASE (URL CORRIGÉE + clé anon) ========
+       ===== CONFIG SUPABASE (URL corrigée + clé anon) ========
        ========================================================= */
     var SUPABASE_URL = 'https://rixxdxgmsbjweyptzlfj.supabase.co';
     var SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJpeHhkeGdtc2Jqd2V5cHR6bGZqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTEyNTQ2MTIsImV4cCI6MjEwNjgzMDYxMn0.1yO_8kQ7LemA55KDuIKRX8eR7_1rrZyDtSS3U2Cv_lo';
@@ -10,8 +10,7 @@
     console.log('[Supa] URL =', SUPABASE_URL);
     console.log('[Supa] KEY starts with:', SUPABASE_KEY.substring(0, 20));
 
-    /* ===== TEST DE CONNEXION AU DÉMARRAGE ===== */
-    fetch(SUPABASE_URL + '/rest/v1/profils?select=id&limit=1', {
+    fetch(SUPABASE_URL + '/rest/v1/profils?select=identifiant&limit=1', {
         headers: {
             'apikey': SUPABASE_KEY,
             'Authorization': 'Bearer ' + SUPABASE_KEY
@@ -26,7 +25,6 @@
     })
     .catch(function(e) {
         console.error('[Supa] TEST FAILED =', e.message);
-        console.error('[Supa] FULL ERROR =', e);
     });
 
     var SupaAPI = {
@@ -191,6 +189,7 @@
 
     function saveProfileToSupabase(data) {
         if (!piUser) return Promise.reject(new Error('Non connecté'));
+        // ⚠️ Ne PAS envoyer 'identifiant' — Postgres le génère automatiquement
         var payload = {
             pi_uid: piUser.uid,
             pi_username: piUser.username,
@@ -325,7 +324,7 @@
             toast.style.opacity = '0';
             toast.style.transform = 'translateX(20px)';
             setTimeout(function() { if (toast.parentNode) toast.remove(); }, 400);
-        }, 5000);
+        }, 6000);
     }
 
     function waitForPiSdk(maxMs) {
