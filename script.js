@@ -1,7 +1,53 @@
 (function() {
     'use strict';
 
-    // ============ CATÉGORIES ============
+    /* =========================================================
+       ===== CONFIG SUPABASE ===================================
+       ========================================================= */
+    var SUPABASE_URL = 'https://rixdxgmsbjweyptzlfj.supabase.co';
+    var SUPABASE_KEY = 'sb_publishable_6uixjhvDKduS3yyqGtp32Q_uY7_tAyg';
+
+    var SupaAPI = {
+        headers: function() {
+            return {
+                'apikey': SUPABASE_KEY,
+                'Authorization': 'Bearer ' + SUPABASE_KEY,
+                'Content-Type': 'application/json',
+                'Prefer': 'return=representation'
+            };
+        },
+        get: function(path) {
+            return fetch(SUPABASE_URL + '/rest/v1/' + path, { headers: SupaAPI.headers() })
+                .then(function(r) { if (!r.ok) throw new Error('GET ' + path + ' ' + r.status); return r.json(); });
+        },
+        post: function(path, body) {
+            return fetch(SUPABASE_URL + '/rest/v1/' + path, {
+                method: 'POST',
+                headers: SupaAPI.headers(),
+                body: JSON.stringify(body)
+            }).then(function(r) { if (!r.ok) throw new Error('POST ' + path + ' ' + r.status); return r.json(); });
+        },
+        patch: function(path, body) {
+            return fetch(SUPABASE_URL + '/rest/v1/' + path, {
+                method: 'PATCH',
+                headers: SupaAPI.headers(),
+                body: JSON.stringify(body)
+            }).then(function(r) { if (!r.ok) throw new Error('PATCH ' + path + ' ' + r.status); return r.json(); });
+        },
+        upsert: function(path, body, onConflict) {
+            var h = SupaAPI.headers();
+            h['Prefer'] = 'resolution=merge-duplicates,return=representation';
+            return fetch(SUPABASE_URL + '/rest/v1/' + path + (onConflict ? '?on_conflict=' + onConflict : ''), {
+                method: 'POST',
+                headers: h,
+                body: JSON.stringify(body)
+            }).then(function(r) { if (!r.ok) throw new Error('UPSERT ' + path + ' ' + r.status); return r.json(); });
+        }
+    };
+
+    /* =========================================================
+       ===== CATÉGORIES ========================================
+       ========================================================= */
     var categories = [
         { icon: 'fa-laptop', name: 'Électronique', count: 1240 },
         { icon: 'fa-tshirt', name: 'Mode', count: 980 },
@@ -25,7 +71,9 @@
         { icon: 'fa-paw', name: 'Animalerie', count: 95 }
     ];
 
-    // ============ PAYS ============
+    /* =========================================================
+       ===== PAYS ==============================================
+       ========================================================= */
     var allCountries = [
         { name: 'Afrique du Sud', flag: '🇿🇦' }, { name: 'Algérie', flag: '🇩🇿' }, { name: 'Angola', flag: '🇦🇴' },
         { name: 'Bénin', flag: '🇧🇯' }, { name: 'Burkina Faso', flag: '🇧🇫' }, { name: 'Cameroun', flag: '🇨🇲' },
@@ -58,6 +106,9 @@
         { name: 'Ukraine', flag: '🇺🇦' }, { name: 'Australie', flag: '🇦🇺' }, { name: 'Nouvelle-Zélande', flag: '🇳🇿' }
     ];
 
+    /* =========================================================
+       ===== PRODUITS (fallback local, en attendant Supabase)
+       ========================================================= */
     var products = [
         { id: 1, name: 'Smartphone Galaxy S24', price: 120, unit: 'Pi', minOrder: 10, stock: 850, supplier: 'MobileTech GmbH', country: 'Allemagne', verified: true, rating: 4.9, category: 'Électronique', images: ['https://images.unsplash.com/photo-1610945415295-d9bbf067e59c?w=600&h=400&fit=crop'] },
         { id: 2, name: 'Ordinateur Portable Pro', price: 450, unit: 'Pi', minOrder: 5, stock: 320, supplier: 'TechImport SARL', country: 'Chine', verified: true, rating: 4.8, category: 'Électronique', images: ['https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=600&h=400&fit=crop'] },
@@ -88,29 +139,154 @@
     var piUser = null;
     var piReady = false;
     var inPiBrowser = false;
+    var userProfile = null;
+    var userOrders = [];
+    var userHistory = [];
 
     /* =========================================================
-       ===== PROFIL UTILISATEUR (obligatoire pour transactions)
+       ===== PROFIL UTILISATEUR (Supabase + cache mémoire)
        ========================================================= */
-    function loadUserProfile() {
-        if (!piUser) return null;
-        try {
-            var stored = localStorage.getItem('pi_profile_' + piUser.uid);
-            return stored ? JSON.parse(stored) : null;
-        } catch (e) { return null; }
-    }
-
-    function saveUserProfile(data) {
-        if (!piUser) return;
-        try { localStorage.setItem('pi_profile_' + piUser.uid, JSON.stringify(data)); } catch (e) {}
-    }
-
     function isProfileComplete() {
-        var p = loadUserProfile();
-        if (!p) return false;
-        return !!(p.nom && p.postNom && p.email && p.phone && p.address);
+        if (!userProfile) return false;
+        return !!(userProfile.nom && userProfile.post_nom && userProfile.email && userProfile.phone && userProfile.address);
     }
 
+    function loadProfileFromSupabase() {
+        if (!piUser) return Promise.resolve(null);
+        return SupaAPI.get('profils?pi_uid=eq.' + encodeURIComponent(piUser.uid) + '&limit=1')
+            .then(function(rows) {
+                userProfile = (rows && rows.length > 0) ? rows[0] : null;
+                return userProfile;
+            })
+            .catch(function(e) {
+                console.error('[Supa] loadProfile error', e);
+                userProfile = null;
+                return null;
+            });
+    }
+
+    function saveProfileToSupabase(data) {
+        if (!piUser) return Promise.reject(new Error('Non connecté'));
+        var payload = {
+            pi_uid: piUser.uid,
+            pi_username: piUser.username,
+            nom: data.nom,
+            post_nom: data.postNom,
+            email: data.email,
+            phone: data.phone,
+            address: data.address,
+            updated_at: new Date().toISOString()
+        };
+        return SupaAPI.upsert('profils', payload, 'pi_uid')
+            .then(function(rows) {
+                userProfile = (rows && rows.length > 0) ? rows[0] : payload;
+                return userProfile;
+            });
+    }
+
+    /* =========================================================
+       ===== PRODUITS (Supabase)
+       ========================================================= */
+    function loadProductsFromSupabase() {
+        return SupaAPI.get('produits?select=*&order=created_at.desc')
+            .then(function(rows) {
+                if (!rows || rows.length === 0) return [];
+                return rows.map(function(r) {
+                    return {
+                        id: r.id,
+                        name: r.name,
+                        description: r.description,
+                        price: Number(r.price),
+                        unit: r.unit,
+                        minOrder: r.min_order,
+                        stock: r.stock,
+                        supplier: r.owner_pi_uid,
+                        ownerPiUid: r.owner_pi_uid,
+                        country: r.country,
+                        verified: !!r.verified,
+                        rating: Number(r.rating || 4.5),
+                        category: r.category,
+                        images: Array.isArray(r.images) ? r.images : (r.images ? JSON.parse(r.images) : []),
+                        _fromSupa: true
+                    };
+                });
+            })
+            .catch(function(e) {
+                console.error('[Supa] loadProducts error', e);
+                return [];
+            });
+    }
+
+    function saveProductToSupabase(p) {
+        if (!piUser) return Promise.reject(new Error('Non connecté'));
+        var payload = {
+            owner_pi_uid: piUser.uid,
+            name: p.name,
+            description: p.description || '',
+            category: p.category,
+            country: p.country,
+            price: p.price,
+            unit: p.unit,
+            min_order: p.minOrder,
+            stock: p.stock,
+            images: p.images && p.images.length ? p.images : [],
+            verified: true,
+            rating: 4.5
+        };
+        return SupaAPI.post('produits', payload);
+    }
+
+    /* =========================================================
+       ===== COMMANDES (Supabase)
+       ========================================================= */
+    function saveOrderToSupabase(order) {
+        if (!piUser) return Promise.reject(new Error('Non connecté'));
+        var payload = {
+            buyer_pi_uid: piUser.uid,
+            seller_pi_uid: order.seller_pi_uid || null,
+            items: order.items,
+            total: order.total,
+            status: order.status || 'pending',
+            payment_id: order.payment_id || null,
+            txid: order.txid || null
+        };
+        return SupaAPI.post('ordres', payload);
+    }
+
+    function loadOrdersFromSupabase() {
+        if (!piUser) return Promise.resolve([]);
+        var uid = encodeURIComponent(piUser.uid);
+        return SupaAPI.get('ordres?or=(buyer_pi_uid.eq.' + uid + ',seller_pi_uid.eq.' + uid + ')&order=created_at.desc')
+            .then(function(rows) { userOrders = rows || []; return userOrders; })
+            .catch(function(e) { console.error('[Supa] loadOrders error', e); return []; });
+    }
+
+    /* =========================================================
+       ===== HISTORIQUE (Supabase)
+       ========================================================= */
+    function saveHistoryToSupabase(entry) {
+        if (!piUser) return Promise.reject(new Error('Non connecté'));
+        var payload = {
+            user_pi_uid: piUser.uid,
+            type: entry.type,
+            description: entry.description || '',
+            amount: entry.amount || null,
+            meta: entry.meta || null
+        };
+        return SupaAPI.post('histoire', payload);
+    }
+
+    function loadHistoryFromSupabase() {
+        if (!piUser) return Promise.resolve([]);
+        var uid = encodeURIComponent(piUser.uid);
+        return SupaAPI.get('histoire?user_pi_uid=eq.' + uid + '&order=created_at.desc&limit=50')
+            .then(function(rows) { userHistory = rows || []; return userHistory; })
+            .catch(function(e) { console.error('[Supa] loadHistory error', e); return []; });
+    }
+
+    /* =========================================================
+       ===== HELPERS ===========================================
+       ========================================================= */
     function formatNumber(n) {
         return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
     }
@@ -171,8 +347,29 @@
             .then(function(auth) {
                 piUser = { uid: auth.user.uid, username: auth.user.username };
                 try { localStorage.setItem('pi_user', JSON.stringify(piUser)); } catch (e) {}
-                updatePiUI(); closeAuthModal();
-                showToast('Bienvenue ' + auth.user.username + ' !', 'success');
+                return loadProfileFromSupabase();
+            })
+            .then(function() {
+                return Promise.all([
+                    loadProductsFromSupabase().then(function(list) {
+                        if (list && list.length > 0) {
+                            var localExtra = products.filter(function(p) { return !p._fromSupa; });
+                            products = list.concat(localExtra);
+                            renderProducts();
+                            applyFilters();
+                        }
+                    }),
+                    loadOrdersFromSupabase(),
+                    loadHistoryFromSupabase()
+                ]);
+            })
+            .then(function() {
+                updatePiUI();
+                closeAuthModal();
+                showToast('Bienvenue ' + piUser.username + ' !', 'success');
+                if (!isProfileComplete()) {
+                    setTimeout(function() { showToast('Complétez votre profil pour continuer', 'info'); }, 1200);
+                }
             })
             .catch(function(err) {
                 var msg = (err && err.message) ? err.message : 'Connexion échouée';
@@ -184,6 +381,9 @@
 
     function disconnectPi() {
         piUser = null;
+        userProfile = null;
+        userOrders = [];
+        userHistory = [];
         try { localStorage.removeItem('pi_user'); } catch (e) {}
         updatePiUI();
         showToast('Déconnecté de Pi', 'info');
@@ -206,9 +406,7 @@
             if (accountCard) accountCard.classList.add('connected');
             if (avatar) avatar.textContent = piUser.username.substring(0, 2).toUpperCase();
             if (accountUsername) accountUsername.textContent = piUser.username;
-            if (accountSubtitle) {
-                accountSubtitle.textContent = profileOk ? 'Profil complet' : 'Profil à compléter';
-            }
+            if (accountSubtitle) accountSubtitle.textContent = profileOk ? 'Profil complet' : 'Profil à compléter';
             if (actionBtn) { actionBtn.classList.add('disconnect'); actionBtn.disabled = false; }
             if (actionText) actionText.textContent = 'Déconnexion';
             if (hint) {
@@ -275,9 +473,6 @@
         if (modal) modal.classList.remove('open');
     }
 
-    /* =========================================================
-       ===== requireAuth : vérifie Pi + profil complet
-       ========================================================= */
     function requireAuth(actionName) {
         if (!piUser) {
             var messages = {
@@ -291,10 +486,7 @@
         }
         if (!isProfileComplete()) {
             showToast('Complétez votre profil avant de continuer', 'error');
-            // Ouvre automatiquement le drawer profil
-            setTimeout(function() {
-                openSideDrawer('mon-profil', 'Mon profil');
-            }, 300);
+            setTimeout(function() { openSideDrawer('mon-profil', 'Mon profil'); }, 300);
             return false;
         }
         return true;
@@ -413,7 +605,8 @@
         grid.innerHTML = list.map(function(p) {
             var verifiedBadge = p.verified ? '<span class="verified-badge"><i class="fas fa-check-circle"></i> Vérifié</span>' : '';
             var firstImage = p.images && p.images.length > 0 ? p.images[0] : '';
-            return '<div class="card-product" onclick="showProductDetail(' + p.id + ')">' +
+            var supplierLabel = p.ownerPiUid ? ('@' + p.ownerPiUid.substring(0, 8)) : p.supplier;
+            return '<div class="card-product" onclick="showProductDetail(\'' + p.id + '\')">' +
                 '<div class="image"><img src="' + firstImage + '" alt="' + p.name + '" loading="lazy" />' + verifiedBadge + '</div>' +
                 '<div class="body">' +
                 '<div class="title">' + p.name + '</div>' +
@@ -423,10 +616,10 @@
                 '<span><i class="fas fa-warehouse"></i> ' + formatNumber(p.stock) + '</span>' +
                 '<span><i class="fas fa-star" style="color:var(--secondary);"></i> ' + p.rating + '</span>' +
                 '</div>' +
-                '<div style="font-size:12px;color:var(--text-muted);">' + p.supplier + ' · ' + p.country + '</div>' +
+                '<div style="font-size:12px;color:var(--text-muted);">' + supplierLabel + ' · ' + p.country + '</div>' +
                 '<div class="actions">' +
-                '<button class="btn btn-primary btn-sm" onclick="event.stopPropagation();addToCart(' + p.id + ')"><i class="fas fa-cart-plus"></i></button>' +
-                '<button class="btn btn-outline btn-sm" onclick="event.stopPropagation();showProductDetail(' + p.id + ')">Voir</button>' +
+                '<button class="btn btn-primary btn-sm" onclick="event.stopPropagation();addToCart(\'' + p.id + '\')"><i class="fas fa-cart-plus"></i></button>' +
+                '<button class="btn btn-outline btn-sm" onclick="event.stopPropagation();showProductDetail(\'' + p.id + '\')">Voir</button>' +
                 '</div></div></div>';
         }).join('');
         var countEl = document.getElementById('productCount');
@@ -477,7 +670,7 @@
         var q = document.getElementById('searchInput').value.trim().toLowerCase();
         if (!q) { showToast('Entrez un terme', 'error'); return; }
         var filtered = products.filter(function(p) {
-            return p.name.toLowerCase().includes(q) || p.category.toLowerCase().includes(q) || p.supplier.toLowerCase().includes(q);
+            return p.name.toLowerCase().includes(q) || p.category.toLowerCase().includes(q) || String(p.supplier || '').toLowerCase().includes(q);
         });
         if (filtered.length === 0) showToast('Aucun résultat', 'error');
         else { renderProducts(filtered); showToast(filtered.length + ' résultat(s)', 'success'); }
@@ -493,7 +686,7 @@
     function hideMainContent() { document.getElementById('mainContent').style.display = 'none'; }
 
     window.showProductDetail = function(id) {
-        var p = products.find(function(x) { return x.id === id; });
+        var p = products.find(function(x) { return String(x.id) === String(id); });
         if (!p) return;
         hideMainContent();
         document.getElementById('productDetail').style.display = 'block';
@@ -505,14 +698,14 @@
             '<div class="gallery"><div class="main-image"><img src="' + images[0] + '" /></div></div>' +
             '<div class="info"><h1>' + p.name + '</h1>' +
             '<div style="margin-bottom:10px;"><span class="badge badge-verified"><i class="fas fa-check-circle"></i> ' + (p.verified ? 'Vérifié' : 'Non vérifié') + '</span></div>' +
-            '<div style="font-size:13px;color:var(--text-muted);margin-bottom:14px;"><i class="fas fa-building"></i> ' + p.supplier + ' · ' + p.country + '</div>' +
+            '<div style="font-size:13px;color:var(--text-muted);margin-bottom:14px;"><i class="fas fa-building"></i> ' + (p.ownerPiUid || p.supplier) + ' · ' + p.country + '</div>' +
             '<div class="price-box"><div><span style="font-size:13px;color:var(--text-muted);">Prix de gros</span><br><span style="font-size:28px;font-weight:700;color:var(--primary);">' + p.price + ' ' + p.unit + '</span></div>' +
             '<div><span style="font-size:13px;color:var(--text-muted);">Qté min.</span><br><span style="font-size:20px;font-weight:600;">' + p.minOrder + ' unités</span></div></div>' +
             '<div class="volume-pricing">' +
             '<div class="tier"><div style="font-size:12px;color:var(--text-muted);">' + p.minOrder + '+</div><div class="price">' + p.price + ' Pi</div></div>' +
             '<div class="tier"><div style="font-size:12px;color:var(--text-muted);">' + (p.minOrder * 5) + '+</div><div class="price">' + (p.price * 0.9).toFixed(1) + ' Pi</div></div>' +
             '<div class="tier"><div style="font-size:12px;color:var(--text-muted);">' + (p.minOrder * 10) + '+</div><div class="price">' + (p.price * 0.8).toFixed(1) + ' Pi</div></div></div>' +
-            '<div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:16px;"><button class="btn btn-primary" onclick="addToCart(' + p.id + ')"><i class="fas fa-cart-plus"></i> Ajouter au panier</button></div></div></div>';
+            '<div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:16px;"><button class="btn btn-primary" onclick="addToCart(\'' + p.id + '\')"><i class="fas fa-cart-plus"></i> Ajouter au panier</button></div></div></div>';
         window.scrollTo({ top: 0, behavior: 'smooth' });
     };
 
@@ -567,7 +760,6 @@
         document.body.classList.remove('drawer-open');
     }
 
-    /* ===== Livre blanc : événements cliquables ===== */
     function initDocDrawerEvents() {
         var items = document.querySelectorAll('#sideDrawerContent .doc-item');
         for (var i = 0; i < items.length; i++) {
@@ -585,12 +777,11 @@
         }
     }
 
-    /* ===== Profil : rendu + événements ===== */
     function renderProfileForm() {
         if (!piUser) {
             return '<div class="empty-state"><i class="fas fa-user-slash"></i><p>Connectez-vous avec Pi Network pour compléter votre profil.</p></div>';
         }
-        var p = loadUserProfile() || {};
+        var p = userProfile || {};
         var complete = isProfileComplete();
         var statusHtml = complete
             ? '<div class="profile-status-ok"><i class="fas fa-check-circle"></i> Profil complété</div>'
@@ -605,7 +796,7 @@
             statusHtml +
             '<form id="profileForm" class="profile-form" novalidate>' +
                 '<div class="form-group"><label>Nom <span class="req">*</span></label><input type="text" id="pfNom" value="' + esc(p.nom) + '" placeholder="Votre nom" required /></div>' +
-                '<div class="form-group"><label>Post-nom <span class="req">*</span></label><input type="text" id="pfPostNom" value="' + esc(p.postNom) + '" placeholder="Votre post-nom" required /></div>' +
+                '<div class="form-group"><label>Post-nom <span class="req">*</span></label><input type="text" id="pfPostNom" value="' + esc(p.post_nom) + '" placeholder="Votre post-nom" required /></div>' +
                 '<div class="form-group"><label>Email <span class="req">*</span></label><input type="email" id="pfEmail" value="' + esc(p.email) + '" placeholder="exemple@email.com" required /></div>' +
                 '<div class="form-group"><label>Numéro de téléphone <span class="req">*</span></label><input type="tel" id="pfPhone" value="' + esc(p.phone) + '" placeholder="+243 ..." required /></div>' +
                 '<div class="form-group"><label>Adresse de résidence <span class="req">*</span></label><textarea id="pfAddress" rows="3" placeholder="Ville, quartier, rue, n°" required>' + esc(p.address) + '</textarea></div>' +
@@ -636,16 +827,26 @@
                 return;
             }
 
-            saveUserProfile({ nom: nom, postNom: postNom, email: email, phone: phone, address: address, updatedAt: Date.now() });
-            showToast('Profil enregistré avec succès', 'success');
-            updatePiUI();
+            var btn = form.querySelector('button[type="submit"]');
+            if (btn) { btn.disabled = true; btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Enregistrement...'; }
 
-            // Rafraîchit le drawer pour afficher le statut "complété"
-            var content = document.getElementById('sideDrawerContent');
-            if (content) {
-                content.innerHTML = renderProfileForm();
-                initProfileFormEvents();
-            }
+            saveProfileToSupabase({ nom: nom, postNom: postNom, email: email, phone: phone, address: address })
+                .then(function() {
+                    showToast('Profil enregistré avec succès', 'success');
+                    updatePiUI();
+                    var content = document.getElementById('sideDrawerContent');
+                    if (content) {
+                        content.innerHTML = renderProfileForm();
+                        initProfileFormEvents();
+                    }
+                })
+                .catch(function(err) {
+                    console.error(err);
+                    showToast('Erreur : impossible d\'enregistrer le profil', 'error');
+                })
+                .finally(function() {
+                    if (btn) { btn.disabled = false; btn.innerHTML = '<i class="fas fa-save"></i> Enregistrer mon profil'; }
+                });
         });
     }
 
@@ -682,7 +883,9 @@
                     '</div>';
             case 'mes-produits':
                 if (!piUser) return '<div class="empty-state"><i class="fas fa-box-open"></i><p>Connectez-vous pour voir vos produits.</p></div>';
-                var myProducts = products.filter(function(p) { return p.supplier === piUser.username; });
+                var myProducts = products.filter(function(p) {
+                    return p.ownerPiUid === piUser.uid || p.supplier === piUser.username;
+                });
                 var html = '<h3><i class="fas fa-boxes"></i> Mes produits</h3>';
                 if (myProducts.length === 0) {
                     html += '<div class="empty-state" style="padding:20px 0;"><i class="fas fa-box-open" style="font-size:36px;margin-bottom:10px;"></i><p style="font-size:14px;">Vous n\'avez publié aucun produit pour le moment.</p></div>';
@@ -694,16 +897,25 @@
                 return html;
             case 'historique':
                 if (!piUser) return '<div class="empty-state"><i class="fas fa-history"></i><p>Connectez-vous pour voir votre historique.</p></div>';
-                return '<h3><i class="fas fa-history"></i> Historique</h3>' +
-                    infoItem('fa-receipt', '24/11/2024', '120 π') +
-                    infoItem('fa-receipt', '20/11/2024', '1200 π') +
-                    infoItem('fa-receipt', '15/11/2024', '850 π');
+                if (userHistory.length === 0) {
+                    return '<h3><i class="fas fa-history"></i> Historique</h3>' +
+                        '<div class="empty-state" style="padding:20px 0;"><i class="fas fa-receipt" style="font-size:36px;margin-bottom:10px;"></i><p style="font-size:14px;">Aucune opération enregistrée.</p></div>';
+                }
+                var hHtml = '<h3><i class="fas fa-history"></i> Historique</h3>';
+                userHistory.forEach(function(h) {
+                    var d = new Date(h.created_at).toLocaleDateString('fr-FR');
+                    var amount = h.amount ? h.amount + ' π' : '';
+                    hHtml += infoItem('fa-receipt', d, h.description + (amount ? ' <br><small>' + amount + '</small>' : ''));
+                });
+                return hHtml;
             case 'achats-ventes':
                 if (!piUser) return '<div class="empty-state"><i class="fas fa-chart-line"></i><p>Connectez-vous pour voir vos statistiques.</p></div>';
+                var achats = userOrders.filter(function(o) { return o.buyer_pi_uid === piUser.uid; }).length;
+                var ventes = userOrders.filter(function(o) { return o.seller_pi_uid === piUser.uid; }).length;
                 return '<h3><i class="fas fa-chart-line"></i> Achats & Ventes</h3>' +
                     '<div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:16px;">' +
-                    '<div style="background:var(--gray-light);padding:20px;text-align:center;border-radius:12px;"><div style="font-size:28px;font-weight:800;color:var(--primary);">12</div><div style="font-size:13px;color:var(--text-muted);">Achats</div></div>' +
-                    '<div style="background:var(--gray-light);padding:20px;text-align:center;border-radius:12px;"><div style="font-size:28px;font-weight:800;color:var(--primary);">8</div><div style="font-size:13px;color:var(--text-muted);">Ventes</div></div></div>';
+                    '<div style="background:var(--gray-light);padding:20px;text-align:center;border-radius:12px;"><div style="font-size:28px;font-weight:800;color:var(--primary);">' + achats + '</div><div style="font-size:13px;color:var(--text-muted);">Achats</div></div>' +
+                    '<div style="background:var(--gray-light);padding:20px;text-align:center;border-radius:12px;"><div style="font-size:28px;font-weight:800;color:var(--primary);">' + ventes + '</div><div style="font-size:13px;color:var(--text-muted);">Ventes</div></div></div>';
             default:
                 return '<p>Sélectionnez une option.</p>';
         }
@@ -782,22 +994,22 @@
 
     window.addToCart = function(id) {
         if (!requireAuth('panier')) return;
-        var p = products.find(function(x) { return x.id === id; });
+        var p = products.find(function(x) { return String(x.id) === String(id); });
         if (!p) return;
-        var existing = cartItems.find(function(item) { return item.id === id; });
+        var existing = cartItems.find(function(item) { return String(item.id) === String(id); });
         if (existing) existing.qty += p.minOrder;
-        else cartItems.push({ id: p.id, name: p.name, qty: p.minOrder, price: p.price, image: p.images ? p.images[0] : '' });
+        else cartItems.push({ id: p.id, name: p.name, qty: p.minOrder, price: p.price, image: p.images ? p.images[0] : '', ownerPiUid: p.ownerPiUid || null });
         updateCartBadge();
         showToast(p.name + ' ajouté au panier', 'success');
         if (isCartOpen) renderCartItems();
     };
     window.removeFromCart = function(id) {
-        cartItems = cartItems.filter(function(item) { return item.id !== id; });
+        cartItems = cartItems.filter(function(item) { return String(item.id) !== String(id); });
         updateCartBadge();
         renderCartItems();
     };
     window.updateQty = function(id, delta) {
-        var item = cartItems.find(function(i) { return i.id === id; });
+        var item = cartItems.find(function(i) { return String(i.id) === String(id); });
         if (!item) return;
         item.qty += delta;
         if (item.qty <= 0) { removeFromCart(id); return; }
@@ -818,8 +1030,8 @@
             return '<div class="cart-item"><div class="item-image"><img src="' + (item.image || '') + '" /></div>' +
                 '<div class="item-info"><div class="name">' + item.name + '</div>' +
                 '<div class="price">' + (item.price * item.qty).toFixed(2) + ' π</div>' +
-                '<div class="item-qty"><button onclick="updateQty(' + item.id + ',-1)">-</button><span>' + item.qty + '</span><button onclick="updateQty(' + item.id + ',1)">+</button></div></div>' +
-                '<button class="btn btn-sm btn-danger" onclick="removeFromCart(' + item.id + ')"><i class="fas fa-trash"></i></button></div>';
+                '<div class="item-qty"><button onclick="updateQty(\'' + item.id + '\',-1)">-</button><span>' + item.qty + '</span><button onclick="updateQty(\'' + item.id + '\',1)">+</button></div></div>' +
+                '<button class="btn btn-sm btn-danger" onclick="removeFromCart(\'' + item.id + '\')"><i class="fas fa-trash"></i></button></div>';
         }).join('');
         footer.style.display = 'block';
         var total = cartItems.reduce(function(s, i) { return s + (i.price * i.qty); }, 0);
@@ -856,16 +1068,39 @@
     function executePayment() {
         var total = cartItems.reduce(function(s, i) { return s + (i.price * i.qty); }, 0);
         var totalFixed = parseFloat(total.toFixed(2));
+        var itemsSnapshot = cartItems.slice();
         showToast('Traitement du paiement...', 'info');
         createPiPayment(totalFixed, 'Global Bulk - ' + cartItems.length + ' article(s)', {
             items: cartItems.map(function(i) { return { id: i.id, name: i.name, qty: i.qty, price: i.price }; }),
             total: totalFixed, username: piUser.username, timestamp: Date.now()
         })
         .then(function(result) {
-            showToast('✅ Paiement réussi !', 'success');
-            cartItems = [];
-            updateCartBadge();
-            renderCartItems();
+            var sellerUid = itemsSnapshot[0] && itemsSnapshot[0].ownerPiUid ? itemsSnapshot[0].ownerPiUid : null;
+            var orderPayload = {
+                seller_pi_uid: sellerUid,
+                items: itemsSnapshot.map(function(i) { return { id: i.id, name: i.name, qty: i.qty, price: i.price }; }),
+                total: totalFixed,
+                status: 'paid',
+                payment_id: result.paymentId,
+                txid: result.txid
+            };
+            return saveOrderToSupabase(orderPayload).then(function() {
+                return saveHistoryToSupabase({
+                    type: 'achat',
+                    description: 'Achat de ' + itemsSnapshot.length + ' article(s)',
+                    amount: totalFixed,
+                    meta: { payment_id: result.paymentId, txid: result.txid }
+                });
+            }).then(function() {
+                return loadOrdersFromSupabase();
+            }).then(function() {
+                return loadHistoryFromSupabase();
+            }).then(function() {
+                showToast('✅ Paiement réussi et enregistré !', 'success');
+                cartItems = [];
+                updateCartBadge();
+                renderCartItems();
+            });
         })
         .catch(function(err) {
             if (/annulé/i.test(err.message)) { showToast('Paiement annulé', 'info'); }
@@ -927,29 +1162,70 @@
 
         var images = uploadedImages.length > 0 ? uploadedImages : [''];
 
-        products.push({
-            id: products.length + 1,
+        var newProduct = {
             name: name,
             description: description,
             price: price,
             unit: document.getElementById('pUnit').value,
             minOrder: minOrder,
             stock: stock,
-            supplier: piUser.username,
             country: country,
-            verified: true,
-            rating: 4.5,
             category: category,
-            images: images
-        });
+            images: images,
+            supplier: piUser.username,
+            ownerPiUid: piUser.uid,
+            verified: true,
+            rating: 4.5
+        };
 
-        renderProducts();
-        applyFilters();
-        showToast('✅ Produit publié avec succès !', 'success');
-        uploadedImages = [];
-        document.getElementById('uploadPreview').innerHTML = '';
-        this.reset();
-        window.closePublish();
+        var submitBtn = this.querySelector('button[type="submit"]');
+        if (submitBtn) { submitBtn.disabled = true; submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Publication...'; }
+
+        saveProductToSupabase(newProduct)
+            .then(function(rows) {
+                var saved = rows && rows[0] ? rows[0] : null;
+                var localProduct = {
+                    id: saved ? saved.id : products.length + 1,
+                    name: name,
+                    description: description,
+                    price: price,
+                    unit: newProduct.unit,
+                    minOrder: minOrder,
+                    stock: stock,
+                    supplier: piUser.username,
+                    ownerPiUid: piUser.uid,
+                    country: country,
+                    verified: true,
+                    rating: 4.5,
+                    category: category,
+                    images: images,
+                    _fromSupa: true
+                };
+                products.unshift(localProduct);
+                renderProducts();
+                applyFilters();
+                return saveHistoryToSupabase({
+                    type: 'publication',
+                    description: 'Publication : ' + name,
+                    amount: null,
+                    meta: { product_id: localProduct.id }
+                });
+            })
+            .then(function() { return loadHistoryFromSupabase(); })
+            .then(function() {
+                showToast('✅ Produit publié et enregistré !', 'success');
+                uploadedImages = [];
+                document.getElementById('uploadPreview').innerHTML = '';
+                document.getElementById('publishForm').reset();
+                window.closePublish();
+            })
+            .catch(function(err) {
+                console.error(err);
+                showToast('Erreur : publication non enregistrée', 'error');
+            })
+            .finally(function() {
+                if (submitBtn) { submitBtn.disabled = false; submitBtn.innerHTML = '<i class="fas fa-rocket"></i> Publier mon produit'; }
+            });
     });
 
     function populateFormSelects() {
@@ -988,19 +1264,38 @@
         updatePiUI();
         setTimeout(animateStats, 300);
 
-        setTimeout(function() {
-            if (piUser) {
-                if (isProfileComplete()) {
-                    showToast('Bon retour ' + piUser.username + ' !', 'success');
-                } else {
-                    showToast('Complétez votre profil dans Mon profil', 'info');
-                }
-            } else if (inPiBrowser) {
-                showToast('Allez dans Profil pour vous connecter', 'info');
-            } else {
-                showToast('Ouvrez dans Pi Browser pour Pi', 'info');
-            }
-        }, 800);
+        // Restauration automatique de la session précédente (si piUser en cache)
+        if (piUser) {
+            loadProfileFromSupabase()
+                .then(function() {
+                    return Promise.all([
+                        loadProductsFromSupabase().then(function(list) {
+                            if (list && list.length > 0) {
+                                var localExtra = products.filter(function(p) { return !p._fromSupa; });
+                                products = list.concat(localExtra);
+                                renderProducts();
+                                applyFilters();
+                            }
+                        }),
+                        loadOrdersFromSupabase(),
+                        loadHistoryFromSupabase()
+                    ]);
+                })
+                .then(function() {
+                    updatePiUI();
+                    if (isProfileComplete()) {
+                        showToast('Bon retour ' + piUser.username + ' !', 'success');
+                    } else {
+                        showToast('Complétez votre profil dans Mon profil', 'info');
+                    }
+                })
+                .catch(function(e) { console.error('[Init] restore error', e); });
+        } else {
+            setTimeout(function() {
+                if (inPiBrowser) { showToast('Allez dans Profil pour vous connecter', 'info'); }
+                else { showToast('Ouvrez dans Pi Browser pour Pi', 'info'); }
+            }, 800);
+        }
     });
 
 })();
