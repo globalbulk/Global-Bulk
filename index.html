@@ -5,7 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5" />
     <title>Global Bulk - Place de marché B2B</title>
     <meta name="description" content="Global Bulk — Place de marché B2B internationale. 12 000+ fournisseurs vérifiés, 89 pays, paiement sécurisé Pi Network." />
-    <link rel="icon" href="logoglobalbulk.png" />
+    <link rel="icon" type="image/png" href="logoglobalbulk.png" />
+    <link rel="apple-touch-icon" href="logoglobalbulk.png" />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
     <link rel="stylesheet" href="style.css" />
@@ -15,6 +16,7 @@
 
     <div id="globalLoader" class="global-loader-fullscreen">
         <div class="loader-content">
+            <img src="logoglobalbulk.png" alt="Global Bulk" class="loader-logo" />
             <div class="loader-track"><div class="loader-bar" id="loaderBar" style="width:0%;"></div></div>
             <span id="loaderText" class="loader-text">Chargement...</span>
         </div>
@@ -223,7 +225,7 @@
                         <h3 class="form-section-title"><i class="fas fa-camera"></i> Photos du produit</h3>
                         <div class="publish-images-upload">
                             <label class="upload-label" for="pImages">
-                                <i class="fas fa-cloud-upload-alt"></i> Ajouter des photos (max 8)
+                                <i class="fas fa-cloud-upload-alt"></i> Ajouter des photos (max 4)
                             </label>
                             <input type="file" id="pImages" accept="image/*" multiple />
                             <div class="upload-preview" id="uploadPreview"></div>
