@@ -25,9 +25,7 @@
         },
         post: function(path, body) {
             return fetch(SUPABASE_URL + '/rest/v1/' + path, {
-                method: 'POST',
-                headers: SupaAPI.headers(),
-                body: JSON.stringify(body)
+                method: 'POST', headers: SupaAPI.headers(), body: JSON.stringify(body)
             }).then(function(r) {
                 if (!r.ok) return r.text().then(function(t) { throw new Error('POST ' + r.status + ' — ' + t); });
                 return r.json();
@@ -37,30 +35,24 @@
             var h = SupaAPI.headers();
             h['Prefer'] = 'return=representation';
             return fetch(SUPABASE_URL + '/rest/v1/' + path, {
-                method: 'PATCH',
-                headers: h,
-                body: JSON.stringify(body)
+                method: 'PATCH', headers: h, body: JSON.stringify(body)
             }).then(function(r) {
                 if (!r.ok) return r.text().then(function(t) { throw new Error('PATCH ' + r.status + ' — ' + t); });
                 return r.json();
             });
         },
         del: function(path) {
-            return fetch(SUPABASE_URL + '/rest/v1/' + path, {
-                method: 'DELETE',
-                headers: SupaAPI.headers()
-            }).then(function(r) {
-                if (!r.ok) return r.text().then(function(t) { throw new Error('DELETE ' + r.status + ' — ' + t); });
-                return true;
-            });
+            return fetch(SUPABASE_URL + '/rest/v1/' + path, { method: 'DELETE', headers: SupaAPI.headers() })
+                .then(function(r) {
+                    if (!r.ok) return r.text().then(function(t) { throw new Error('DELETE ' + r.status + ' — ' + t); });
+                    return true;
+                });
         },
         upsert: function(path, body, onConflict) {
             var h = SupaAPI.headers();
             h['Prefer'] = 'resolution=merge-duplicates,return=representation';
             return fetch(SUPABASE_URL + '/rest/v1/' + path + (onConflict ? '?on_conflict=' + onConflict : ''), {
-                method: 'POST',
-                headers: h,
-                body: JSON.stringify(body)
+                method: 'POST', headers: h, body: JSON.stringify(body)
             }).then(function(r) {
                 if (!r.ok) return r.text().then(function(t) { throw new Error('UPSERT ' + r.status + ' — ' + t); });
                 return r.json();
@@ -68,31 +60,19 @@
         }
     };
 
-    /* ===== CATÉGORIES ===== */
     var categories = [
-        { icon: 'fa-laptop', name: 'Électronique', count: 1240 },
-        { icon: 'fa-tshirt', name: 'Mode', count: 980 },
-        { icon: 'fa-shoe-prints', name: 'Chaussures', count: 540 },
-        { icon: 'fa-spa', name: 'Beauté', count: 760 },
-        { icon: 'fa-home', name: 'Maison', count: 1120 },
-        { icon: 'fa-hard-hat', name: 'Construction', count: 430 },
-        { icon: 'fa-seedling', name: 'Agriculture', count: 310 },
-        { icon: 'fa-utensils', name: 'Alimentation', count: 890 },
-        { icon: 'fa-car', name: 'Automobile', count: 520 },
-        { icon: 'fa-cogs', name: 'Équipements', count: 380 },
-        { icon: 'fa-solar-panel', name: 'Énergie', count: 210 },
-        { icon: 'fa-pencil-alt', name: 'Fournitures', count: 470 },
-        { icon: 'fa-gem', name: 'Bijoux', count: 150 },
-        { icon: 'fa-child', name: 'Jouets', count: 280 },
-        { icon: 'fa-book', name: 'Librairie', count: 190 },
-        { icon: 'fa-futbol', name: 'Sport', count: 340 },
-        { icon: 'fa-music', name: 'Instruments', count: 110 },
-        { icon: 'fa-camera', name: 'Photo', count: 160 },
-        { icon: 'fa-tools', name: 'Outillage', count: 320 },
-        { icon: 'fa-paw', name: 'Animalerie', count: 95 }
+        { icon: 'fa-laptop', name: 'Électronique' }, { icon: 'fa-tshirt', name: 'Mode' },
+        { icon: 'fa-shoe-prints', name: 'Chaussures' }, { icon: 'fa-spa', name: 'Beauté' },
+        { icon: 'fa-home', name: 'Maison' }, { icon: 'fa-hard-hat', name: 'Construction' },
+        { icon: 'fa-seedling', name: 'Agriculture' }, { icon: 'fa-utensils', name: 'Alimentation' },
+        { icon: 'fa-car', name: 'Automobile' }, { icon: 'fa-cogs', name: 'Équipements' },
+        { icon: 'fa-solar-panel', name: 'Énergie' }, { icon: 'fa-pencil-alt', name: 'Fournitures' },
+        { icon: 'fa-gem', name: 'Bijoux' }, { icon: 'fa-child', name: 'Jouets' },
+        { icon: 'fa-book', name: 'Librairie' }, { icon: 'fa-futbol', name: 'Sport' },
+        { icon: 'fa-music', name: 'Instruments' }, { icon: 'fa-camera', name: 'Photo' },
+        { icon: 'fa-tools', name: 'Outillage' }, { icon: 'fa-paw', name: 'Animalerie' }
     ];
 
-    /* ===== PAYS ===== */
     var allCountries = [
         { name: 'Afrique du Sud', flag: '🇿🇦' }, { name: 'Algérie', flag: '🇩🇿' }, { name: 'Angola', flag: '🇦🇴' },
         { name: 'Bénin', flag: '🇧🇯' }, { name: 'Burkina Faso', flag: '🇧🇫' }, { name: 'Cameroun', flag: '🇨🇲' },
@@ -125,20 +105,19 @@
         { name: 'Ukraine', flag: '🇺🇦' }, { name: 'Australie', flag: '🇦🇺' }, { name: 'Nouvelle-Zélande', flag: '🇳🇿' }
     ];
 
-    /* ===== PRODUITS fallback ===== */
     var products = [
-        { id: 1, name: 'Smartphone Galaxy S24', price: 120, unit: 'Pi', minOrder: 10, stock: 850, supplier: 'MobileTech GmbH', country: 'Allemagne', verified: true, rating: 4.9, category: 'Électronique', images: ['https://images.unsplash.com/photo-1610945415295-d9bbf067e59c?w=600&h=400&fit=crop'] },
-        { id: 2, name: 'Ordinateur Portable Pro', price: 450, unit: 'Pi', minOrder: 5, stock: 320, supplier: 'TechImport SARL', country: 'Chine', verified: true, rating: 4.8, category: 'Électronique', images: ['https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=600&h=400&fit=crop'] },
-        { id: 3, name: 'Voiture Électrique Model 3', price: 35000, unit: 'Pi', minOrder: 1, stock: 45, supplier: 'AutoGreen SA', country: 'États-Unis', verified: true, rating: 4.7, category: 'Automobile', images: ['https://images.unsplash.com/photo-1560958089-b8a1929cea89?w=600&h=400&fit=crop'] },
-        { id: 4, name: 'T-shirt en coton bio', price: 2.5, unit: 'Pi', minOrder: 200, stock: 12000, supplier: 'EcoWear SARL', country: 'France', verified: true, rating: 4.7, category: 'Mode', images: ['https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=600&h=400&fit=crop'] },
-        { id: 5, name: 'Chaussures de sport', price: 12, unit: 'Pi', minOrder: 50, stock: 320, supplier: 'SportFoot Inc', country: 'États-Unis', verified: false, rating: 4.2, category: 'Chaussures', images: ['https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=600&h=400&fit=crop'] },
-        { id: 6, name: 'Montre connectée', price: 35, unit: 'Pi', minOrder: 20, stock: 1500, supplier: 'TechImport SARL', country: 'Chine', verified: true, rating: 4.6, category: 'Électronique', images: ['https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=600&h=400&fit=crop'] },
-        { id: 7, name: 'Lampe solaire 10W', price: 4.5, unit: 'Pi', minOrder: 100, stock: 3000, supplier: 'GreenEnergy Ltd', country: 'Allemagne', verified: true, rating: 4.5, category: 'Énergie', images: ['https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?w=600&h=400&fit=crop'] },
-        { id: 8, name: 'Meubles de salon (set)', price: 180, unit: 'Pi', minOrder: 5, stock: 120, supplier: 'HomeFurnish SARL', country: 'France', verified: false, rating: 4.0, category: 'Maison', images: ['https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=600&h=400&fit=crop'] },
-        { id: 9, name: 'Café Arabica 1kg', price: 3.2, unit: 'Pi', minOrder: 500, stock: 8000, supplier: 'AgriExport Co', country: 'Colombie', verified: true, rating: 4.9, category: 'Alimentation', images: ['https://images.unsplash.com/photo-1559056199-641a0ac8b55e?w=600&h=400&fit=crop'] },
-        { id: 10, name: 'Crème Anti-Âge 50ml', price: 8, unit: 'Pi', minOrder: 100, stock: 2000, supplier: 'BeautyLab SAS', country: 'France', verified: true, rating: 4.3, category: 'Beauté', images: ['https://images.unsplash.com/photo-1556228578-0d85b1a4d571?w=600&h=400&fit=crop'] },
-        { id: 11, name: 'Tracteur Agricole 4x4', price: 45000, unit: 'Pi', minOrder: 1, stock: 12, supplier: 'AgriMachines Ltd', country: 'États-Unis', verified: true, rating: 4.4, category: 'Agriculture', images: ['https://images.unsplash.com/photo-1531816458010-4f4c24de72e1?w=600&h=400&fit=crop'] },
-        { id: 12, name: 'Équipement de Chantier (set)', price: 220, unit: 'Pi', minOrder: 10, stock: 340, supplier: 'BuildPro SARL', country: 'France', verified: false, rating: 3.9, category: 'Construction', images: ['https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?w=600&h=400&fit=crop'] }
+        { id: 1, name: 'Smartphone Galaxy S24', price: 0.000120, unit: 'Pi', minOrder: 10, stock: 850, supplier: 'MobileTech GmbH', country: 'Allemagne', verified: true, rating: 4.9, category: 'Électronique', images: ['https://images.unsplash.com/photo-1610945415295-d9bbf067e59c?w=600&h=400&fit=crop'] },
+        { id: 2, name: 'Ordinateur Portable Pro', price: 0.000450, unit: 'Pi', minOrder: 5, stock: 320, supplier: 'TechImport SARL', country: 'Chine', verified: true, rating: 4.8, category: 'Électronique', images: ['https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=600&h=400&fit=crop'] },
+        { id: 3, name: 'Voiture Électrique Model 3', price: 0.035000, unit: 'Pi', minOrder: 1, stock: 45, supplier: 'AutoGreen SA', country: 'États-Unis', verified: true, rating: 4.7, category: 'Automobile', images: ['https://images.unsplash.com/photo-1560958089-b8a1929cea89?w=600&h=400&fit=crop'] },
+        { id: 4, name: 'T-shirt en coton bio', price: 0.0000025, unit: 'Pi', minOrder: 200, stock: 12000, supplier: 'EcoWear SARL', country: 'France', verified: true, rating: 4.7, category: 'Mode', images: ['https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=600&h=400&fit=crop'] },
+        { id: 5, name: 'Chaussures de sport', price: 0.000012, unit: 'Pi', minOrder: 50, stock: 320, supplier: 'SportFoot Inc', country: 'États-Unis', verified: false, rating: 4.2, category: 'Chaussures', images: ['https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=600&h=400&fit=crop'] },
+        { id: 6, name: 'Montre connectée', price: 0.000035, unit: 'Pi', minOrder: 20, stock: 1500, supplier: 'TechImport SARL', country: 'Chine', verified: true, rating: 4.6, category: 'Électronique', images: ['https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=600&h=400&fit=crop'] },
+        { id: 7, name: 'Lampe solaire 10W', price: 0.0000045, unit: 'Pi', minOrder: 100, stock: 3000, supplier: 'GreenEnergy Ltd', country: 'Allemagne', verified: true, rating: 4.5, category: 'Énergie', images: ['https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?w=600&h=400&fit=crop'] },
+        { id: 8, name: 'Meubles de salon (set)', price: 0.000180, unit: 'Pi', minOrder: 5, stock: 120, supplier: 'HomeFurnish SARL', country: 'France', verified: false, rating: 4.0, category: 'Maison', images: ['https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=600&h=400&fit=crop'] },
+        { id: 9, name: 'Café Arabica 1kg', price: 0.0000032, unit: 'Pi', minOrder: 500, stock: 8000, supplier: 'AgriExport Co', country: 'Colombie', verified: true, rating: 4.9, category: 'Alimentation', images: ['https://images.unsplash.com/photo-1559056199-641a0ac8b55e?w=600&h=400&fit=crop'] },
+        { id: 10, name: 'Crème Anti-Âge 50ml', price: 0.0000080, unit: 'Pi', minOrder: 100, stock: 2000, supplier: 'BeautyLab SAS', country: 'France', verified: true, rating: 4.3, category: 'Beauté', images: ['https://images.unsplash.com/photo-1556228578-0d85b1a4d571?w=600&h=400&fit=crop'] },
+        { id: 11, name: 'Tracteur Agricole 4x4', price: 0.045000, unit: 'Pi', minOrder: 1, stock: 12, supplier: 'AgriMachines Ltd', country: 'États-Unis', verified: true, rating: 4.4, category: 'Agriculture', images: ['https://images.unsplash.com/photo-1531816458010-4f4c24de72e1?w=600&h=400&fit=crop'] },
+        { id: 12, name: 'Équipement de Chantier (set)', price: 0.000220, unit: 'Pi', minOrder: 10, stock: 340, supplier: 'BuildPro SARL', country: 'France', verified: false, rating: 3.9, category: 'Construction', images: ['https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?w=600&h=400&fit=crop'] }
     ];
 
     var suppliers = [
@@ -159,6 +138,50 @@
     var userProfile = null;
     var userOrders = [];
     var userHistory = [];
+
+    /* ===== HELPERS ===== */
+
+    // Formate un prix : affiche les décimales uniquement si nécessaire, sans perte de précision
+    function formatPrice(p) {
+        var n = Number(p);
+        if (!isFinite(n) || n === 0) return '0';
+        if (Number.isInteger(n)) return n.toString();
+        var s = n.toString();
+        if (s.indexOf('e') !== -1 || s.indexOf('E') !== -1) {
+            // Notation scientifique → convertir
+            s = n.toFixed(10).replace(/0+$/, '').replace(/\.$/, '');
+        }
+        return s;
+    }
+
+    function formatNumber(n) { return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','); }
+
+    function escapeHtml(s) {
+        return String(s == null ? '' : s)
+            .replace(/&/g, '&amp;').replace(/"/g, '&quot;')
+            .replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    }
+
+    function formatDateFr(iso) {
+        try {
+            return new Date(iso).toLocaleDateString('fr-FR', { day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+        } catch (e) { return ''; }
+    }
+
+    function showToast(message, type) {
+        type = type || 'info';
+        var container = document.getElementById('toastContainer');
+        if (!container) return;
+        var toast = document.createElement('div');
+        toast.className = 'toast ' + type;
+        var iconMap = { success: 'fa-check-circle', error: 'fa-exclamation-circle', info: 'fa-info-circle' };
+        toast.innerHTML = '<i class="fas ' + (iconMap[type] || 'fa-info-circle') + '"></i> ' + message;
+        container.appendChild(toast);
+        setTimeout(function() {
+            toast.style.opacity = '0'; toast.style.transform = 'translateX(20px)';
+            setTimeout(function() { if (toast.parentNode) toast.remove(); }, 400);
+        }, 5000);
+    }
 
     /* ===== PROFIL ===== */
     function isProfileComplete() {
@@ -241,8 +264,7 @@
         var payload = {
             buyer_pi_uid: piUser.uid,
             seller_pi_uid: order.seller_pi_uid || null,
-            items: order.items,
-            total: order.total,
+            items: order.items, total: order.total,
             status: order.status || 'pending',
             payment_id: order.payment_id || null,
             txid: order.txid || null
@@ -279,44 +301,15 @@
             .catch(function(e) { console.error('[Supa] loadHistory error', e); return []; });
     }
 
-    /* ===== HELPERS ===== */
-    function formatNumber(n) { return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','); }
-
-    function escapeHtml(s) {
-        return String(s == null ? '' : s)
-            .replace(/&/g, '&amp;').replace(/"/g, '&quot;')
-            .replace(/</g, '&lt;').replace(/>/g, '&gt;');
-    }
-
-    function formatDateFr(iso) {
-        try {
-            return new Date(iso).toLocaleDateString('fr-FR', { day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' });
-        } catch (e) { return ''; }
-    }
-
-    function showToast(message, type) {
-        type = type || 'info';
-        var container = document.getElementById('toastContainer');
-        if (!container) return;
-        var toast = document.createElement('div');
-        toast.className = 'toast ' + type;
-        var iconMap = { success: 'fa-check-circle', error: 'fa-exclamation-circle', info: 'fa-info-circle' };
-        toast.innerHTML = '<i class="fas ' + (iconMap[type] || 'fa-info-circle') + '"></i> ' + message;
-        container.appendChild(toast);
-        setTimeout(function() {
-            toast.style.opacity = '0'; toast.style.transform = 'translateX(20px)';
-            setTimeout(function() { if (toast.parentNode) toast.remove(); }, 400);
-        }, 5000);
-    }
-
+    /* ===== PI SDK ===== */
     function waitForPiSdk(maxMs) {
         maxMs = maxMs || 5000;
         return new Promise(function(resolve, reject) {
             var start = Date.now();
             function check() {
-                if (typeof Pi !== 'undefined' && Pi.init && Pi.authenticate) { resolve(true); }
-                else if (Date.now() - start > maxMs) { reject(new Error('SDK timeout')); }
-                else { setTimeout(check, 150); }
+                if (typeof Pi !== 'undefined' && Pi.init && Pi.authenticate) resolve(true);
+                else if (Date.now() - start > maxMs) reject(new Error('SDK timeout'));
+                else setTimeout(check, 150);
             }
             check();
         });
@@ -433,6 +426,7 @@
         } catch (e) {}
     }
 
+    /* ===== MODALES ===== */
     function openAuthModal(message) {
         var modal = document.getElementById('authRequiredModal');
         var msgEl = document.getElementById('authModalMessage');
@@ -452,10 +446,10 @@
             return '<div class="payment-summary-item">' +
                 '<span class="name">' + escapeHtml(item.name) + '</span>' +
                 '<span class="qty">×' + item.qty + '</span>' +
-                '<span class="price">' + (item.price * item.qty).toFixed(2) + ' π</span></div>';
+                '<span class="price">' + formatPrice(item.price * item.qty) + ' π</span></div>';
         }).join('');
         var total = cartItems.reduce(function(s, i) { return s + (i.price * i.qty); }, 0);
-        amount.textContent = total.toFixed(2) + ' π';
+        amount.textContent = formatPrice(total) + ' π';
         modal.classList.add('open');
     }
     function closePaymentModal() {
@@ -528,6 +522,7 @@
         }, 100);
     }
 
+    /* ===== SLIDER ===== */
     function initSlider() {
         var slides = [
             { image: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=1200&h=600&fit=crop', title: 'First Purchase', subtitle: 'Enjoy a Special Offer!', cta: 'Découvrir' },
@@ -563,6 +558,7 @@
         setInterval(function() { goToSlide(currentIndex + 1); }, 5000);
     }
 
+    /* ===== FILTRES ===== */
     function renderCategoryFilters() {
         var container = document.getElementById('categoryFilterList');
         if (!container) return;
@@ -585,19 +581,29 @@
         });
     }
 
+    /* ===== PRODUITS ===== */
     function renderProducts(list) {
         list = list || products;
         var grid = document.getElementById('productGrid');
         if (!grid) return;
         grid.innerHTML = list.map(function(p) {
             var verifiedBadge = p.verified ? '<span class="verified-badge"><i class="fas fa-check-circle"></i> Vérifié</span>' : '';
-            var firstImage = p.images && p.images.length > 0 ? p.images[0] : '';
+            var images = (p.images && p.images.length > 0) ? p.images : [''];
+            var imgsHtml = images.map(function(img, idx) {
+                return '<img src="' + img + '" alt="' + escapeHtml(p.name) + '" loading="lazy" data-idx="' + idx + '" />';
+            }).join('');
+            var dotsHtml = images.length > 1 ? '<div class="image-dots">' + images.map(function(_, i) {
+                return '<span class="dot' + (i === 0 ? ' active' : '') + '"></span>';
+            }).join('') + '</div>' : '';
             var supplierLabel = p.ownerPiUid ? ('@' + String(p.ownerPiUid).substring(0, 8)) : p.supplier;
             return '<div class="card-product" onclick="showProductDetail(\'' + p.id + '\')">' +
-                '<div class="image"><img src="' + firstImage + '" alt="' + escapeHtml(p.name) + '" loading="lazy" />' + verifiedBadge + '</div>' +
+                '<div class="image">' +
+                    '<div class="image-track" data-id="' + p.id + '">' + imgsHtml + '</div>' +
+                    verifiedBadge + dotsHtml +
+                '</div>' +
                 '<div class="body">' +
                 '<div class="title">' + escapeHtml(p.name) + '</div>' +
-                '<div class="price">' + p.price + ' ' + p.unit + ' <small>/ unité</small></div>' +
+                '<div class="price">' + formatPrice(p.price) + ' ' + p.unit + ' <small>/ unité</small></div>' +
                 '<div class="meta">' +
                 '<span><i class="fas fa-box"></i> Min: ' + p.minOrder + '</span>' +
                 '<span><i class="fas fa-warehouse"></i> ' + formatNumber(p.stock) + '</span>' +
@@ -611,6 +617,24 @@
         }).join('');
         var countEl = document.getElementById('productCount');
         if (countEl) countEl.textContent = list.length + ' produits';
+        initImageCarousels();
+    }
+
+    function initImageCarousels() {
+        document.querySelectorAll('.image-track').forEach(function(track) {
+            if (track._carouselInit) return;
+            track._carouselInit = true;
+            var card = track.closest('.card-product');
+            if (!card) return;
+            var dots = card.querySelectorAll('.image-dots .dot');
+            if (dots.length === 0) return;
+            track.addEventListener('scroll', function() {
+                var w = track.clientWidth;
+                if (w === 0) return;
+                var idx = Math.round(track.scrollLeft / w);
+                dots.forEach(function(d, i) { d.classList.toggle('active', i === idx); });
+            }, { passive: true });
+        });
     }
 
     function renderSuppliers() {
@@ -645,6 +669,7 @@
         renderProducts(filtered);
     }
 
+    /* ===== SEARCH ===== */
     document.getElementById('searchToggle').addEventListener('click', function() {
         document.getElementById('searchDropdown').classList.toggle('open');
     });
@@ -664,6 +689,7 @@
         document.getElementById('searchDropdown').classList.remove('open');
     }
 
+    /* ===== NAVIGATION ===== */
     function showMainContent() {
         document.getElementById('mainContent').style.display = 'block';
         document.getElementById('productDetail').style.display = 'none';
@@ -679,20 +705,38 @@
         document.getElementById('productDetail').style.display = 'block';
         document.getElementById('productDetailTitle').textContent = p.name;
         var content = document.getElementById('productDetailContent');
-        var images = p.images && p.images.length > 0 ? p.images : [''];
+        var images = (p.images && p.images.length > 0) ? p.images : [''];
+        var galleryHtml = images.map(function(img, idx) {
+            return '<img src="' + img + '" class="gallery-img' + (idx === 0 ? ' active' : '') + '" data-idx="' + idx + '" />';
+        }).join('');
         content.innerHTML =
             '<div class="product-detail-grid">' +
-            '<div class="gallery"><div class="main-image"><img src="' + images[0] + '" /></div></div>' +
+            '<div class="gallery">' +
+                '<div class="main-image"><img id="pdMainImage" src="' + images[0] + '" /></div>' +
+                (images.length > 1 ? '<div class="thumb-strip">' + galleryHtml + '</div>' : '') +
+            '</div>' +
             '<div class="info"><h1>' + escapeHtml(p.name) + '</h1>' +
             '<div style="margin-bottom:10px;"><span class="badge badge-verified"><i class="fas fa-check-circle"></i> ' + (p.verified ? 'Vérifié' : 'Non vérifié') + '</span></div>' +
             '<div style="font-size:13px;color:var(--text-muted);margin-bottom:14px;"><i class="fas fa-building"></i> ' + escapeHtml(p.ownerPiUid || p.supplier) + ' · ' + escapeHtml(p.country) + '</div>' +
-            '<div class="price-box"><div><span style="font-size:13px;color:var(--text-muted);">Prix de gros</span><br><span style="font-size:28px;font-weight:700;color:var(--primary);">' + p.price + ' ' + p.unit + '</span></div>' +
+            '<div class="price-box"><div><span style="font-size:13px;color:var(--text-muted);">Prix de gros</span><br><span style="font-size:28px;font-weight:700;color:var(--primary);">' + formatPrice(p.price) + ' ' + p.unit + '</span></div>' +
             '<div><span style="font-size:13px;color:var(--text-muted);">Qté min.</span><br><span style="font-size:20px;font-weight:600;">' + p.minOrder + ' unités</span></div></div>' +
             '<div class="volume-pricing">' +
-            '<div class="tier"><div style="font-size:12px;color:var(--text-muted);">' + p.minOrder + '+</div><div class="price">' + p.price + ' Pi</div></div>' +
-            '<div class="tier"><div style="font-size:12px;color:var(--text-muted);">' + (p.minOrder * 5) + '+</div><div class="price">' + (p.price * 0.9).toFixed(1) + ' Pi</div></div>' +
-            '<div class="tier"><div style="font-size:12px;color:var(--text-muted);">' + (p.minOrder * 10) + '+</div><div class="price">' + (p.price * 0.8).toFixed(1) + ' Pi</div></div></div>' +
+            '<div class="tier"><div style="font-size:12px;color:var(--text-muted);">' + p.minOrder + '+</div><div class="price">' + formatPrice(p.price) + ' Pi</div></div>' +
+            '<div class="tier"><div style="font-size:12px;color:var(--text-muted);">' + (p.minOrder * 5) + '+</div><div class="price">' + formatPrice(p.price * 0.9) + ' Pi</div></div>' +
+            '<div class="tier"><div style="font-size:12px;color:var(--text-muted);">' + (p.minOrder * 10) + '+</div><div class="price">' + formatPrice(p.price * 0.8) + ' Pi</div></div></div>' +
             '<div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:16px;"><button class="btn btn-primary" onclick="addToCart(\'' + p.id + '\')"><i class="fas fa-cart-plus"></i> Ajouter au panier</button></div></div></div>';
+
+        // Switcher d'image au clic sur une miniature
+        var thumbs = content.querySelectorAll('.thumb-strip .gallery-img');
+        var mainImg = content.querySelector('#pdMainImage');
+        thumbs.forEach(function(t) {
+            t.addEventListener('click', function() {
+                if (mainImg) mainImg.src = t.getAttribute('src');
+                thumbs.forEach(function(x) { x.classList.remove('active'); });
+                t.classList.add('active');
+            });
+        });
+
         window.scrollTo({ top: 0, behavior: 'smooth' });
     };
 
@@ -724,6 +768,7 @@
         document.querySelector('.bottom-nav .nav-item[data-page="home"]').classList.add('active');
     };
 
+    /* ===== SIDE DRAWER ===== */
     function openSideDrawer(tabId, title) {
         var drawer = document.getElementById('sideDrawer');
         var overlay = document.getElementById('sideDrawerOverlay');
@@ -747,6 +792,7 @@
         document.body.style.overflow = '';
         document.body.classList.remove('drawer-open');
     }
+    window.closeSideDrawer = closeSideDrawer;
 
     function initDocDrawerEvents() {
         var items = document.querySelectorAll('#sideDrawerContent .doc-item');
@@ -886,7 +932,7 @@
             ? '<div class="profile-status-ok"><i class="fas fa-check-circle"></i> Profil complété</div>'
             : '<div class="profile-status-warn"><i class="fas fa-exclamation-triangle"></i> Profil à compléter</div>';
         return '<h3><i class="fas fa-id-card"></i> Mon profil</h3>' +
-            '<p style="color:var(--text-muted);font-size:13px;margin-bottom:14px;line-height:1.5;">Ces informations sont obligatoires avant toute opération d\'achat ou de vente.</p>' +
+            '<p style="color:var(--text-muted);font-size:13px;margin-bottom:14px;line-height:1.5;">Ces informations sont obligatoires avant toute opération d\'achat ou de vente. Vous pouvez les modifier à tout moment.</p>' +
             statusHtml +
             '<form id="profileForm" class="profile-form" novalidate>' +
                 '<div class="form-group"><label>Nom <span class="req">*</span></label><input type="text" id="pfNom" value="' + escapeHtml(p.nom) + '" placeholder="Votre nom" required /></div>' +
@@ -895,7 +941,7 @@
                 '<div class="form-group"><label>Numéro de téléphone <span class="req">*</span></label><input type="tel" id="pfPhone" value="' + escapeHtml(p.phone) + '" placeholder="+243 ..." required /></div>' +
                 '<div class="form-group"><label>Adresse de résidence <span class="req">*</span></label><textarea id="pfAddress" rows="3" placeholder="Ville, quartier, rue, n°" required>' + escapeHtml(p.adresse) + '</textarea></div>' +
                 '<div class="profile-note"><i class="fas fa-info-circle"></i><span>Veuillez mettre les <strong>vraies informations</strong>, car celles-ci serviront à l\'<strong>expédition</strong> de vos commandes.</span></div>' +
-                '<button type="submit" class="btn btn-primary btn-block publish-submit" style="margin-top:16px;"><i class="fas fa-save"></i> Enregistrer mon profil</button>' +
+                '<button type="submit" class="btn btn-primary btn-block publish-submit" style="margin-top:16px;"><i class="fas fa-save"></i> ' + (complete ? 'Mettre à jour mon profil' : 'Enregistrer mon profil') + '</button>' +
             '</form>';
     }
 
@@ -922,7 +968,7 @@
                     if (content) { content.innerHTML = renderProfileForm(); initProfileFormEvents(); }
                 })
                 .catch(function(err) { console.error(err); showToast('Erreur : ' + (err.message || 'inconnue'), 'error'); })
-                .finally(function() { if (btn) { btn.disabled = false; btn.innerHTML = '<i class="fas fa-save"></i> Enregistrer mon profil'; } });
+                .finally(function() { if (btn) { btn.disabled = false; btn.innerHTML = '<i class="fas fa-save"></i> ' + (isProfileComplete() ? 'Mettre à jour mon profil' : 'Enregistrer mon profil'); } });
         });
     }
 
@@ -937,14 +983,11 @@
         if (!piUser) return '<div class="empty-state"><i class="fas fa-user-slash"></i><p>Connectez-vous pour voir vos achats.</p></div>';
         var achats = userOrders.filter(function(o) { return o.buyer_pi_uid === piUser.uid; });
         var html = '<h3><i class="fas fa-shopping-bag"></i> Mes achats</h3>';
-
         if (achats.length === 0) {
             html += '<div class="empty-state" style="padding:40px 20px;"><i class="fas fa-shopping-bag" style="font-size:48px;margin-bottom:12px;opacity:0.25;"></i><p style="font-size:14px;">Vous n\'avez encore effectué aucun achat.</p></div>';
             return html;
         }
-
         html += '<p style="color:var(--text-muted);font-size:12.5px;margin-bottom:14px;">' + achats.length + ' commande' + (achats.length > 1 ? 's' : '') + '</p>';
-
         achats.forEach(function(o) {
             var date = formatDateFr(o.created_at);
             var items = o.items || [];
@@ -954,16 +997,15 @@
                     '<div class="order-item-img"><img src="' + img + '" alt="" /></div>' +
                     '<div class="order-item-body">' +
                         '<div class="order-item-name">' + escapeHtml(it.name) + '</div>' +
-                        '<div class="order-item-meta">' + it.qty + ' × ' + it.price + ' π</div>' +
+                        '<div class="order-item-meta">' + it.qty + ' × ' + formatPrice(it.price) + ' π</div>' +
                     '</div>' +
-                    '<div class="order-item-sub">' + (it.qty * it.price).toFixed(2) + ' π</div>' +
+                    '<div class="order-item-sub">' + formatPrice(it.qty * it.price) + ' π</div>' +
                 '</div>';
             }).join('');
-
             html += '<div class="order-card">' +
                 '<div class="order-header"><div><i class="fas fa-receipt"></i> ' + date + '</div><span class="order-status">' + escapeHtml(o.status || 'payé') + '</span></div>' +
                 '<div class="order-items">' + itemsHtml + '</div>' +
-                '<div class="order-total"><span>Total</span><strong>' + Number(o.total).toFixed(2) + ' π</strong></div>' +
+                '<div class="order-total"><span>Total</span><strong>' + formatPrice(o.total) + ' π</strong></div>' +
             '</div>';
         });
         return html;
@@ -974,22 +1016,19 @@
         if (!piUser) return '<div class="empty-state"><i class="fas fa-user-slash"></i><p>Connectez-vous pour voir vos ventes.</p></div>';
         var myProducts = products.filter(function(p) { return p.ownerPiUid === piUser.uid; });
         var html = '<h3><i class="fas fa-store"></i> Mes ventes</h3>';
-
         if (myProducts.length === 0) {
             html += '<div class="empty-state" style="padding:40px 20px;"><i class="fas fa-box-open" style="font-size:48px;margin-bottom:12px;opacity:0.25;"></i><p style="font-size:14px;">Vous n\'avez publié aucun produit.</p>' +
                 '<button class="btn btn-primary" style="margin-top:14px;" onclick="closeSideDrawer(); window.openPublish();"><i class="fas fa-plus-circle"></i> Publier un produit</button></div>';
             return html;
         }
-
         html += '<p style="color:var(--text-muted);font-size:12.5px;margin-bottom:14px;">' + myProducts.length + ' produit' + (myProducts.length > 1 ? 's' : '') + ' publié' + (myProducts.length > 1 ? 's' : '') + '</p>';
-
         myProducts.forEach(function(p) {
             var img = p.images && p.images[0] ? p.images[0] : 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="80" height="80"><rect width="80" height="80" fill="%23F0F2F5"/></svg>';
             html += '<div class="drawer-product-card" data-id="' + p.id + '">' +
                 '<div class="dpc-img"><img src="' + img + '" alt="" /></div>' +
                 '<div class="dpc-info">' +
                     '<div class="dpc-name">' + escapeHtml(p.name) + '</div>' +
-                    '<div class="dpc-price">' + p.price + ' ' + p.unit + '</div>' +
+                    '<div class="dpc-price">' + formatPrice(p.price) + ' ' + p.unit + '</div>' +
                     '<div class="dpc-meta">' +
                         '<span><i class="fas fa-box"></i> Stock: ' + p.stock + '</span>' +
                         '<span><i class="fas fa-tag"></i> ' + escapeHtml(p.category) + '</span>' +
@@ -1004,25 +1043,21 @@
         return html;
     }
 
-    /* ===== HISTORIQUE UNIFIÉ ===== */
+    /* ===== HISTORIQUE ===== */
     function renderHistorique() {
         if (!piUser) return '<div class="empty-state"><i class="fas fa-user-slash"></i><p>Connectez-vous pour voir votre historique.</p></div>';
         var html = '<h3><i class="fas fa-history"></i> Historique</h3>';
-
         if (userHistory.length === 0) {
             html += '<div class="empty-state" style="padding:40px 20px;"><i class="fas fa-receipt" style="font-size:48px;margin-bottom:12px;opacity:0.25;"></i><p style="font-size:14px;">Aucune opération enregistrée.</p></div>';
             return html;
         }
-
         html += '<p style="color:var(--text-muted);font-size:12.5px;margin-bottom:14px;">' + userHistory.length + ' opération' + (userHistory.length > 1 ? 's' : '') + '</p>';
-
         userHistory.forEach(function(h) {
             var type = h.type || 'info';
             var iconClass = type === 'achat' ? 'achat' : (type === 'vente' ? 'vente' : (type === 'publication' ? 'publication' : ''));
             var iconFa = type === 'achat' ? 'fa-shopping-bag' : (type === 'vente' ? 'fa-store' : (type === 'publication' ? 'fa-box' : 'fa-circle-info'));
             var date = formatDateFr(h.created_at);
-            var amount = h.amount ? Number(h.amount).toFixed(2) + ' π' : '';
-
+            var amount = h.amount ? formatPrice(h.amount) + ' π' : '';
             html += '<div class="history-entry">' +
                 '<div class="he-icon ' + iconClass + '"><i class="fas ' + iconFa + '"></i></div>' +
                 '<div class="he-body">' +
@@ -1112,7 +1147,7 @@
 
     /* ===== UPLOAD IMAGES ===== */
     var uploadedImages = [];
-    var MAX_IMAGES = 4;
+    var MAX_IMAGES = 8;
 
     function compressImage(file, maxWidth, quality) {
         return new Promise(function(resolve) {
@@ -1200,13 +1235,13 @@
         body.innerHTML = cartItems.map(function(item) {
             return '<div class="cart-item"><div class="item-image"><img src="' + (item.image || '') + '" /></div>' +
                 '<div class="item-info"><div class="name">' + escapeHtml(item.name) + '</div>' +
-                '<div class="price">' + (item.price * item.qty).toFixed(2) + ' π</div>' +
+                '<div class="price">' + formatPrice(item.price * item.qty) + ' π</div>' +
                 '<div class="item-qty"><button onclick="updateQty(\'' + item.id + '\',-1)">-</button><span>' + item.qty + '</span><button onclick="updateQty(\'' + item.id + '\',1)">+</button></div></div>' +
                 '<button class="btn btn-sm btn-danger" onclick="removeFromCart(\'' + item.id + '\')"><i class="fas fa-trash"></i></button></div>';
         }).join('');
         footer.style.display = 'block';
         var total = cartItems.reduce(function(s, i) { return s + (i.price * i.qty); }, 0);
-        totalEl.textContent = total.toFixed(2) + ' π';
+        totalEl.textContent = formatPrice(total) + ' π';
     }
     function updateCartBadge() {
         var total = cartItems.reduce(function(s, i) { return s + i.qty; }, 0);
@@ -1238,7 +1273,8 @@
 
     function executePayment() {
         var total = cartItems.reduce(function(s, i) { return s + (i.price * i.qty); }, 0);
-        var totalFixed = parseFloat(total.toFixed(2));
+        var totalFixed = parseFloat(total.toFixed(6));
+        if (totalFixed < 0.000001) totalFixed = 0.000001;
         var itemsSnapshot = cartItems.slice();
         showToast('Traitement du paiement...', 'info');
         createPiPayment(totalFixed, 'Global Bulk - ' + cartItems.length + ' article(s)', {
