@@ -93,13 +93,7 @@ ul { list-style:none; }
 .logo .logo-text span { color:var(--secondary); }
 .logo .logo-text { display:flex; line-height:1.1; }
 
-.logo-img {
-    width: 52px;
-    height: 52px;
-    object-fit: contain;
-    border-radius: 12px;
-    flex-shrink: 0;
-}
+.logo-img { width: 52px; height: 52px; object-fit: contain; border-radius: 12px; flex-shrink: 0; }
 
 .header-actions { display:flex; align-items:center; gap:2px; }
 .icon-btn { width:42px; height:42px; border-radius:50%; display:flex; align-items:center; justify-content:center; color:var(--text-muted); font-size:18px; transition:var(--transition); position:relative; }
@@ -277,13 +271,18 @@ ul { list-style:none; }
 .pi-action-btn:disabled { background: #b0b5c0; cursor: not-allowed; }
 .pi-account-hint { margin-top: 10px; font-size: 12px; color: var(--text-muted); line-height: 1.4; }
 
+/* ===== MENU PROFIL AMÉLIORÉ ===== */
 .profile-menu { background: var(--white); border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden; }
 .menu-item { display: flex; align-items: center; gap: 14px; padding: 16px 18px; width: 100%; background: transparent; border-bottom: 1px solid #f0f2f5; font-size: 15px; font-weight: 500; color: var(--text-dark); text-align: left; transition: var(--transition); }
 .menu-item:last-child { border-bottom: none; }
 .menu-item:hover { background: var(--gray-light); }
-.menu-icon { width: 40px; height: 40px; border-radius: 10px; background: var(--gray-light); display: flex; align-items: center; justify-content: center; color: var(--primary); font-size: 18px; flex-shrink: 0; }
-.menu-label { flex: 1; }
-.menu-arrow { color: var(--text-muted); font-size: 14px; }
+.menu-item .menu-icon { width: 42px; height: 42px; border-radius: 12px; background: linear-gradient(135deg, #EEF2FF, #E0E7FF); display: flex; align-items: center; justify-content: center; color: var(--primary); font-size: 18px; flex-shrink: 0; transition: var(--transition); }
+.menu-item .menu-icon.sales     { background: linear-gradient(135deg, #ECFDF5, #D1FAE5); color: #059669; }
+.menu-item .menu-icon.purchases { background: linear-gradient(135deg, #FEF3C7, #FDE68A); color: #D97706; }
+.menu-item .menu-icon.history   { background: linear-gradient(135deg, #EFF6FF, #DBEAFE); color: #2563EB; }
+.menu-item:hover .menu-icon { transform: scale(1.05); }
+.menu-item .menu-label { flex: 1; font-weight: 600; }
+.menu-item .menu-arrow { color: var(--text-muted); font-size: 14px; }
 
 /* ===== TIROIR LATÉRAL ===== */
 .side-drawer-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 3000; opacity: 0; pointer-events: none; transition: opacity 0.3s ease; }
@@ -296,6 +295,7 @@ ul { list-style:none; }
 .side-drawer-title { flex: 1; font-size: 17px; font-weight: 700; color: var(--text-dark); margin: 0; }
 .side-drawer-content { flex: 1; overflow-y: auto; padding: 20px; }
 .side-drawer-content h3 { font-size: 20px; font-weight: 700; color: var(--primary); margin-bottom: 16px; display: flex; align-items: center; gap: 10px; }
+.side-drawer-content h3 i { color: var(--secondary); }
 .side-drawer-content .info-item { display: flex; align-items: center; gap: 14px; padding: 14px 0; border-bottom: 1px solid #f5f7fa; font-size: 15px; }
 .side-drawer-content .info-item:last-child { border-bottom: none; }
 .side-drawer-content .info-item i { width: 32px; height: 32px; border-radius: 8px; background: var(--gray-light); display: flex; align-items: center; justify-content: center; font-size: 15px; color: var(--primary); flex-shrink: 0; }
@@ -366,7 +366,7 @@ ul { list-style:none; }
 .social-links-footer a.social-wa:hover { color: #fff; background: #25D366; }
 
 /* =====================================================================
-   ===== Correctif : isolation du drawer ==============================
+   ===== Correctif : isolation du drawer ===============================
    ===================================================================== */
 body.drawer-open .header,
 body.drawer-open .bottom-nav {
@@ -374,7 +374,7 @@ body.drawer-open .bottom-nav {
 }
 
 /* =====================================================================
-   ===== Items cliquables du Livre blanc (drawer) =====================
+   ===== Items cliquables du Livre blanc (drawer) ======================
    ===================================================================== */
 .doc-item {
     width: 100%;
@@ -411,28 +411,18 @@ body.drawer-open .bottom-nav {
 .doc-item-disabled .doc-arrow { display: none; }
 
 /* =====================================================================
-   ===== NOUVEAU : Profil utilisateur (formulaire dans le drawer) =====
+   ===== Profil utilisateur (formulaire dans le drawer) ================
    ===================================================================== */
 .profile-form { margin-top: 4px; }
 .profile-form .form-group { margin-bottom: 14px; }
-.profile-form .form-group label {
-    display: block;
-    font-size: 13px;
-    font-weight: 600;
-    color: var(--text-dark);
-    margin-bottom: 6px;
-}
+.profile-form .form-group label { display: block; font-size: 13px; font-weight: 600; color: var(--text-dark); margin-bottom: 6px; }
 .profile-form .form-group label .req { color: #e53935; margin-left: 2px; }
 .profile-form .form-group input,
 .profile-form .form-group textarea {
-    width: 100%;
-    padding: 12px 14px;
-    border: 1.5px solid #dce0e6;
-    border-radius: 10px;
-    font-size: 14px;
-    background: #fff;
-    transition: var(--transition);
-    font-family: inherit;
+    width: 100%; padding: 12px 14px;
+    border: 1.5px solid #dce0e6; border-radius: 10px;
+    font-size: 14px; background: #fff;
+    transition: var(--transition); font-family: inherit;
 }
 .profile-form .form-group input:focus,
 .profile-form .form-group textarea:focus {
@@ -442,11 +432,8 @@ body.drawer-open .bottom-nav {
 .profile-form .form-group textarea { resize: vertical; min-height: 80px; line-height: 1.5; }
 
 .profile-note {
-    display: flex;
-    gap: 10px;
-    align-items: flex-start;
-    margin-top: 8px;
-    padding: 12px 14px;
+    display: flex; gap: 10px; align-items: flex-start;
+    margin-top: 8px; padding: 12px 14px;
     background: #FFF8E1;
     border-left: 3px solid var(--secondary);
     border-radius: 8px;
@@ -458,53 +445,160 @@ body.drawer-open .bottom-nav {
 .profile-note strong { color: #4a3f00; }
 
 .profile-status-ok {
-    display: flex;
-    align-items: center;
-    gap: 8px;
+    display: flex; align-items: center; gap: 8px;
     padding: 10px 14px;
-    background: #E8F5E9;
-    color: #2e7d32;
+    background: #E8F5E9; color: #2e7d32;
     border-radius: 8px;
-    font-size: 13px;
-    font-weight: 600;
+    font-size: 13px; font-weight: 600;
     margin-bottom: 16px;
 }
 .profile-status-warn {
-    display: flex;
-    align-items: center;
-    gap: 8px;
+    display: flex; align-items: center; gap: 8px;
     padding: 10px 14px;
-    background: #FFF3E0;
-    color: #b35c00;
+    background: #FFF3E0; color: #b35c00;
     border-radius: 8px;
-    font-size: 13px;
-    font-weight: 600;
+    font-size: 13px; font-weight: 600;
     margin-bottom: 16px;
 }
 
 /* =====================================================================
+   ===== Cartes produit (drawer Mes ventes) ===========================
+   ===================================================================== */
+.drawer-product-card {
+    display: flex; gap: 12px;
+    background: #FAFBFC; border: 1px solid #e9ecf0;
+    border-radius: 12px; padding: 12px; margin-bottom: 10px;
+    transition: var(--transition);
+}
+.drawer-product-card:hover { border-color: var(--primary); box-shadow: 0 4px 12px rgba(11,42,91,0.06); }
+.drawer-product-card .dpc-img { width: 80px; height: 80px; border-radius: 10px; overflow: hidden; flex-shrink: 0; background: var(--gray-light); }
+.drawer-product-card .dpc-img img { width: 100%; height: 100%; object-fit: cover; }
+.drawer-product-card .dpc-info { flex: 1; min-width: 0; }
+.drawer-product-card .dpc-name { font-weight: 700; font-size: 14px; margin-bottom: 3px; line-height: 1.3; color: var(--text-dark); }
+.drawer-product-card .dpc-price { font-weight: 700; color: var(--primary); font-size: 15px; margin-bottom: 4px; }
+.drawer-product-card .dpc-meta { font-size: 11.5px; color: var(--text-muted); display: flex; flex-wrap: wrap; gap: 4px 10px; }
+.drawer-product-card .dpc-actions { display: flex; gap: 6px; margin-top: 8px; }
+.dpc-btn {
+    padding: 6px 12px; border-radius: 8px; font-size: 12px; font-weight: 600;
+    display: inline-flex; align-items: center; gap: 4px;
+    transition: var(--transition); cursor: pointer; border: none; font-family: inherit;
+}
+.dpc-edit   { background: #EEF2FF; color: #4338CA; }
+.dpc-edit:hover   { background: #4338CA; color: #fff; }
+.dpc-delete { background: #FEE2E2; color: #DC2626; }
+.dpc-delete:hover { background: #DC2626; color: #fff; }
+
+/* =====================================================================
+   ===== Modal modifier produit =======================================
+   ===================================================================== */
+.edit-product-modal {
+    position: fixed; inset: 0; background: rgba(0,0,0,0.6);
+    z-index: 10001; display: flex; align-items: center; justify-content: center;
+    opacity: 0; pointer-events: none; transition: opacity 0.3s ease; padding: 20px;
+}
+.edit-product-modal.open { opacity: 1; pointer-events: auto; }
+.edit-product-content {
+    background: white; border-radius: var(--radius);
+    max-width: 460px; width: 100%; max-height: 90vh; overflow-y: auto;
+    box-shadow: var(--shadow-lg);
+    transform: scale(0.9); transition: transform 0.3s ease;
+}
+.edit-product-modal.open .edit-product-content { transform: scale(1); }
+.edit-product-header {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 18px 20px; border-bottom: 1px solid #e9ecf0;
+}
+.edit-product-header h2 { font-size: 17px; font-weight: 700; color: var(--primary); }
+.edit-close {
+    width: 32px; height: 32px; border-radius: 50%; background: var(--gray-light);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--text-dark); border: none; cursor: pointer;
+}
+.edit-product-content form { padding: 20px; }
+.edit-product-content .form-group { margin-bottom: 12px; }
+.edit-product-content .form-group label { display: block; font-size: 13px; font-weight: 600; color: var(--text-dark); margin-bottom: 6px; }
+.edit-product-content .form-group label .req { color: #e53935; margin-left: 2px; }
+.edit-product-content input,
+.edit-product-content select,
+.edit-product-content textarea {
+    width: 100%; padding: 12px 14px;
+    border: 1.5px solid #dce0e6; border-radius: 10px;
+    font-size: 14px; background: #fff; transition: var(--transition); font-family: inherit;
+}
+.edit-product-content input:focus,
+.edit-product-content select:focus,
+.edit-product-content textarea:focus {
+    border-color: var(--primary); box-shadow: 0 0 0 3px rgba(11,42,91,0.08);
+}
+.edit-product-content textarea { resize: vertical; min-height: 80px; line-height: 1.5; }
+.edit-product-content .form-row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.edit-actions { display: flex; gap: 10px; justify-content: flex-end; margin-top: 20px; padding-top: 16px; border-top: 1px solid #e9ecf0; }
+.edit-actions .btn { padding: 10px 20px; font-size: 14px; min-height: 40px; }
+
+/* =====================================================================
+   ===== Cartes de commandes (Mes achats) =============================
+   ===================================================================== */
+.order-card {
+    background: #FAFBFC; border: 1px solid #e9ecf0;
+    border-radius: 14px; padding: 14px; margin-bottom: 12px;
+    transition: var(--transition);
+}
+.order-card:hover { border-color: var(--primary); box-shadow: 0 4px 12px rgba(11,42,91,0.06); }
+.order-header {
+    display: flex; justify-content: space-between; align-items: center;
+    padding-bottom: 10px; margin-bottom: 10px; border-bottom: 1px solid #e9ecf0;
+    font-size: 12.5px; color: var(--text-muted); font-weight: 600;
+}
+.order-header i { color: var(--secondary); margin-right: 4px; }
+.order-status { padding: 3px 10px; border-radius: 999px; background: #E8F5E9; color: #2e7d32; font-size: 11px; font-weight: 700; text-transform: uppercase; }
+.order-items { display: flex; flex-direction: column; gap: 8px; }
+.order-item { display: flex; align-items: center; gap: 10px; padding: 8px; background: #fff; border-radius: 10px; }
+.order-item-img { width: 48px; height: 48px; border-radius: 8px; overflow: hidden; flex-shrink: 0; background: var(--gray-light); }
+.order-item-img img { width: 100%; height: 100%; object-fit: cover; }
+.order-item-body { flex: 1; min-width: 0; }
+.order-item-name { font-weight: 600; font-size: 13.5px; color: var(--text-dark); margin-bottom: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.order-item-meta { font-size: 11.5px; color: var(--text-muted); }
+.order-item-sub { font-weight: 700; color: var(--primary); font-size: 13px; }
+.order-total { display: flex; justify-content: space-between; align-items: center; padding-top: 10px; margin-top: 10px; border-top: 1px solid #e9ecf0; font-size: 14px; }
+.order-total strong { color: var(--primary); font-size: 16px; }
+
+/* =====================================================================
+   ===== Entrées d'historique =========================================
+   ===================================================================== */
+.history-entry {
+    display: flex; gap: 12px; align-items: flex-start;
+    padding: 14px; background: #FAFBFC;
+    border: 1px solid #e9ecf0; border-radius: 12px;
+    margin-bottom: 8px; transition: var(--transition);
+}
+.history-entry:hover { border-color: var(--primary); }
+.history-entry .he-icon {
+    width: 40px; height: 40px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px; flex-shrink: 0;
+    background: var(--gray-light); color: var(--text-muted);
+}
+.history-entry .he-icon.achat       { background: #FEF3C7; color: #D97706; }
+.history-entry .he-icon.vente       { background: #ECFDF5; color: #059669; }
+.history-entry .he-icon.publication { background: #EEF2FF; color: #4338CA; }
+.history-entry .he-body { flex: 1; min-width: 0; }
+.history-entry .he-desc { font-weight: 600; font-size: 13.5px; color: var(--text-dark); margin-bottom: 2px; line-height: 1.35; }
+.history-entry .he-meta { font-size: 11.5px; color: var(--text-muted); }
+.history-entry .he-amount { font-weight: 700; color: var(--primary); font-size: 14px; align-self: center; }
+
+/* =====================================================================
    ===== Pages autonomes (whitepaper.html / faq.html) =================
    ===================================================================== */
-body.standalone-page {
-    padding-bottom: 0;
-}
-body.standalone-page .doc-main {
-    padding-top: 100px;
-    padding-bottom: 40px;
-    min-height: calc(100vh - 200px);
-}
-body.standalone-page .footer {
-    margin-top: 40px;
-}
+body.standalone-page { padding-bottom: 0; }
+body.standalone-page .doc-main { padding-top: 100px; padding-bottom: 40px; min-height: calc(100vh - 200px); }
+body.standalone-page .footer { margin-top: 40px; }
 
-/* Document card */
 .doc-card {
     background: var(--white); border-radius: var(--radius);
     box-shadow: var(--shadow-lg); max-width: 920px; margin: 0 auto;
     padding: 48px 44px;
 }
 
-/* Header du doc */
 .doc-header { text-align: left; margin-bottom: 32px; }
 .doc-badge {
     display: inline-block; background: var(--secondary); color: var(--primary);
@@ -517,7 +611,6 @@ body.standalone-page .footer {
 .doc-meta i { color: var(--secondary); margin-right: 4px; }
 .doc-actions { display: flex; gap: 12px; flex-wrap: wrap; }
 
-/* TOC */
 .toc {
     background: var(--gray-light); border-left: 4px solid var(--secondary);
     border-radius: var(--radius-sm); padding: 20px 24px; margin-bottom: 36px;
@@ -528,7 +621,6 @@ body.standalone-page .footer {
 .toc a { color: var(--text-dark); }
 .toc a:hover { color: var(--primary); }
 
-/* Whitepaper sections */
 .whitepaper section { margin-bottom: 38px; scroll-margin-top: 100px; }
 .whitepaper h2 { color: var(--primary); font-size: 22px; margin-bottom: 14px; padding-bottom: 8px; border-bottom: 2px solid #e9ecf0; }
 .whitepaper h3 { color: var(--primary-dark); font-size: 17px; margin: 20px 0 10px; }
@@ -583,7 +675,9 @@ body.standalone-page .footer {
 .faq-drawer-empty i { font-size: 42px; opacity: 0.3; display: block; margin-bottom: 12px; }
 .faq-drawer-count { font-size: 13px; color: var(--text-muted); }
 
-/* Print */
+/* =====================================================================
+   ===== PRINT ========================================================
+   ===================================================================== */
 @media print {
     .header, .bottom-nav, .footer, .doc-actions, .toc, .social-links-footer { display: none !important; }
     .doc-main { padding-top: 0; }
