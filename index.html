@@ -44,6 +44,65 @@
         </div>
     </div>
 
+    <div id="editProductModal" class="edit-product-modal">
+        <div class="edit-product-content">
+            <div class="edit-product-header">
+                <h2><i class="fas fa-edit"></i> Modifier le produit</h2>
+                <button type="button" class="edit-close" id="editProductClose"><i class="fas fa-times"></i></button>
+            </div>
+            <form id="editProductForm" novalidate>
+                <input type="hidden" id="epId" />
+                <div class="form-group">
+                    <label>Nom du produit <span class="req">*</span></label>
+                    <input type="text" id="epName" required />
+                </div>
+                <div class="form-group">
+                    <label>Description <span class="req">*</span></label>
+                    <textarea id="epDescription" rows="3" required></textarea>
+                </div>
+                <div class="form-row-2">
+                    <div class="form-group">
+                        <label>Prix <span class="req">*</span></label>
+                        <input type="number" id="epPrice" step="0.01" min="0" required />
+                    </div>
+                    <div class="form-group">
+                        <label>Unité</label>
+                        <select id="epUnit">
+                            <option value="Pi">Pièce</option>
+                            <option value="Kg">Kilogramme</option>
+                            <option value="L">Litre</option>
+                            <option value="M">Mètre</option>
+                            <option value="Set">Set</option>
+                            <option value="Tonne">Tonne</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-row-2">
+                    <div class="form-group">
+                        <label>Qté minimum</label>
+                        <input type="number" id="epMinOrder" min="1" required />
+                    </div>
+                    <div class="form-group">
+                        <label>Stock disponible</label>
+                        <input type="number" id="epStock" min="0" required />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Catégorie</label>
+                    <select id="epCategory" required></select>
+                </div>
+                <div class="form-group">
+                    <label>Pays d'origine</label>
+                    <select id="epCountry" required></select>
+                </div>
+                <div class="edit-actions">
+                    <button type="button" class="btn btn-outline" id="editProductCancel">Annuler</button>
+                    <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Enregistrer</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <div id="appContent" style="display:none;">
 
         <header class="header">
@@ -164,7 +223,7 @@
                         <h3 class="form-section-title"><i class="fas fa-camera"></i> Photos du produit</h3>
                         <div class="publish-images-upload">
                             <label class="upload-label" for="pImages">
-                                <i class="fas fa-cloud-upload-alt"></i> Ajouter des photos (max 6)
+                                <i class="fas fa-cloud-upload-alt"></i> Ajouter des photos (max 4)
                             </label>
                             <input type="file" id="pImages" accept="image/*" multiple />
                             <div class="upload-preview" id="uploadPreview"></div>
@@ -247,14 +306,41 @@
                 </div>
 
                 <div class="profile-menu">
-                    <button class="menu-item" data-tab="mon-profil"><div class="menu-icon"><i class="fas fa-id-card"></i></div><span class="menu-label">Mon profil</span><i class="fas fa-chevron-right menu-arrow"></i></button>
-                    <button class="menu-item" data-tab="mes-produits"><div class="menu-icon"><i class="fas fa-box"></i></div><span class="menu-label">Mes produits</span><i class="fas fa-chevron-right menu-arrow"></i></button>
-                    <button class="menu-item" data-tab="achats-ventes"><div class="menu-icon"><i class="fas fa-chart-line"></i></div><span class="menu-label">Achats & Ventes</span><i class="fas fa-chevron-right menu-arrow"></i></button>
-                    <button class="menu-item" data-tab="historique"><div class="menu-icon"><i class="fas fa-history"></i></div><span class="menu-label">Historique</span><i class="fas fa-chevron-right menu-arrow"></i></button>
-                    <button class="menu-item" data-tab="parametres"><div class="menu-icon"><i class="fas fa-cog"></i></div><span class="menu-label">Paramètres</span><i class="fas fa-chevron-right menu-arrow"></i></button>
-                    <button class="menu-item" data-tab="langues"><div class="menu-icon"><i class="fas fa-language"></i></div><span class="menu-label">Langues</span><i class="fas fa-chevron-right menu-arrow"></i></button>
-                    <button class="menu-item" data-tab="faq"><div class="menu-icon"><i class="fas fa-question"></i></div><span class="menu-label">FAQ</span><i class="fas fa-chevron-right menu-arrow"></i></button>
-                    <button class="menu-item" data-tab="livre-blanc"><div class="menu-icon"><i class="fas fa-file-pdf"></i></div><span class="menu-label">Livre blanc</span><i class="fas fa-chevron-right menu-arrow"></i></button>
+                    <button class="menu-item" data-tab="mon-profil">
+                        <div class="menu-icon"><i class="fas fa-id-card"></i></div>
+                        <span class="menu-label">Mon profil</span>
+                        <i class="fas fa-chevron-right menu-arrow"></i>
+                    </button>
+                    <button class="menu-item" data-tab="mes-achats">
+                        <div class="menu-icon purchases"><i class="fas fa-shopping-bag"></i></div>
+                        <span class="menu-label">Mes achats</span>
+                        <i class="fas fa-chevron-right menu-arrow"></i>
+                    </button>
+                    <button class="menu-item" data-tab="mes-ventes">
+                        <div class="menu-icon sales"><i class="fas fa-store"></i></div>
+                        <span class="menu-label">Mes ventes</span>
+                        <i class="fas fa-chevron-right menu-arrow"></i>
+                    </button>
+                    <button class="menu-item" data-tab="historique">
+                        <div class="menu-icon history"><i class="fas fa-history"></i></div>
+                        <span class="menu-label">Historique</span>
+                        <i class="fas fa-chevron-right menu-arrow"></i>
+                    </button>
+                    <button class="menu-item" data-tab="parametres">
+                        <div class="menu-icon"><i class="fas fa-cog"></i></div>
+                        <span class="menu-label">Paramètres</span>
+                        <i class="fas fa-chevron-right menu-arrow"></i>
+                    </button>
+                    <button class="menu-item" data-tab="faq">
+                        <div class="menu-icon"><i class="fas fa-question"></i></div>
+                        <span class="menu-label">FAQ</span>
+                        <i class="fas fa-chevron-right menu-arrow"></i>
+                    </button>
+                    <button class="menu-item" data-tab="livre-blanc">
+                        <div class="menu-icon"><i class="fas fa-file-pdf"></i></div>
+                        <span class="menu-label">Livre blanc</span>
+                        <i class="fas fa-chevron-right menu-arrow"></i>
+                    </button>
                 </div>
             </div>
         </section>
