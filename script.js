@@ -7,26 +7,6 @@
     var SUPABASE_URL = 'https://rixxdxgmsbjweyptzlfj.supabase.co';
     var SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJpeHhkeGdtc2Jqd2V5cHR6bGZqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTEyNTQ2MTIsImV4cCI6MjEwNjgzMDYxMn0.1yO_8kQ7LemA55KDuIKRX8eR7_1rrZyDtSS3U2Cv_lo';
 
-    console.log('[Supa] URL =', SUPABASE_URL);
-    console.log('[Supa] KEY starts with:', SUPABASE_KEY.substring(0, 20));
-
-    fetch(SUPABASE_URL + '/rest/v1/profils?select=id&limit=1', {
-        headers: {
-            'apikey': SUPABASE_KEY,
-            'Authorization': 'Bearer ' + SUPABASE_KEY
-        }
-    })
-    .then(function(r) {
-        console.log('[Supa] TEST status =', r.status);
-        return r.text();
-    })
-    .then(function(t) {
-        console.log('[Supa] TEST body =', t.substring(0, 200));
-    })
-    .catch(function(e) {
-        console.error('[Supa] TEST FAILED =', e.message);
-    });
-
     var SupaAPI = {
         headers: function() {
             return {
@@ -53,6 +33,27 @@
                 return r.json();
             });
         },
+        patch: function(path, body) {
+            var h = SupaAPI.headers();
+            h['Prefer'] = 'return=representation';
+            return fetch(SUPABASE_URL + '/rest/v1/' + path, {
+                method: 'PATCH',
+                headers: h,
+                body: JSON.stringify(body)
+            }).then(function(r) {
+                if (!r.ok) return r.text().then(function(t) { throw new Error('PATCH ' + r.status + ' — ' + t); });
+                return r.json();
+            });
+        },
+        del: function(path) {
+            return fetch(SUPABASE_URL + '/rest/v1/' + path, {
+                method: 'DELETE',
+                headers: SupaAPI.headers()
+            }).then(function(r) {
+                if (!r.ok) return r.text().then(function(t) { throw new Error('DELETE ' + r.status + ' — ' + t); });
+                return true;
+            });
+        },
         upsert: function(path, body, onConflict) {
             var h = SupaAPI.headers();
             h['Prefer'] = 'resolution=merge-duplicates,return=representation';
@@ -67,9 +68,7 @@
         }
     };
 
-    /* =========================================================
-       ===== CATÉGORIES ========================================
-       ========================================================= */
+    /* ===== CATÉGORIES ===== */
     var categories = [
         { icon: 'fa-laptop', name: 'Électronique', count: 1240 },
         { icon: 'fa-tshirt', name: 'Mode', count: 980 },
@@ -93,9 +92,7 @@
         { icon: 'fa-paw', name: 'Animalerie', count: 95 }
     ];
 
-    /* =========================================================
-       ===== PAYS ==============================================
-       ========================================================= */
+    /* ===== PAYS ===== */
     var allCountries = [
         { name: 'Afrique du Sud', flag: '🇿🇦' }, { name: 'Algérie', flag: '🇩🇿' }, { name: 'Angola', flag: '🇦🇴' },
         { name: 'Bénin', flag: '🇧🇯' }, { name: 'Burkina Faso', flag: '🇧🇫' }, { name: 'Cameroun', flag: '🇨🇲' },
@@ -128,9 +125,7 @@
         { name: 'Ukraine', flag: '🇺🇦' }, { name: 'Australie', flag: '🇦🇺' }, { name: 'Nouvelle-Zélande', flag: '🇳🇿' }
     ];
 
-    /* =========================================================
-       ===== PRODUITS (fallback local) ========================
-       ========================================================= */
+    /* ===== PRODUITS fallback ===== */
     var products = [
         { id: 1, name: 'Smartphone Galaxy S24', price: 120, unit: 'Pi', minOrder: 10, stock: 850, supplier: 'MobileTech GmbH', country: 'Allemagne', verified: true, rating: 4.9, category: 'Électronique', images: ['https://images.unsplash.com/photo-1610945415295-d9bbf067e59c?w=600&h=400&fit=crop'] },
         { id: 2, name: 'Ordinateur Portable Pro', price: 450, unit: 'Pi', minOrder: 5, stock: 320, supplier: 'TechImport SARL', country: 'Chine', verified: true, rating: 4.8, category: 'Électronique', images: ['https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=600&h=400&fit=crop'] },
@@ -165,9 +160,7 @@
     var userOrders = [];
     var userHistory = [];
 
-    /* =========================================================
-       ===== PROFIL ============================================
-       ========================================================= */
+    /* ===== PROFIL ===== */
     function isProfileComplete() {
         if (!userProfile) return false;
         return !!(userProfile.nom && userProfile.post_nom && userProfile.email && userProfile.phone && userProfile.adresse);
@@ -176,58 +169,36 @@
     function loadProfileFromSupabase() {
         if (!piUser) return Promise.resolve(null);
         return SupaAPI.get('profils?pi_uid=eq.' + encodeURIComponent(piUser.uid) + '&limit=1')
-            .then(function(rows) {
-                userProfile = (rows && rows.length > 0) ? rows[0] : null;
-                return userProfile;
-            })
-            .catch(function(e) {
-                console.error('[Supa] loadProfile error', e);
-                userProfile = null;
-                return null;
-            });
+            .then(function(rows) { userProfile = (rows && rows.length > 0) ? rows[0] : null; return userProfile; })
+            .catch(function(e) { console.error('[Supa] loadProfile error', e); userProfile = null; return null; });
     }
 
     function saveProfileToSupabase(data) {
         if (!piUser) return Promise.reject(new Error('Non connecté'));
         var payload = {
-            pi_uid: piUser.uid,
-            pi_username: piUser.username,
-            nom: data.nom,
-            post_nom: data.postNom,
-            email: data.email,
-            phone: data.phone,
+            pi_uid: piUser.uid, pi_username: piUser.username,
+            nom: data.nom, post_nom: data.postNom,
+            email: data.email, phone: data.phone,
             adresse: data.address,
             updated_at: new Date().toISOString()
         };
         return SupaAPI.upsert('profils', payload, 'pi_uid')
-            .then(function(rows) {
-                userProfile = (rows && rows.length > 0) ? rows[0] : payload;
-                return userProfile;
-            });
+            .then(function(rows) { userProfile = (rows && rows.length > 0) ? rows[0] : payload; return userProfile; });
     }
 
-    /* =========================================================
-       ===== PRODUITS ==========================================
-       ========================================================= */
+    /* ===== PRODUITS ===== */
     function loadProductsFromSupabase() {
         return SupaAPI.get('produits?select=*&order=created_at.desc')
             .then(function(rows) {
                 if (!rows || rows.length === 0) return [];
                 return rows.map(function(r) {
                     return {
-                        id: r.id,
-                        name: r.name,
-                        description: r.description,
-                        price: Number(r.price),
-                        unit: r.unit,
-                        minOrder: r.min_order,
-                        stock: r.stock,
-                        supplier: r.owner_pi_uid,
-                        ownerPiUid: r.owner_pi_uid,
-                        country: r.country,
-                        verified: !!r.verified,
-                        rating: Number(r.rating || 4.5),
-                        category: r.category,
+                        id: r.id, name: r.name, description: r.description,
+                        price: Number(r.price), unit: r.unit,
+                        minOrder: r.min_order, stock: r.stock,
+                        supplier: r.owner_pi_uid, ownerPiUid: r.owner_pi_uid,
+                        country: r.country, verified: !!r.verified,
+                        rating: Number(r.rating || 4.5), category: r.category,
                         images: Array.isArray(r.images) ? r.images : (r.images ? JSON.parse(r.images) : []),
                         _fromSupa: true
                     };
@@ -240,24 +211,31 @@
         if (!piUser) return Promise.reject(new Error('Non connecté'));
         var payload = {
             owner_pi_uid: piUser.uid,
-            name: p.name,
-            description: p.description || '',
-            category: p.category,
-            country: p.country,
-            price: p.price,
-            unit: p.unit,
-            min_order: p.minOrder,
-            stock: p.stock,
+            name: p.name, description: p.description || '',
+            category: p.category, country: p.country,
+            price: p.price, unit: p.unit,
+            min_order: p.minOrder, stock: p.stock,
             images: p.images && p.images.length ? p.images : [],
-            verified: true,
-            rating: 4.5
+            verified: true, rating: 4.5
         };
         return SupaAPI.post('produits', payload);
     }
 
-    /* =========================================================
-       ===== COMMANDES ========================================
-       ========================================================= */
+    function deleteProductFromSupabase(id) {
+        return SupaAPI.del('produits?id=eq.' + encodeURIComponent(id));
+    }
+
+    function updateProductInSupabase(id, data) {
+        var payload = {
+            name: data.name, description: data.description,
+            category: data.category, country: data.country,
+            price: data.price, unit: data.unit,
+            min_order: data.minOrder, stock: data.stock
+        };
+        return SupaAPI.patch('produits?id=eq.' + encodeURIComponent(id), payload);
+    }
+
+    /* ===== COMMANDES ===== */
     function saveOrderToSupabase(order) {
         if (!piUser) return Promise.reject(new Error('Non connecté'));
         var payload = {
@@ -280,9 +258,7 @@
             .catch(function(e) { console.error('[Supa] loadOrders error', e); return []; });
     }
 
-    /* =========================================================
-       ===== HISTORIQUE =======================================
-       ========================================================= */
+    /* ===== HISTORIQUE ===== */
     function saveHistoryToSupabase(entry) {
         if (!piUser) return Promise.reject(new Error('Non connecté'));
         var payload = {
@@ -298,16 +274,24 @@
     function loadHistoryFromSupabase() {
         if (!piUser) return Promise.resolve([]);
         var uid = encodeURIComponent(piUser.uid);
-        return SupaAPI.get('histoire?user_pi_uid=eq.' + uid + '&order=created_at.desc&limit=50')
+        return SupaAPI.get('histoire?user_pi_uid=eq.' + uid + '&order=created_at.desc&limit=100')
             .then(function(rows) { userHistory = rows || []; return userHistory; })
             .catch(function(e) { console.error('[Supa] loadHistory error', e); return []; });
     }
 
-    /* =========================================================
-       ===== HELPERS ==========================================
-       ========================================================= */
-    function formatNumber(n) {
-        return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    /* ===== HELPERS ===== */
+    function formatNumber(n) { return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','); }
+
+    function escapeHtml(s) {
+        return String(s == null ? '' : s)
+            .replace(/&/g, '&amp;').replace(/"/g, '&quot;')
+            .replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    }
+
+    function formatDateFr(iso) {
+        try {
+            return new Date(iso).toLocaleDateString('fr-FR', { day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+        } catch (e) { return ''; }
     }
 
     function showToast(message, type) {
@@ -320,8 +304,7 @@
         toast.innerHTML = '<i class="fas ' + (iconMap[type] || 'fa-info-circle') + '"></i> ' + message;
         container.appendChild(toast);
         setTimeout(function() {
-            toast.style.opacity = '0';
-            toast.style.transform = 'translateX(20px)';
+            toast.style.opacity = '0'; toast.style.transform = 'translateX(20px)';
             setTimeout(function() { if (toast.parentNode) toast.remove(); }, 400);
         }, 5000);
     }
@@ -340,9 +323,7 @@
     }
 
     function detectPiBrowser() {
-        var uaIsPi = /PiBrowser/i.test(navigator.userAgent);
-        var hasPi = typeof Pi !== 'undefined';
-        inPiBrowser = uaIsPi || hasPi;
+        inPiBrowser = /PiBrowser/i.test(navigator.userAgent) || (typeof Pi !== 'undefined');
         return inPiBrowser;
     }
 
@@ -374,8 +355,7 @@
                         if (list && list.length > 0) {
                             var localExtra = products.filter(function(p) { return !p._fromSupa; });
                             products = list.concat(localExtra);
-                            renderProducts();
-                            applyFilters();
+                            renderProducts(); applyFilters();
                         }
                     }),
                     loadOrdersFromSupabase(),
@@ -383,26 +363,20 @@
                 ]);
             })
             .then(function() {
-                updatePiUI();
-                closeAuthModal();
+                updatePiUI(); closeAuthModal();
                 showToast('Bienvenue ' + piUser.username + ' !', 'success');
-                if (!isProfileComplete()) {
-                    setTimeout(function() { showToast('Complétez votre profil pour continuer', 'info'); }, 1200);
-                }
+                if (!isProfileComplete()) setTimeout(function() { showToast('Complétez votre profil pour continuer', 'info'); }, 1200);
             })
             .catch(function(err) {
                 var msg = (err && err.message) ? err.message : 'Connexion échouée';
-                if (/denied|cancel/i.test(msg)) { showToast('Connexion annulée', 'info'); }
-                else { showToast('Erreur : ' + msg, 'error'); }
+                if (/denied|cancel/i.test(msg)) showToast('Connexion annulée', 'info');
+                else showToast('Erreur : ' + msg, 'error');
             })
             .finally(function() { if (btn) btn.disabled = false; updatePiUI(); });
     }
 
     function disconnectPi() {
-        piUser = null;
-        userProfile = null;
-        userOrders = [];
-        userHistory = [];
+        piUser = null; userProfile = null; userOrders = []; userHistory = [];
         try { localStorage.removeItem('pi_user'); } catch (e) {}
         updatePiUI();
         showToast('Déconnecté de Pi', 'info');
@@ -429,11 +403,8 @@
             if (actionBtn) { actionBtn.classList.add('disconnect'); actionBtn.disabled = false; }
             if (actionText) actionText.textContent = 'Déconnexion';
             if (hint) {
-                if (profileOk) {
-                    hint.innerHTML = '<i class="fas fa-shield-alt" style="color:var(--success);"></i> Connecté en tant que <strong>' + piUser.username + '</strong>';
-                } else {
-                    hint.innerHTML = '<i class="fas fa-exclamation-triangle" style="color:#e6b000;"></i> Complétez votre profil pour effectuer des transactions.';
-                }
+                if (profileOk) hint.innerHTML = '<i class="fas fa-shield-alt" style="color:var(--success);"></i> Connecté en tant que <strong>' + escapeHtml(piUser.username) + '</strong>';
+                else hint.innerHTML = '<i class="fas fa-exclamation-triangle" style="color:#e6b000;"></i> Complétez votre profil pour effectuer des transactions.';
             }
             if (publishAvatar) publishAvatar.textContent = piUser.username.substring(0, 2).toUpperCase();
             if (publishName) publishName.textContent = piUser.username;
@@ -446,8 +417,8 @@
             if (actionBtn) { actionBtn.classList.remove('disconnect'); actionBtn.disabled = !inPiBrowser; }
             if (actionText) actionText.textContent = 'Connecter avec Pi Network';
             if (hint) {
-                if (inPiBrowser) { hint.innerHTML = '<i class="fas fa-check-circle" style="color:var(--success);"></i> Pi Browser détecté. Cliquez pour vous connecter.'; }
-                else { hint.innerHTML = '<i class="fas fa-exclamation-triangle" style="color:#e6b000;"></i> Ouvrez cette app dans <strong>Pi Browser</strong> pour vous connecter.'; }
+                if (inPiBrowser) hint.innerHTML = '<i class="fas fa-check-circle" style="color:var(--success);"></i> Pi Browser détecté. Cliquez pour vous connecter.';
+                else hint.innerHTML = '<i class="fas fa-exclamation-triangle" style="color:#e6b000;"></i> Ouvrez cette app dans <strong>Pi Browser</strong> pour vous connecter.';
             }
             if (publishAvatar) publishAvatar.textContent = 'GB';
             if (publishName) publishName.textContent = 'Global Bulk';
@@ -458,7 +429,7 @@
     function loadPiSession() {
         try {
             var stored = localStorage.getItem('pi_user');
-            if (stored) { piUser = JSON.parse(stored); }
+            if (stored) piUser = JSON.parse(stored);
         } catch (e) {}
     }
 
@@ -479,7 +450,7 @@
         if (!summary) return;
         summary.innerHTML = cartItems.map(function(item) {
             return '<div class="payment-summary-item">' +
-                '<span class="name">' + item.name + '</span>' +
+                '<span class="name">' + escapeHtml(item.name) + '</span>' +
                 '<span class="qty">×' + item.qty + '</span>' +
                 '<span class="price">' + (item.price * item.qty).toFixed(2) + ' π</span></div>';
         }).join('');
@@ -518,19 +489,17 @@
             Pi.createPayment({ amount: amount, memo: memo, metadata: metadata }, {
                 onReadyForServerApproval: function(paymentId) {
                     fetch('https://global-bulk-pi-backend.onrender.com/approve', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
+                        method: 'POST', headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({ paymentId: paymentId })
                     }).catch(function(e) { console.error(e); });
                 },
                 onReadyForServerCompletion: function(paymentId, txid) {
                     fetch('https://global-bulk-pi-backend.onrender.com/complete', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
+                        method: 'POST', headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({ paymentId: paymentId, txid: txid })
                     })
                     .then(function(r) { return r.json(); })
-                    .then(function(data) { resolve({ paymentId: paymentId, txid: txid }); })
+                    .then(function() { resolve({ paymentId: paymentId, txid: txid }); })
                     .catch(function(error) { reject(error); });
                 },
                 onCancel: function() { reject(new Error('Paiement annulé')); },
@@ -546,8 +515,7 @@
         var interval = setInterval(function() {
             progress += Math.floor(Math.random() * 8) + 2;
             if (progress >= 100) {
-                progress = 100;
-                clearInterval(interval);
+                progress = 100; clearInterval(interval);
                 text.textContent = 'Prêt !';
                 setTimeout(function() {
                     document.getElementById('globalLoader').classList.add('hidden');
@@ -626,16 +594,16 @@
             var firstImage = p.images && p.images.length > 0 ? p.images[0] : '';
             var supplierLabel = p.ownerPiUid ? ('@' + String(p.ownerPiUid).substring(0, 8)) : p.supplier;
             return '<div class="card-product" onclick="showProductDetail(\'' + p.id + '\')">' +
-                '<div class="image"><img src="' + firstImage + '" alt="' + p.name + '" loading="lazy" />' + verifiedBadge + '</div>' +
+                '<div class="image"><img src="' + firstImage + '" alt="' + escapeHtml(p.name) + '" loading="lazy" />' + verifiedBadge + '</div>' +
                 '<div class="body">' +
-                '<div class="title">' + p.name + '</div>' +
+                '<div class="title">' + escapeHtml(p.name) + '</div>' +
                 '<div class="price">' + p.price + ' ' + p.unit + ' <small>/ unité</small></div>' +
                 '<div class="meta">' +
                 '<span><i class="fas fa-box"></i> Min: ' + p.minOrder + '</span>' +
                 '<span><i class="fas fa-warehouse"></i> ' + formatNumber(p.stock) + '</span>' +
                 '<span><i class="fas fa-star" style="color:var(--secondary);"></i> ' + p.rating + '</span>' +
                 '</div>' +
-                '<div style="font-size:12px;color:var(--text-muted);">' + supplierLabel + ' · ' + p.country + '</div>' +
+                '<div style="font-size:12px;color:var(--text-muted);">' + escapeHtml(supplierLabel) + ' · ' + escapeHtml(p.country) + '</div>' +
                 '<div class="actions">' +
                 '<button class="btn btn-primary btn-sm" onclick="event.stopPropagation();addToCart(\'' + p.id + '\')"><i class="fas fa-cart-plus"></i></button>' +
                 '<button class="btn btn-outline btn-sm" onclick="event.stopPropagation();showProductDetail(\'' + p.id + '\')">Voir</button>' +
@@ -651,8 +619,8 @@
         grid.innerHTML = suppliers.map(function(s) {
             return '<div class="card-supplier">' +
                 '<div class="avatar"><i class="fas fa-building"></i></div>' +
-                '<div class="info"><div class="name">' + s.name + (s.verified ? ' <span class="badge badge-verified" style="font-size:10px;"><i class="fas fa-check-circle"></i></span>' : '') + '</div>' +
-                '<div class="detail"><span><i class="fas fa-map-marker-alt"></i> ' + s.country + '</span>' +
+                '<div class="info"><div class="name">' + escapeHtml(s.name) + (s.verified ? ' <span class="badge badge-verified" style="font-size:10px;"><i class="fas fa-check-circle"></i></span>' : '') + '</div>' +
+                '<div class="detail"><span><i class="fas fa-map-marker-alt"></i> ' + escapeHtml(s.country) + '</span>' +
                 '<span><i class="fas fa-star" style="color:var(--secondary);"></i> ' + s.rating + '</span></div></div></div>';
         }).join('');
     }
@@ -715,9 +683,9 @@
         content.innerHTML =
             '<div class="product-detail-grid">' +
             '<div class="gallery"><div class="main-image"><img src="' + images[0] + '" /></div></div>' +
-            '<div class="info"><h1>' + p.name + '</h1>' +
+            '<div class="info"><h1>' + escapeHtml(p.name) + '</h1>' +
             '<div style="margin-bottom:10px;"><span class="badge badge-verified"><i class="fas fa-check-circle"></i> ' + (p.verified ? 'Vérifié' : 'Non vérifié') + '</span></div>' +
-            '<div style="font-size:13px;color:var(--text-muted);margin-bottom:14px;"><i class="fas fa-building"></i> ' + (p.ownerPiUid || p.supplier) + ' · ' + p.country + '</div>' +
+            '<div style="font-size:13px;color:var(--text-muted);margin-bottom:14px;"><i class="fas fa-building"></i> ' + escapeHtml(p.ownerPiUid || p.supplier) + ' · ' + escapeHtml(p.country) + '</div>' +
             '<div class="price-box"><div><span style="font-size:13px;color:var(--text-muted);">Prix de gros</span><br><span style="font-size:28px;font-weight:700;color:var(--primary);">' + p.price + ' ' + p.unit + '</span></div>' +
             '<div><span style="font-size:13px;color:var(--text-muted);">Qté min.</span><br><span style="font-size:20px;font-weight:600;">' + p.minOrder + ' unités</span></div></div>' +
             '<div class="volume-pricing">' +
@@ -767,8 +735,9 @@
         if (overlay) overlay.classList.add('open');
         document.body.style.overflow = 'hidden';
         document.body.classList.add('drawer-open');
-        if (tabId === 'livre-blanc') { initDocDrawerEvents(); }
-        if (tabId === 'mon-profil') { initProfileFormEvents(); }
+        if (tabId === 'livre-blanc') initDocDrawerEvents();
+        if (tabId === 'mon-profil') initProfileFormEvents();
+        if (tabId === 'mes-ventes') initMesVentesEvents();
     }
     function closeSideDrawer() {
         var drawer = document.getElementById('sideDrawer');
@@ -786,39 +755,145 @@
                 item.addEventListener('click', function() {
                     var url = item.getAttribute('data-url');
                     var label = item.getAttribute('data-label');
-                    if (url) {
-                        window.location.href = url;
-                    } else {
-                        showToast('« ' + label + ' » sera bientôt disponible', 'info');
-                    }
+                    if (url) window.location.href = url;
+                    else showToast('« ' + label + ' » sera bientôt disponible', 'info');
                 });
             })(items[i]);
         }
     }
 
-    function renderProfileForm() {
-        if (!piUser) {
-            return '<div class="empty-state"><i class="fas fa-user-slash"></i><p>Connectez-vous avec Pi Network pour compléter votre profil.</p></div>';
+    /* ===== MES VENTES ===== */
+    function initMesVentesEvents() {
+        var container = document.getElementById('sideDrawerContent');
+        if (!container) return;
+        container.querySelectorAll('.drawer-product-card').forEach(function(card) {
+            var id = card.getAttribute('data-id');
+            var editBtn = card.querySelector('[data-action="edit"]');
+            var delBtn = card.querySelector('[data-action="delete"]');
+            if (editBtn) editBtn.addEventListener('click', function() { openEditProductModal(id); });
+            if (delBtn) delBtn.addEventListener('click', function() { confirmDeleteProduct(id); });
+        });
+    }
+
+    function openEditProductModal(id) {
+        var p = products.find(function(x) { return String(x.id) === String(id); });
+        if (!p) return;
+        var modal = document.getElementById('editProductModal');
+        document.getElementById('epId').value = id;
+        document.getElementById('epName').value = p.name || '';
+        document.getElementById('epDescription').value = p.description || '';
+        document.getElementById('epPrice').value = p.price || 0;
+        document.getElementById('epUnit').value = p.unit || 'Pi';
+        document.getElementById('epMinOrder').value = p.minOrder || 1;
+        document.getElementById('epStock').value = p.stock || 0;
+
+        var catSel = document.getElementById('epCategory');
+        catSel.innerHTML = categories.map(function(c) {
+            return '<option value="' + c.name + '"' + (c.name === p.category ? ' selected' : '') + '>' + c.name + '</option>';
+        }).join('');
+
+        var countrySel = document.getElementById('epCountry');
+        countrySel.innerHTML = allCountries.map(function(c) {
+            return '<option value="' + c.name + '"' + (c.name === p.country ? ' selected' : '') + '>' + c.flag + ' ' + c.name + '</option>';
+        }).join('');
+
+        modal.classList.add('open');
+    }
+
+    function closeEditProductModal() {
+        var modal = document.getElementById('editProductModal');
+        if (modal) modal.classList.remove('open');
+    }
+
+    function confirmDeleteProduct(id) {
+        var p = products.find(function(x) { return String(x.id) === String(id); });
+        var name = p ? p.name : 'ce produit';
+        if (!window.confirm('Voulez-vous vraiment supprimer « ' + name + ' » ?')) return;
+        showToast('Suppression...', 'info');
+        deleteProductFromSupabase(id)
+            .then(function() {
+                products = products.filter(function(x) { return String(x.id) !== String(id); });
+                renderProducts(); applyFilters();
+                showToast('Produit supprimé', 'success');
+                openSideDrawer('mes-ventes', 'Mes ventes');
+            })
+            .catch(function(err) {
+                console.error('[Delete] error', err);
+                showToast('Erreur : ' + err.message, 'error');
+            });
+    }
+
+    function initEditProductForm() {
+        var modal = document.getElementById('editProductModal');
+        var form = document.getElementById('editProductForm');
+        var closeBtn = document.getElementById('editProductClose');
+        var cancelBtn = document.getElementById('editProductCancel');
+
+        if (closeBtn) closeBtn.addEventListener('click', closeEditProductModal);
+        if (cancelBtn) cancelBtn.addEventListener('click', closeEditProductModal);
+        if (modal) modal.addEventListener('click', function(e) { if (e.target === modal) closeEditProductModal(); });
+
+        if (form) {
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                var id = document.getElementById('epId').value;
+                var data = {
+                    name: document.getElementById('epName').value.trim(),
+                    description: document.getElementById('epDescription').value.trim(),
+                    price: parseFloat(document.getElementById('epPrice').value),
+                    unit: document.getElementById('epUnit').value,
+                    minOrder: parseInt(document.getElementById('epMinOrder').value),
+                    stock: parseInt(document.getElementById('epStock').value),
+                    category: document.getElementById('epCategory').value,
+                    country: document.getElementById('epCountry').value
+                };
+                if (!data.name || !data.category || isNaN(data.price) || isNaN(data.minOrder) || isNaN(data.stock)) {
+                    showToast('Veuillez remplir tous les champs', 'error'); return;
+                }
+                var submitBtn = form.querySelector('button[type="submit"]');
+                if (submitBtn) { submitBtn.disabled = true; submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Enregistrement...'; }
+                updateProductInSupabase(id, data)
+                    .then(function() {
+                        var p = products.find(function(x) { return String(x.id) === String(id); });
+                        if (p) {
+                            p.name = data.name; p.description = data.description;
+                            p.price = data.price; p.unit = data.unit;
+                            p.minOrder = data.minOrder; p.stock = data.stock;
+                            p.category = data.category; p.country = data.country;
+                        }
+                        renderProducts(); applyFilters();
+                        closeEditProductModal();
+                        showToast('Produit modifié avec succès', 'success');
+                        openSideDrawer('mes-ventes', 'Mes ventes');
+                    })
+                    .catch(function(err) {
+                        console.error('[Edit] error', err);
+                        showToast('Erreur : ' + err.message, 'error');
+                    })
+                    .finally(function() {
+                        if (submitBtn) { submitBtn.disabled = false; submitBtn.innerHTML = '<i class="fas fa-save"></i> Enregistrer'; }
+                    });
+            });
         }
+    }
+
+    /* ===== PROFIL FORM ===== */
+    function renderProfileForm() {
+        if (!piUser) return '<div class="empty-state"><i class="fas fa-user-slash"></i><p>Connectez-vous avec Pi Network pour compléter votre profil.</p></div>';
         var p = userProfile || {};
         var complete = isProfileComplete();
         var statusHtml = complete
             ? '<div class="profile-status-ok"><i class="fas fa-check-circle"></i> Profil complété</div>'
             : '<div class="profile-status-warn"><i class="fas fa-exclamation-triangle"></i> Profil à compléter</div>';
-
-        function esc(v) {
-            return String(v || '').replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-        }
-
         return '<h3><i class="fas fa-id-card"></i> Mon profil</h3>' +
             '<p style="color:var(--text-muted);font-size:13px;margin-bottom:14px;line-height:1.5;">Ces informations sont obligatoires avant toute opération d\'achat ou de vente.</p>' +
             statusHtml +
             '<form id="profileForm" class="profile-form" novalidate>' +
-                '<div class="form-group"><label>Nom <span class="req">*</span></label><input type="text" id="pfNom" value="' + esc(p.nom) + '" placeholder="Votre nom" required /></div>' +
-                '<div class="form-group"><label>Post-nom <span class="req">*</span></label><input type="text" id="pfPostNom" value="' + esc(p.post_nom) + '" placeholder="Votre post-nom" required /></div>' +
-                '<div class="form-group"><label>Email <span class="req">*</span></label><input type="email" id="pfEmail" value="' + esc(p.email) + '" placeholder="exemple@email.com" required /></div>' +
-                '<div class="form-group"><label>Numéro de téléphone <span class="req">*</span></label><input type="tel" id="pfPhone" value="' + esc(p.phone) + '" placeholder="+243 ..." required /></div>' +
-                '<div class="form-group"><label>Adresse de résidence <span class="req">*</span></label><textarea id="pfAddress" rows="3" placeholder="Ville, quartier, rue, n°" required>' + esc(p.adresse) + '</textarea></div>' +
+                '<div class="form-group"><label>Nom <span class="req">*</span></label><input type="text" id="pfNom" value="' + escapeHtml(p.nom) + '" placeholder="Votre nom" required /></div>' +
+                '<div class="form-group"><label>Post-nom <span class="req">*</span></label><input type="text" id="pfPostNom" value="' + escapeHtml(p.post_nom) + '" placeholder="Votre post-nom" required /></div>' +
+                '<div class="form-group"><label>Email <span class="req">*</span></label><input type="email" id="pfEmail" value="' + escapeHtml(p.email) + '" placeholder="exemple@email.com" required /></div>' +
+                '<div class="form-group"><label>Numéro de téléphone <span class="req">*</span></label><input type="tel" id="pfPhone" value="' + escapeHtml(p.phone) + '" placeholder="+243 ..." required /></div>' +
+                '<div class="form-group"><label>Adresse de résidence <span class="req">*</span></label><textarea id="pfAddress" rows="3" placeholder="Ville, quartier, rue, n°" required>' + escapeHtml(p.adresse) + '</textarea></div>' +
                 '<div class="profile-note"><i class="fas fa-info-circle"></i><span>Veuillez mettre les <strong>vraies informations</strong>, car celles-ci serviront à l\'<strong>expédition</strong> de vos commandes.</span></div>' +
                 '<button type="submit" class="btn btn-primary btn-block publish-submit" style="margin-top:16px;"><i class="fas fa-save"></i> Enregistrer mon profil</button>' +
             '</form>';
@@ -830,52 +905,146 @@
         form.addEventListener('submit', function(e) {
             e.preventDefault();
             if (!piUser) { showToast('Connectez-vous avec Pi Network', 'error'); return; }
-
             var nom = document.getElementById('pfNom').value.trim();
             var postNom = document.getElementById('pfPostNom').value.trim();
             var email = document.getElementById('pfEmail').value.trim();
             var phone = document.getElementById('pfPhone').value.trim();
             var address = document.getElementById('pfAddress').value.trim();
-
-            if (!nom || !postNom || !email || !phone || !address) {
-                showToast('Veuillez remplir tous les champs', 'error');
-                return;
-            }
-            if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-                showToast('Email invalide', 'error');
-                return;
-            }
-
+            if (!nom || !postNom || !email || !phone || !address) { showToast('Veuillez remplir tous les champs', 'error'); return; }
+            if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { showToast('Email invalide', 'error'); return; }
             var btn = form.querySelector('button[type="submit"]');
             if (btn) { btn.disabled = true; btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Enregistrement...'; }
-
             saveProfileToSupabase({ nom: nom, postNom: postNom, email: email, phone: phone, address: address })
                 .then(function() {
                     showToast('Profil enregistré avec succès', 'success');
                     updatePiUI();
                     var content = document.getElementById('sideDrawerContent');
-                    if (content) {
-                        content.innerHTML = renderProfileForm();
-                        initProfileFormEvents();
-                    }
+                    if (content) { content.innerHTML = renderProfileForm(); initProfileFormEvents(); }
                 })
-                .catch(function(err) {
-                    console.error('[Profil] save error', err);
-                    showToast('Erreur : ' + (err.message || 'inconnue'), 'error');
-                })
-                .finally(function() {
-                    if (btn) { btn.disabled = false; btn.innerHTML = '<i class="fas fa-save"></i> Enregistrer mon profil'; }
-                });
+                .catch(function(err) { console.error(err); showToast('Erreur : ' + (err.message || 'inconnue'), 'error'); })
+                .finally(function() { if (btn) { btn.disabled = false; btn.innerHTML = '<i class="fas fa-save"></i> Enregistrer mon profil'; } });
         });
     }
 
+    /* ===== MES ACHATS ===== */
+    function getProductImageForItem(itemId) {
+        var p = products.find(function(x) { return String(x.id) === String(itemId); });
+        if (p && p.images && p.images[0]) return p.images[0];
+        return 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="80" height="80"><rect width="80" height="80" fill="%23F0F2F5"/><text x="40" y="45" text-anchor="middle" font-size="24" fill="%236b7a8f">📦</text></svg>';
+    }
+
+    function renderMesAchats() {
+        if (!piUser) return '<div class="empty-state"><i class="fas fa-user-slash"></i><p>Connectez-vous pour voir vos achats.</p></div>';
+        var achats = userOrders.filter(function(o) { return o.buyer_pi_uid === piUser.uid; });
+        var html = '<h3><i class="fas fa-shopping-bag"></i> Mes achats</h3>';
+
+        if (achats.length === 0) {
+            html += '<div class="empty-state" style="padding:40px 20px;"><i class="fas fa-shopping-bag" style="font-size:48px;margin-bottom:12px;opacity:0.25;"></i><p style="font-size:14px;">Vous n\'avez encore effectué aucun achat.</p></div>';
+            return html;
+        }
+
+        html += '<p style="color:var(--text-muted);font-size:12.5px;margin-bottom:14px;">' + achats.length + ' commande' + (achats.length > 1 ? 's' : '') + '</p>';
+
+        achats.forEach(function(o) {
+            var date = formatDateFr(o.created_at);
+            var items = o.items || [];
+            var itemsHtml = items.map(function(it) {
+                var img = getProductImageForItem(it.id);
+                return '<div class="order-item">' +
+                    '<div class="order-item-img"><img src="' + img + '" alt="" /></div>' +
+                    '<div class="order-item-body">' +
+                        '<div class="order-item-name">' + escapeHtml(it.name) + '</div>' +
+                        '<div class="order-item-meta">' + it.qty + ' × ' + it.price + ' π</div>' +
+                    '</div>' +
+                    '<div class="order-item-sub">' + (it.qty * it.price).toFixed(2) + ' π</div>' +
+                '</div>';
+            }).join('');
+
+            html += '<div class="order-card">' +
+                '<div class="order-header"><div><i class="fas fa-receipt"></i> ' + date + '</div><span class="order-status">' + escapeHtml(o.status || 'payé') + '</span></div>' +
+                '<div class="order-items">' + itemsHtml + '</div>' +
+                '<div class="order-total"><span>Total</span><strong>' + Number(o.total).toFixed(2) + ' π</strong></div>' +
+            '</div>';
+        });
+        return html;
+    }
+
+    /* ===== MES VENTES ===== */
+    function renderMesVentes() {
+        if (!piUser) return '<div class="empty-state"><i class="fas fa-user-slash"></i><p>Connectez-vous pour voir vos ventes.</p></div>';
+        var myProducts = products.filter(function(p) { return p.ownerPiUid === piUser.uid; });
+        var html = '<h3><i class="fas fa-store"></i> Mes ventes</h3>';
+
+        if (myProducts.length === 0) {
+            html += '<div class="empty-state" style="padding:40px 20px;"><i class="fas fa-box-open" style="font-size:48px;margin-bottom:12px;opacity:0.25;"></i><p style="font-size:14px;">Vous n\'avez publié aucun produit.</p>' +
+                '<button class="btn btn-primary" style="margin-top:14px;" onclick="closeSideDrawer(); window.openPublish();"><i class="fas fa-plus-circle"></i> Publier un produit</button></div>';
+            return html;
+        }
+
+        html += '<p style="color:var(--text-muted);font-size:12.5px;margin-bottom:14px;">' + myProducts.length + ' produit' + (myProducts.length > 1 ? 's' : '') + ' publié' + (myProducts.length > 1 ? 's' : '') + '</p>';
+
+        myProducts.forEach(function(p) {
+            var img = p.images && p.images[0] ? p.images[0] : 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="80" height="80"><rect width="80" height="80" fill="%23F0F2F5"/></svg>';
+            html += '<div class="drawer-product-card" data-id="' + p.id + '">' +
+                '<div class="dpc-img"><img src="' + img + '" alt="" /></div>' +
+                '<div class="dpc-info">' +
+                    '<div class="dpc-name">' + escapeHtml(p.name) + '</div>' +
+                    '<div class="dpc-price">' + p.price + ' ' + p.unit + '</div>' +
+                    '<div class="dpc-meta">' +
+                        '<span><i class="fas fa-box"></i> Stock: ' + p.stock + '</span>' +
+                        '<span><i class="fas fa-tag"></i> ' + escapeHtml(p.category) + '</span>' +
+                    '</div>' +
+                    '<div class="dpc-actions">' +
+                        '<button type="button" class="dpc-btn dpc-edit" data-action="edit"><i class="fas fa-edit"></i> Modifier</button>' +
+                        '<button type="button" class="dpc-btn dpc-delete" data-action="delete"><i class="fas fa-trash"></i> Supprimer</button>' +
+                    '</div>' +
+                '</div>' +
+            '</div>';
+        });
+        return html;
+    }
+
+    /* ===== HISTORIQUE UNIFIÉ ===== */
+    function renderHistorique() {
+        if (!piUser) return '<div class="empty-state"><i class="fas fa-user-slash"></i><p>Connectez-vous pour voir votre historique.</p></div>';
+        var html = '<h3><i class="fas fa-history"></i> Historique</h3>';
+
+        if (userHistory.length === 0) {
+            html += '<div class="empty-state" style="padding:40px 20px;"><i class="fas fa-receipt" style="font-size:48px;margin-bottom:12px;opacity:0.25;"></i><p style="font-size:14px;">Aucune opération enregistrée.</p></div>';
+            return html;
+        }
+
+        html += '<p style="color:var(--text-muted);font-size:12.5px;margin-bottom:14px;">' + userHistory.length + ' opération' + (userHistory.length > 1 ? 's' : '') + '</p>';
+
+        userHistory.forEach(function(h) {
+            var type = h.type || 'info';
+            var iconClass = type === 'achat' ? 'achat' : (type === 'vente' ? 'vente' : (type === 'publication' ? 'publication' : ''));
+            var iconFa = type === 'achat' ? 'fa-shopping-bag' : (type === 'vente' ? 'fa-store' : (type === 'publication' ? 'fa-box' : 'fa-circle-info'));
+            var date = formatDateFr(h.created_at);
+            var amount = h.amount ? Number(h.amount).toFixed(2) + ' π' : '';
+
+            html += '<div class="history-entry">' +
+                '<div class="he-icon ' + iconClass + '"><i class="fas ' + iconFa + '"></i></div>' +
+                '<div class="he-body">' +
+                    '<div class="he-desc">' + escapeHtml(h.description || '') + '</div>' +
+                    '<div class="he-meta">' + date + '</div>' +
+                '</div>' +
+                (amount ? '<div class="he-amount">' + amount + '</div>' : '') +
+            '</div>';
+        });
+        return html;
+    }
+
+    /* ===== RENDER SIDE DRAWER ===== */
     function renderSideDrawerContent(tabId) {
         function infoItem(icon, label, value) {
             return '<div class="info-item"><i class="fas ' + icon + '"></i><span class="label">' + label + '</span><span class="value">' + value + '</span></div>';
         }
         switch(tabId) {
-            case 'mon-profil':
-                return renderProfileForm();
+            case 'mon-profil': return renderProfileForm();
+            case 'mes-achats': return renderMesAchats();
+            case 'mes-ventes': return renderMesVentes();
+            case 'historique': return renderHistorique();
             case 'parametres':
                 return '<h3><i class="fas fa-sliders-h"></i> Paramètres</h3>' +
                     infoItem('fa-bell', 'Notifications', 'Activées') +
@@ -900,41 +1069,6 @@
                         '<div style="font-size:14px;font-weight:600;color:var(--primary);">Le centre commercial B2B mondial, expliqué</div>' +
                         '<div style="font-size:12.5px;color:var(--text-muted);margin-top:4px;line-height:1.5;">Édition 2026 — 12 chapitres — lecture ~18 min</div>' +
                     '</div>';
-            case 'mes-produits':
-                if (!piUser) return '<div class="empty-state"><i class="fas fa-box-open"></i><p>Connectez-vous pour voir vos produits.</p></div>';
-                var myProducts = products.filter(function(p) {
-                    return p.ownerPiUid === piUser.uid || p.supplier === piUser.username;
-                });
-                var html = '<h3><i class="fas fa-boxes"></i> Mes produits</h3>';
-                if (myProducts.length === 0) {
-                    html += '<div class="empty-state" style="padding:20px 0;"><i class="fas fa-box-open" style="font-size:36px;margin-bottom:10px;"></i><p style="font-size:14px;">Vous n\'avez publié aucun produit pour le moment.</p></div>';
-                } else {
-                    myProducts.forEach(function(p) {
-                        html += infoItem('fa-box', p.name, p.price + ' ' + p.unit + ' <br><small style="font-weight:400;color:var(--text-muted);">Stock: ' + p.stock + '</small>');
-                    });
-                }
-                return html;
-            case 'historique':
-                if (!piUser) return '<div class="empty-state"><i class="fas fa-history"></i><p>Connectez-vous pour voir votre historique.</p></div>';
-                if (userHistory.length === 0) {
-                    return '<h3><i class="fas fa-history"></i> Historique</h3>' +
-                        '<div class="empty-state" style="padding:20px 0;"><i class="fas fa-receipt" style="font-size:36px;margin-bottom:10px;"></i><p style="font-size:14px;">Aucune opération enregistrée.</p></div>';
-                }
-                var hHtml = '<h3><i class="fas fa-history"></i> Historique</h3>';
-                userHistory.forEach(function(h) {
-                    var d = new Date(h.created_at).toLocaleDateString('fr-FR');
-                    var amount = h.amount ? h.amount + ' π' : '';
-                    hHtml += infoItem('fa-receipt', d, h.description + (amount ? ' <br><small>' + amount + '</small>' : ''));
-                });
-                return hHtml;
-            case 'achats-ventes':
-                if (!piUser) return '<div class="empty-state"><i class="fas fa-chart-line"></i><p>Connectez-vous pour voir vos statistiques.</p></div>';
-                var achats = userOrders.filter(function(o) { return o.buyer_pi_uid === piUser.uid; }).length;
-                var ventes = userOrders.filter(function(o) { return o.seller_pi_uid === piUser.uid; }).length;
-                return '<h3><i class="fas fa-chart-line"></i> Achats & Ventes</h3>' +
-                    '<div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:16px;">' +
-                    '<div style="background:var(--gray-light);padding:20px;text-align:center;border-radius:12px;"><div style="font-size:28px;font-weight:800;color:var(--primary);">' + achats + '</div><div style="font-size:13px;color:var(--text-muted);">Achats</div></div>' +
-                    '<div style="background:var(--gray-light);padding:20px;text-align:center;border-radius:12px;"><div style="font-size:28px;font-weight:800;color:var(--primary);">' + ventes + '</div><div style="font-size:13px;color:var(--text-muted);">Ventes</div></div></div>';
             default:
                 return '<p>Sélectionnez une option.</p>';
         }
@@ -957,7 +1091,7 @@
     if (btnPiConnect) {
         btnPiConnect.addEventListener('click', function(e) {
             e.preventDefault();
-            if (piUser) { disconnectPi(); } else { connectPi(); }
+            if (piUser) disconnectPi(); else connectPi();
         });
     }
 
@@ -976,9 +1110,7 @@
         executePayment();
     });
 
-    /* =========================================================
-       ===== UPLOAD IMAGES AVEC COMPRESSION ===================
-       ========================================================= */
+    /* ===== UPLOAD IMAGES ===== */
     var uploadedImages = [];
     var MAX_IMAGES = 4;
 
@@ -992,10 +1124,8 @@
                     var w = img.width, h = img.height;
                     if (w > maxWidth) { h = Math.round(h * maxWidth / w); w = maxWidth; }
                     canvas.width = w; canvas.height = h;
-                    var ctx = canvas.getContext('2d');
-                    ctx.drawImage(img, 0, 0, w, h);
-                    var dataUrl = canvas.toDataURL('image/jpeg', quality);
-                    resolve(dataUrl);
+                    canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+                    resolve(canvas.toDataURL('image/jpeg', quality));
                 };
                 img.onerror = function() { resolve(ev.target.result); };
                 img.src = ev.target.result;
@@ -1015,14 +1145,10 @@
                 return;
             }
             var self = this;
-            var tasks = files
-                .filter(function(f) { return f.type.indexOf('image/') === 0; })
-                .map(function(f) { return compressImage(f, 800, 0.7); });
-
+            var tasks = files.filter(function(f) { return f.type.indexOf('image/') === 0; })
+                             .map(function(f) { return compressImage(f, 800, 0.7); });
             Promise.all(tasks).then(function(results) {
-                results.forEach(function(dataUrl) {
-                    if (dataUrl) uploadedImages.push(dataUrl);
-                });
+                results.forEach(function(dataUrl) { if (dataUrl) uploadedImages.push(dataUrl); });
                 renderUploadPreview();
                 self.value = '';
             });
@@ -1036,11 +1162,9 @@
             return '<div class="preview-thumb"><img src="' + img + '" /><button type="button" class="remove-btn" onclick="removeImage(' + index + ')"><i class="fas fa-times"></i></button></div>';
         }).join('');
     }
-    window.removeImage = function(index) {
-        uploadedImages.splice(index, 1);
-        renderUploadPreview();
-    };
+    window.removeImage = function(index) { uploadedImages.splice(index, 1); renderUploadPreview(); };
 
+    /* ===== CART ===== */
     window.addToCart = function(id) {
         if (!requireAuth('panier')) return;
         var p = products.find(function(x) { return String(x.id) === String(id); });
@@ -1054,16 +1178,14 @@
     };
     window.removeFromCart = function(id) {
         cartItems = cartItems.filter(function(item) { return String(item.id) !== String(id); });
-        updateCartBadge();
-        renderCartItems();
+        updateCartBadge(); renderCartItems();
     };
     window.updateQty = function(id, delta) {
         var item = cartItems.find(function(i) { return String(i.id) === String(id); });
         if (!item) return;
         item.qty += delta;
         if (item.qty <= 0) { removeFromCart(id); return; }
-        renderCartItems();
-        updateCartBadge();
+        renderCartItems(); updateCartBadge();
     };
     function renderCartItems() {
         var body = document.getElementById('cartBody');
@@ -1077,7 +1199,7 @@
         }
         body.innerHTML = cartItems.map(function(item) {
             return '<div class="cart-item"><div class="item-image"><img src="' + (item.image || '') + '" /></div>' +
-                '<div class="item-info"><div class="name">' + item.name + '</div>' +
+                '<div class="item-info"><div class="name">' + escapeHtml(item.name) + '</div>' +
                 '<div class="price">' + (item.price * item.qty).toFixed(2) + ' π</div>' +
                 '<div class="item-qty"><button onclick="updateQty(\'' + item.id + '\',-1)">-</button><span>' + item.qty + '</span><button onclick="updateQty(\'' + item.id + '\',1)">+</button></div></div>' +
                 '<button class="btn btn-sm btn-danger" onclick="removeFromCart(\'' + item.id + '\')"><i class="fas fa-trash"></i></button></div>';
@@ -1128,10 +1250,8 @@
             var orderPayload = {
                 seller_pi_uid: sellerUid,
                 items: itemsSnapshot.map(function(i) { return { id: i.id, name: i.name, qty: i.qty, price: i.price }; }),
-                total: totalFixed,
-                status: 'paid',
-                payment_id: result.paymentId,
-                txid: result.txid
+                total: totalFixed, status: 'paid',
+                payment_id: result.paymentId, txid: result.txid
             };
             return saveOrderToSupabase(orderPayload).then(function() {
                 return saveHistoryToSupabase({
@@ -1144,15 +1264,13 @@
                 return Promise.all([loadOrdersFromSupabase(), loadHistoryFromSupabase()]);
             }).then(function() {
                 showToast('✅ Paiement réussi et enregistré !', 'success');
-                cartItems = [];
-                updateCartBadge();
-                renderCartItems();
+                cartItems = []; updateCartBadge(); renderCartItems();
             });
         })
         .catch(function(err) {
             console.error('[Paiement] error', err);
-            if (/annulé/i.test(err.message)) { showToast('Paiement annulé', 'info'); }
-            else { showToast('Erreur : ' + (err.message || 'paiement échoué'), 'error'); }
+            if (/annulé/i.test(err.message)) showToast('Paiement annulé', 'info');
+            else showToast('Erreur : ' + (err.message || 'paiement échoué'), 'error');
         });
     }
 
@@ -1193,7 +1311,6 @@
     document.getElementById('publishForm').addEventListener('submit', function(e) {
         e.preventDefault();
         if (!requireAuth('publier')) return;
-
         var name = document.getElementById('pName').value.trim();
         var description = document.getElementById('pDescription').value.trim();
         var category = document.getElementById('pCategory').value;
@@ -1202,56 +1319,32 @@
         var stock = parseInt(document.getElementById('pStock').value);
         var supplier = document.getElementById('pSupplier').value.trim();
         var country = document.getElementById('pCountry').value;
-
         if (!name || !description || !category || isNaN(price) || isNaN(minOrder) || isNaN(stock) || !supplier || !country) {
-            showToast('Veuillez remplir tous les champs obligatoires', 'error');
-            return;
+            showToast('Veuillez remplir tous les champs obligatoires', 'error'); return;
         }
-
         var images = uploadedImages.length > 0 ? uploadedImages : [''];
-
         var newProduct = {
-            name: name,
-            description: description,
-            price: price,
+            name: name, description: description, price: price,
             unit: document.getElementById('pUnit').value,
-            minOrder: minOrder,
-            stock: stock,
-            country: country,
-            category: category,
-            images: images,
-            supplier: piUser.username,
-            ownerPiUid: piUser.uid,
-            verified: true,
-            rating: 4.5
+            minOrder: minOrder, stock: stock, country: country, category: category,
+            images: images, supplier: piUser.username, ownerPiUid: piUser.uid,
+            verified: true, rating: 4.5
         };
-
         var submitBtn = this.querySelector('button[type="submit"]');
         if (submitBtn) { submitBtn.disabled = true; submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Publication...'; }
-
         saveProductToSupabase(newProduct)
             .then(function(rows) {
                 var saved = rows && rows[0] ? rows[0] : null;
                 var localProduct = {
                     id: saved ? saved.id : products.length + 1,
-                    name: name,
-                    description: description,
-                    price: price,
-                    unit: newProduct.unit,
-                    minOrder: minOrder,
-                    stock: stock,
-                    supplier: piUser.username,
-                    ownerPiUid: piUser.uid,
-                    country: country,
-                    verified: true,
-                    rating: 4.5,
-                    category: category,
-                    images: images,
-                    _fromSupa: true
+                    name: name, description: description, price: price,
+                    unit: newProduct.unit, minOrder: minOrder, stock: stock,
+                    supplier: piUser.username, ownerPiUid: piUser.uid,
+                    country: country, verified: true, rating: 4.5,
+                    category: category, images: images, _fromSupa: true
                 };
                 products.unshift(localProduct);
-                renderProducts();
-                applyFilters();
+                renderProducts(); applyFilters();
                 return saveHistoryToSupabase({
                     type: 'publication',
                     description: 'Publication : ' + name,
@@ -1280,22 +1373,20 @@
         var pCategory = document.getElementById('pCategory');
         if (pCategory) {
             pCategory.innerHTML = '<option value="">Sélectionner une catégorie</option>';
-            categories.forEach(function(c) {
-                pCategory.innerHTML += '<option value="' + c.name + '">' + c.name + '</option>';
-            });
+            categories.forEach(function(c) { pCategory.innerHTML += '<option value="' + c.name + '">' + c.name + '</option>'; });
         }
         var pCountry = document.getElementById('pCountry');
         if (pCountry) {
             pCountry.innerHTML = '<option value="">Sélectionner un pays</option>';
-            allCountries.forEach(function(c) {
-                pCountry.innerHTML += '<option value="' + c.name + '">' + c.flag + ' ' + c.name + '</option>';
-            });
+            allCountries.forEach(function(c) { pCountry.innerHTML += '<option value="' + c.name + '">' + c.flag + ' ' + c.name + '</option>'; });
         }
     }
 
+    /* ===== INIT ===== */
     console.log('[App] 🚀 Démarrage');
     detectPiBrowser();
     loadPiSession();
+    initEditProductForm();
 
     waitForPiSdk(5000)
         .then(function() { initPiSdk(); updatePiUI(); })
@@ -1320,8 +1411,7 @@
                             if (list && list.length > 0) {
                                 var localExtra = products.filter(function(p) { return !p._fromSupa; });
                                 products = list.concat(localExtra);
-                                renderProducts();
-                                applyFilters();
+                                renderProducts(); applyFilters();
                             }
                         }),
                         loadOrdersFromSupabase(),
@@ -1330,17 +1420,14 @@
                 })
                 .then(function() {
                     updatePiUI();
-                    if (isProfileComplete()) {
-                        showToast('Bon retour ' + piUser.username + ' !', 'success');
-                    } else {
-                        showToast('Complétez votre profil dans Mon profil', 'info');
-                    }
+                    if (isProfileComplete()) showToast('Bon retour ' + piUser.username + ' !', 'success');
+                    else showToast('Complétez votre profil dans Mon profil', 'info');
                 })
                 .catch(function(e) { console.error('[Init] restore error', e); });
         } else {
             setTimeout(function() {
-                if (inPiBrowser) { showToast('Allez dans Profil pour vous connecter', 'info'); }
-                else { showToast('Ouvrez dans Pi Browser pour Pi', 'info'); }
+                if (inPiBrowser) showToast('Allez dans Profil pour vous connecter', 'info');
+                else showToast('Ouvrez dans Pi Browser pour Pi', 'info');
             }, 800);
         }
     });
