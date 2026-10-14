@@ -90,6 +90,8 @@
     var userProfile = null;
     var userOrders = [];
     var userHistory = [];
+    var buyerProfilesCache = {};
+    var currentCommandesTab = 'pending'; // 'pending' | 'shipped'
 
     function formatPrice(p) {
         var n = Number(p);
@@ -109,6 +111,16 @@
     function formatDateFr(iso) {
         try { return new Date(iso).toLocaleDateString('fr-FR', { day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' }); }
         catch (e) { return ''; }
+    }
+
+    function statusLabel(status) {
+        if (!status) return 'Payé';
+        var s = String(status).toLowerCase();
+        if (s === 'paid') return 'Payé';
+        if (s === 'shipped') return 'Expédié';
+        if (s === 'delivered') return 'Livré';
+        if (s === 'pending') return 'En attente';
+        return status;
     }
 
     function showToast(message, type) {
@@ -165,8 +177,12 @@
 
     function saveOrderToSupabase(order) {
         if (!piUser) return Promise.reject(new Error('Non connecté'));
-        var payload = { buyer_pi_uid: piUser.uid, seller_pi_uid: order.seller_pi_uid || null, items: order.items, total: order.total, status: order.status || 'pending', payment_id: order.payment_id || null, txid: order.txid || null };
+        var payload = { buyer_pi_uid: piUser.uid, seller_pi_uid: order.seller_pi_uid || null, items: order.items, total: order.total, status: order.status || 'paid', payment_id: order.payment_id || null, txid: order.txid || null };
         return SupaAPI.post('ordres', payload);
+    }
+
+    function updateOrderStatus(orderId, newStatus) {
+        return SupaAPI.patch('ordres?id=eq.' + encodeURIComponent(orderId), { status: newStatus });
     }
 
     function loadOrdersFromSupabase() {
@@ -191,6 +207,15 @@
             .catch(function(e) { console.error('[Supa] loadHistory error', e); return []; });
     }
 
+    function loadBuyerProfiles(uids) {
+        if (!uids || uids.length === 0) return Promise.resolve({});
+        var unique = uids.filter(function(v, i, a) { return v && a.indexOf(v) === i; });
+        var inList = unique.map(function(u) { return '"' + u + '"'; }).join(',');
+        return SupaAPI.get('profils?pi_uid=in.(' + inList + ')')
+            .then(function(rows) { var map = {}; (rows || []).forEach(function(r) { map[r.pi_uid] = r; }); return map; })
+            .catch(function(e) { console.error('[Supa] loadBuyerProfiles error', e); return {}; });
+    }
+
     function waitForPiSdk(maxMs) {
         maxMs = maxMs || 5000;
         return new Promise(function(resolve, reject) {
@@ -201,9 +226,7 @@
     }
 
     function detectPiBrowser() { inPiBrowser = /PiBrowser/i.test(navigator.userAgent) || (typeof Pi !== 'undefined'); return inPiBrowser; }
-
     function initPiSdk() { if (!inPiBrowser) return false; try { Pi.init({ version: "2.0", sandbox: false }); piReady = true; return true; } catch (e) { return false; } }
-
     function onIncompletePaymentFound(payment) { console.log('[Pi] Paiement incomplet :', payment); }
 
     function connectPi() {
@@ -223,7 +246,7 @@
     }
 
     function disconnectPi() {
-        piUser = null; userProfile = null; userOrders = []; userHistory = [];
+        piUser = null; userProfile = null; userOrders = []; userHistory = []; buyerProfilesCache = {};
         try { localStorage.removeItem('pi_user'); } catch (e) {}
         updatePiUI();
         showToast('Déconnecté de Pi', 'info');
@@ -240,7 +263,6 @@
         var publishAvatar = document.getElementById('publishAvatar');
         var publishName = document.getElementById('publishName');
         var publishHandle = document.getElementById('publishHandle');
-
         if (piUser) {
             var profileOk = isProfileComplete();
             if (accountCard) accountCard.classList.add('connected');
@@ -465,11 +487,9 @@
             '<div class="tier"><div style="font-size:12px;color:var(--text-muted);">' + (p.minOrder * 5) + '+</div><div class="price">' + formatPrice(p.price * 0.9) + ' Pi</div></div>' +
             '<div class="tier"><div style="font-size:12px;color:var(--text-muted);">' + (p.minOrder * 10) + '+</div><div class="price">' + formatPrice(p.price * 0.8) + ' Pi</div></div></div>' +
             '<div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:16px;"><button class="btn btn-primary" onclick="addToCart(\'' + p.id + '\')"><i class="fas fa-cart-plus"></i> Ajouter au panier</button></div></div></div>';
-
         var thumbs = content.querySelectorAll('.thumb-strip .gallery-img');
         var mainImg = content.querySelector('#pdMainImage');
         thumbs.forEach(function(t) { t.addEventListener('click', function() { if (mainImg) mainImg.src = t.getAttribute('src'); thumbs.forEach(function(x) { x.classList.remove('active'); }); t.classList.add('active'); }); });
-
         window.scrollTo({ top: 0, behavior: 'smooth' });
     };
 
@@ -485,11 +505,23 @@
         var titleEl = document.getElementById('sideDrawerTitle');
         var content = document.getElementById('sideDrawerContent');
         if (titleEl) titleEl.textContent = title;
-        if (content) content.innerHTML = renderSideDrawerContent(tabId);
         if (drawer) drawer.classList.add('open');
         if (overlay) overlay.classList.add('open');
         document.body.style.overflow = 'hidden';
         document.body.classList.add('drawer-open');
+
+        if (tabId === 'mes-commandes' && piUser) {
+            if (content) content.innerHTML = '<div style="text-align:center;padding:40px 20px;color:var(--text-muted);"><i class="fas fa-spinner fa-spin" style="font-size:32px;opacity:0.5;"></i><p style="margin-top:12px;font-size:13px;">Chargement des commandes...</p></div>';
+            var myOrders = userOrders.filter(function(o) { return o.seller_pi_uid === piUser.uid; });
+            var buyerUids = myOrders.map(function(o) { return o.buyer_pi_uid; });
+            loadBuyerProfiles(buyerUids).then(function(map) {
+                buyerProfilesCache = map;
+                if (content) { content.innerHTML = renderMesCommandes(); initMesCommandesEvents(); }
+            });
+        } else {
+            if (content) content.innerHTML = renderSideDrawerContent(tabId);
+        }
+
         if (tabId === 'livre-blanc') initDocDrawerEvents();
         if (tabId === 'mon-profil') initProfileFormEvents();
         if (tabId === 'mes-ventes') initMesVentesEvents();
@@ -637,14 +669,10 @@
         });
     }
 
-    /* ==== MES ACHATS ==== */
     function getProductImageForItem(itemId, productSnapshot) {
-        // 1) L'image enregistrée dans la commande (fiable)
         if (productSnapshot && productSnapshot.image) return productSnapshot.image;
-        // 2) L'image du produit dans la liste actuelle
         var p = products.find(function(x) { return String(x.id) === String(itemId); });
         if (p && p.images && p.images[0]) return p.images[0];
-        // 3) Placeholder
         return 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="80" height="80"><rect width="80" height="80" fill="%23F0F2F5"/><text x="40" y="50" text-anchor="middle" font-size="32" fill="%236b7a8f">📦</text></svg>';
     }
 
@@ -660,7 +688,7 @@
             var itemsHtml = items.map(function(it) {
                 var img = getProductImageForItem(it.id, it);
                 return '<div class="order-item">' +
-                    '<div class="order-item-img"><img src="' + img + '" alt="" onerror="this.src=\'data:image/svg+xml;utf8,&lt;svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2280%22 height=%2280%22&gt;&lt;rect width=%2280%22 height=%2280%22 fill=%22%23F0F2F5%22/&gt;&lt;text x=%2240%22 y=%2250%22 text-anchor=%22middle%22 font-size=%2232%22 fill=%22%236b7a8f%22&gt;📦&lt;/text&gt;&lt;/svg&gt;\'" /></div>' +
+                    '<div class="order-item-img"><img src="' + img + '" alt="" /></div>' +
                     '<div class="order-item-body">' +
                         '<div class="order-item-name">' + escapeHtml(it.name) + '</div>' +
                         '<div class="order-item-meta">' + it.qty + ' × ' + formatPrice(it.price) + ' π</div>' +
@@ -668,8 +696,9 @@
                     '<div class="order-item-sub">' + formatPrice(it.qty * it.price) + ' π</div>' +
                 '</div>';
             }).join('');
+            var statusCls = (o.status === 'shipped' || o.status === 'delivered') ? 'order-status shipped' : 'order-status';
             html += '<div class="order-card">' +
-                '<div class="order-header"><div><i class="fas fa-receipt"></i> ' + date + '</div><span class="order-status">' + escapeHtml(o.status || 'payé') + '</span></div>' +
+                '<div class="order-header"><div><i class="fas fa-receipt"></i> ' + date + '</div><span class="' + statusCls + '">' + escapeHtml(statusLabel(o.status)) + '</span></div>' +
                 '<div class="order-items">' + itemsHtml + '</div>' +
                 '<div class="order-total"><span>Total</span><strong>' + formatPrice(o.total) + ' π</strong></div>' +
             '</div>';
@@ -695,6 +724,167 @@
         return html;
     }
 
+    /* ===== MES COMMANDES (Vendeur) avec onglets En attente / Expédié ===== */
+    function renderMesCommandes() {
+        if (!piUser) return '<div class="empty-state"><i class="fas fa-user-slash"></i><p>Connectez-vous pour voir vos commandes.</p></div>';
+
+        var allCommandes = userOrders.filter(function(o) { return o.seller_pi_uid === piUser.uid; });
+        var pending = allCommandes.filter(function(o) { return o.status !== 'shipped' && o.status !== 'delivered'; });
+        var shipped = allCommandes.filter(function(o) { return o.status === 'shipped' || o.status === 'delivered'; });
+
+        var currentList = (currentCommandesTab === 'shipped') ? shipped : pending;
+
+        var html = '<h3><i class="fas fa-clipboard-list"></i> Mes commandes</h3>';
+
+        // Onglets
+        html += '<div class="commandes-tabs">' +
+            '<button class="cmd-tab' + (currentCommandesTab === 'pending' ? ' active' : '') + '" data-cmdtab="pending">' +
+                '<i class="fas fa-hourglass-half"></i> En attente' +
+                '<span class="cmd-count">' + pending.length + '</span>' +
+            '</button>' +
+            '<button class="cmd-tab' + (currentCommandesTab === 'shipped' ? ' active' : '') + '" data-cmdtab="shipped">' +
+                '<i class="fas fa-truck"></i> Expédié' +
+                '<span class="cmd-count">' + shipped.length + '</span>' +
+            '</button>' +
+        '</div>';
+
+        // Contenu de l'onglet courant
+        if (currentList.length === 0) {
+            var emptyMsg = currentCommandesTab === 'pending'
+                ? 'Aucune commande en attente de traitement.'
+                : 'Aucune commande expédiée pour le moment.';
+            var emptyIcon = currentCommandesTab === 'pending' ? 'fa-hourglass-half' : 'fa-truck';
+            html += '<div class="empty-state" style="padding:40px 20px;">' +
+                '<i class="fas ' + emptyIcon + '" style="font-size:48px;margin-bottom:12px;opacity:0.25;"></i>' +
+                '<p style="font-size:14px;">' + emptyMsg + '</p>' +
+                '</div>';
+            return html;
+        }
+
+        currentList.forEach(function(o) {
+            var date = formatDateFr(o.created_at);
+            var items = o.items || [];
+            var buyer = buyerProfilesCache[o.buyer_pi_uid] || null;
+
+            // Bloc livraison
+            var deliveryHtml = '';
+            if (buyer) {
+                var fullName = [buyer.nom, buyer.post_nom].filter(Boolean).join(' ') || 'Client';
+                var email = buyer.email || '—';
+                var phone = buyer.phone || '—';
+                var addr = buyer.adresse || '—';
+                deliveryHtml =
+                    '<div class="delivery-box">' +
+                        '<div class="delivery-title"><i class="fas fa-truck"></i> Livraison à</div>' +
+                        '<div class="delivery-row"><i class="fas fa-user"></i><span><strong>' + escapeHtml(fullName) + '</strong></span></div>' +
+                        '<div class="delivery-row"><i class="fas fa-phone"></i><span><a href="tel:' + escapeHtml(phone) + '">' + escapeHtml(phone) + '</a></span></div>' +
+                        '<div class="delivery-row"><i class="fas fa-envelope"></i><span><a href="mailto:' + escapeHtml(email) + '">' + escapeHtml(email) + '</a></span></div>' +
+                        '<div class="delivery-row"><i class="fas fa-map-marker-alt"></i><span class="delivery-address">' + escapeHtml(addr) + '</span></div>' +
+                    '</div>';
+            } else {
+                deliveryHtml =
+                    '<div class="delivery-box delivery-warn">' +
+                        '<div class="delivery-title"><i class="fas fa-exclamation-triangle"></i> Profil acheteur indisponible</div>' +
+                        '<div class="delivery-row"><span style="font-size:12.5px;">UID : ' + escapeHtml(o.buyer_pi_uid || '') + '</span></div>' +
+                    '</div>';
+            }
+
+            // Bloc produits
+            var itemsHtml = items.map(function(it) {
+                var img = getProductImageForItem(it.id, it);
+                return '<div class="order-item">' +
+                    '<div class="order-item-img"><img src="' + img + '" alt="" /></div>' +
+                    '<div class="order-item-body">' +
+                        '<div class="order-item-name">' + escapeHtml(it.name) + '</div>' +
+                        '<div class="order-item-meta"><strong>' + it.qty + '</strong> × ' + formatPrice(it.price) + ' π</div>' +
+                    '</div>' +
+                    '<div class="order-item-sub">' + formatPrice(it.qty * it.price) + ' π</div>' +
+                '</div>';
+            }).join('');
+
+            // Statut + bouton selon onglet
+            var statusCls = (o.status === 'shipped' || o.status === 'delivered') ? 'order-status shipped' : 'order-status';
+            var actionBtn = '';
+            if (currentCommandesTab === 'pending') {
+                actionBtn = '<button type="button" class="ship-btn" data-action="ship" data-order-id="' + o.id + '">' +
+                    '<i class="fas fa-truck"></i> Marquer comme expédié' +
+                '</button>';
+            } else {
+                actionBtn = '<div class="ship-done"><i class="fas fa-check-circle"></i> Commande expédiée</div>';
+            }
+
+            html += '<div class="order-card seller-order">' +
+                '<div class="order-header">' +
+                    '<div><i class="fas fa-receipt"></i> ' + date + '</div>' +
+                    '<span class="' + statusCls + '">' + escapeHtml(statusLabel(o.status)) + '</span>' +
+                '</div>' +
+                deliveryHtml +
+                '<div class="order-subtitle"><i class="fas fa-box-open"></i> Produits commandés (' + items.length + ')</div>' +
+                '<div class="order-items">' + itemsHtml + '</div>' +
+                '<div class="order-total"><span>Total encaissé</span><strong>' + formatPrice(o.total) + ' π</strong></div>' +
+                actionBtn +
+            '</div>';
+        });
+
+        return html;
+    }
+
+    function initMesCommandesEvents() {
+        var content = document.getElementById('sideDrawerContent');
+        if (!content) return;
+
+        // Onglets
+        content.querySelectorAll('.cmd-tab').forEach(function(btn) {
+            btn.addEventListener('click', function() {
+                currentCommandesTab = btn.getAttribute('data-cmdtab');
+                content.innerHTML = renderMesCommandes();
+                initMesCommandesEvents();
+            });
+        });
+
+        // Bouton "Marquer comme expédié"
+        content.querySelectorAll('[data-action="ship"]').forEach(function(btn) {
+            btn.addEventListener('click', function() {
+                var orderId = btn.getAttribute('data-order-id');
+                if (!orderId) return;
+                if (!window.confirm('Confirmer que cette commande a été expédiée ?')) return;
+                markOrderAsShipped(orderId);
+            });
+        });
+    }
+
+    function markOrderAsShipped(orderId) {
+        if (!piUser) return;
+        var btn = document.querySelector('[data-order-id="' + orderId + '"]');
+        if (btn) { btn.disabled = true; btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Traitement...'; }
+
+        updateOrderStatus(orderId, 'shipped')
+            .then(function() {
+                var o = userOrders.find(function(x) { return String(x.id) === String(orderId); });
+                if (o) o.status = 'shipped';
+                // Historique vendeur
+                return saveHistoryToSupabase({
+                    type: 'vente',
+                    description: 'Commande expédiée (' + (o ? o.items.length : '') + ' article(s))',
+                    amount: o ? o.total : null,
+                    meta: { order_id: orderId }
+                }).catch(function(e) { console.error('[History ship]', e); });
+            })
+            .then(function() { return loadHistoryFromSupabase(); })
+            .then(function() {
+                showToast('✅ Commande marquée comme expédiée', 'success');
+                // Bascule automatiquement sur l'onglet "Expédié"
+                currentCommandesTab = 'shipped';
+                var content = document.getElementById('sideDrawerContent');
+                if (content) { content.innerHTML = renderMesCommandes(); initMesCommandesEvents(); }
+            })
+            .catch(function(err) {
+                console.error('[Ship] error', err);
+                showToast('Erreur : ' + (err.message || 'impossible de mettre à jour'), 'error');
+                if (btn) { btn.disabled = false; btn.innerHTML = '<i class="fas fa-truck"></i> Marquer comme expédié'; }
+            });
+    }
+
     function renderHistorique() {
         if (!piUser) return '<div class="empty-state"><i class="fas fa-user-slash"></i><p>Connectez-vous pour voir votre historique.</p></div>';
         var html = '<h3><i class="fas fa-history"></i> Historique</h3>';
@@ -717,6 +907,7 @@
             case 'mon-profil': return renderProfileForm();
             case 'mes-achats': return renderMesAchats();
             case 'mes-ventes': return renderMesVentes();
+            case 'mes-commandes': return renderMesCommandes();
             case 'historique': return renderHistorique();
             case 'parametres': return '<h3><i class="fas fa-sliders-h"></i> Paramètres</h3>' + infoItem('fa-bell', 'Notifications', 'Activées') + infoItem('fa-language', 'Langue', 'Français') + infoItem('fa-palette', 'Thème', 'Clair');
             case 'langues': return '<h3><i class="fas fa-globe"></i> Langues</h3><div class="info-item"><i class="fas fa-check-circle" style="color:#4caf50;"></i><span class="label">Français</span><span class="value">Actif</span></div><div class="info-item"><i class="fas fa-circle" style="color:#ccc;"></i><span class="label">English</span><span class="value">Inactif</span></div><div class="info-item"><i class="fas fa-circle" style="color:#ccc;"></i><span class="label">Español</span><span class="value">Inactif</span></div>';
@@ -731,6 +922,7 @@
             var tab = this.getAttribute('data-tab');
             var label = this.querySelector('.menu-label').textContent;
             if (tab === 'faq') { window.location.href = 'faq.html'; return; }
+            if (tab === 'mes-commandes') { currentCommandesTab = 'pending'; }
             openSideDrawer(tab, label);
         });
     });
@@ -747,7 +939,6 @@
     document.getElementById('paymentCancelBtn').addEventListener('click', closePaymentModal);
     document.getElementById('paymentConfirmBtn').addEventListener('click', function() { closePaymentModal(); executePayment(); });
 
-    /* ===== UPLOAD IMAGES : MAX 4 ===== */
     var uploadedImages = [];
     var MAX_IMAGES = 4;
 
@@ -787,19 +978,11 @@
         var preview = document.getElementById('uploadPreview');
         if (!preview) return;
         preview.innerHTML = uploadedImages.map(function(img, index) {
-            return '<div class="preview-thumb">' +
-                '<img src="' + img + '" />' +
-                '<button type="button" class="remove-btn" onclick="removeImage(' + index + ')" aria-label="Supprimer"><i class="fas fa-times"></i></button>' +
-                '</div>';
+            return '<div class="preview-thumb"><img src="' + img + '" /><button type="button" class="remove-btn" onclick="removeImage(' + index + ')" aria-label="Supprimer"><i class="fas fa-times"></i></button></div>';
         }).join('');
     }
-    window.removeImage = function(index) {
-        uploadedImages.splice(index, 1);
-        renderUploadPreview();
-        showToast('Photo supprimée', 'info');
-    };
+    window.removeImage = function(index) { uploadedImages.splice(index, 1); renderUploadPreview(); showToast('Photo supprimée', 'info'); };
 
-    /* ===== CART ===== */
     window.addToCart = function(id) {
         if (!requireAuth('panier')) return;
         var p = products.find(function(x) { return String(x.id) === String(id); });
@@ -854,13 +1037,7 @@
         })
         .then(function(result) {
             var sellerUid = itemsSnapshot[0] && itemsSnapshot[0].ownerPiUid ? itemsSnapshot[0].ownerPiUid : null;
-            var orderPayload = {
-                seller_pi_uid: sellerUid,
-                /* ⬇️ ON STOCKE L'IMAGE DANS LA COMMANDE POUR LA GARDER EXACTE ⬇️ */
-                items: itemsSnapshot.map(function(i) { return { id: i.id, name: i.name, qty: i.qty, price: i.price, image: i.image || null }; }),
-                total: totalFixed, status: 'paid',
-                payment_id: result.paymentId, txid: result.txid
-            };
+            var orderPayload = { seller_pi_uid: sellerUid, items: itemsSnapshot.map(function(i) { return { id: i.id, name: i.name, qty: i.qty, price: i.price, image: i.image || null }; }), total: totalFixed, status: 'paid', payment_id: result.paymentId, txid: result.txid };
             return saveOrderToSupabase(orderPayload).then(function() {
                 return saveHistoryToSupabase({ type: 'achat', description: 'Achat de ' + itemsSnapshot.length + ' article(s)', amount: totalFixed, meta: { payment_id: result.paymentId, txid: result.txid } });
             }).then(function() { return Promise.all([loadOrdersFromSupabase(), loadHistoryFromSupabase()]); })
