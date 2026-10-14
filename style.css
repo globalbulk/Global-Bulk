@@ -924,6 +924,48 @@ body.drawer-open .bottom-nav {
 .history-entry .he-amount { font-weight: 700; color: var(--primary); font-size: 14px; align-self: center; }
 
 /* =====================================================================
+   ===== Sélecteur de langue dans Paramètres ==========================
+   ===================================================================== */
+.lang-switcher {
+    display: flex;
+    gap: 10px;
+    margin-top: 4px;
+}
+.lang-btn {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 12px 14px;
+    border-radius: 12px;
+    background: #FAFBFC;
+    border: 2px solid #e9ecf0;
+    font-family: inherit;
+    font-size: 13.5px;
+    font-weight: 700;
+    color: var(--text-dark);
+    cursor: pointer;
+    transition: var(--transition);
+}
+.lang-btn:hover {
+    border-color: var(--primary);
+    background: #EEF2FF;
+}
+.lang-btn.active {
+    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+    color: #fff;
+    border-color: var(--primary);
+    box-shadow: 0 4px 14px rgba(11,42,91,0.25);
+}
+.lang-btn.active .lang-flag { transform: scale(1.15); }
+.lang-flag {
+    font-size: 18px;
+    transition: transform 0.2s ease;
+    line-height: 1;
+}
+
+/* =====================================================================
    ===== Pages autonomes (whitepaper.html / faq.html) =================
    ===================================================================== */
 body.standalone-page { padding-bottom: 0; }
