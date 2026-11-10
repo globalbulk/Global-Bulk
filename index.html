@@ -1,15 +1,17 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5" />
-    <title>Global Bulk - Place de marché B2B</title>
-    <meta name="description" content="Global Bulk — Place de marché B2B internationale. 12 000+ fournisseurs vérifiés, 89 pays, paiement sécurisé Pi Network." />
+    <title>Global Bulk - B2B Marketplace</title>
+    <meta name="description" content="Global Bulk — International B2B Marketplace. 12,000+ verified suppliers, 89 countries, secure Pi Network payment." />
     <link rel="icon" type="image/png" href="logoglobalbulk.png" />
     <link rel="apple-touch-icon" href="logoglobalbulk.png" />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-    <link rel="stylesheet" href="style.css" />
+    
+    <!-- Le ?v=3 force le navigateur à recharger le nouveau design -->
+    <link rel="stylesheet" href="style.css?v=3" />
     <script src="https://sdk.minepi.com/pi-sdk.js"></script>
 </head>
 <body>
@@ -18,17 +20,17 @@
         <div class="loader-content">
             <img src="logoglobalbulk.png" alt="Global Bulk" class="loader-logo" />
             <div class="loader-track"><div class="loader-bar" id="loaderBar" style="width:0%;"></div></div>
-            <span id="loaderText" class="loader-text">Chargement...</span>
+            <span id="loaderText" class="loader-text">Loading...</span>
         </div>
     </div>
 
     <div id="authRequiredModal" class="auth-modal">
         <div class="auth-modal-content">
             <div class="auth-modal-icon"><i class="fab fa-pi"></i></div>
-            <h2>Connexion Pi requise</h2>
-            <p id="authModalMessage">Vous devez vous connecter avec Pi Network pour continuer.</p>
-            <button class="auth-modal-btn" id="authModalConnectBtn"><i class="fab fa-pi"></i><span>Se connecter maintenant</span></button>
-            <button class="auth-modal-cancel" id="authModalCancelBtn">Plus tard</button>
+            <h2>Pi connection required</h2>
+            <p id="authModalMessage">You must connect with Pi Network to continue.</p>
+            <button class="auth-modal-btn" id="authModalConnectBtn"><i class="fab fa-pi"></i><span>Connect now</span></button>
+            <button class="auth-modal-cancel" id="authModalCancelBtn">Later</button>
         </div>
     </div>
 
@@ -36,26 +38,26 @@
         <div class="payment-modal-content">
             <div class="payment-modal-header">
                 <div class="payment-icon"><i class="fab fa-pi"></i></div>
-                <h2>Confirmer le paiement</h2>
-                <p>Vérifiez les détails avant de valider</p>
+                <h2>Confirm payment</h2>
+                <p>Verify details before validating</p>
             </div>
             <div class="payment-summary" id="paymentSummary"></div>
-            <div class="payment-total"><span>Total à payer</span><span class="payment-amount" id="paymentAmount">0 π</span></div>
-            <button class="payment-confirm-btn" id="paymentConfirmBtn"><i class="fab fa-pi"></i><span>Payer avec Pi Network</span></button>
-            <button class="payment-cancel-btn" id="paymentCancelBtn">Annuler</button>
+            <div class="payment-total"><span>Total to pay</span><span class="payment-amount" id="paymentAmount">0 π</span></div>
+            <button class="payment-confirm-btn" id="paymentConfirmBtn"><i class="fab fa-pi"></i><span>Pay with Pi Network</span></button>
+            <button class="payment-cancel-btn" id="paymentCancelBtn">Cancel</button>
         </div>
     </div>
 
     <div id="editProductModal" class="edit-product-modal">
         <div class="edit-product-content">
             <div class="edit-product-header">
-                <h2><i class="fas fa-edit"></i> Modifier le produit</h2>
+                <h2><i class="fas fa-edit"></i> Edit product</h2>
                 <button type="button" class="edit-close" id="editProductClose"><i class="fas fa-times"></i></button>
             </div>
             <form id="editProductForm" novalidate>
                 <input type="hidden" id="epId" />
                 <div class="form-group">
-                    <label>Nom du produit <span class="req">*</span></label>
+                    <label>Product name <span class="req">*</span></label>
                     <input type="text" id="epName" required />
                 </div>
                 <div class="form-group">
@@ -64,42 +66,42 @@
                 </div>
                 <div class="form-row-2">
                     <div class="form-group">
-                        <label>Prix <span class="req">*</span></label>
+                        <label>Price <span class="req">*</span></label>
                         <input type="number" id="epPrice" step="0.000001" min="0" required />
                     </div>
                     <div class="form-group">
-                        <label>Unité</label>
+                        <label>Unit</label>
                         <select id="epUnit">
-                            <option value="Pi">Pièce</option>
-                            <option value="Kg">Kilogramme</option>
-                            <option value="L">Litre</option>
-                            <option value="M">Mètre</option>
+                            <option value="Pi">Piece</option>
+                            <option value="Kg">Kilogram</option>
+                            <option value="L">Liter</option>
+                            <option value="M">Meter</option>
                             <option value="Set">Set</option>
-                            <option value="Tonne">Tonne</option>
+                            <option value="Tonne">Ton</option>
                         </select>
                     </div>
                 </div>
                 <div class="form-row-2">
                     <div class="form-group">
-                        <label>Qté minimum</label>
+                        <label>Min order</label>
                         <input type="number" id="epMinOrder" min="1" required />
                     </div>
                     <div class="form-group">
-                        <label>Stock disponible</label>
+                        <label>Available stock</label>
                         <input type="number" id="epStock" min="0" required />
                     </div>
                 </div>
                 <div class="form-group">
-                    <label>Catégorie</label>
+                    <label>Category</label>
                     <select id="epCategory" required></select>
                 </div>
                 <div class="form-group">
-                    <label>Pays d'origine</label>
+                    <label>Country</label>
                     <select id="epCountry" required></select>
                 </div>
                 <div class="edit-actions">
-                    <button type="button" class="btn btn-outline" id="editProductCancel">Annuler</button>
-                    <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Enregistrer</button>
+                    <button type="button" class="btn btn-outline" id="editProductCancel">Cancel</button>
+                    <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Save</button>
                 </div>
             </form>
         </div>
@@ -123,19 +125,19 @@
                 <div class="container">
                     <div class="search-bar">
                         <i class="fas fa-search"></i>
-                        <input type="text" placeholder="Rechercher un produit..." id="searchInput" />
-                        <button type="button" id="searchBtn">Rechercher</button>
+                        <input type="text" placeholder="Search for a product..." id="searchInput" />
+                        <button type="button" id="searchBtn">Search</button>
                     </div>
                 </div>
             </div>
         </header>
 
         <nav class="bottom-nav">
-            <button class="nav-item active" data-page="home"><i class="fas fa-home"></i><span>Accueil</span></button>
-            <button class="nav-item" data-page="market"><i class="fas fa-store"></i><span>Marché</span></button>
-            <button class="nav-item" data-page="publish"><i class="fas fa-plus-circle"></i><span>Publier</span></button>
-            <button class="nav-item" data-page="suppliers"><i class="fas fa-truck"></i><span>Fournisseurs</span></button>
-            <button class="nav-item" data-page="profile"><i class="fas fa-user"></i><span>Profil</span></button>
+            <button class="nav-item active" data-page="home"><i class="fas fa-home"></i><span>Home</span></button>
+            <button class="nav-item" data-page="market"><i class="fas fa-store"></i><span>Market</span></button>
+            <button class="nav-item" data-page="publish"><i class="fas fa-plus-circle"></i><span>Publish</span></button>
+            <button class="nav-item" data-page="suppliers"><i class="fas fa-truck"></i><span>Suppliers</span></button>
+            <button class="nav-item" data-page="profile"><i class="fas fa-user"></i><span>Profile</span></button>
         </nav>
 
         <div id="mainContent">
@@ -150,8 +152,8 @@
 
             <div class="filter-bar container">
                 <div class="filter-country">
-                    <label><i class="fas fa-globe"></i> Pays</label>
-                    <select id="filterCountry"><option value="">Tous</option></select>
+                    <label><i class="fas fa-globe"></i> Country</label>
+                    <select id="filterCountry"><option value="">All</option></select>
                 </div>
                 <div class="filter-categories-scroll">
                     <div class="filter-categories" id="categoryFilterList"></div>
@@ -161,26 +163,26 @@
             <main class="container">
                 <section class="section marketplace" id="productsSection">
                     <div class="marketplace-header">
-                        <h2>Offres en gros</h2>
-                        <span class="product-count" id="productCount">12 produits</span>
+                        <h2>Wholesale offers</h2>
+                        <span class="product-count" id="productCount">12 products</span>
                     </div>
                     <div class="product-grid" id="productGrid"></div>
                 </section>
 
                 <section class="section" id="suppliersSection">
                     <div class="section-header">
-                        <h2>Fournisseurs vérifiés</h2>
-                        <a href="#">Voir tout <i class="fas fa-arrow-right"></i></a>
+                        <h2>Verified suppliers</h2>
+                        <a href="#">See all <i class="fas fa-arrow-right"></i></a>
                     </div>
                     <div class="supplier-grid" id="supplierGrid"></div>
                 </section>
 
                 <section class="section stats-section">
                     <div class="stats-grid">
-                        <div class="stat-item"><span class="number" data-count="12480">0</span><span class="label">Fournisseurs</span></div>
-                        <div class="stat-item"><span class="number" data-count="45600">0</span><span class="label">Produits</span></div>
-                        <div class="stat-item"><span class="number" data-count="89">0</span><span class="label">Pays</span></div>
-                        <div class="stat-item"><span class="number" data-count="28750">0</span><span class="label">Commandes</span></div>
+                        <div class="stat-item"><span class="number" data-count="12480">0</span><span class="label">Suppliers</span></div>
+                        <div class="stat-item"><span class="number" data-count="45600">0</span><span class="label">Products</span></div>
+                        <div class="stat-item"><span class="number" data-count="89">0</span><span class="label">Countries</span></div>
+                        <div class="stat-item"><span class="number" data-count="28750">0</span><span class="label">Orders</span></div>
                     </div>
                 </section>
             </main>
@@ -188,16 +190,16 @@
 
         <section class="section page-secondary" id="productDetail" style="display:none;">
             <div class="page-header">
-                <button class="btn-back" onclick="closeProductDetail()"><i class="fas fa-arrow-left"></i> Retour</button>
-                <h2 class="page-title" id="productDetailTitle">Détail produit</h2>
+                <button class="btn-back" onclick="closeProductDetail()"><i class="fas fa-arrow-left"></i> Back</button>
+                <h2 class="page-title" id="productDetailTitle">Product details</h2>
             </div>
             <div class="card product-detail-card" id="productDetailContent"></div>
         </section>
 
         <section class="section page-secondary" id="publishSection" style="display:none;">
             <div class="page-header">
-                <button class="btn-back" onclick="closePublish()"><i class="fas fa-arrow-left"></i> Retour</button>
-                <h2 class="page-title">Publier un produit</h2>
+                <button class="btn-back" onclick="closePublish()"><i class="fas fa-arrow-left"></i> Back</button>
+                <h2 class="page-title">Publish a product</h2>
             </div>
             <div class="publish-card-social">
                 <div class="publish-header">
@@ -210,22 +212,22 @@
                 <form id="publishForm" class="publish-form-social" novalidate>
 
                     <div class="form-section">
-                        <h3 class="form-section-title"><i class="fas fa-info-circle"></i> Présentation du produit</h3>
+                        <h3 class="form-section-title"><i class="fas fa-info-circle"></i> Product presentation</h3>
                         <div class="form-group">
-                            <label for="pName">Nom du produit <span class="req">*</span></label>
-                            <input type="text" id="pName" placeholder="Ex : Smartphone Galaxy S24" required />
+                            <label for="pName">Product name <span class="req">*</span></label>
+                            <input type="text" id="pName" placeholder="Ex: Samsung Galaxy S24" required />
                         </div>
                         <div class="form-group">
-                            <label for="pDescription">Description détaillée <span class="req">*</span></label>
-                            <textarea id="pDescription" rows="4" placeholder="Décrivez votre produit (caractéristiques, qualité, conditionnement...)" required></textarea>
+                            <label for="pDescription">Detailed description <span class="req">*</span></label>
+                            <textarea id="pDescription" rows="4" placeholder="Describe your product (features, quality, packaging...)" required></textarea>
                         </div>
                     </div>
 
                     <div class="form-section">
-                        <h3 class="form-section-title"><i class="fas fa-camera"></i> Photos du produit</h3>
+                        <h3 class="form-section-title"><i class="fas fa-camera"></i> Product photos</h3>
                         <div class="publish-images-upload">
                             <label class="upload-label" for="pImages">
-                                <i class="fas fa-cloud-upload-alt"></i> Ajouter des photos (max 4)
+                                <i class="fas fa-cloud-upload-alt"></i> Add photos (max 4)
                             </label>
                             <input type="file" id="pImages" accept="image/*" multiple />
                             <div class="upload-preview" id="uploadPreview"></div>
@@ -233,58 +235,58 @@
                     </div>
 
                     <div class="form-section">
-                        <h3 class="form-section-title"><i class="fas fa-tags"></i> Catégorie & Localisation</h3>
+                        <h3 class="form-section-title"><i class="fas fa-tags"></i> Category & Location</h3>
                         <div class="form-group">
-                            <label for="pCategory">Catégorie <span class="req">*</span></label>
-                            <select id="pCategory" required><option value="">Sélectionner une catégorie</option></select>
+                            <label for="pCategory">Category <span class="req">*</span></label>
+                            <select id="pCategory" required><option value="">Select a category</option></select>
                         </div>
                         <div class="form-group">
-                            <label for="pCountry">Pays d'origine <span class="req">*</span></label>
-                            <select id="pCountry" required><option value="">Sélectionner un pays</option></select>
+                            <label for="pCountry">Country of origin <span class="req">*</span></label>
+                            <select id="pCountry" required><option value="">Select a country</option></select>
                         </div>
                     </div>
 
                     <div class="form-section">
-                        <h3 class="form-section-title"><i class="fas fa-coins"></i> Prix & Disponibilité</h3>
+                        <h3 class="form-section-title"><i class="fas fa-coins"></i> Price & Availability</h3>
                         <div class="form-row-2">
                             <div class="form-group">
-                                <label for="pPrice">Prix <span class="req">*</span></label>
-                                <input type="number" id="pPrice" step="0.000001" min="0" placeholder="Ex : 0.000001" required />
+                                <label for="pPrice">Price <span class="req">*</span></label>
+                                <input type="number" id="pPrice" step="0.000001" min="0" placeholder="Ex: 0.000001" required />
                             </div>
                             <div class="form-group">
-                                <label for="pUnit">Unité <span class="req">*</span></label>
+                                <label for="pUnit">Unit <span class="req">*</span></label>
                                 <select id="pUnit" required>
-                                    <option value="Pi">Pièce</option>
-                                    <option value="Kg">Kilogramme</option>
-                                    <option value="L">Litre</option>
-                                    <option value="M">Mètre</option>
+                                    <option value="Pi">Piece</option>
+                                    <option value="Kg">Kilogram</option>
+                                    <option value="L">Liter</option>
+                                    <option value="M">Meter</option>
                                     <option value="Set">Set</option>
-                                    <option value="Tonne">Tonne</option>
+                                    <option value="Tonne">Ton</option>
                                 </select>
                             </div>
                         </div>
                         <div class="form-row-2">
                             <div class="form-group">
-                                <label for="pMinOrder">Qté minimum <span class="req">*</span></label>
-                                <input type="number" id="pMinOrder" min="1" placeholder="Ex : 10" required />
+                                <label for="pMinOrder">Min order <span class="req">*</span></label>
+                                <input type="number" id="pMinOrder" min="1" placeholder="Ex: 10" required />
                             </div>
                             <div class="form-group">
-                                <label for="pStock">Stock disponible <span class="req">*</span></label>
-                                <input type="number" id="pStock" min="1" placeholder="Ex : 500" required />
+                                <label for="pStock">Available stock <span class="req">*</span></label>
+                                <input type="number" id="pStock" min="1" placeholder="Ex: 500" required />
                             </div>
                         </div>
                     </div>
 
                     <div class="form-section">
-                        <h3 class="form-section-title"><i class="fas fa-building"></i> Fournisseur</h3>
+                        <h3 class="form-section-title"><i class="fas fa-building"></i> Supplier</h3>
                         <div class="form-group">
-                            <label for="pSupplier">Nom du fournisseur <span class="req">*</span></label>
-                            <input type="text" id="pSupplier" placeholder="Ex : TechImport SARL" required />
+                            <label for="pSupplier">Supplier name <span class="req">*</span></label>
+                            <input type="text" id="pSupplier" placeholder="Ex: TechImport Ltd" required />
                         </div>
                     </div>
 
                     <button type="submit" class="btn btn-primary btn-block publish-submit">
-                        <i class="fas fa-rocket"></i> Publier mon produit
+                        <i class="fas fa-rocket"></i> Publish my product
                     </button>
                 </form>
             </div>
@@ -292,17 +294,17 @@
 
         <section class="section page-secondary" id="profileSection" style="display:none;">
             <div class="page-header">
-                <button class="btn-back" onclick="closeProfile()"><i class="fas fa-arrow-left"></i> Retour</button>
-                <h2 class="page-title">Mon profil</h2>
+                <button class="btn-back" onclick="closeProfile()"><i class="fas fa-arrow-left"></i> Back</button>
+                <h2 class="page-title">My profile</h2>
             </div>
             <div class="profile-wrapper">
                 <div class="pi-account-card" id="piAccountCard">
                     <div class="pi-avatar" id="piAvatar"><i class="fab fa-pi"></i></div>
-                    <h2 class="pi-account-username" id="piAccountUsername">Non connecté</h2>
-                    <p class="pi-account-subtitle" id="piAccountSubtitle">Connectez-vous avec Pi Network</p>
+                    <h2 class="pi-account-username" id="piAccountUsername">Not connected</h2>
+                    <p class="pi-account-subtitle" id="piAccountSubtitle">Connect with Pi Network</p>
                     <button class="pi-action-btn" id="piActionBtn">
                         <i class="fab fa-pi"></i>
-                        <span id="piActionText">Connecter avec Pi Network</span>
+                        <span id="piActionText">Connect with Pi Network</span>
                     </button>
                     <div class="pi-account-hint" id="piAccountHint"></div>
                 </div>
@@ -310,32 +312,32 @@
                 <div class="profile-menu">
                     <button class="menu-item" data-tab="mon-profil">
                         <div class="menu-icon"><i class="fas fa-id-card"></i></div>
-                        <span class="menu-label">Mon profil</span>
+                        <span class="menu-label">My profile</span>
                         <i class="fas fa-chevron-right menu-arrow"></i>
                     </button>
                     <button class="menu-item" data-tab="mes-achats">
                         <div class="menu-icon purchases"><i class="fas fa-shopping-bag"></i></div>
-                        <span class="menu-label">Mes achats</span>
+                        <span class="menu-label">My purchases</span>
                         <i class="fas fa-chevron-right menu-arrow"></i>
                     </button>
                     <button class="menu-item" data-tab="mes-ventes">
                         <div class="menu-icon sales"><i class="fas fa-store"></i></div>
-                        <span class="menu-label">Mes ventes</span>
+                        <span class="menu-label">My sales</span>
                         <i class="fas fa-chevron-right menu-arrow"></i>
                     </button>
                     <button class="menu-item" data-tab="mes-commandes">
                         <div class="menu-icon orders"><i class="fas fa-clipboard-list"></i></div>
-                        <span class="menu-label">Mes commandes</span>
+                        <span class="menu-label">My orders</span>
                         <i class="fas fa-chevron-right menu-arrow"></i>
                     </button>
                     <button class="menu-item" data-tab="historique">
                         <div class="menu-icon history"><i class="fas fa-history"></i></div>
-                        <span class="menu-label">Historique</span>
+                        <span class="menu-label">History</span>
                         <i class="fas fa-chevron-right menu-arrow"></i>
                     </button>
                     <button class="menu-item" data-tab="parametres">
                         <div class="menu-icon"><i class="fas fa-cog"></i></div>
-                        <span class="menu-label">Paramètres</span>
+                        <span class="menu-label">Settings</span>
                         <i class="fas fa-chevron-right menu-arrow"></i>
                     </button>
                     <button class="menu-item" data-tab="faq">
@@ -343,11 +345,13 @@
                         <span class="menu-label">FAQ</span>
                         <i class="fas fa-chevron-right menu-arrow"></i>
                     </button>
-                    <button class="menu-item" data-tab="livre-blanc">
-                        <div class="menu-icon"><i class="fas fa-file-pdf"></i></div>
-                        <span class="menu-label">Livre blanc</span>
+                    
+                    <!-- Lien direct vers le livre blanc (pas de JavaScript ici) -->
+                    <a href="whitepaper.html" class="menu-item" style="text-decoration: none;">
+                        <div class="menu-icon" style="background: #FEE2E2; color: #DC2626;"><i class="fas fa-file-pdf"></i></div>
+                        <span class="menu-label">Whitepaper</span>
                         <i class="fas fa-chevron-right menu-arrow"></i>
-                    </button>
+                    </a>
                 </div>
             </div>
         </section>
@@ -356,7 +360,7 @@
         <aside class="side-drawer" id="sideDrawer">
             <div class="side-drawer-header">
                 <button class="side-drawer-back" id="sideDrawerBack"><i class="fas fa-arrow-left"></i></button>
-                <h2 class="side-drawer-title" id="sideDrawerTitle">Détail</h2>
+                <h2 class="side-drawer-title" id="sideDrawerTitle">Detail</h2>
                 <button class="side-drawer-close" id="sideDrawerClose"><i class="fas fa-times"></i></button>
             </div>
             <div class="side-drawer-content" id="sideDrawerContent"></div>
@@ -365,15 +369,15 @@
         <div class="cart-overlay" id="cartOverlay">
             <div class="cart-panel">
                 <div class="cart-header">
-                    <h3>Votre panier</h3>
+                    <h3>Your cart</h3>
                     <button class="cart-close" id="cartClose"><i class="fas fa-times"></i></button>
                 </div>
                 <div class="cart-body" id="cartBody">
-                    <div class="cart-empty"><i class="fas fa-shopping-bag"></i><p>Votre panier est vide</p></div>
+                    <div class="cart-empty"><i class="fas fa-shopping-bag"></i><p>Your cart is empty</p></div>
                 </div>
                 <div class="cart-footer" id="cartFooter" style="display:none;">
                     <div class="cart-total"><span>Total</span><span id="cartTotalPrice">0 π</span></div>
-                    <button class="btn-pi-pay" id="checkoutBtn"><i class="fab fa-pi"></i> Payer avec Pi</button>
+                    <button class="btn-pi-pay" id="checkoutBtn"><i class="fab fa-pi"></i> Pay with Pi</button>
                 </div>
             </div>
         </div>
@@ -383,23 +387,23 @@
                 <div class="footer-grid">
                     <div class="footer-col">
                         <div class="logo"><img src="logoglobalbulk.png" alt="Global Bulk" class="logo-img" /><span class="logo-text">GLOBAL<span>BULK</span></span></div>
-                        <p class="footer-desc">La plateforme B2B de référence pour le commerce de gros international.</p>
+                        <p class="footer-desc">The reference B2B platform for international wholesale trade.</p>
                     </div>
                     <div class="footer-col">
-                        <h4>Liens rapides</h4>
+                        <h4>Quick links</h4>
                         <ul>
-                            <li><a href="index.html">Accueil</a></li>
-                            <li><a href="#" id="footerPublish">Publier</a></li>
+                            <li><a href="index.html">Home</a></li>
+                            <li><a href="#" id="footerPublish">Publish</a></li>
                             <li><a href="faq.html">FAQ</a></li>
-                            <li><a href="whitepaper.html">Livre blanc</a></li>
+                            <li><a href="whitepaper.html">Whitepaper</a></li>
                         </ul>
                     </div>
                     <div class="footer-col">
-                        <h4>À propos</h4>
+                        <h4>About</h4>
                         <ul>
-                            <li><a href="whitepaper.html">Livre blanc</a></li>
-                            <li><a href="terms.html">CGU</a></li>
-                            <li><a href="privacy.html">Confidentialité</a></li>
+                            <li><a href="whitepaper.html">Whitepaper</a></li>
+                            <li><a href="terms.html">Terms</a></li>
+                            <li><a href="privacy.html">Privacy</a></li>
                         </ul>
                     </div>
                     <div class="footer-col">
@@ -416,7 +420,7 @@
                         <a href="https://www.facebook.com/share/19GwWG3QJi/" target="_blank" rel="noopener noreferrer" aria-label="Facebook" class="social-fb"><i class="fab fa-facebook-f"></i></a>
                         <a href="https://whatsapp.com/channel/0029VbDvvwi9mrGWHAbw7x0x" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp Channel" class="social-wa"><i class="fab fa-whatsapp"></i></a>
                     </div>
-                    <span>&copy; 2026 Global Bulk - Tous droits réservés</span>
+                    <span>&copy; 2026 Global Bulk - All rights reserved</span>
                 </div>
             </div>
         </footer>
@@ -425,6 +429,7 @@
 
     </div>
 
-    <script src="script.js"></script>
+    <!-- Le ?v=3 force le navigateur à recharger le nouveau script -->
+    <script src="script.js?v=3"></script>
 </body>
 </html>
