@@ -7,25 +7,36 @@
     <link rel="icon" href="logoglobalbulk.png" />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Merriweather:ital,wght@0,300;0,400;0,700;1,400&display=swap" rel="stylesheet" />
     <style>
-        /* RESET & BASE */
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        /* =====================================================================
+           RESET & BASE
+           ===================================================================== */
+        * { 
+            margin: 0; 
+            padding: 0; 
+            box-sizing: border-box; 
+        }
+        
         body { 
             background-color: #ffffff; 
             color: #1a1a1a; 
             font-family: 'Merriweather', 'Georgia', serif; 
-            line-height: 1.8; 
+            line-height: 1.7; 
             padding-top: 20px; 
+            word-wrap: break-word; /* Évite les débordements de texte longs */
         }
+
         .whitepaper-container { 
             max-width: 800px; 
             margin: 0 auto; 
-            padding: 40px 20px; 
+            padding: 40px 25px; /* Marges confortables */
         }
 
-        /* EN-TÊTE */
+        /* =====================================================================
+           EN-TÊTE
+           ===================================================================== */
         .wp-header { 
             text-align: center; 
-            margin-bottom: 50px; 
+            margin-bottom: 40px; 
             position: relative; 
         }
         .wp-header-top { 
@@ -36,14 +47,14 @@
             margin-bottom: 20px; 
         }
         .wp-logo { 
-            width: 90px; 
-            height: 90px; 
+            width: 80px; 
+            height: 80px; 
             object-fit: contain; 
         }
         .wp-lang-switch { 
             position: absolute; 
             right: 0; 
-            top: 10px; 
+            top: 0; 
             display: flex; 
             gap: 6px; 
         }
@@ -68,12 +79,12 @@
         }
         .wp-header h1 { 
             font-family: 'Inter', sans-serif; 
-            font-size: 26px; 
+            font-size: 24px; 
             font-weight: 800; 
             color: #0B2A5B; 
             text-transform: uppercase; 
             letter-spacing: 1px; 
-            margin-bottom: 20px; 
+            margin-bottom: 15px; 
         }
         .wp-divider { 
             width: 100%; 
@@ -86,8 +97,8 @@
         .wp-meta-block {
             text-align: center;
             font-family: 'Inter', sans-serif;
-            font-size: 14px;
-            color: #555;
+            font-size: 13px;
+            color: #444;
             line-height: 1.6;
             margin-bottom: 40px;
             padding: 20px;
@@ -95,133 +106,171 @@
             border-radius: 8px;
             border: 1px solid #e0e0e0;
         }
+        .wp-meta-block p { text-align: center; margin-bottom: 6px; }
         .wp-meta-block strong { color: #0B2A5B; }
 
-        /* TYPOGRAPHIE DU CONTENU */
+        /* =====================================================================
+           TYPOGRAPHIE DU CONTENU
+           ===================================================================== */
         h2 { 
             font-family: 'Inter', sans-serif; 
-            font-size: 20px; 
+            font-size: 18px; 
             font-weight: 800; 
             color: #0B2A5B; 
             text-transform: uppercase; 
-            margin: 50px 0 20px; 
+            margin: 40px 0 20px; 
             padding-bottom: 10px; 
             border-bottom: 1px solid #e0e0e0; 
+            text-align: left;
         }
+        
         h3 { 
             font-family: 'Inter', sans-serif; 
-            font-size: 17px; 
+            font-size: 15px; 
             font-weight: 700; 
             color: #1a1a1a; 
-            margin: 30px 0 12px; 
+            margin: 25px 0 10px; 
+            text-align: left;
         }
+        
         p { 
-            font-size: 15px; 
+            font-size: 14px; 
             color: #333333; 
-            margin-bottom: 20px; 
-            text-align: justify; 
+            margin-bottom: 15px; 
+            text-align: left; /* Alignement à gauche pour éviter le décollage */
         }
+        
         strong { color: #0B2A5B; }
         
         ul, ol { 
             margin-bottom: 20px; 
-            padding-left: 25px; 
+            padding-left: 20px; 
         }
+        
         li { 
-            font-size: 15px; 
+            font-size: 14px; 
             color: #333333; 
             margin-bottom: 8px; 
-            text-align: justify; 
+            text-align: left;
         }
 
-        /* TABLEAUX */
+        /* =====================================================================
+           TABLEAUX RESPONSIVE
+           ===================================================================== */
+        .table-responsive {
+            width: 100%;
+            overflow-x: auto; /* Permet de scroller si le tableau est trop large */
+            margin: 20px 0;
+        }
+        
         table {
             width: 100%;
             border-collapse: collapse;
-            margin: 25px 0;
             font-family: 'Inter', sans-serif;
-            font-size: 14px;
+            font-size: 13px;
+            min-width: 500px; /* Force une largeur minimale pour la lisibilité */
         }
+        
         th, td {
             border: 1px solid #e0e0e0;
-            padding: 12px;
+            padding: 10px;
             text-align: left;
         }
+        
         th {
             background: #f9f9f9;
             font-weight: 700;
             color: #0B2A5B;
         }
 
-        /* SECTION FONDATEURS */
+        /* =====================================================================
+           SECTION FONDATEURS
+           ===================================================================== */
         .wp-founders { 
-            margin-top: 50px; 
+            margin-top: 40px; 
         }
+        
         .founders-list { 
             display: flex; 
             flex-direction: column; 
-            gap: 25px; 
+            gap: 20px; 
         }
+        
         .founder-card { 
             display: flex; 
             align-items: flex-start; 
-            gap: 25px; 
+            gap: 20px; 
             background: #ffffff; 
             border: 1px solid #e0e0e0; 
             border-radius: 12px; 
-            padding: 25px; 
+            padding: 20px; 
         }
+        
         .founder-avatar-wrapper { 
             flex-shrink: 0; 
         }
+        
         .founder-avatar { 
-            width: 100px; 
-            height: 100px; 
+            width: 90px; 
+            height: 90px; 
             border-radius: 50%; 
             object-fit: cover; 
             border: 3px solid #0B2A5B; 
         }
+        
         .founder-info { 
             flex: 1; 
         }
+        
         .founder-info h3 { 
             font-family: 'Inter', sans-serif; 
-            font-size: 20px; 
+            font-size: 18px; 
             font-weight: 800; 
             color: #000000; 
             margin: 0 0 4px; 
             text-transform: none;
         }
+        
         .founder-info .role { 
             font-family: 'Inter', sans-serif; 
-            font-size: 14px; 
+            font-size: 13px; 
             font-weight: 700; 
             color: #555555; 
-            margin-bottom: 12px; 
+            margin-bottom: 10px; 
             text-align: left; 
         }
+        
         .founder-info .bio { 
-            font-size: 14px; 
-            line-height: 1.7; 
+            font-size: 13px; 
+            line-height: 1.6; 
             color: #333333; 
             margin: 0; 
-            text-align: justify; 
+            text-align: left; 
         }
 
-        /* RESPONSIVE */
+        /* =====================================================================
+           RESPONSIVE (MOBILE)
+           ===================================================================== */
         @media (max-width: 600px) {
             .whitepaper-container { padding: 20px 15px; }
-            .wp-header-top { flex-direction: column; gap: 20px; }
+            .wp-header-top { flex-direction: column; gap: 15px; }
             .wp-lang-switch { position: static; }
             .founder-card { flex-direction: column; align-items: center; text-align: center; }
-            .founder-info .bio { text-align: justify; }
+            .founder-info .bio { text-align: left; }
+            .founder-info .role { text-align: center; }
+            h1 { font-size: 20px !important; }
+            h2 { font-size: 16px; }
         }
 
-        /* IMPRESSION PDF */
+        /* =====================================================================
+           IMPRESSION PDF
+           ===================================================================== */
         @media print {
             body { background: #fff; }
             .wp-lang-switch { display: none !important; }
             .founder-card { break-inside: avoid; box-shadow: none; }
+            .table-responsive { overflow: visible; }
+            table { min-width: 100%; }
         }
     </style>
 </head>
@@ -240,19 +289,19 @@
             </div>
             <h1>GLOBAL BULK</h1>
             <div class="wp-divider"></div>
-            <h2 style="border:none; margin:0; font-size:18px; padding:0; color:#333;">LIVRE BLANC — WHITE PAPER</h2>
-            <p style="text-align:center; font-family:'Inter', sans-serif; font-size:16px; font-weight:600; color:#0B2A5B; margin-top:10px;">Le centre commercial numérique international du commerce de gros</p>
+            <h2 style="border:none; margin:0; font-size:16px; padding:0; color:#333; text-align:center;">LIVRE BLANC — WHITE PAPER</h2>
+            <p style="text-align:center; font-family:'Inter', sans-serif; font-size:14px; font-weight:600; color:#0B2A5B; margin-top:10px;">Le centre commercial numérique international du commerce de gros</p>
         </header>
 
         <!-- MÉTADONNÉES -->
         <div class="wp-meta-block">
-            <p style="text-align:center; margin-bottom:5px;"><strong>Version :</strong> 1.0</p>
-            <p style="text-align:center; margin-bottom:5px;"><strong>Date :</strong> 10 novembre 2026</p>
-            <p style="text-align:center; margin-bottom:5px;"><strong>Projet :</strong> GLOBAL BULK</p>
-            <p style="text-align:center; margin-bottom:5px;"><strong>Secteur :</strong> Commerce numérique – Marketplace B2B – Paiements numériques</p>
-            <p style="text-align:center; margin-bottom:5px;"><strong>Écosystème de paiement envisagé :</strong> Pi Network</p>
-            <p style="text-align:center; margin-bottom:5px;"><strong>Fondateur :</strong> Djami Yakonga</p>
-            <p style="text-align:center; margin-bottom:0;"><strong>Direction du projet et gestion de projet :</strong> Freddy Yumba</p>
+            <p><strong>Version :</strong> 1.0</p>
+            <p><strong>Date :</strong> 10 novembre 2026</p>
+            <p><strong>Projet :</strong> GLOBAL BULK</p>
+            <p><strong>Secteur :</strong> Commerce numérique – Marketplace B2B – Paiements numériques</p>
+            <p><strong>Écosystème de paiement envisagé :</strong> Pi Network</p>
+            <p><strong>Fondateur :</strong> Djami Yakonga</p>
+            <p><strong>Direction du projet et gestion de projet :</strong> Freddy Yumba</p>
         </div>
 
         <!-- 1. RÉSUMÉ EXÉCUTIF -->
@@ -463,21 +512,23 @@
             <p>Le revenu de GLOBAL BULK provient principalement des commissions appliquées aux ventes réalisées.</p>
 
             <h3>5.2. Structure tarifaire</h3>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Nature des frais</th>
-                        <th>Taux retenu</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr><td>Commission vendeur</td><td>Minimum 3 %</td></tr>
-                    <tr><td>Frais acheteur</td><td>2 %</td></tr>
-                    <tr><td>Inscription</td><td>0 %</td></tr>
-                    <tr><td>Abonnement obligatoire</td><td>0 %</td></tr>
-                    <tr><td>Publicité payante obligatoire</td><td>0 %</td></tr>
-                </tbody>
-            </table>
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Nature des frais</th>
+                            <th>Taux retenu</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>Commission vendeur</td><td>Minimum 3 %</td></tr>
+                        <tr><td>Frais acheteur</td><td>2 %</td></tr>
+                        <tr><td>Inscription</td><td>0 %</td></tr>
+                        <tr><td>Abonnement obligatoire</td><td>0 %</td></tr>
+                        <tr><td>Publicité payante obligatoire</td><td>0 %</td></tr>
+                    </tbody>
+                </table>
+            </div>
             <p>La commission vendeur de 3 % constitue le minimum retenu. Toute modification future devra être clairement communiquée et acceptée selon les conditions applicables.</p>
 
             <h3>5.3. Exemple pratique de transaction</h3>
@@ -491,19 +542,22 @@
             <p>L’acheteur paie : 100 + 2 = 102 Pi.</p>
             <p>Le vendeur reçoit : 100 - 3 = 97 Pi.</p>
             <p>GLOBAL BULK perçoit : 2 + 3 = 5 Pi.</p>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Bénéficiaire</th>
-                        <th>Montant</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr><td>Vendeur</td><td>97 Pi</td></tr>
-                    <tr><td>GLOBAL BULK</td><td>5 Pi</td></tr>
-                    <tr><td>Total payé par l’acheteur</td><td>102 Pi</td></tr>
-                </tbody>
-            </table>
+            
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Bénéficiaire</th>
+                            <th>Montant</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>Vendeur</td><td>97 Pi</td></tr>
+                        <tr><td>GLOBAL BULK</td><td>5 Pi</td></tr>
+                        <tr><td>Total payé par l’acheteur</td><td>102 Pi</td></tr>
+                    </tbody>
+                </table>
+            </div>
             <p>Dans cet exemple, le revenu brut de la plateforme représente 5 Pi sur une commande de 100 Pi de marchandises, soit 5 % de la valeur commerciale initiale.</p>
             <p>Il s’agit d’un exemple de répartition économique. Les frais de réseau, remboursements, coûts opérationnels et éventuelles charges fiscales doivent être traités séparément.</p>
 
@@ -833,24 +887,28 @@
             <h2>15. MODÈLE DE RENTABILITÉ</h2>
             <p>GLOBAL BULK repose sur un principe économique : les revenus de la plateforme augmentent avec le volume des transactions.</p>
             <p>Prenons plusieurs hypothèses de ventes mensuelles.</p>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Volume mensuel des marchandises</th>
-                        <th>Commission vendeur 3 %</th>
-                        <th>Frais acheteur 2 %</th>
-                        <th>Revenu brut plateforme</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr><td>1 000 Pi</td><td>30 Pi</td><td>20 Pi</td><td>50 Pi</td></tr>
-                    <tr><td>10 000 Pi</td><td>300 Pi</td><td>200 Pi</td><td>500 Pi</td></tr>
-                    <tr><td>50 000 Pi</td><td>1 500 Pi</td><td>1 000 Pi</td><td>2 500 Pi</td></tr>
-                    <tr><td>100 000 Pi</td><td>3 000 Pi</td><td>2 000 Pi</td><td>5 000 Pi</td></tr>
-                    <tr><td>500 000 Pi</td><td>15 000 Pi</td><td>10 000 Pi</td><td>25 000 Pi</td></tr>
-                    <tr><td>1 000 000 Pi</td><td>30 000 Pi</td><td>20 000 Pi</td><td>50 000 Pi</td></tr>
-                </tbody>
-            </table>
+            
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Volume mensuel des marchandises</th>
+                            <th>Commission vendeur 3 %</th>
+                            <th>Frais acheteur 2 %</th>
+                            <th>Revenu brut plateforme</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>1 000 Pi</td><td>30 Pi</td><td>20 Pi</td><td>50 Pi</td></tr>
+                        <tr><td>10 000 Pi</td><td>300 Pi</td><td>200 Pi</td><td>500 Pi</td></tr>
+                        <tr><td>50 000 Pi</td><td>1 500 Pi</td><td>1 000 Pi</td><td>2 500 Pi</td></tr>
+                        <tr><td>100 000 Pi</td><td>3 000 Pi</td><td>2 000 Pi</td><td>5 000 Pi</td></tr>
+                        <tr><td>500 000 Pi</td><td>15 000 Pi</td><td>10 000 Pi</td><td>25 000 Pi</td></tr>
+                        <tr><td>1 000 000 Pi</td><td>30 000 Pi</td><td>20 000 Pi</td><td>50 000 Pi</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            
             <p>Ces chiffres sont des simulations arithmétiques et non des prévisions de chiffre d’affaires.</p>
             <p>Ils supposent que toutes les ventes sont effectivement réalisées, que les frais sont appliqués à la valeur des marchandises et que les montants sont encaissés conformément au modèle retenu.</p>
 
