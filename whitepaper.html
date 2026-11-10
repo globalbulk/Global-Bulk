@@ -5,10 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Global Bulk Whitepaper</title>
     <link rel="icon" href="logoglobalbulk.png" />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Merriweather:ital,wght@0,300;0,400;0,700;1,400&display=swap" rel="stylesheet" />
+    <!-- Intégration de la police Inter (moderne et simple) -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
     <style>
         /* =====================================================================
-           RESET & BASE
+           RESET & BASE (Police simple et professionnelle)
            ===================================================================== */
         * { 
             margin: 0; 
@@ -18,17 +19,17 @@
         
         body { 
             background-color: #ffffff; 
-            color: #1a1a1a; 
-            font-family: 'Merriweather', 'Georgia', serif; 
-            line-height: 1.7; 
+            color: #333333; 
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; 
+            line-height: 1.6; 
             padding-top: 20px; 
-            word-wrap: break-word; /* Évite les débordements de texte longs */
+            word-wrap: break-word;
         }
 
         .whitepaper-container { 
             max-width: 800px; 
             margin: 0 auto; 
-            padding: 40px 25px; /* Marges confortables */
+            padding: 40px 25px; 
         }
 
         /* =====================================================================
@@ -78,8 +79,7 @@
             color: #ffffff; 
         }
         .wp-header h1 { 
-            font-family: 'Inter', sans-serif; 
-            font-size: 24px; 
+            font-size: 26px; 
             font-weight: 800; 
             color: #0B2A5B; 
             text-transform: uppercase; 
@@ -96,15 +96,14 @@
         /* MÉTADONNÉES DU DOCUMENT */
         .wp-meta-block {
             text-align: center;
-            font-family: 'Inter', sans-serif;
             font-size: 13px;
-            color: #444;
+            color: #555;
             line-height: 1.6;
             margin-bottom: 40px;
             padding: 20px;
-            background: #f9f9f9;
+            background: #F8FAFC;
             border-radius: 8px;
-            border: 1px solid #e0e0e0;
+            border: 1px solid #E2E8F0;
         }
         .wp-meta-block p { text-align: center; margin-bottom: 6px; }
         .wp-meta-block strong { color: #0B2A5B; }
@@ -113,19 +112,17 @@
            TYPOGRAPHIE DU CONTENU
            ===================================================================== */
         h2 { 
-            font-family: 'Inter', sans-serif; 
             font-size: 18px; 
             font-weight: 800; 
             color: #0B2A5B; 
             text-transform: uppercase; 
             margin: 40px 0 20px; 
             padding-bottom: 10px; 
-            border-bottom: 1px solid #e0e0e0; 
+            border-bottom: 1px solid #E2E8F0; 
             text-align: left;
         }
         
         h3 { 
-            font-family: 'Inter', sans-serif; 
             font-size: 15px; 
             font-weight: 700; 
             color: #1a1a1a; 
@@ -134,13 +131,13 @@
         }
         
         p { 
-            font-size: 14px; 
+            font-size: 14.5px; 
             color: #333333; 
             margin-bottom: 15px; 
-            text-align: left; /* Alignement à gauche pour éviter le décollage */
+            text-align: left; /* Alignement à gauche pour éviter les trous */
         }
         
-        strong { color: #0B2A5B; }
+        strong { color: #0B2A5B; font-weight: 600; }
         
         ul, ol { 
             margin-bottom: 20px; 
@@ -148,7 +145,7 @@
         }
         
         li { 
-            font-size: 14px; 
+            font-size: 14.5px; 
             color: #333333; 
             margin-bottom: 8px; 
             text-align: left;
@@ -159,51 +156,57 @@
            ===================================================================== */
         .table-responsive {
             width: 100%;
-            overflow-x: auto; /* Permet de scroller si le tableau est trop large */
+            overflow-x: auto; 
             margin: 20px 0;
         }
         
         table {
             width: 100%;
             border-collapse: collapse;
-            font-family: 'Inter', sans-serif;
-            font-size: 13px;
-            min-width: 500px; /* Force une largeur minimale pour la lisibilité */
+            font-size: 13.5px;
+            min-width: 500px; 
         }
         
         th, td {
-            border: 1px solid #e0e0e0;
-            padding: 10px;
+            border: 1px solid #E2E8F0;
+            padding: 12px;
             text-align: left;
         }
         
         th {
-            background: #f9f9f9;
+            background: #F8FAFC;
             font-weight: 700;
             color: #0B2A5B;
         }
 
         /* =====================================================================
-           SECTION FONDATEURS
+           SECTION FONDATEURS (Design professionnel)
            ===================================================================== */
         .wp-founders { 
-            margin-top: 40px; 
+            margin-top: 50px; 
         }
         
         .founders-list { 
             display: flex; 
             flex-direction: column; 
-            gap: 20px; 
+            gap: 30px; 
         }
         
         .founder-card { 
             display: flex; 
-            align-items: flex-start; 
-            gap: 20px; 
+            align-items: center; 
+            gap: 25px; 
             background: #ffffff; 
-            border: 1px solid #e0e0e0; 
-            border-radius: 12px; 
-            padding: 20px; 
+            border: 1px solid #E2E8F0; 
+            border-radius: 16px; 
+            padding: 30px; 
+            box-shadow: 0 4px 20px rgba(11, 42, 91, 0.04); /* Ombre douce pour un effet carte */
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        
+        .founder-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(11, 42, 91, 0.08);
         }
         
         .founder-avatar-wrapper { 
@@ -211,11 +214,12 @@
         }
         
         .founder-avatar { 
-            width: 90px; 
-            height: 90px; 
+            width: 110px; 
+            height: 110px; 
             border-radius: 50%; 
             object-fit: cover; 
-            border: 3px solid #0B2A5B; 
+            border: 4px solid #F0F4F8; 
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
         }
         
         .founder-info { 
@@ -223,29 +227,27 @@
         }
         
         .founder-info h3 { 
-            font-family: 'Inter', sans-serif; 
-            font-size: 18px; 
+            font-size: 22px; 
             font-weight: 800; 
-            color: #000000; 
-            margin: 0 0 4px; 
-            text-transform: none;
+            color: #0B2A5B; 
+            margin: 0 0 6px; 
         }
         
         .founder-info .role { 
-            font-family: 'Inter', sans-serif; 
-            font-size: 13px; 
-            font-weight: 700; 
-            color: #555555; 
-            margin-bottom: 10px; 
-            text-align: left; 
+            font-size: 14px; 
+            font-weight: 600; 
+            color: #64748B; 
+            margin-bottom: 15px; 
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
         
         .founder-info .bio { 
-            font-size: 13px; 
-            line-height: 1.6; 
-            color: #333333; 
+            font-size: 14px; 
+            line-height: 1.7; 
+            color: #475569; 
             margin: 0; 
-            text-align: left; 
+            text-align: justify; 
         }
 
         /* =====================================================================
@@ -255,11 +257,21 @@
             .whitepaper-container { padding: 20px 15px; }
             .wp-header-top { flex-direction: column; gap: 15px; }
             .wp-lang-switch { position: static; }
-            .founder-card { flex-direction: column; align-items: center; text-align: center; }
-            .founder-info .bio { text-align: left; }
-            .founder-info .role { text-align: center; }
-            h1 { font-size: 20px !important; }
-            h2 { font-size: 16px; }
+            
+            /* Ajustement de la carte fondateur sur mobile */
+            .founder-card { 
+                flex-direction: column; 
+                align-items: center; 
+                text-align: center; 
+                padding: 25px 20px;
+            }
+            .founder-info .role {
+                text-align: center;
+            }
+            .founder-info .bio { 
+                text-align: left; /* Garder le texte à gauche pour la lisibilité */
+            }
+            h1 { font-size: 22px !important; }
         }
 
         /* =====================================================================
@@ -268,7 +280,7 @@
         @media print {
             body { background: #fff; }
             .wp-lang-switch { display: none !important; }
-            .founder-card { break-inside: avoid; box-shadow: none; }
+            .founder-card { break-inside: avoid; box-shadow: none; border: 1px solid #ccc; }
             .table-responsive { overflow: visible; }
             table { min-width: 100%; }
         }
@@ -290,7 +302,7 @@
             <h1>GLOBAL BULK</h1>
             <div class="wp-divider"></div>
             <h2 style="border:none; margin:0; font-size:16px; padding:0; color:#333; text-align:center;">LIVRE BLANC — WHITE PAPER</h2>
-            <p style="text-align:center; font-family:'Inter', sans-serif; font-size:14px; font-weight:600; color:#0B2A5B; margin-top:10px;">Le centre commercial numérique international du commerce de gros</p>
+            <p style="text-align:center; font-size:14px; font-weight:600; color:#0B2A5B; margin-top:10px;">Le centre commercial numérique international du commerce de gros</p>
         </header>
 
         <!-- MÉTADONNÉES -->
@@ -329,7 +341,7 @@
             
             <h3>2.1. La vision</h3>
             <p>La vision de GLOBAL BULK consiste à démocratiser l’accès au commerce de gros grâce à une infrastructure numérique internationale.</p>
-            <p>Aujourd’hui, de nombreux commerçants africains rencontrent des difficultés pour accéder directement aux fournisseurs internationaux, comparer les prix, identifier des partenaires commerciaux et organiser leurs approvisionnements.</p>
+            <p>Aujourd’hui, de nombreux commerçants rencontrent des difficultés pour accéder directement aux fournisseurs internationaux, comparer les prix, identifier des partenaires commerciaux et organiser leurs approvisionnements.</p>
             <p>De leur côté, les fabricants et distributeurs peuvent rencontrer des difficultés pour atteindre de nouveaux marchés et trouver des acheteurs fiables.</p>
             <p>GLOBAL BULK souhaite rapprocher ces deux catégories d’acteurs dans un environnement numérique commun.</p>
             <p>L’ambition est de transformer la marketplace en un espace commercial capable de réunir :</p>
@@ -353,7 +365,7 @@
                 <li>Centraliser les offres commerciales sur un espace unique.</li>
                 <li>Simplifier la commande et le paiement.</li>
                 <li>Améliorer le suivi des transactions.</li>
-                <li>Favoriser l’accès des entreprises africaines aux marchés internationaux.</li>
+                <li>Favoriser l’accès des entreprises aux marchés internationaux.</li>
             </ol>
 
             <h3>2.3. Le positionnement</h3>
@@ -371,7 +383,7 @@
                 <!-- Profil 1 : Freddy Yumba -->
                 <div class="founder-card">
                     <div class="founder-avatar-wrapper">
-                        <img src="freddy.jpg" alt="Freddy Yumba" class="founder-avatar" onerror="this.src='https://via.placeholder.com/100x100?text=Photo'">
+                        <img src="freddy.jpg" alt="Freddy Yumba" class="founder-avatar" onerror="this.src='https://via.placeholder.com/110x110?text=Photo'">
                     </div>
                     <div class="founder-info">
                         <h3>Freddy Yumba</h3>
@@ -383,7 +395,7 @@
                 <!-- Profil 2 : Djami Yakonga -->
                 <div class="founder-card">
                     <div class="founder-avatar-wrapper">
-                        <img src="djami.jpg" alt="Djami Yakonga" class="founder-avatar" onerror="this.src='https://via.placeholder.com/100x100?text=Photo'">
+                        <img src="djami.jpg" alt="Djami Yakonga" class="founder-avatar" onerror="this.src='https://via.placeholder.com/110x110?text=Photo'">
                     </div>
                     <div class="founder-info">
                         <h3>Djami Yakonga</h3>
@@ -413,7 +425,7 @@
             </ul>
 
             <h3>3.2. Les difficultés d’accès au commerce international</h3>
-            <p>Les petites et moyennes entreprises africaines ne disposent pas toujours des mêmes moyens que les grandes entreprises pour accéder aux réseaux internationaux de fournisseurs.</p>
+            <p>Les petites et moyennes entreprises ne disposent pas toujours des mêmes moyens que les grandes entreprises pour accéder aux réseaux internationaux de fournisseurs.</p>
             <p>GLOBAL BULK souhaite réduire cette barrière en offrant une infrastructure commune permettant de découvrir des produits et d’entrer en relation avec des vendeurs.</p>
 
             <h3>3.3. Les limites des modèles commerciaux traditionnels</h3>
@@ -703,19 +715,18 @@
             <p>Les éventuelles fonctions de représentation ou de gestion collective devront être définies avec précision avant leur déploiement.</p>
         </section>
 
-        <!-- 10. MARCHÉ CIBLE -->
+        <!-- 10. MARCHÉ CIBLE (CORRIGÉ) -->
         <section>
             <h2>10. LE MARCHÉ CIBLE</h2>
             
-            <h3>10.1. L’Afrique</h3>
-            <p>L’Afrique constitue un marché stratégique pour GLOBAL BULK.</p>
-            <p>La plateforme entend contribuer à la connexion entre les entreprises africaines et les réseaux internationaux de fournisseurs.</p>
-            <p>La République démocratique du Congo peut notamment représenter un marché important pour les activités de distribution, d’approvisionnement et de commerce de gros.</p>
-            <p>Kinshasa peut constituer un point de départ commercial pertinent pour le développement de la plateforme.</p>
+            <h3>10.1. Un marché mondial</h3>
+            <p>GLOBAL BULK ne se limite pas à une seule région : le marché cible de la plateforme est <strong>mondial</strong>. L'objectif est de faciliter les échanges commerciaux internationaux entre tous les continents, connectant les fabricants, grossistes et acheteurs à l'échelle planétaire.</p>
+            <p>Toutefois, l’Afrique constitue un point de départ stratégique pour GLOBAL BULK. La plateforme entend contribuer activement à la connexion entre les entreprises africaines et les réseaux internationaux de fournisseurs.</p>
+            <p>La République démocratique du Congo peut notamment représenter un marché important pour les activités de distribution, d’approvisionnement et de commerce de gros, et Kinshasa un point de départ commercial pertinent pour le développement de la plateforme vers l'international.</p>
 
-            <h3>10.2. Le marché international</h3>
-            <p>L’ambition de GLOBAL BULK ne se limite pas à un seul pays.</p>
-            <p>La plateforme souhaite faciliter les échanges entre plusieurs marchés, notamment lorsque les vendeurs et les acheteurs peuvent organiser légalement et matériellement leurs opérations commerciales.</p>
+            <h3>10.2. L’expansion internationale</h3>
+            <p>L’ambition de GLOBAL BULK est de créer un véritable centre commercial numérique international, sans frontières géographiques imposées par la plateforme elle-même.</p>
+            <p>La plateforme souhaite faciliter les échanges entre plusieurs marchés, notamment lorsque les vendeurs et les acheteurs peuvent organiser légalement et matériellement leurs opérations commerciales à travers le monde.</p>
 
             <h3>10.3. Développement progressif</h3>
             <p>L’expansion internationale devra tenir compte :</p>
@@ -1022,7 +1033,7 @@
         <!-- 20. PERSPECTIVES À LONG TERME -->
         <section>
             <h2>20. PERSPECTIVES À LONG TERME</h2>
-            <p>À long terme, GLOBAL BULK ambitionne de devenir un espace commercial numérique capable de connecter un vaste réseau d’entreprises, de fournisseurs et d’acheteurs.</p>
+            <p>À long terme, GLOBAL BULK ambitionne de devenir un espace commercial numérique capable de connecter un vaste réseau d’entreprises, de fournisseurs et d’acheteurs à travers le monde.</p>
             <p>Sa croissance pourrait s’appuyer sur :</p>
             <ul>
                 <li>L’augmentation du nombre de fournisseurs.</li>
@@ -1063,7 +1074,7 @@
             </ul>
             <p>Les fonctionnalités de paiement réel, de portefeuille central, de répartition automatique des fonds et de remboursement devront faire l’objet d’une validation technique, financière et juridique avant leur exploitation commerciale.</p>
             <p>Les taux de 3 % et 2 % représentent le modèle économique retenu dans ce document. Toute modification devra être communiquée clairement aux utilisateurs.</p>
-            <p style="text-align:center; margin-top:40px; font-weight:bold; font-family:'Inter', sans-serif; color:#0B2A5B;">Fin du livre blanc GLOBAL BULK — Version 1.0.</p>
+            <p style="text-align:center; margin-top:40px; font-weight:bold; color:#0B2A5B;">Fin du livre blanc GLOBAL BULK — Version 1.0.</p>
         </section>
 
     </div>
