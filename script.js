@@ -4,6 +4,10 @@
     var SUPABASE_URL = 'https://rixxdxgmsbjweyptzlfj.supabase.co';
     var SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJpeHhkeGdtc2Jqd2V5cHR6bGZqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTEyNTQ2MTIsImV4cCI6MjEwNjgzMDYxMn0.1yO_8kQ7LemA55KDuIKRX8eR7_1rrZyDtSS3U2Cv_lo';
 
+    // TAUX DE COMMISSION
+    var BUYER_FEE_RATE = 0.02; // 2%
+    var SELLER_COMMISSION_RATE = 0.03; // 3%
+
     var TEXTS = {
         en: {
             nav_home: 'Home', nav_market: 'Market', nav_publish: 'Publish', nav_suppliers: 'Suppliers', nav_profile: 'Profile',
@@ -17,7 +21,8 @@
             stats_suppliers: 'Suppliers', stats_products: 'Products', stats_countries: 'Countries', stats_orders: 'Orders',
             product_min: 'Min', product_per_unit: '/ unit', product_verified: 'Verified', product_not_verified: 'Not verified',
             product_wholesale_price: 'Wholesale price', product_min_qty: 'Min qty', product_units: 'units', product_add_to_cart: 'Add to cart',
-            cart_title: 'Your cart', cart_empty: 'Your cart is empty', cart_total: 'Total', cart_pay_pi: 'Pay with Pi',
+            cart_title: 'Your cart', cart_empty: 'Your cart is empty', 
+            cart_subtotal: 'Subtotal', cart_buyer_fee: 'Buyer fee (2%)', cart_total_pay: 'Total to pay', cart_pay_pi: 'Pay with Pi',
             publish_title: 'Publish a product', publish_section_info: 'Product presentation', publish_name: 'Product name', publish_name_placeholder: 'Ex: Samsung Galaxy S24',
             publish_description: 'Detailed description', publish_description_placeholder: 'Describe your product (features, quality, packaging...)',
             publish_section_photos: 'Product photos', publish_add_photos: 'Add photos (max 4)',
@@ -40,7 +45,7 @@
             orders_title: 'My orders', orders_empty: 'No orders received yet.', orders_empty_hint: 'Your customers\' orders will appear here.',
             orders_pending_tab: 'Pending', orders_shipped_tab: 'Shipped', orders_pending_empty: 'No orders awaiting processing.', orders_shipped_empty: 'No shipped orders yet.',
             orders_count: 'order(s) to process', orders_delivery_to: 'Delivery to', orders_products_ordered: 'Products ordered',
-            orders_total_received: 'Total received', orders_mark_shipped: 'Mark as shipped', orders_shipped_done: 'Order shipped',
+            orders_buyer_paid: 'Buyer paid', orders_commission: 'Commission (3%)', orders_net: 'Net to receive', orders_mark_shipped: 'Mark as shipped', orders_shipped_done: 'Order shipped',
             orders_ship_confirm: 'Confirm this order has been shipped?', orders_ship_success: 'Order marked as shipped', orders_ship_error: 'Unable to update',
             orders_ship_processing: 'Processing...', orders_buyer_unavailable: 'Buyer profile unavailable', orders_uid: 'UID',
             status_paid: 'Paid', status_shipped: 'Shipped', status_delivered: 'Delivered', status_pending: 'Pending',
@@ -81,7 +86,8 @@
             stats_suppliers: 'Fournisseurs', stats_products: 'Produits', stats_countries: 'Pays', stats_orders: 'Commandes',
             product_min: 'Min', product_per_unit: '/ unité', product_verified: 'Vérifié', product_not_verified: 'Non vérifié',
             product_wholesale_price: 'Prix de gros', product_min_qty: 'Qté min.', product_units: 'unités', product_add_to_cart: 'Ajouter au panier',
-            cart_title: 'Votre panier', cart_empty: 'Votre panier est vide', cart_total: 'Total', cart_pay_pi: 'Payer avec Pi',
+            cart_title: 'Votre panier', cart_empty: 'Votre panier est vide', 
+            cart_subtotal: 'Sous-total', cart_buyer_fee: 'Frais acheteur (2%)', cart_total_pay: 'Total à payer', cart_pay_pi: 'Payer avec Pi',
             publish_title: 'Publier un produit', publish_section_info: 'Présentation du produit', publish_name: 'Nom du produit', publish_name_placeholder: 'Ex : Smartphone Galaxy S24',
             publish_description: 'Description détaillée', publish_description_placeholder: 'Décrivez votre produit (caractéristiques, qualité, conditionnement...)',
             publish_section_photos: 'Photos du produit', publish_add_photos: 'Ajouter des photos (max 4)',
@@ -104,7 +110,7 @@
             orders_title: 'Mes commandes', orders_empty: 'Aucune commande reçue pour le moment.', orders_empty_hint: 'Les commandes de vos clients apparaîtront ici.',
             orders_pending_tab: 'En attente', orders_shipped_tab: 'Expédié', orders_pending_empty: 'Aucune commande en attente de traitement.', orders_shipped_empty: 'Aucune commande expédiée pour le moment.',
             orders_count: 'commande(s) à traiter', orders_delivery_to: 'Livraison à', orders_products_ordered: 'Produits commandés',
-            orders_total_received: 'Total encaissé', orders_mark_shipped: 'Marquer comme expédié', orders_shipped_done: 'Commande expédiée',
+            orders_buyer_paid: 'Total payé par l\'acheteur', orders_commission: 'Commission Global Bulk (3%)', orders_net: 'Net à recevoir', orders_mark_shipped: 'Marquer comme expédié', orders_shipped_done: 'Commande expédiée',
             orders_ship_confirm: 'Confirmer que cette commande a été expédiée ?', orders_ship_success: 'Commande marquée comme expédiée', orders_ship_error: 'Impossible de mettre à jour',
             orders_ship_processing: 'Traitement...', orders_buyer_unavailable: 'Profil acheteur indisponible', orders_uid: 'UID',
             status_paid: 'Payé', status_shipped: 'Expédié', status_delivered: 'Livré', status_pending: 'En attente',
@@ -287,9 +293,14 @@
         var profBack = document.querySelector('#profileSection .page-header .btn-back'); if (profBack) profBack.innerHTML = '<i class="fas fa-arrow-left"></i> ' + t('back');
         var menuMap = { 'mon-profil': 'menu_profile', 'mes-achats': 'menu_purchases', 'mes-ventes': 'menu_sales', 'mes-commandes': 'menu_orders', 'historique': 'menu_history', 'parametres': 'menu_settings', 'faq': 'menu_faq', 'livre-blanc': 'menu_whitepaper' };
         document.querySelectorAll('.menu-item').forEach(function(item) { var tab = item.getAttribute('data-tab'); var label = item.querySelector('.menu-label'); if (label && menuMap[tab]) label.textContent = t(menuMap[tab]); });
+        
+        // Cart translations
         var cartTitle = document.querySelector('.cart-header h3'); if (cartTitle) cartTitle.textContent = t('cart_title');
         var cartEmpty = document.querySelector('.cart-empty p'); if (cartEmpty) cartEmpty.textContent = t('cart_empty');
-        var cartTotal = document.querySelector('.cart-total span:first-child'); if (cartTotal) cartTotal.textContent = t('cart_total');
+        var subtotalLbl = document.querySelector('[data-i18n="cart_subtotal"]'); if (subtotalLbl) subtotalLbl.textContent = t('cart_subtotal');
+        var feeLbl = document.querySelector('[data-i18n="cart_buyer_fee"]'); if (feeLbl) feeLbl.textContent = t('cart_buyer_fee');
+        var totalLbl = document.querySelector('[data-i18n="cart_total_pay"]'); if (totalLbl) totalLbl.textContent = t('cart_total_pay');
+        
         var payBtn = document.getElementById('checkoutBtn'); if (payBtn) payBtn.innerHTML = '<i class="fab fa-pi"></i> ' + t('cart_pay_pi');
         var authTitle = document.querySelector('#authRequiredModal h2'); if (authTitle) authTitle.textContent = t('auth_title');
         var authDefault = document.getElementById('authModalMessage'); if (authDefault && !authDefault.dataset.keep) authDefault.textContent = t('auth_default_msg');
@@ -333,7 +344,6 @@
             .catch(function(e) { console.error('[Supa] loadProfile error', e); userProfile = null; return null; }); 
     }
 
-    // --- CORRECTION ROBUSTE DE LA SAUVEGARDE DU PROFIL ---
     function saveProfileToSupabase(data) {
         if (!piUser) return Promise.reject(new Error('Not connected'));
         
@@ -348,24 +358,15 @@
             updated_at: new Date().toISOString()
         };
 
-        // 1. On vérifie si le profil existe déjà (GET)
         return SupaAPI.get('profils?pi_uid=eq.' + encodeURIComponent(piUser.uid))
             .then(function(rows) {
                 if (rows && rows.length > 0) {
-                    // 2a. S'il existe, on le met à jour avec PATCH
                     var existingId = rows[0].id; 
                     return SupaAPI.patch('profils?id=eq.' + existingId, payload)
-                        .then(function(updatedRows) {
-                            userProfile = updatedRows[0];
-                            return userProfile;
-                        });
+                        .then(function(updatedRows) { userProfile = updatedRows[0]; return userProfile; });
                 } else {
-                    // 2b. S'il n'existe pas, on le crée avec POST
                     return SupaAPI.post('profils', payload)
-                        .then(function(newRows) {
-                            userProfile = newRows[0];
-                            return userProfile;
-                        });
+                        .then(function(newRows) { userProfile = newRows[0]; return userProfile; });
                 }
             });
     }
@@ -374,7 +375,25 @@
     function saveProductToSupabase(p) { if (!piUser) return Promise.reject(new Error('Not connected')); var payload = { owner_pi_uid: piUser.uid, name: p.name, description: p.description || '', category: p.category, country: p.country, price: p.price, unit: p.unit, min_order: p.minOrder, stock: p.stock, images: p.images && p.images.length ? p.images : [], verified: true, rating: 4.5 }; return SupaAPI.post('produits', payload); }
     function deleteProductFromSupabase(id) { return SupaAPI.del('produits?id=eq.' + encodeURIComponent(id)); }
     function updateProductInSupabase(id, data) { return SupaAPI.patch('produits?id=eq.' + encodeURIComponent(id), { name: data.name, description: data.description, category: data.category, country: data.country, price: data.price, unit: data.unit, min_order: data.minOrder, stock: data.stock }); }
-    function saveOrderToSupabase(order) { if (!piUser) return Promise.reject(new Error('Not connected')); var payload = { buyer_pi_uid: piUser.uid, seller_pi_uid: order.seller_pi_uid || null, items: order.items, total: order.total, status: order.status || 'paid', payment_id: order.payment_id || null, txid: order.txid || null }; return SupaAPI.post('ordres', payload); }
+    
+    // Ajout des champs financiers explicites lors de la sauvegarde
+    function saveOrderToSupabase(order) { 
+        if (!piUser) return Promise.reject(new Error('Not connected')); 
+        var payload = { 
+            buyer_pi_uid: piUser.uid, 
+            seller_pi_uid: order.seller_pi_uid || null, 
+            items: order.items, 
+            total: order.total, // Total payé par l'acheteur
+            status: order.status || 'paid', 
+            payment_id: order.payment_id || null, 
+            txid: order.txid || null,
+            base_total: order.base_total,
+            buyer_fee: order.buyer_fee,
+            seller_net: order.seller_net
+        }; 
+        return SupaAPI.post('ordres', payload); 
+    }
+    
     function updateOrderStatus(orderId, newStatus) { return SupaAPI.patch('ordres?id=eq.' + encodeURIComponent(orderId), { status: newStatus }); }
     function loadOrdersFromSupabase() { if (!piUser) return Promise.resolve([]); var uid = encodeURIComponent(piUser.uid); return SupaAPI.get('ordres?or=(buyer_pi_uid.eq.' + uid + ',seller_pi_uid.eq.' + uid + ')&order=created_at.desc').then(function(rows) { userOrders = rows || []; return userOrders; }).catch(function(e) { console.error('[Supa] loadOrders error', e); return []; }); }
     function saveHistoryToSupabase(entry) { if (!piUser) return Promise.reject(new Error('Not connected')); return SupaAPI.post('histoire', { user_pi_uid: piUser.uid, type: entry.type, description: entry.description || '', amount: entry.amount || null, meta: entry.meta || null }); }
@@ -439,9 +458,18 @@
 
     function openPaymentModal() {
         var modal = document.getElementById('paymentModal'); var summary = document.getElementById('paymentSummary'); var amount = document.getElementById('paymentAmount'); if (!summary) return;
+        
+        var baseTotal = cartItems.reduce(function(s, i) { return s + (i.price * i.qty); }, 0);
+        var buyerFee = baseTotal * BUYER_FEE_RATE;
+        var finalTotal = baseTotal + buyerFee;
+
         summary.innerHTML = cartItems.map(function(item) { return '<div class="payment-summary-item"><span class="name">' + escapeHtml(item.name) + '</span><span class="qty">×' + item.qty + '</span><span class="price">' + formatPrice(item.price * item.qty) + ' π</span></div>'; }).join('');
-        var total = cartItems.reduce(function(s, i) { return s + (i.price * i.qty); }, 0);
-        amount.textContent = formatPrice(total) + ' π'; modal.classList.add('open');
+        
+        // Add fee lines to summary
+        summary.innerHTML += '<div class="payment-summary-item" style="border-top: 1px solid #dce0e6; margin-top: 8px; padding-top: 8px;"><span class="name">Sous-total</span><span class="price">' + formatPrice(baseTotal) + ' π</span></div>';
+        summary.innerHTML += '<div class="payment-summary-item"><span class="name">' + t('cart_buyer_fee') + '</span><span class="price">' + formatPrice(buyerFee) + ' π</span></div>';
+
+        amount.textContent = formatPrice(finalTotal) + ' π'; modal.classList.add('open');
     }
     function closePaymentModal() { var modal = document.getElementById('paymentModal'); if (modal) modal.classList.remove('open'); }
 
@@ -771,7 +799,18 @@
             var date = formatDateFr(o.created_at); var items = o.items || [];
             var itemsHtml = items.map(function(it) { var img = getProductImageForItem(it.id, it); return '<div class="order-item"><div class="order-item-img"><img src="' + img + '" alt="" /></div><div class="order-item-body"><div class="order-item-name">' + escapeHtml(it.name) + '</div><div class="order-item-meta">' + it.qty + ' × ' + formatPrice(it.price) + ' π</div></div><div class="order-item-sub">' + formatPrice(it.qty * it.price) + ' π</div></div>'; }).join('');
             var statusCls = (o.status === 'shipped' || o.status === 'delivered') ? 'order-status shipped' : 'order-status';
-            html += '<div class="order-card"><div class="order-header"><div><i class="fas fa-receipt"></i> ' + date + '</div><span class="' + statusCls + '">' + escapeHtml(statusLabel(o.status)) + '</span></div><div class="order-items">' + itemsHtml + '</div><div class="order-total"><span>' + t('cart_total') + '</span><strong>' + formatPrice(o.total) + ' π</strong></div></div>';
+            
+            // Calcul pour l'acheteur (affichage du total payé incluant les frais)
+            var totalPaye = Number(o.total); // Le total enregistré inclut déjà les 2%
+            var base = totalPaye / (1 + BUYER_FEE_RATE);
+            var frais = totalPaye - base;
+
+            html += '<div class="order-card"><div class="order-header"><div><i class="fas fa-receipt"></i> ' + date + '</div><span class="' + statusCls + '">' + escapeHtml(statusLabel(o.status)) + '</span></div><div class="order-items">' + itemsHtml + '</div>' + 
+                    '<div class="order-financials">' +
+                    '<div class="order-fin-line"><span>Sous-total</span><span>' + formatPrice(base) + ' π</span></div>' +
+                    '<div class="order-fin-line"><span>Frais acheteur (2%)</span><span>' + formatPrice(frais) + ' π</span></div>' +
+                    '<div class="order-fin-line net"><span>' + t('cart_total_pay') + '</span><span>' + formatPrice(totalPaye) + ' π</span></div>' +
+                    '</div></div>';
         });
         return html;
     }
@@ -816,7 +855,19 @@
             var actionBtn = '';
             if (currentCommandesTab === 'pending') actionBtn = '<button type="button" class="ship-btn" data-action="ship" data-order-id="' + o.id + '"><i class="fas fa-truck"></i> ' + t('orders_mark_shipped') + '</button>';
             else actionBtn = '<div class="ship-done"><i class="fas fa-check-circle"></i> ' + t('orders_shipped_done') + '</div>';
-            html += '<div class="order-card seller-order"><div class="order-header"><div><i class="fas fa-receipt"></i> ' + date + '</div><span class="' + statusCls + '">' + escapeHtml(statusLabel(o.status)) + '</span></div>' + deliveryHtml + '<div class="order-subtitle"><i class="fas fa-box-open"></i> ' + t('orders_products_ordered') + ' (' + items.length + ')</div><div class="order-items">' + itemsHtml + '</div><div class="order-total"><span>' + t('orders_total_received') + '</span><strong>' + formatPrice(o.total) + ' π</strong></div>' + actionBtn + '</div>';
+
+            // Calcul financier pour le vendeur
+            var totalPaye = Number(o.total); // Total payé par l'acheteur (inclut 2%)
+            var base = totalPaye / (1 + BUYER_FEE_RATE);
+            var commission = base * SELLER_COMMISSION_RATE;
+            var netVendeur = base - commission;
+
+            html += '<div class="order-card seller-order"><div class="order-header"><div><i class="fas fa-receipt"></i> ' + date + '</div><span class="' + statusCls + '">' + escapeHtml(statusLabel(o.status)) + '</span></div>' + deliveryHtml + '<div class="order-subtitle"><i class="fas fa-box-open"></i> ' + t('orders_products_ordered') + ' (' + items.length + ')</div><div class="order-items">' + itemsHtml + '</div>' + 
+                    '<div class="order-financials">' +
+                    '<div class="order-fin-line"><span>' + t('orders_buyer_paid') + '</span><span>' + formatPrice(totalPaye) + ' π</span></div>' +
+                    '<div class="order-fin-line"><span>' + t('orders_commission') + '</span><span style="color:#DC2626;">-' + formatPrice(commission) + ' π</span></div>' +
+                    '<div class="order-fin-line net"><span>' + t('orders_net') + '</span><span>' + formatPrice(netVendeur) + ' π</span></div>' +
+                    '</div>' + actionBtn + '</div>';
         });
         return html;
     }
@@ -870,26 +921,13 @@
         }
     }
 
-    // GESTION DES CLICS SUR LE MENU
     document.querySelectorAll('.menu-item').forEach(function(item) {
         item.addEventListener('click', function(e) {
-            // On vérifie si c'est un lien direct (comme le Whitepaper)
-            if (this.tagName.toLowerCase() === 'a') {
-                return; // On laisse le navigateur suivre le lien href (redirection immédiate)
-            }
-
+            if (this.tagName.toLowerCase() === 'a') { return; }
             var tab = this.getAttribute('data-tab'); 
             var label = this.querySelector('.menu-label').textContent;
-            
-            if (tab === 'faq') { 
-                window.location.href = 'faq.html'; 
-                return; 
-            } 
-            
-            if (tab === 'mes-commandes') { 
-                currentCommandesTab = 'pending'; 
-            } 
-            
+            if (tab === 'faq') { window.location.href = 'faq.html'; return; } 
+            if (tab === 'mes-commandes') { currentCommandesTab = 'pending'; } 
             openSideDrawer(tab, label);
         });
     });
@@ -913,11 +951,21 @@
     window.addToCart = function(id) { if (!requireAuth('panier')) return; var p = products.find(function(x) { return String(x.id) === String(id); }); if (!p) return; var existing = cartItems.find(function(item) { return String(item.id) === String(id); }); if (existing) existing.qty += p.minOrder; else cartItems.push({ id: p.id, name: p.name, qty: p.minOrder, price: p.price, image: p.images ? p.images[0] : '', ownerPiUid: p.ownerPiUid || null }); updateCartBadge(); showToast(p.name + ' ' + t('toast_product_added'), 'success'); if (isCartOpen) renderCartItems(); };
     window.removeFromCart = function(id) { cartItems = cartItems.filter(function(item) { return String(item.id) !== String(id); }); updateCartBadge(); renderCartItems(); };
     window.updateQty = function(id, delta) { var item = cartItems.find(function(i) { return String(i.id) === String(id); }); if (!item) return; item.qty += delta; if (item.qty <= 0) { removeFromCart(id); return; } renderCartItems(); updateCartBadge(); };
+    
     function renderCartItems() {
-        var body = document.getElementById('cartBody'); var footer = document.getElementById('cartFooter'); var totalEl = document.getElementById('cartTotalPrice'); if (!body) return;
+        var body = document.getElementById('cartBody'); var footer = document.getElementById('cartFooter'); if (!body) return;
         if (cartItems.length === 0) { body.innerHTML = '<div class="cart-empty"><i class="fas fa-shopping-bag"></i><p>' + t('cart_empty') + '</p></div>'; footer.style.display = 'none'; return; }
+        
         body.innerHTML = cartItems.map(function(item) { return '<div class="cart-item"><div class="item-image"><img src="' + (item.image || '') + '" /></div><div class="item-info"><div class="name">' + escapeHtml(item.name) + '</div><div class="price">' + formatPrice(item.price * item.qty) + ' π</div><div class="item-qty"><button onclick="updateQty(\'' + item.id + '\',-1)">-</button><span>' + item.qty + '</span><button onclick="updateQty(\'' + item.id + '\',1)">+</button></div></div><button class="btn btn-sm btn-danger" onclick="removeFromCart(\'' + item.id + '\')"><i class="fas fa-trash"></i></button></div>'; }).join('');
-        footer.style.display = 'block'; var total = cartItems.reduce(function(s, i) { return s + (i.price * i.qty); }, 0); totalEl.textContent = formatPrice(total) + ' π';
+        footer.style.display = 'block'; 
+        
+        var baseTotal = cartItems.reduce(function(s, i) { return s + (i.price * i.qty); }, 0);
+        var buyerFee = baseTotal * BUYER_FEE_RATE;
+        var finalTotal = baseTotal + buyerFee;
+
+        document.getElementById('cartSubtotalPrice').textContent = formatPrice(baseTotal) + ' π';
+        document.getElementById('cartBuyerFee').textContent = formatPrice(buyerFee) + ' π';
+        document.getElementById('cartTotalPrice').textContent = formatPrice(finalTotal) + ' π';
     }
     function updateCartBadge() { var total = cartItems.reduce(function(s, i) { return s + i.qty; }, 0); document.querySelectorAll('.badge-count').forEach(function(el) { var parent = el.closest('.icon-btn'); if (parent && parent.querySelector('.fa-cart-shopping')) { el.textContent = total; el.style.display = total > 0 ? 'flex' : 'none'; } }); }
     var isCartOpen = false; function toggleCart() { isCartOpen = !isCartOpen; var overlay = document.getElementById('cartOverlay'); if (isCartOpen) { overlay.classList.add('open'); renderCartItems(); } else overlay.classList.remove('open'); }
@@ -927,12 +975,33 @@
     document.getElementById('checkoutBtn').addEventListener('click', function() { if (!requireAuth('commande')) return; if (cartItems.length === 0) { showToast(t('cart_empty'), 'error'); return; } toggleCart(); setTimeout(openPaymentModal, 300); });
 
     function executePayment() {
-        var total = cartItems.reduce(function(s, i) { return s + (i.price * i.qty); }, 0); var totalFixed = parseFloat(total.toFixed(6)); if (totalFixed < 0.000001) totalFixed = 0.000001;
+        var baseTotal = cartItems.reduce(function(s, i) { return s + (i.price * i.qty); }, 0);
+        var buyerFee = baseTotal * BUYER_FEE_RATE;
+        var finalTotal = baseTotal + buyerFee;
+        var totalFixed = parseFloat(finalTotal.toFixed(6)); 
+        if (totalFixed < 0.000001) totalFixed = 0.000001;
+
         var itemsSnapshot = cartItems.slice(); showToast(t('payment_processing'), 'info');
+        
         createPiPayment(totalFixed, 'Global Bulk - ' + cartItems.length + ' item(s)', { items: cartItems.map(function(i) { return { id: i.id, name: i.name, qty: i.qty, price: i.price, image: i.image }; }), total: totalFixed, username: piUser.username, timestamp: Date.now() })
         .then(function(result) {
             var sellerUid = itemsSnapshot[0] && itemsSnapshot[0].ownerPiUid ? itemsSnapshot[0].ownerPiUid : null;
-            var orderPayload = { seller_pi_uid: sellerUid, items: itemsSnapshot.map(function(i) { return { id: i.id, name: i.name, qty: i.qty, price: i.price, image: i.image || null }; }), total: totalFixed, status: 'paid', payment_id: result.paymentId, txid: result.txid };
+            
+            // Calcul du net vendeur
+            var commissionVendeur = baseTotal * SELLER_COMMISSION_RATE;
+            var netVendeur = baseTotal - commissionVendeur;
+
+            var orderPayload = { 
+                seller_pi_uid: sellerUid, 
+                items: itemsSnapshot.map(function(i) { return { id: i.id, name: i.name, qty: i.qty, price: i.price, image: i.image || null }; }), 
+                total: totalFixed, // Le total inclut les 2% frais acheteur
+                base_total: baseTotal,
+                buyer_fee: buyerFee,
+                seller_net: netVendeur,
+                status: 'paid', 
+                payment_id: result.paymentId, 
+                txid: result.txid 
+            };
             return saveOrderToSupabase(orderPayload).then(function() { return saveHistoryToSupabase({ type: 'achat', description: t('history_purchase') + ' ' + itemsSnapshot.length + ' article(s)', amount: totalFixed, meta: { payment_id: result.paymentId, txid: result.txid } }); }).then(function() { return Promise.all([loadOrdersFromSupabase(), loadHistoryFromSupabase()]); }).then(function() { showToast('✅ ' + t('payment_success'), 'success'); cartItems = []; updateCartBadge(); renderCartItems(); });
         })
         .catch(function(err) { console.error('[Paiement] error', err); if (/cancel/i.test(err.message) || /annul/i.test(err.message)) showToast(t('payment_cancelled'), 'info'); else showToast(t('toast_error') + ' : ' + (err.message || t('payment_error')), 'error'); });
