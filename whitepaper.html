@@ -7,32 +7,208 @@
     <link rel="icon" href="logoglobalbulk.png" />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Merriweather:ital,wght@0,300;0,400;0,700;1,400&display=swap" rel="stylesheet" />
     <style>
+        /* RESET & BASE */
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { background-color: #ffffff; color: #1a1a1a; font-family: 'Merriweather', 'Georgia', serif; line-height: 1.8; padding-top: 20px; }
-        .whitepaper-container { max-width: 800px; margin: 0 auto; padding: 40px 20px; }
-        .wp-header { text-align: center; margin-bottom: 50px; position: relative; }
-        .wp-header-top { position: relative; display: flex; justify-content: center; align-items: center; margin-bottom: 20px; }
-        .wp-logo { width: 90px; height: 90px; object-fit: contain; }
-        .wp-lang-switch { position: absolute; right: 0; top: 10px; display: flex; gap: 6px; }
-        .wp-lang-btn { background: #ffffff; border: 1px solid #0B2A5B; color: #0B2A5B; border-radius: 50%; width: 34px; height: 34px; font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 700; display: flex; align-items: center; justify-content: center; cursor: pointer; }
-        .wp-lang-btn.active { background: #0B2A5B; color: #ffffff; }
-        .wp-header h1 { font-family: 'Inter', sans-serif; font-size: 26px; font-weight: 800; color: #0B2A5B; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 20px; }
-        .wp-divider { width: 100%; height: 3px; background-color: #0B2A5B; margin: 0 auto; }
+        body { 
+            background-color: #ffffff; 
+            color: #1a1a1a; 
+            font-family: 'Merriweather', 'Georgia', serif; 
+            line-height: 1.8; 
+            padding-top: 20px; 
+        }
+        .whitepaper-container { 
+            max-width: 800px; 
+            margin: 0 auto; 
+            padding: 40px 20px; 
+        }
+
+        /* EN-TÊTE */
+        .wp-header { 
+            text-align: center; 
+            margin-bottom: 50px; 
+            position: relative; 
+        }
+        .wp-header-top { 
+            position: relative; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            margin-bottom: 20px; 
+        }
+        .wp-logo { 
+            width: 90px; 
+            height: 90px; 
+            object-fit: contain; 
+        }
+        .wp-lang-switch { 
+            position: absolute; 
+            right: 0; 
+            top: 10px; 
+            display: flex; 
+            gap: 6px; 
+        }
+        .wp-lang-btn { 
+            background: #ffffff; 
+            border: 1px solid #0B2A5B; 
+            color: #0B2A5B; 
+            border-radius: 50%; 
+            width: 34px; 
+            height: 34px; 
+            font-family: 'Inter', sans-serif; 
+            font-size: 11px; 
+            font-weight: 700; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            cursor: pointer; 
+        }
+        .wp-lang-btn.active { 
+            background: #0B2A5B; 
+            color: #ffffff; 
+        }
+        .wp-header h1 { 
+            font-family: 'Inter', sans-serif; 
+            font-size: 26px; 
+            font-weight: 800; 
+            color: #0B2A5B; 
+            text-transform: uppercase; 
+            letter-spacing: 1px; 
+            margin-bottom: 20px; 
+        }
+        .wp-divider { 
+            width: 100%; 
+            height: 3px; 
+            background-color: #0B2A5B; 
+            margin: 0 auto 20px; 
+        }
         
-        h2 { font-family: 'Inter', sans-serif; font-size: 20px; font-weight: 800; color: #0B2A5B; text-transform: uppercase; margin: 50px 0 20px; padding-bottom: 10px; border-bottom: 1px solid #e0e0e0; }
-        p { font-size: 15px; color: #333333; margin-bottom: 20px; text-align: justify; }
+        /* MÉTADONNÉES DU DOCUMENT */
+        .wp-meta-block {
+            text-align: center;
+            font-family: 'Inter', sans-serif;
+            font-size: 14px;
+            color: #555;
+            line-height: 1.6;
+            margin-bottom: 40px;
+            padding: 20px;
+            background: #f9f9f9;
+            border-radius: 8px;
+            border: 1px solid #e0e0e0;
+        }
+        .wp-meta-block strong { color: #0B2A5B; }
+
+        /* TYPOGRAPHIE DU CONTENU */
+        h2 { 
+            font-family: 'Inter', sans-serif; 
+            font-size: 20px; 
+            font-weight: 800; 
+            color: #0B2A5B; 
+            text-transform: uppercase; 
+            margin: 50px 0 20px; 
+            padding-bottom: 10px; 
+            border-bottom: 1px solid #e0e0e0; 
+        }
+        h3 { 
+            font-family: 'Inter', sans-serif; 
+            font-size: 17px; 
+            font-weight: 700; 
+            color: #1a1a1a; 
+            margin: 30px 0 12px; 
+        }
+        p { 
+            font-size: 15px; 
+            color: #333333; 
+            margin-bottom: 20px; 
+            text-align: justify; 
+        }
         strong { color: #0B2A5B; }
         
-        .wp-founders { margin-top: 40px; }
-        .founders-list { display: flex; flex-direction: column; gap: 25px; }
-        .founder-card { display: flex; align-items: flex-start; gap: 25px; background: #ffffff; border: 1px solid #e0e0e0; border-radius: 12px; padding: 25px; }
-        .founder-avatar-wrapper { flex-shrink: 0; }
-        .founder-avatar { width: 100px; height: 100px; border-radius: 50%; object-fit: cover; border: 3px solid #0B2A5B; }
-        .founder-info { flex: 1; }
-        .founder-info h3 { font-family: 'Inter', sans-serif; font-size: 20px; font-weight: 800; color: #000000; margin: 0 0 4px; }
-        .founder-info .role { font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 700; color: #555555; margin-bottom: 12px; text-align: left; }
-        .founder-info .bio { font-size: 14px; line-height: 1.7; color: #333333; margin: 0; text-align: justify; }
+        ul, ol { 
+            margin-bottom: 20px; 
+            padding-left: 25px; 
+        }
+        li { 
+            font-size: 15px; 
+            color: #333333; 
+            margin-bottom: 8px; 
+            text-align: justify; 
+        }
 
+        /* TABLEAUX */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 25px 0;
+            font-family: 'Inter', sans-serif;
+            font-size: 14px;
+        }
+        th, td {
+            border: 1px solid #e0e0e0;
+            padding: 12px;
+            text-align: left;
+        }
+        th {
+            background: #f9f9f9;
+            font-weight: 700;
+            color: #0B2A5B;
+        }
+
+        /* SECTION FONDATEURS */
+        .wp-founders { 
+            margin-top: 50px; 
+        }
+        .founders-list { 
+            display: flex; 
+            flex-direction: column; 
+            gap: 25px; 
+        }
+        .founder-card { 
+            display: flex; 
+            align-items: flex-start; 
+            gap: 25px; 
+            background: #ffffff; 
+            border: 1px solid #e0e0e0; 
+            border-radius: 12px; 
+            padding: 25px; 
+        }
+        .founder-avatar-wrapper { 
+            flex-shrink: 0; 
+        }
+        .founder-avatar { 
+            width: 100px; 
+            height: 100px; 
+            border-radius: 50%; 
+            object-fit: cover; 
+            border: 3px solid #0B2A5B; 
+        }
+        .founder-info { 
+            flex: 1; 
+        }
+        .founder-info h3 { 
+            font-family: 'Inter', sans-serif; 
+            font-size: 20px; 
+            font-weight: 800; 
+            color: #000000; 
+            margin: 0 0 4px; 
+            text-transform: none;
+        }
+        .founder-info .role { 
+            font-family: 'Inter', sans-serif; 
+            font-size: 14px; 
+            font-weight: 700; 
+            color: #555555; 
+            margin-bottom: 12px; 
+            text-align: left; 
+        }
+        .founder-info .bio { 
+            font-size: 14px; 
+            line-height: 1.7; 
+            color: #333333; 
+            margin: 0; 
+            text-align: justify; 
+        }
+
+        /* RESPONSIVE */
         @media (max-width: 600px) {
             .whitepaper-container { padding: 20px 15px; }
             .wp-header-top { flex-direction: column; gap: 20px; }
@@ -40,6 +216,8 @@
             .founder-card { flex-direction: column; align-items: center; text-align: center; }
             .founder-info .bio { text-align: justify; }
         }
+
+        /* IMPRESSION PDF */
         @media print {
             body { background: #fff; }
             .wp-lang-switch { display: none !important; }
@@ -51,6 +229,7 @@
 
     <div class="whitepaper-container">
 
+        <!-- EN-TÊTE -->
         <header class="wp-header">
             <div class="wp-header-top">
                 <img src="logoglobalbulk.png" alt="Global Bulk" class="wp-logo" />
@@ -59,57 +238,774 @@
                     <button class="wp-lang-btn">EN</button>
                 </div>
             </div>
-            <h1>GLOBAL BULK WHITEPAPER</h1>
+            <h1>GLOBAL BULK</h1>
             <div class="wp-divider"></div>
+            <h2 style="border:none; margin:0; font-size:18px; padding:0; color:#333;">LIVRE BLANC — WHITE PAPER</h2>
+            <p style="text-align:center; font-family:'Inter', sans-serif; font-size:16px; font-weight:600; color:#0B2A5B; margin-top:10px;">Le centre commercial numérique international du commerce de gros</p>
         </header>
 
-        <section>
-            <h2>1. INTRODUCTION</h2>
-            <p><strong>Global Bulk</strong> est une plateforme innovante d'achat en gros pour les professionnels, entièrement décentralisée et construite sur l'écosystème <strong>Pi Network</strong>. Née d'une profonde conviction — que la technologie doit servir l'humanité, et non l'inverse — Global Bulk redéfinit les règles du commerce B2B en offrant une alternative moderne, transparente et universellement accessible.</p>
-            
-            <p>Notre mission est claire : <strong>démocratiser l'accès au commerce de gros international</strong> en utilisant la cryptomonnaie Pi comme principal moyen de paiement. Là où les plateformes traditionnelles imposent des barrières financières, des commissions excessives et des délais de paiement interminables, Global Bulk propose une solution simple, instantanée et sans intermédiaire.</p>
+        <!-- MÉTADONNÉES -->
+        <div class="wp-meta-block">
+            <p style="text-align:center; margin-bottom:5px;"><strong>Version :</strong> 1.0</p>
+            <p style="text-align:center; margin-bottom:5px;"><strong>Date :</strong> 10 novembre 2026</p>
+            <p style="text-align:center; margin-bottom:5px;"><strong>Projet :</strong> GLOBAL BULK</p>
+            <p style="text-align:center; margin-bottom:5px;"><strong>Secteur :</strong> Commerce numérique – Marketplace B2B – Paiements numériques</p>
+            <p style="text-align:center; margin-bottom:5px;"><strong>Écosystème de paiement envisagé :</strong> Pi Network</p>
+            <p style="text-align:center; margin-bottom:5px;"><strong>Fondateur :</strong> Djami Yakonga</p>
+            <p style="text-align:center; margin-bottom:0;"><strong>Direction du projet et gestion de projet :</strong> Freddy Yumba</p>
+        </div>
 
-            <p>Global Bulk s'adresse à trois publics complémentaires. <strong>Les fournisseurs</strong>, en leur permettant de créer, promouvoir et gérer leurs boutiques sans frais cachés. <strong>Les acheteurs professionnels</strong>, en leur offrant un achat simple, sécurisé et abordable. <strong>Les communautés locales et régionales</strong>, en leur donnant accès à des produits de qualité auparavant inaccessibles faute de moyens de paiement adaptés.</p>
+        <!-- 1. RÉSUMÉ EXÉCUTIF -->
+        <section>
+            <h2>1. RÉSUMÉ EXÉCUTIF</h2>
+            <p>GLOBAL BULK est un projet de marketplace internationale destiné à faciliter les échanges commerciaux de gros entre fournisseurs, fabricants, distributeurs, commerçants, acheteurs professionnels et communautés économiques.</p>
+            <p>Sa vision est de construire un véritable centre commercial numérique international, dans lequel plusieurs fournisseurs peuvent présenter leurs produits, ouvrir leurs boutiques, recevoir des commandes et développer leurs activités commerciales auprès d’une clientèle située dans différents pays.</p>
+            <p>Contrairement à une boutique en ligne traditionnelle appartenant à un seul commerçant, GLOBAL BULK se positionne comme une plateforme intermédiaire permettant à plusieurs vendeurs indépendants de commercialiser leurs marchandises sur un même espace numérique.</p>
+            <p>Le projet entend particulièrement contribuer au développement des échanges commerciaux en Afrique, tout en favorisant les relations commerciales avec les marchés internationaux.</p>
+            <p>GLOBAL BULK envisage d’utiliser Pi Network comme moyen de paiement au sein de son écosystème, sous réserve des intégrations techniques, des règles applicables et de la disponibilité des services nécessaires.</p>
+            <p>Son modèle économique repose sur une politique simple :</p>
+            <ul>
+                <li>Une commission minimale de 3 % à la charge du vendeur.</li>
+                <li>Des frais de transaction de 2 % à la charge de l’acheteur.</li>
+                <li>Aucun abonnement payant obligatoire.</li>
+                <li>Aucun frais d’inscription payant.</li>
+                <li>Aucune publicité payante imposée aux utilisateurs.</li>
+            </ul>
+            <p>La plateforme souhaite donc générer ses revenus principalement à travers les transactions commerciales effectivement réalisées.</p>
         </section>
 
+        <!-- 2. PRÉSENTATION ET VISION -->
+        <section>
+            <h2>2. PRÉSENTATION ET VISION DE GLOBAL BULK</h2>
+            
+            <h3>2.1. La vision</h3>
+            <p>La vision de GLOBAL BULK consiste à démocratiser l’accès au commerce de gros grâce à une infrastructure numérique internationale.</p>
+            <p>Aujourd’hui, de nombreux commerçants africains rencontrent des difficultés pour accéder directement aux fournisseurs internationaux, comparer les prix, identifier des partenaires commerciaux et organiser leurs approvisionnements.</p>
+            <p>De leur côté, les fabricants et distributeurs peuvent rencontrer des difficultés pour atteindre de nouveaux marchés et trouver des acheteurs fiables.</p>
+            <p>GLOBAL BULK souhaite rapprocher ces deux catégories d’acteurs dans un environnement numérique commun.</p>
+            <p>L’ambition est de transformer la marketplace en un espace commercial capable de réunir :</p>
+            <ul>
+                <li>Les fabricants.</li>
+                <li>Les grossistes.</li>
+                <li>Les distributeurs.</li>
+                <li>Les importateurs.</li>
+                <li>Les exportateurs.</li>
+                <li>Les détaillants.</li>
+                <li>Les entrepreneurs.</li>
+                <li>Les communautés commerciales.</li>
+                <li>Les acheteurs professionnels.</li>
+            </ul>
+
+            <h3>2.2. La mission</h3>
+            <p>La mission de GLOBAL BULK est de simplifier les transactions commerciales de gros, de faciliter la visibilité des fournisseurs et de rendre les échanges plus accessibles grâce aux technologies numériques.</p>
+            <p>La plateforme cherche à répondre à cinq besoins essentiels :</p>
+            <ol>
+                <li>Faciliter la rencontre entre acheteurs et fournisseurs.</li>
+                <li>Centraliser les offres commerciales sur un espace unique.</li>
+                <li>Simplifier la commande et le paiement.</li>
+                <li>Améliorer le suivi des transactions.</li>
+                <li>Favoriser l’accès des entreprises africaines aux marchés internationaux.</li>
+            </ol>
+
+            <h3>2.3. Le positionnement</h3>
+            <p>GLOBAL BULK n’a pas vocation à être un commerçant unique qui achète et revend lui-même toutes les marchandises.</p>
+            <p>Son positionnement est celui d’une marketplace multifournisseur : les vendeurs disposent de leurs propres espaces commerciaux, tandis que les acheteurs peuvent consulter les offres et effectuer leurs commandes à travers la plateforme.</p>
+            <p>La plateforme agit comme un intermédiaire numérique entre les différents participants.</p>
+        </section>
+
+        <!-- SECTION ÉQUIPE DIRIGEANTE -->
         <section class="wp-founders">
-            <h2>1.1 L'ÉQUIPE DIRIGEANTE</h2>
+            <h2>L'ÉQUIPE DIRIGEANTE</h2>
             
             <div class="founders-list">
-                <div class="founder-card">
-                    <div class="founder-avatar-wrapper">
-                        <img src="djami.jpg" alt="Djami Yakonga" class="founder-avatar" onerror="this.src='https://via.placeholder.com/100x100?text=Photo'">
-                    </div>
-                    <div class="founder-info">
-                        <h3>Djami Yakonga</h3>
-                        <p class="role">Fondateur et Directeur du Développement</p>
-                        <p class="bio">Un entrepreneur visionnaire passionné par les nouvelles technologies et l'inclusion financière, il est le fondateur et l'initiateur du projet Global Bulk. Il a imaginé cette plateforme pour répondre à un besoin fondamental : faciliter les échanges commerciaux B2B tout en offrant un moyen de paiement accessible à tous, y compris les populations non bancarisées. Fort d'une solide expérience en gestion de projet, finance et développement commercial, il a réuni autour de cette vision ambitieuse une équipe talentueuse et complémentaire.</p>
-                    </div>
-                </div>
-
+                
+                <!-- Profil 1 : Freddy Yumba -->
                 <div class="founder-card">
                     <div class="founder-avatar-wrapper">
                         <img src="freddy.jpg" alt="Freddy Yumba" class="founder-avatar" onerror="this.src='https://via.placeholder.com/100x100?text=Photo'">
                     </div>
                     <div class="founder-info">
                         <h3>Freddy Yumba</h3>
-                        <p class="role">Directeur et Chef de Projet</p>
-                        <p class="bio">Expert en gestion d'entreprise et en stratégie opérationnelle, Freddy Yumba assure la direction et la coordination globale du projet Global Bulk. Il veille à la bonne exécution de la feuille de route, à la structuration de l'équipe et à l'alignement constant entre les objectifs stratégiques et les opérations quotidiennes. Grâce à son expérience dans le pilotage de projets complexes, il garantit que la plateforme reste fidèle à sa promesse d'origine.</p>
+                        <p class="role">Fondateur et Président Directeur Général</p>
+                        <p class="bio">Professionnel de l’administration des affaires, de la finance et du développement économique, Freddy Yumba est le fondateur de Global Bulk. Diplômé en Administration des Affaires, option Finances, Banque et Assurance, il possède une expérience dans les domaines de la gestion financière, de l’audit, de la microfinance et de l’administration. Fort de son parcours académique et professionnel, il a initié Global Bulk avec une vision ambitieuse : faciliter le commerce de gros, connecter les entreprises aux fournisseurs et rendre les achats en grande quantité plus accessibles et efficaces. Sa mission est de faire de Global Bulk une plateforme de référence du commerce de gros, en favorisant les opportunités commerciales et le développement économique.</p>
                     </div>
                 </div>
+
+                <!-- Profil 2 : Djami Yakonga -->
+                <div class="founder-card">
+                    <div class="founder-avatar-wrapper">
+                        <img src="djami.jpg" alt="Djami Yakonga" class="founder-avatar" onerror="this.src='https://via.placeholder.com/100x100?text=Photo'">
+                    </div>
+                    <div class="founder-info">
+                        <h3>Djami Yakonga</h3>
+                        <p class="role">Fondateur et Développeur</p>
+                        <p class="bio">Expert en développement web et technologies blockchain, Djami Yakonga assure la conception technique et l'architecture de la plateforme Global Bulk. Passionné par l'innovation et l'écosystème Pi Network, il veille à garantir la sécurité, la rapidité et la fluidité de l'expérience utilisateur. Grâce à sa solide maîtrise des technologies décentralisées, il transforme les besoins fonctionnels en solutions techniques robustes, permettant à la plateforme de rester à la pointe de la technologie tout en restant accessible au plus grand nombre.</p>
+                    </div>
+                </div>
+
             </div>
         </section>
 
+        <!-- 3. LE PROBLÈME -->
         <section>
-            <h2>2. NOTRE VISION</h2>
-            <p>Nous croyons en un monde où chacun peut organiser ou participer à des échanges commerciaux sans barrières financières, sans commissions excessives et en toute transparence. Global Bulk vise à devenir la référence des plateformes de commerce de gros décentralisées en Afrique et dans le monde, en offrant une expérience utilisateur irréprochable et en autonomisant à la fois les fournisseurs et les acheteurs.</p>
+            <h2>3. LE PROBLÈME AUQUEL GLOBAL BULK VEUT RÉPONDRE</h2>
             
-            <p><strong>L'analogie du centre commercial :</strong> Imaginez un centre commercial ouvert 24 heures sur 24, sans frontières, où chaque boutique est un fabricant ou grossiste international. Global Bulk reprend ces codes : un plan clair par catégories, une signalétique forte et un système d'orientation permanent via la recherche et les filtres.</p>
+            <h3>3.1. La fragmentation du commerce</h3>
+            <p>Le commerce de gros est encore caractérisé, dans de nombreux marchés, par une forte fragmentation.</p>
+            <p>Les acheteurs doivent souvent contacter plusieurs fournisseurs, comparer manuellement les offres et négocier séparément les conditions commerciales.</p>
+            <p>Cette situation peut entraîner :</p>
+            <ul>
+                <li>Une perte de temps.</li>
+                <li>Un manque de visibilité sur les fournisseurs.</li>
+                <li>Des difficultés de comparaison des prix.</li>
+                <li>Des coûts de recherche élevés.</li>
+                <li>Une traçabilité insuffisante des commandes.</li>
+                <li>Des obstacles aux échanges internationaux.</li>
+            </ul>
+
+            <h3>3.2. Les difficultés d’accès au commerce international</h3>
+            <p>Les petites et moyennes entreprises africaines ne disposent pas toujours des mêmes moyens que les grandes entreprises pour accéder aux réseaux internationaux de fournisseurs.</p>
+            <p>GLOBAL BULK souhaite réduire cette barrière en offrant une infrastructure commune permettant de découvrir des produits et d’entrer en relation avec des vendeurs.</p>
+
+            <h3>3.3. Les limites des modèles commerciaux traditionnels</h3>
+            <p>Les modèles commerciaux numériques peuvent imposer plusieurs coûts aux vendeurs :</p>
+            <ul>
+                <li>Des abonnements mensuels.</li>
+                <li>Des frais d’inscription.</li>
+                <li>Des dépenses publicitaires.</li>
+                <li>Des commissions commerciales élevées.</li>
+            </ul>
+            <p>GLOBAL BULK adopte une approche différente : privilégier les frais liés aux transactions réalisées plutôt que l’imposition de charges fixes aux participants.</p>
         </section>
 
+        <!-- 4. LA SOLUTION PROPOSÉE -->
         <section>
-            <h2>3. CONCLUSION</h2>
-            <p>Global Bulk transforme le commerce de gros international en un véritable <strong>centre commercial numérique</strong> : allées claires, boutiques vérifiées, services communs, monnaie unique et règles identiques pour tous. Que vous soyez acheteur à la recherche du meilleur fournisseur ou fabricant souhaitant exposer votre catalogue, vous entrez dans un espace organisé, lisible et professionnel.</p>
+            <h2>4. LA SOLUTION PROPOSÉE</h2>
+            <p>GLOBAL BULK propose un environnement numérique multifournisseur organisé autour de plusieurs espaces fonctionnels.</p>
+
+            <h3>4.1. Les boutiques des vendeurs</h3>
+            <p>Chaque vendeur doit pouvoir disposer d’un espace commercial lui permettant de :</p>
+            <ul>
+                <li>Présenter sa boutique.</li>
+                <li>Publier ses produits.</li>
+                <li>Ajouter des descriptions.</li>
+                <li>Afficher les prix.</li>
+                <li>Présenter les quantités disponibles.</li>
+                <li>Gérer ses offres commerciales.</li>
+                <li>Recevoir les commandes.</li>
+                <li>Consulter ses ventes.</li>
+                <li>Suivre ses revenus et commissions.</li>
+            </ul>
+
+            <h3>4.2. Le catalogue général</h3>
+            <p>Le catalogue central constitue l’espace de présentation des produits disponibles sur GLOBAL BULK.</p>
+            <p>Il doit permettre aux acheteurs de découvrir différentes marchandises provenant de plusieurs fournisseurs.</p>
+            <p>Les fonctionnalités envisagées comprennent :</p>
+            <ul>
+                <li>La consultation des produits.</li>
+                <li>La recherche par nom.</li>
+                <li>Le classement par catégorie.</li>
+                <li>La consultation des prix.</li>
+                <li>L’identification du vendeur.</li>
+                <li>L’accès à la boutique correspondante.</li>
+                <li>L’ajout des produits au panier.</li>
+            </ul>
+
+            <h3>4.3. L’espace acheteur</h3>
+            <p>L’acheteur doit pouvoir :</p>
+            <ul>
+                <li>Créer son compte.</li>
+                <li>Consulter les boutiques.</li>
+                <li>Rechercher des produits.</li>
+                <li>Ajouter des articles au panier.</li>
+                <li>Passer une commande.</li>
+                <li>Consulter le montant des frais.</li>
+                <li>Effectuer un paiement.</li>
+                <li>Consulter l’historique des commandes.</li>
+                <li>Suivre l’état de ses transactions.</li>
+            </ul>
+
+            <h3>4.4. L’espace vendeur</h3>
+            <p>Le vendeur doit disposer d’un tableau de bord lui permettant de :</p>
+            <ul>
+                <li>Gérer ses produits.</li>
+                <li>Recevoir les commandes.</li>
+                <li>Consulter les montants de vente.</li>
+                <li>Voir les commissions appliquées.</li>
+                <li>Consulter ses soldes.</li>
+                <li>Suivre les paiements.</li>
+                <li>Consulter son historique commercial.</li>
+            </ul>
+
+            <h3>4.5. L’espace d’administration</h3>
+            <p>Un espace d’administration est envisagé afin de superviser les activités de la marketplace.</p>
+            <p>Il devra notamment permettre :</p>
+            <ul>
+                <li>La gestion des utilisateurs.</li>
+                <li>La gestion des boutiques.</li>
+                <li>Le contrôle des publications.</li>
+                <li>Le suivi des commandes.</li>
+                <li>La consultation des transactions.</li>
+                <li>La surveillance des commissions.</li>
+                <li>La gestion des réclamations.</li>
+                <li>La production de rapports.</li>
+            </ul>
+            <p>Les droits d’accès à cet espace devront être limités aux personnes autorisées.</p>
+        </section>
+
+        <!-- 5. MODÈLE ÉCONOMIQUE -->
+        <section>
+            <h2>5. LE MODÈLE ÉCONOMIQUE</h2>
+            
+            <h3>5.1. Le principe fondamental</h3>
+            <p>GLOBAL BULK entend adopter un modèle économique basé sur les transactions.</p>
+            <p>La plateforme ne souhaite pas imposer de frais fixes pour permettre aux utilisateurs de rejoindre son environnement commercial.</p>
+            <p>Le revenu de GLOBAL BULK provient principalement des commissions appliquées aux ventes réalisées.</p>
+
+            <h3>5.2. Structure tarifaire</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Nature des frais</th>
+                        <th>Taux retenu</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>Commission vendeur</td><td>Minimum 3 %</td></tr>
+                    <tr><td>Frais acheteur</td><td>2 %</td></tr>
+                    <tr><td>Inscription</td><td>0 %</td></tr>
+                    <tr><td>Abonnement obligatoire</td><td>0 %</td></tr>
+                    <tr><td>Publicité payante obligatoire</td><td>0 %</td></tr>
+                </tbody>
+            </table>
+            <p>La commission vendeur de 3 % constitue le minimum retenu. Toute modification future devra être clairement communiquée et acceptée selon les conditions applicables.</p>
+
+            <h3>5.3. Exemple pratique de transaction</h3>
+            <p>Prenons une commande dont la valeur des marchandises est de 100 Pi.</p>
+            <p>Calcul :</p>
+            <ul>
+                <li>Valeur des marchandises : 100 Pi.</li>
+                <li>Frais acheteur de 2 % : 2 Pi.</li>
+                <li>Commission vendeur de 3 % : 3 Pi.</li>
+            </ul>
+            <p>L’acheteur paie : 100 + 2 = 102 Pi.</p>
+            <p>Le vendeur reçoit : 100 - 3 = 97 Pi.</p>
+            <p>GLOBAL BULK perçoit : 2 + 3 = 5 Pi.</p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Bénéficiaire</th>
+                        <th>Montant</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>Vendeur</td><td>97 Pi</td></tr>
+                    <tr><td>GLOBAL BULK</td><td>5 Pi</td></tr>
+                    <tr><td>Total payé par l’acheteur</td><td>102 Pi</td></tr>
+                </tbody>
+            </table>
+            <p>Dans cet exemple, le revenu brut de la plateforme représente 5 Pi sur une commande de 100 Pi de marchandises, soit 5 % de la valeur commerciale initiale.</p>
+            <p>Il s’agit d’un exemple de répartition économique. Les frais de réseau, remboursements, coûts opérationnels et éventuelles charges fiscales doivent être traités séparément.</p>
+
+            <h3>5.4. Transparence tarifaire</h3>
+            <p>Avant toute validation de commande, l’acheteur doit connaître :</p>
+            <ul>
+                <li>Le prix des marchandises.</li>
+                <li>Les frais acheteur.</li>
+                <li>Le montant total à payer.</li>
+                <li>La devise ou unité de paiement.</li>
+                <li>Les éventuels frais supplémentaires applicables.</li>
+            </ul>
+            <p>Le vendeur doit également connaître :</p>
+            <ul>
+                <li>Le montant brut de sa vente.</li>
+                <li>La commission prélevée.</li>
+                <li>Le montant net qui lui revient.</li>
+            </ul>
+            <p>Aucun frais ne devrait être dissimulé dans le processus de paiement.</p>
+        </section>
+
+        <!-- 6. PI NETWORK ET PAIEMENT -->
+        <section>
+            <h2>6. PI NETWORK ET LE SYSTÈME DE PAIEMENT</h2>
+            
+            <h3>6.1. Pourquoi Pi Network ?</h3>
+            <p>GLOBAL BULK envisage Pi Network comme une infrastructure de paiement numérique destinée à faciliter les transactions commerciales entre les participants de la marketplace.</p>
+            <p>L’objectif est de permettre aux acheteurs d’utiliser Pi pour régler leurs commandes lorsque les conditions techniques et opérationnelles le permettent.</p>
+            <p>Pi Network représente donc un élément important de l’orientation technologique du projet.</p>
+            <p>Cependant, l’utilisation de Pi dans une application ne signifie pas automatiquement que toutes les transactions sont sécurisées, validées ou juridiquement garanties.</p>
+
+            <h3>6.2. Intégration technique</h3>
+            <p>L’intégration doit s’appuyer sur les outils officiels de développement de Pi Network, notamment le SDK et les mécanismes d’authentification et de paiement disponibles.</p>
+            <p>Le parcours envisagé est le suivant :</p>
+            <ol>
+                <li>L’acheteur se connecte à GLOBAL BULK.</li>
+                <li>Il choisit les marchandises.</li>
+                <li>Le système calcule les frais.</li>
+                <li>L’acheteur confirme le montant total.</li>
+                <li>L’application initie le paiement Pi.</li>
+                <li>Le serveur vérifie la transaction.</li>
+                <li>Le paiement est validé selon les procédures officielles.</li>
+                <li>La commande est enregistrée.</li>
+                <li>La répartition financière est exécutée selon les règles du système.</li>
+            </ol>
+            <p>La confirmation d’un paiement doit toujours être effectuée côté serveur. Une simple confirmation affichée dans le navigateur ne suffit pas.</p>
+
+            <h3>6.3. Sécurité des paiements</h3>
+            <p>Pour garantir la fiabilité des opérations, GLOBAL BULK devra notamment mettre en place :</p>
+            <ul>
+                <li>La vérification des transactions.</li>
+                <li>La prévention des paiements en double.</li>
+                <li>La protection contre les fausses confirmations.</li>
+                <li>La conservation des références de transaction.</li>
+                <li>Le suivi des paiements incomplets.</li>
+                <li>La gestion des paiements refusés.</li>
+                <li>La journalisation des opérations financières.</li>
+            </ul>
+        </section>
+
+        <!-- 7. LE PORTEFEUILLE CENTRAL -->
+        <section>
+            <h2>7. LE PORTEFEUILLE CENTRAL</h2>
+            
+            <h3>7.1. Principe</h3>
+            <p>GLOBAL BULK prévoit un mécanisme central de gestion des paiements et des commissions.</p>
+            <p>Ce mécanisme doit permettre de suivre les montants associés aux commandes et de calculer les sommes dues aux différentes parties.</p>
+            <p>Il constitue un élément central du modèle économique.</p>
+
+            <h3>7.2. Fonctions envisagées</h3>
+            <p>Le système devra permettre :</p>
+            <ul>
+                <li>La réception ou l’identification des paiements.</li>
+                <li>Le calcul automatique des commissions.</li>
+                <li>La détermination du montant net vendeur.</li>
+                <li>Le suivi des revenus de la plateforme.</li>
+                <li>La consultation des transactions.</li>
+                <li>Le suivi des soldes.</li>
+                <li>La gestion des remboursements autorisés.</li>
+                <li>La production d’un historique financier.</li>
+            </ul>
+
+            <h3>7.3. Protection des fonds</h3>
+            <p>Le portefeuille central ne doit pas être considéré comme un simple solde affiché dans l’application.</p>
+            <p>La conservation, le transfert et la répartition de fonds réels doivent reposer sur une architecture sécurisée et autorisée.</p>
+            <p>Les opérations financières doivent être contrôlées par le serveur, avec des règles de permissions, des journaux d’audit et des mécanismes de rapprochement.</p>
+            <p>La plateforme devra également déterminer si son modèle implique une conservation de fonds pour compte de tiers et quelles obligations réglementaires peuvent en découler dans les pays où elle opère.</p>
+
+            <h3>7.4. Remboursements</h3>
+            <p>Une procédure de remboursement devra être définie.</p>
+            <p>Elle devra préciser :</p>
+            <ul>
+                <li>Les situations ouvrant droit à un remboursement.</li>
+                <li>Les personnes habilitées à l’autoriser.</li>
+                <li>Le montant remboursable.</li>
+                <li>Le traitement des commissions.</li>
+                <li>Le délai de traitement.</li>
+                <li>La traçabilité de l’opération.</li>
+                <li>Le traitement des litiges entre acheteur et vendeur.</li>
+            </ul>
+            <p>Un remboursement ne doit jamais être présenté comme exécuté tant que la transaction correspondante n’a pas été réellement effectuée et vérifiée.</p>
+        </section>
+
+        <!-- 8. PARCOURS D'UNE TRANSACTION -->
+        <section>
+            <h2>8. LE PARCOURS D’UNE TRANSACTION</h2>
+            <p>Le fonctionnement général envisagé est le suivant :</p>
+            <p><strong>Étape 1 : Découverte</strong><br>L’acheteur visite GLOBAL BULK et découvre les produits proposés par les fournisseurs.</p>
+            <p><strong>Étape 2 : Sélection</strong><br>Il choisit les produits et les quantités souhaitées.</p>
+            <p><strong>Étape 3 : Calcul</strong><br>La plateforme calcule le prix des marchandises et les frais applicables.</p>
+            <p><strong>Étape 4 : Confirmation</strong><br>L’acheteur vérifie le montant total avant de confirmer sa commande.</p>
+            <p><strong>Étape 5 : Paiement</strong><br>L’acheteur effectue le paiement avec le moyen de paiement Pi disponible et autorisé.</p>
+            <p><strong>Étape 6 : Vérification</strong><br>Le système serveur vérifie la validité du paiement.</p>
+            <p><strong>Étape 7 : Enregistrement</strong><br>La commande et la transaction sont enregistrées dans l’historique.</p>
+            <p><strong>Étape 8 : Répartition</strong><br>Les sommes dues au vendeur et à la plateforme sont calculées et réparties selon les règles définies.</p>
+            <p><strong>Étape 9 : Suivi</strong><br>L’acheteur et le vendeur consultent l’état de la commande et les informations correspondantes.</p>
+            <p><strong>Étape 10 : Clôture</strong><br>La commande est clôturée selon les conditions de livraison, de réception et de règlement définies par la plateforme.</p>
+        </section>
+
+        <!-- 9. LES UTILISATEURS -->
+        <section>
+            <h2>9. LES UTILISATEURS DE GLOBAL BULK</h2>
+            
+            <h3>9.1. Les fournisseurs</h3>
+            <p>Les fournisseurs représentent les entreprises ou personnes qui mettent des marchandises à disposition des acheteurs.</p>
+            <p>Ils peuvent être des fabricants, grossistes, distributeurs ou commerçants professionnels.</p>
+
+            <h3>9.2. Les acheteurs professionnels</h3>
+            <p>Cette catégorie comprend notamment :</p>
+            <ul>
+                <li>Les importateurs.</li>
+                <li>Les exportateurs.</li>
+                <li>Les détaillants.</li>
+                <li>Les entreprises.</li>
+                <li>Les commerçants.</li>
+                <li>Les distributeurs.</li>
+                <li>Les entrepreneurs.</li>
+            </ul>
+
+            <h3>9.3. Les communautés commerciales</h3>
+            <p>GLOBAL BULK souhaite également faciliter la participation de communautés économiques et commerciales.</p>
+            <p>Ces communautés peuvent contribuer à la diffusion des offres, à la mise en relation des acteurs et au développement de réseaux commerciaux.</p>
+            <p>Les éventuelles fonctions de représentation ou de gestion collective devront être définies avec précision avant leur déploiement.</p>
+        </section>
+
+        <!-- 10. MARCHÉ CIBLE -->
+        <section>
+            <h2>10. LE MARCHÉ CIBLE</h2>
+            
+            <h3>10.1. L’Afrique</h3>
+            <p>L’Afrique constitue un marché stratégique pour GLOBAL BULK.</p>
+            <p>La plateforme entend contribuer à la connexion entre les entreprises africaines et les réseaux internationaux de fournisseurs.</p>
+            <p>La République démocratique du Congo peut notamment représenter un marché important pour les activités de distribution, d’approvisionnement et de commerce de gros.</p>
+            <p>Kinshasa peut constituer un point de départ commercial pertinent pour le développement de la plateforme.</p>
+
+            <h3>10.2. Le marché international</h3>
+            <p>L’ambition de GLOBAL BULK ne se limite pas à un seul pays.</p>
+            <p>La plateforme souhaite faciliter les échanges entre plusieurs marchés, notamment lorsque les vendeurs et les acheteurs peuvent organiser légalement et matériellement leurs opérations commerciales.</p>
+
+            <h3>10.3. Développement progressif</h3>
+            <p>L’expansion internationale devra tenir compte :</p>
+            <ul>
+                <li>Des réglementations locales.</li>
+                <li>Des moyens de paiement disponibles.</li>
+                <li>Des conditions de transport.</li>
+                <li>Des formalités douanières.</li>
+                <li>Des obligations fiscales.</li>
+                <li>Des règles de protection des consommateurs.</li>
+                <li>Des exigences d’identification des utilisateurs.</li>
+            </ul>
+        </section>
+
+        <!-- 11. TECHNOLOGIE ET ARCHITECTURE -->
+        <section>
+            <h2>11. LA TECHNOLOGIE ET L’ARCHITECTURE NUMÉRIQUE</h2>
+            <p>GLOBAL BULK repose sur une architecture composée de plusieurs éléments complémentaires.</p>
+
+            <h3>11.1. Interface utilisateur</h3>
+            <p>L’interface web est destinée à permettre aux acheteurs, vendeurs et administrateurs d’accéder aux différentes fonctions de la marketplace.</p>
+            <p>Les technologies prévues dans la structure actuelle comprennent :</p>
+            <ul>
+                <li>HTML pour la structure des pages.</li>
+                <li>CSS pour la présentation et l’adaptation aux écrans.</li>
+                <li>JavaScript pour les interactions et la logique de l’application.</li>
+            </ul>
+
+            <h3>11.2. Configuration</h3>
+            <p>Un fichier de configuration centralisé permet de définir les paramètres de fonctionnement, notamment les taux de commission et les paramètres techniques non secrets.</p>
+            <p>Les paramètres financiers doivent toutefois être contrôlés et validés côté serveur.</p>
+
+            <h3>11.3. Base de données</h3>
+            <p>La base de données doit permettre de conserver les informations relatives :</p>
+            <ul>
+                <li>Aux utilisateurs.</li>
+                <li>Aux vendeurs.</li>
+                <li>Aux boutiques.</li>
+                <li>Aux produits.</li>
+                <li>Aux commandes.</li>
+                <li>Aux transactions.</li>
+                <li>Aux soldes.</li>
+                <li>Aux commissions.</li>
+                <li>Aux remboursements.</li>
+                <li>Aux historiques.</li>
+            </ul>
+            <p>Supabase peut servir de solution de base de données et d’authentification, sous réserve d’une configuration sécurisée.</p>
+            <p>Les règles RLS (Row Level Security) doivent empêcher un utilisateur de consulter ou de modifier les données financières d’un autre utilisateur sans autorisation.</p>
+
+            <h3>11.4. Serveur de paiement</h3>
+            <p>Le serveur de paiement constitue une composante indispensable.</p>
+            <p>Il doit assurer la vérification des opérations Pi, l’application des règles financières, la gestion des paiements et l’enregistrement des résultats.</p>
+            <p>Les clés secrètes et les privilèges administratifs ne doivent jamais être exposés dans les fichiers publics de l’application.</p>
+
+            <h3>11.5. Séparation des responsabilités</h3>
+            <p>L’interface visible par l’utilisateur ne doit pas être considérée comme l’autorité finale sur les montants financiers.</p>
+            <p>Les calculs affichés dans le navigateur servent à informer l’utilisateur.</p>
+            <p>Le serveur doit recalculer et vérifier les montants avant toute opération financière.</p>
+        </section>
+
+        <!-- 12. SÉCURITÉ ET CONFIANCE -->
+        <section>
+            <h2>12. SÉCURITÉ, CONFIANCE ET TRANSPARENCE</h2>
+            <p>La confiance représente un élément fondamental du commerce numérique.</p>
+            <p>GLOBAL BULK devra adopter une politique de sécurité couvrant plusieurs dimensions.</p>
+
+            <h3>12.1. Sécurité des comptes</h3>
+            <p>Les comptes utilisateurs doivent être protégés par des mécanismes d’authentification appropriés.</p>
+
+            <h3>12.2. Protection des données</h3>
+            <p>Les informations personnelles, commerciales et financières doivent être accessibles uniquement aux personnes autorisées.</p>
+
+            <h3>12.3. Traçabilité</h3>
+            <p>Chaque opération financière doit produire une trace vérifiable.</p>
+
+            <h3>12.4. Contrôle des vendeurs</h3>
+            <p>La plateforme devra progressivement mettre en place des procédures de vérification des vendeurs et de leurs informations commerciales.</p>
+
+            <h3>12.5. Prévention des fraudes</h3>
+            <p>Les mécanismes de prévention devront notamment porter sur :</p>
+            <ul>
+                <li>Les faux paiements.</li>
+                <li>Les doubles transactions.</li>
+                <li>Les comptes frauduleux.</li>
+                <li>Les fausses annonces.</li>
+                <li>Les manipulations de commandes.</li>
+                <li>Les demandes de remboursement abusives.</li>
+            </ul>
+
+            <h3>12.6. Gestion des réclamations</h3>
+            <p>Une procédure de réclamation devra permettre aux acheteurs et aux vendeurs de signaler les difficultés rencontrées.</p>
+            <p>La plateforme devra préciser les délais, les responsabilités et les conditions de traitement des litiges.</p>
+        </section>
+
+        <!-- 13. GOUVERNANCE -->
+        <section>
+            <h2>13. GOUVERNANCE ET ORGANISATION</h2>
+            <p>La gouvernance de GLOBAL BULK devra assurer la cohérence entre la vision commerciale, les opérations, la technologie et la gestion financière.</p>
+            <p>Les responsabilités identifiées dans le projet sont les suivantes :</p>
+            <ul>
+                <li><strong>Djami Yakonga — Fondateur et directeur du développement :</strong> Responsabilité générale de la vision du projet et de son développement stratégique.</li>
+                <li><strong>Freddy Yumba — Directeur et chef de projet :</strong> Responsabilité de coordination et de suivi du projet, de son organisation et de sa mise en œuvre.</li>
+            </ul>
+            <p>Les fonctions techniques, financières, commerciales, juridiques et opérationnelles devront être organisées à mesure que le projet se développe.</p>
+            <p>Les responsabilités définitives, les pouvoirs de signature et les mécanismes de contrôle devront être formalisés dans les documents de gouvernance de l’entreprise.</p>
+        </section>
+
+        <!-- 14. STRATÉGIE DE DÉVELOPPEMENT -->
+        <section>
+            <h2>14. STRATÉGIE DE DÉVELOPPEMENT</h2>
+            <p>Le développement de GLOBAL BULK doit suivre une progression structurée.</p>
+
+            <h3>Phase 1 : Consolidation de la plateforme</h3>
+            <p>Objectifs :</p>
+            <ul>
+                <li>Finaliser les interfaces.</li>
+                <li>Stabiliser les espaces acheteur et vendeur.</li>
+                <li>Finaliser le catalogue.</li>
+                <li>Organiser la publication des produits.</li>
+                <li>Mettre en place les commandes.</li>
+                <li>Vérifier la base de données.</li>
+            </ul>
+
+            <h3>Phase 2 : Intégration financière</h3>
+            <p>Objectifs :</p>
+            <ul>
+                <li>Intégrer les paiements Pi.</li>
+                <li>Vérifier les transactions côté serveur.</li>
+                <li>Appliquer les commissions de 3 % et 2 %.</li>
+                <li>Construire le suivi des soldes.</li>
+                <li>Organiser l’historique financier.</li>
+                <li>Définir les règles de répartition des fonds.</li>
+            </ul>
+
+            <h3>Phase 3 : Sécurité et validation</h3>
+            <p>Objectifs :</p>
+            <ul>
+                <li>Tester les permissions.</li>
+                <li>Vérifier les règles de sécurité.</li>
+                <li>Tester les paiements incomplets.</li>
+                <li>Tester les remboursements.</li>
+                <li>Vérifier les calculs financiers.</li>
+                <li>Réaliser des tests sur environnement de développement ou Testnet lorsque cela est approprié.</li>
+            </ul>
+
+            <h3>Phase 4 : Lancement commercial</h3>
+            <p>Objectifs :</p>
+            <ul>
+                <li>Accueillir les premiers fournisseurs.</li>
+                <li>Enregistrer les premières boutiques.</li>
+                <li>Intégrer les premiers produits.</li>
+                <li>Accueillir les acheteurs.</li>
+                <li>Tester les premières commandes réelles lorsque les conditions de sécurité et de conformité sont réunies.</li>
+            </ul>
+
+            <h3>Phase 5 : Expansion</h3>
+            <p>Objectifs :</p>
+            <ul>
+                <li>Élargir le réseau de fournisseurs.</li>
+                <li>Développer la clientèle internationale.</li>
+                <li>Renforcer les partenariats.</li>
+                <li>Améliorer les capacités techniques.</li>
+                <li>Développer progressivement de nouveaux marchés.</li>
+            </ul>
+        </section>
+
+        <!-- 15. MODÈLE DE RENTABILITÉ -->
+        <section>
+            <h2>15. MODÈLE DE RENTABILITÉ</h2>
+            <p>GLOBAL BULK repose sur un principe économique : les revenus de la plateforme augmentent avec le volume des transactions.</p>
+            <p>Prenons plusieurs hypothèses de ventes mensuelles.</p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Volume mensuel des marchandises</th>
+                        <th>Commission vendeur 3 %</th>
+                        <th>Frais acheteur 2 %</th>
+                        <th>Revenu brut plateforme</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>1 000 Pi</td><td>30 Pi</td><td>20 Pi</td><td>50 Pi</td></tr>
+                    <tr><td>10 000 Pi</td><td>300 Pi</td><td>200 Pi</td><td>500 Pi</td></tr>
+                    <tr><td>50 000 Pi</td><td>1 500 Pi</td><td>1 000 Pi</td><td>2 500 Pi</td></tr>
+                    <tr><td>100 000 Pi</td><td>3 000 Pi</td><td>2 000 Pi</td><td>5 000 Pi</td></tr>
+                    <tr><td>500 000 Pi</td><td>15 000 Pi</td><td>10 000 Pi</td><td>25 000 Pi</td></tr>
+                    <tr><td>1 000 000 Pi</td><td>30 000 Pi</td><td>20 000 Pi</td><td>50 000 Pi</td></tr>
+                </tbody>
+            </table>
+            <p>Ces chiffres sont des simulations arithmétiques et non des prévisions de chiffre d’affaires.</p>
+            <p>Ils supposent que toutes les ventes sont effectivement réalisées, que les frais sont appliqués à la valeur des marchandises et que les montants sont encaissés conformément au modèle retenu.</p>
+
+            <h3>15.1. Les coûts à prendre en compte</h3>
+            <p>La rentabilité réelle dépendra notamment :</p>
+            <ul>
+                <li>Des frais d’hébergement.</li>
+                <li>Des frais techniques.</li>
+                <li>Des coûts de maintenance.</li>
+                <li>Des dépenses de sécurité.</li>
+                <li>Des ressources humaines.</li>
+                <li>Des frais administratifs.</li>
+                <li>Des coûts juridiques et de conformité.</li>
+                <li>Des frais de traitement des litiges et remboursements.</li>
+                <li>Des dépenses de développement commercial.</li>
+            </ul>
+
+            <h3>15.2. La formule de rentabilité</h3>
+            <p><strong>Revenu brut de la plateforme :</strong> Valeur des transactions × 5 %.</p>
+            <p><strong>Résultat opérationnel simplifié :</strong> Revenu brut de la plateforme − charges opérationnelles.</p>
+            <p>Cette formule devra être adaptée si les taux changent, si des frais supplémentaires apparaissent ou si certaines transactions donnent lieu à des remboursements.</p>
+        </section>
+
+        <!-- 16. RISQUES ET MESURES D'ATTÉNUATION -->
+        <section>
+            <h2>16. RISQUES ET MESURES D’ATTÉNUATION</h2>
+
+            <h3>16.1. Risque technologique</h3>
+            <p>Une panne du serveur ou une défaillance de la base de données peut interrompre les opérations.</p>
+            <p><strong>Mesure :</strong> sauvegardes, surveillance, tests et procédures de reprise.</p>
+
+            <h3>16.2. Risque de paiement</h3>
+            <p>Un paiement mal vérifié peut provoquer une perte financière ou une contestation.</p>
+            <p><strong>Mesure :</strong> validation serveur, contrôle des références de transaction et rapprochement financier.</p>
+
+            <h3>16.3. Risque commercial</h3>
+            <p>Des vendeurs peuvent publier des offres non conformes ou ne pas honorer leurs commandes.</p>
+            <p><strong>Mesure :</strong> vérification progressive des vendeurs, mécanisme de réclamation et règles commerciales.</p>
+
+            <h3>16.4. Risque de liquidité</h3>
+            <p>Le modèle dépend de la capacité à traiter correctement les paiements et à assurer la répartition des montants.</p>
+            <p><strong>Mesure :</strong> politique de gestion des fonds, procédures de règlement et suivi des soldes.</p>
+
+            <h3>16.5. Risque réglementaire</h3>
+            <p>Les activités de marketplace et la gestion éventuelle de fonds pour compte de tiers peuvent être soumises à des obligations différentes selon les juridictions.</p>
+            <p><strong>Mesure :</strong> analyse juridique préalable dans les pays ciblés, notamment en République démocratique du Congo.</p>
+
+            <h3>16.6. Risque lié à Pi Network</h3>
+            <p>La disponibilité des services, les évolutions techniques et les conditions d’utilisation de Pi Network peuvent affecter l’intégration.</p>
+            <p><strong>Mesure :</strong> respect de la documentation officielle et conception d’une architecture capable d’évoluer.</p>
+        </section>
+
+        <!-- 17. INDICATEURS DE PERFORMANCE -->
+        <section>
+            <h2>17. INDICATEURS DE PERFORMANCE</h2>
+            <p>Pour mesurer son développement, GLOBAL BULK devra suivre des indicateurs quantifiables.</p>
+            <p>Les principaux indicateurs sont :</p>
+
+            <h3>Indicateurs commerciaux</h3>
+            <ul>
+                <li>Nombre de vendeurs enregistrés.</li>
+                <li>Nombre de boutiques actives.</li>
+                <li>Nombre de produits publiés.</li>
+                <li>Nombre d’acheteurs actifs.</li>
+                <li>Nombre de commandes.</li>
+            </ul>
+
+            <h3>Indicateurs financiers</h3>
+            <ul>
+                <li>Volume brut des marchandises vendues.</li>
+                <li>Montant des commissions.</li>
+                <li>Revenu brut de la plateforme.</li>
+                <li>Coûts opérationnels.</li>
+                <li>Résultat opérationnel.</li>
+                <li>Montants remboursés.</li>
+            </ul>
+
+            <h3>Indicateurs opérationnels</h3>
+            <ul>
+                <li>Taux de réussite des paiements.</li>
+                <li>Temps moyen de traitement des commandes.</li>
+                <li>Nombre de réclamations.</li>
+                <li>Taux de commandes annulées.</li>
+                <li>Délai moyen de résolution des litiges.</li>
+            </ul>
+            <p>Ces indicateurs permettront d’évaluer la performance réelle du projet plutôt que de se limiter au nombre d’inscriptions.</p>
+        </section>
+
+        <!-- 18. POLITIQUE COMMERCIALE -->
+        <section>
+            <h2>18. POLITIQUE COMMERCIALE</h2>
+            <p>GLOBAL BULK entend privilégier l’accessibilité.</p>
+            <p>Le principe retenu est de ne pas faire payer aux utilisateurs un abonnement obligatoire pour accéder à la marketplace.</p>
+            <p>Les vendeurs ne doivent pas être obligés d’acheter de la publicité pour pouvoir présenter leurs produits.</p>
+            <p>Les acheteurs ne doivent pas payer de frais d’inscription.</p>
+            <p>La plateforme doit clairement communiquer les commissions et les conditions de transaction.</p>
+            <p>Ce modèle vise à faire dépendre les revenus de GLOBAL BULK de la création de valeur commerciale effective.</p>
+        </section>
+
+        <!-- 19. RESPONSABILITÉ ET LIMITES -->
+        <section>
+            <h2>19. RESPONSABILITÉ ET LIMITES DE LA PLATEFORME</h2>
+            <p>GLOBAL BULK est conçu comme un intermédiaire numérique entre vendeurs et acheteurs.</p>
+            <p>Les vendeurs restent responsables des informations qu’ils publient, de la conformité de leurs produits et de leurs obligations commerciales.</p>
+            <p>Les acheteurs restent responsables de leurs décisions d’achat et du respect des conditions de commande.</p>
+            <p>La plateforme devra définir précisément ses responsabilités en matière de paiement, de sécurité, de protection des données, de livraison, de remboursement et de règlement des litiges.</p>
+            <p>Le statut d’intermédiaire ne dispense pas GLOBAL BULK des obligations légales qui pourraient lui être applicables.</p>
+            <p>La plateforme ne doit pas garantir une livraison, une qualité de produit ou un remboursement sans disposer des procédures et moyens permettant de respecter cet engagement.</p>
+        </section>
+
+        <!-- 20. PERSPECTIVES À LONG TERME -->
+        <section>
+            <h2>20. PERSPECTIVES À LONG TERME</h2>
+            <p>À long terme, GLOBAL BULK ambitionne de devenir un espace commercial numérique capable de connecter un vaste réseau d’entreprises, de fournisseurs et d’acheteurs.</p>
+            <p>Sa croissance pourrait s’appuyer sur :</p>
+            <ul>
+                <li>L’augmentation du nombre de fournisseurs.</li>
+                <li>La diversification des catégories de produits.</li>
+                <li>L’intégration de nouveaux marchés.</li>
+                <li>L’amélioration des outils de gestion commerciale.</li>
+                <li>Le développement de partenariats logistiques.</li>
+                <li>L’amélioration des mécanismes de paiement.</li>
+                <li>Le renforcement de la transparence financière.</li>
+            </ul>
+            <p>L’objectif n’est pas simplement de créer un site marchand, mais de mettre en place une infrastructure commerciale pouvant accompagner le développement des échanges entre entreprises.</p>
+        </section>
+
+        <!-- 21. CONCLUSION -->
+        <section>
+            <h2>21. CONCLUSION</h2>
+            <p>GLOBAL BULK repose sur une idée centrale : rendre le commerce de gros plus accessible, plus organisé et plus ouvert à l’international.</p>
+            <p>En réunissant plusieurs fournisseurs et acheteurs au sein d’un même espace numérique, la plateforme souhaite réduire la fragmentation des échanges et faciliter les opportunités commerciales.</p>
+            <p>Son modèle économique, fondé sur une commission minimale de 3 % pour les vendeurs et des frais de 2 % pour les acheteurs, cherche à privilégier les transactions réelles plutôt que les abonnements et les frais d’accès.</p>
+            <p>L’intégration envisagée de Pi Network constitue une orientation technologique importante du projet.</p>
+            <p>La réussite de GLOBAL BULK dépendra cependant de plusieurs facteurs : la confiance des utilisateurs, la qualité des fournisseurs, la sécurité des paiements, la solidité de l’infrastructure technique, la conformité réglementaire et la capacité à développer un volume commercial durable.</p>
+            <p><strong>GLOBAL BULK :</strong> un centre commercial numérique, plusieurs fournisseurs, un marché ouvert et une nouvelle dynamique pour le commerce international.</p>
+        </section>
+
+        <!-- 22. NOTE DE VALIDATION -->
+        <section>
+            <h2>22. NOTE DE VALIDATION ET STATUT DU PRÉSENT LIVRE BLANC</h2>
+            <p>Le présent document constitue le livre blanc de présentation et de conception de GLOBAL BULK, version 1.0.</p>
+            <p>Il formalise la vision, le modèle économique, les principes fonctionnels et les orientations techniques discutés pour le projet.</p>
+            <p>Il ne constitue pas :</p>
+            <ul>
+                <li>Une certification de conformité réglementaire.</li>
+                <li>Une garantie de rendement financier.</li>
+                <li>Une garantie de valeur ou de convertibilité de Pi.</li>
+                <li>Une preuve que toutes les fonctionnalités sont déjà opérationnelles.</li>
+                <li>Une garantie de conservation ou de remboursement des fonds.</li>
+                <li>Une certification de sécurité de l’infrastructure.</li>
+            </ul>
+            <p>Les fonctionnalités de paiement réel, de portefeuille central, de répartition automatique des fonds et de remboursement devront faire l’objet d’une validation technique, financière et juridique avant leur exploitation commerciale.</p>
+            <p>Les taux de 3 % et 2 % représentent le modèle économique retenu dans ce document. Toute modification devra être communiquée clairement aux utilisateurs.</p>
+            <p style="text-align:center; margin-top:40px; font-weight:bold; font-family:'Inter', sans-serif; color:#0B2A5B;">Fin du livre blanc GLOBAL BULK — Version 1.0.</p>
         </section>
 
     </div>
